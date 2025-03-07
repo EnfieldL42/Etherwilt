@@ -4,8 +4,9 @@ using UnityEngine.SceneManagement;
 public class PlayerInputManager : MonoBehaviour
 {
     public static PlayerInputManager instance;
-    public PlayerManager player;
 
+
+    public PlayerManager player;
     PlayerControls playerControls;
 
     [Header("Camera Input")]
@@ -23,6 +24,20 @@ public class PlayerInputManager : MonoBehaviour
     [Header("Player Action Input")]
     [SerializeField] bool dodgeInput = false;
     [SerializeField] bool sprintInput = false;
+
+    private void Awake()
+    {
+
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+
+    }
 
     private void OnEnable()
     {
@@ -54,19 +69,7 @@ public class PlayerInputManager : MonoBehaviour
         SceneManager.activeSceneChanged -= OnSceneChange; //stop checking if scene is being changed
     }
 
-    private void Awake()
-    {
 
-        if (instance == null)
-        {
-            instance = this;
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-
-    }
 
     private void Start()
     {
@@ -83,16 +86,22 @@ public class PlayerInputManager : MonoBehaviour
         HandleAllInputs();
     }
 
-    private void OnApplicationFocus(bool focus)
+    private void OnApplicationFocus(bool focus)//cant move player if tabbed out of the game
     {
-        if(enabled)
+        if (enabled)
         {
-            playerControls.Enable();
+            if (focus)
+            {
+                playerControls.Enable();
+
+            }
+            else
+            {
+                playerControls.Disable();
+
+            }
         }
-        else
-        {
-            playerControls.Disable();
-        }
+
     }
 
 
@@ -110,10 +119,10 @@ public class PlayerInputManager : MonoBehaviour
     }
     private void HandleAllInputs()
     {
-        HandleCameraMovementInput();
+        //HandleCameraMovementInput();
         HandlePlayerMovementInput();
-        HandleDodgeInput();
-        HandleSprinting();
+        //HandleDodgeInput();
+        //HandleSprinting();
 
     }
 
@@ -123,6 +132,7 @@ public class PlayerInputManager : MonoBehaviour
         horizontalInput = movementInput.x;
 
         //returns the absolute number, just want to know if we are moving, not left or right
+        //mathf.abs(no negatives) was used so that inputs will always add to one another instead of potentially minusing as input can be negative
         moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
 
         //moveAmount 0 = idle/ 0.5 = walking/ 1 = running (optional but souls game use it)
@@ -145,34 +155,34 @@ public class PlayerInputManager : MonoBehaviour
         player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerLocomotionManager.isSprinting);
     }
 
-    private void HandleCameraMovementInput()
-    {
-        cameraVerticalInput = cameraInput.y;
-        cameraHorizontalInput = cameraInput.x;
+    //private void HandleCameraMovementInput()
+    //{
+    //    cameraVerticalInput = cameraInput.y;
+    //    cameraHorizontalInput = cameraInput.x;
 
-    }
+    //}
 
-    private void HandleDodgeInput()
-    {
-        if(dodgeInput)
-        {
-            dodgeInput = false;
+    //private void HandleDodgeInput()
+    //{
+    //    if(dodgeInput)
+    //    {
+    //        dodgeInput = false;
 
-            player.playerLocomotionManager.AttemptToPerformDodge();
+    //        player.playerLocomotionManager.AttemptToPerformDodge();
 
-        }
-    }
+    //    }
+    //}
 
-    private void HandleSprinting()
-    {
-        if(sprintInput)
-        {
-            player.playerLocomotionManager.HandleSprinting();
-        }
-        else
-        {
-            player.playerLocomotionManager.SetisSprintingToFalse();
-        }
-    }
+    //private void HandleSprinting()
+    //{
+    //    if(sprintInput)
+    //    {
+    //        player.playerLocomotionManager.HandleSprinting();
+    //    }
+    //    else
+    //    {
+    //        player.playerLocomotionManager.SetisSprintingToFalse();
+    //    }
+    //}
 
 }

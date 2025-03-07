@@ -30,6 +30,10 @@ public class PlayerManager : CharacterManager
 
     protected override void LateUpdate()
     {
+        if(!IsOwner)
+        {
+            return;
+        }
         base.LateUpdate();
 
         PlayerCamera.instance.HandleAllCameraActions();
@@ -39,8 +43,22 @@ public class PlayerManager : CharacterManager
     {
         base.Update();
 
+        if(!IsOwner)//if we dont own the gameobject we cant control it
+        {
+            return;
+        }
+
         playerLocomotionManager.HandleAllMovement();
-        playerStatsManager.RegenerateStamina();
+        //playerStatsManager.RegenerateStamina();
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        if(IsOwner)
+        {
+            PlayerCamera.instance.player = this;
+        }    
+
     }
 
 }

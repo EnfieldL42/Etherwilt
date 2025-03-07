@@ -11,7 +11,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     public float moveAmount;
 
     [Header("Movement Settings")]
-    private Vector3 moveDirection;
+    [SerializeField] private Vector3 moveDirection;
     private Vector3 targetRotationDirection;
     [SerializeField] float walkingSpeed = 2f;
     [SerializeField] float runningSpeed = 7f;
@@ -31,7 +31,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     {
         base.Awake();
 
-        player = GetComponent<PlayerManager>();
+        player = GetComponent<PlayerManager>();//
         characterStatsManager = GetComponent<CharacterStatsManager>();
     }
 
@@ -62,7 +62,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
         GetMovementValues();
 
-        if(!player.canMove)
+        if (!player.canMove)
         {
             return;
         }
@@ -107,7 +107,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         }
 
         targetRotationDirection = Vector3.zero;
-        targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward* verticalMovement;
+        targetRotationDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
         targetRotationDirection = targetRotationDirection + PlayerCamera.instance.cameraObject.transform.right * horizontalMovement;
         targetRotationDirection.Normalize();
         targetRotationDirection.y = 0;
