@@ -74,7 +74,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         moveDirection.Normalize();
         moveDirection.y = 0;
 
-        if(isSprinting)
+        if(player.playerNetworkManager.isSprinting.Value)
         {
             player.characterController.Move(moveDirection * sprintSpeed * Time.deltaTime);
 
@@ -166,11 +166,11 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             player.playerNetworkManager.isSprinting.Value = false;
         }
 
-        if(player.playerNetworkManager.currentStamina.Value <= 0)
-        {
-            player.playerNetworkManager.isSprinting.Value = false;
-            return;
-        }
+        //if(player.playerNetworkManager.currentStamina.Value <= 0)
+        //{
+        //    player.playerNetworkManager.isSprinting.Value = false;
+        //    return;
+        //}
 
         if (moveAmount >= 0.5)
         {
