@@ -1,5 +1,6 @@
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerLocomotionManager : CharacterLocomotionManager
 {
@@ -162,29 +163,31 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     {
         if(player.isPerformingAction)
         {
-            isSprinting = false;
+            player.playerNetworkManager.isSprinting.Value = false;
         }
 
-        if(player.playerStatsManager.currentStamina <= 0)
-
+        if(player.playerNetworkManager.currentStamina.Value <= 0)
         {
-            isSprinting = false;
+            player.playerNetworkManager.isSprinting.Value = false;
             return;
         }
 
         if (moveAmount >= 0.5)
         {
-            isSprinting = true;
+            player.playerNetworkManager.isSprinting.Value = true;
         }
         else
         {
-            isSprinting = false;
+            player.playerNetworkManager.isSprinting.Value = false;
         }
 
-        if(isSprinting)
+        if(player.playerNetworkManager.isSprinting.Value)
         {
-            float newStamina = player.playerStatsManager.currentStamina - (sprintingStaminaCost * Time.deltaTime);
-            player.playerStatsManager.currentStamina = newStamina;
+            player.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
+
+
+            //float newStamina = player.playerStatsManager.currentStamina - (sprintingStaminaCost * Time.deltaTime);
+            //player.playerStatsManager.currentStamina = newStamina;
         }
 
     }

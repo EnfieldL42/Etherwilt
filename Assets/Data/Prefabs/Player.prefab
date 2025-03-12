@@ -225,6 +225,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   characterController: {fileID: -508698893478437876}
+  characterNetworkManager: {fileID: 0}
   animator: {fileID: 4764886123992318329}
   characterStatsManager: {fileID: 0}
   isPerformingAction: 0
@@ -254,10 +255,10 @@ MonoBehaviour:
   walkingSpeed: 2
   runningSpeed: 7
   rotationSpeed: 15
-  dodgeStaminaCost: 25
+  dodgeStaminaCost: 5
   isSprinting: 0
   sprintSpeed: 10.5
-  sprintingStaminaCost: 50
+  sprintingStaminaCost: 1
 --- !u!114 &3251472341305306367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -273,7 +274,7 @@ MonoBehaviour:
   endurance: 1
   currentStamina: 0
   maxStamina: 0
-  staminaRegenerationAmount: 2
+  staminaRegenerationAmount: 10
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
 --- !u!114 &-2286953313118907648
@@ -313,6 +314,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  networkPosition:
+    m_InternalValue: {x: 0, y: 0, z: 0}
+  networkRotation:
+    m_InternalValue: {x: 0, y: 0, z: 0, w: 1}
+  networkPositionVelocity: {x: 0, y: 0, z: 0}
+  networkPositionSmoothTime: 0.1
+  networkRotationSmoothTime: 0.1
+  horizontalMovement:
+    m_InternalValue: 0
+  verticalMovement:
+    m_InternalValue: 0
+  moveAmount:
+    m_InternalValue: 0
 --- !u!1001 &7762929333060964732
 PrefabInstance:
   m_ObjectHideFlags: 0

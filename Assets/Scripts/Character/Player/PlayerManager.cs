@@ -1,3 +1,4 @@
+using UnityEditor.Build.Player;
 using UnityEngine;
 
 public class PlayerManager : CharacterManager
@@ -6,6 +7,7 @@ public class PlayerManager : CharacterManager
     public PlayerAnimatorManager playerAnimatorManager;
     public PlayerStatsManager playerStatsManager;
     public PlayerUIHudManager playerUIHudManager;
+    public PlayerNetworkManager playerNetworkManager;
 
     protected override void Awake()
     {
@@ -17,7 +19,7 @@ public class PlayerManager : CharacterManager
         playerLocomotionManager = GetComponent<PlayerLocomotionManager>();
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerStatsManager = GetComponent<PlayerStatsManager>();
-        playerUIHudManager = FindFirstObjectByType<PlayerUIHudManager>();
+        playerNetworkManager = GetComponent<PlayerNetworkManager>();
 
         playerStatsManager.OnStaminaChanged += PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
         playerStatsManager.OnStaminaChanged += playerStatsManager.ResetStaminaRegenTimer; //currently not working
@@ -56,7 +58,14 @@ public class PlayerManager : CharacterManager
     {
         if(IsOwner)
         {
+            PlayerInputManager.instance.player = this;
             PlayerCamera.instance.player = this;
+
+            playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
+
+            playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
+            playerNetworkManager.currentStamina.Value = playerStatsManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
+            PlayerUIManager.instance.playerUIHudManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
         }    
 
     }

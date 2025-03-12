@@ -4,10 +4,10 @@ using UnityEngine;
 public class PlayerUIManager : MonoBehaviour
 {
     public static PlayerUIManager instance;
-    public PlayerUIHudManager playerUIHudManager;
 
     [Header("NETWORK JOIN")]
     [SerializeField] bool startGameAsClient;
+    [HideInInspector] public PlayerUIHudManager playerUIHudManager;
 
     private void Awake()
     {

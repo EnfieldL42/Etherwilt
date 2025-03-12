@@ -7,7 +7,7 @@ public class PlayerUIHudManager : MonoBehaviour
 
     public void SetNewStaminaValue(float oldValue, float newValue)
     {
-        staminaBar.SetStat(newValue);
+        staminaBar.SetStat(Mathf.RoundToInt(newValue));
     }
 
     public void SetMaxStaminaValue(float maxStamina)

@@ -41,7 +41,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        player = FindAnyObjectByType<PlayerManager>();
+        //player = FindAnyObjectByType<PlayerManager>();
 
         if (playerControls == null)
         {
@@ -119,10 +119,10 @@ public class PlayerInputManager : MonoBehaviour
     }
     private void HandleAllInputs()
     {
-        //HandleCameraMovementInput();
+        HandleCameraMovementInput();
         HandlePlayerMovementInput();
-        //HandleDodgeInput();
-        //HandleSprinting();
+        HandleDodgeInput();
+        HandleSprinting();
 
     }
 
@@ -155,34 +155,34 @@ public class PlayerInputManager : MonoBehaviour
         player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerLocomotionManager.isSprinting);
     }
 
-    //private void HandleCameraMovementInput()
-    //{
-    //    cameraVerticalInput = cameraInput.y;
-    //    cameraHorizontalInput = cameraInput.x;
+    private void HandleCameraMovementInput()
+    {
+        cameraVerticalInput = cameraInput.y;
+        cameraHorizontalInput = cameraInput.x;
 
-    //}
+    }
 
-    //private void HandleDodgeInput()
-    //{
-    //    if(dodgeInput)
-    //    {
-    //        dodgeInput = false;
+    private void HandleDodgeInput()
+    {
+        if (dodgeInput)
+        {
+            dodgeInput = false;
 
-    //        player.playerLocomotionManager.AttemptToPerformDodge();
+            player.playerLocomotionManager.AttemptToPerformDodge();
 
-    //    }
-    //}
+        }
+    }
 
-    //private void HandleSprinting()
-    //{
-    //    if(sprintInput)
-    //    {
-    //        player.playerLocomotionManager.HandleSprinting();
-    //    }
-    //    else
-    //    {
-    //        player.playerLocomotionManager.SetisSprintingToFalse();
-    //    }
-    //}
+    private void HandleSprinting()
+    {
+        if (sprintInput)
+        {
+            player.playerLocomotionManager.HandleSprinting();
+        }
+        else
+        {
+            player.playerLocomotionManager.SetisSprintingToFalse();
+        }
+    }
 
 }
