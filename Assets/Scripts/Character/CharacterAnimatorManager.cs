@@ -23,7 +23,6 @@ public class CharacterAnimatorManager : MonoBehaviour
         float horizontalAmount = horizontalMovement;
         float verticalAmount = verticalValue;
 
-
         if (isSprinting)
         {
             verticalAmount = 2;

@@ -38,7 +38,22 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     protected override void Update()
     {
-        
+        base.Update();
+
+        if(player.IsOwner)
+        {
+            player.characterNetworkManager.verticalMovement.Value = verticalMovement;
+            player.characterNetworkManager.horizontalMovement.Value = horizontalMovement;
+            player.characterNetworkManager.moveAmount.Value = moveAmount;
+        }
+        else
+        {
+            verticalMovement = player.characterNetworkManager.verticalMovement.Value;
+            horizontalMovement = player.characterNetworkManager.horizontalMovement.Value;
+            moveAmount = player.characterNetworkManager.moveAmount.Value;
+
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerNetworkManager.isSprinting.Value);
+        }
     }
 
     public void HandleAllMovement()
@@ -61,12 +76,14 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     private void HandleGroundedMovement()
     {
 
-        GetMovementValues();
+
 
         if (!player.canMove)
         {
             return;
         }
+
+        GetMovementValues();
 
         //move direction is based on cameras facing perspective & the movement input
         moveDirection = PlayerCamera.instance.transform.forward * verticalMovement;
@@ -130,7 +147,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             return;
         }
 
-        if(characterStatsManager.currentStamina <= 0)
+        if (player.characterNetworkManager.currentStamina.Value <= 0)
         {
             return;
         }
@@ -154,7 +171,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
         }
 
-        characterStatsManager.currentStamina -= dodgeStaminaCost;
+        player.characterNetworkManager.currentStamina.Value -= dodgeStaminaCost;
 
 
     }
@@ -166,11 +183,11 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             player.playerNetworkManager.isSprinting.Value = false;
         }
 
-        //if(player.playerNetworkManager.currentStamina.Value <= 0)
-        //{
-        //    player.playerNetworkManager.isSprinting.Value = false;
-        //    return;
-        //}
+        if (player.playerNetworkManager.currentStamina.Value <= 0)
+        {
+            player.playerNetworkManager.isSprinting.Value = false;
+            return;
+        }
 
         if (moveAmount >= 0.5)
         {
@@ -185,16 +202,8 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         {
             player.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
 
-
-            //float newStamina = player.playerStatsManager.currentStamina - (sprintingStaminaCost * Time.deltaTime);
-            //player.playerStatsManager.currentStamina = newStamina;
         }
 
-    }
-
-    public void SetisSprintingToFalse()
-    {
-        isSprinting = false;
     }
 
 }

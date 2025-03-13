@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraObject: {fileID: 5421695813434193564}
-  player: {fileID: -49776619714399350, guid: dc1434bcdd9be4944ac46f7688d0c16f, type: 3}
+  player: {fileID: 0}
   cameraPivotTransform: {fileID: 3134860851819277495}
   upAndDownRotationSpeed: 220
   leftAndRightRotationSpeed: 220

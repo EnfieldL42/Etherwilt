@@ -234,8 +234,8 @@ MonoBehaviour:
   canMove: 1
   playerLocomotionManager: {fileID: -7585139013812004898}
   playerAnimatorManager: {fileID: -2286953313118907648}
-  playerStatsManager: {fileID: 0}
-  playerUIHudManager: {fileID: 0}
+  playerStatsManager: {fileID: 3251472341305306367}
+  playerNetworkManager: {fileID: 2728993095040920138}
 --- !u!114 &-7585139013812004898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,10 +255,10 @@ MonoBehaviour:
   walkingSpeed: 2
   runningSpeed: 7
   rotationSpeed: 15
-  dodgeStaminaCost: 5
+  dodgeStaminaCost: 20
   isSprinting: 0
   sprintSpeed: 10.5
-  sprintingStaminaCost: 1
+  sprintingStaminaCost: 20
 --- !u!114 &3251472341305306367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -271,10 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd8def1fb776404da765cc04908c8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  endurance: 1
-  currentStamina: 0
-  maxStamina: 0
-  staminaRegenerationAmount: 10
+  staminaRegenerationAmount: 5
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
 --- !u!114 &-2286953313118907648
@@ -326,6 +323,14 @@ MonoBehaviour:
   verticalMovement:
     m_InternalValue: 0
   moveAmount:
+    m_InternalValue: 0
+  isSprinting:
+    m_InternalValue: 0
+  endurance:
+    m_InternalValue: 1
+  currentStamina:
+    m_InternalValue: 0
+  maxStamina:
     m_InternalValue: 0
 --- !u!1001 &7762929333060964732
 PrefabInstance:

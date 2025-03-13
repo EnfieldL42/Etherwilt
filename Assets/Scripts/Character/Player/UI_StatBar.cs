@@ -7,6 +7,8 @@ public class UI_StatBar : MonoBehaviour
 
     protected virtual void Awake()
     {
+
+
         slider = GetComponent<Slider>();
     }
 

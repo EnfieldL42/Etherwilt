@@ -28,6 +28,7 @@ public class PlayerInputManager : MonoBehaviour
     private void Awake()
     {
 
+
         if (instance == null)
         {
             instance = this;
@@ -37,11 +38,14 @@ public class PlayerInputManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+
+
     }
 
     private void OnEnable()
     {
         //player = FindAnyObjectByType<PlayerManager>();
+        
 
         if (playerControls == null)
         {
@@ -51,7 +55,7 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>(); //stores vector 2 of input in i then reads it and adds it to the vector 2 movement
             //camera
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
-            playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
+            //playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
             //dodge
             playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
             //sprint
@@ -74,7 +78,9 @@ public class PlayerInputManager : MonoBehaviour
     private void Start()
     {
         DontDestroyOnLoad(gameObject);
+
         SceneManager.activeSceneChanged += OnSceneChange; //checks if the scene has changed
+
 
         instance.enabled = false;
 
@@ -152,7 +158,8 @@ public class PlayerInputManager : MonoBehaviour
         {
             return;
         }
-        player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerLocomotionManager.isSprinting);
+
+        player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerNetworkManager.isSprinting.Value);
     }
 
     private void HandleCameraMovementInput()
@@ -181,7 +188,7 @@ public class PlayerInputManager : MonoBehaviour
         }
         else
         {
-            player.playerLocomotionManager.SetisSprintingToFalse();
+            player.playerNetworkManager.isSprinting.Value = false;
         }
     }
 

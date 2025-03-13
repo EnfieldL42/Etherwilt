@@ -230,8 +230,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": ""Mouse"",
                     ""type"": ""PassThrough"",
-                    ""id"": ""33020082-6a30-4971-bb28-79e22bcd30f7"",
-                    ""expectedControlType"": ""Delta"",
+                    ""id"": ""fbde7ab8-6f9a-4e52-8387-c878dd1809db"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -295,7 +295,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""d3b5c1e7-f73f-4c34-8238-84649af6faa5"",
+                    ""id"": ""f4ced28f-36a7-4bb0-8649-bdccde4c368f"",
                     ""path"": ""<Mouse>/delta"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -323,7 +323,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""Sprint"",
                     ""type"": ""PassThrough"",
                     ""id"": ""a61e1dc5-2b6d-45d6-9caf-373712a0d062"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold"",
                     ""initialStateCheck"": false
