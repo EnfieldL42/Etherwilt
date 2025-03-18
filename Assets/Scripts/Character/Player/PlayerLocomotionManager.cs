@@ -12,7 +12,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     public float moveAmount;
 
     [Header("Movement Settings")]
-    [SerializeField] private Vector3 moveDirection;
+    private Vector3 moveDirection;
     private Vector3 targetRotationDirection;
     [SerializeField] float walkingSpeed = 2f;
     [SerializeField] float runningSpeed = 7f;
@@ -244,7 +244,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     public void ApplyJumpingVelocity()
     {
         //apply upwards velocity
-
+        //yVelocity.y = Mathf.Sqrt(jumpHeight * -2  gravityForce);
 
     }
 
