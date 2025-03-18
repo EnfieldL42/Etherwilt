@@ -4,6 +4,9 @@ using UnityEngine;
 //reference for every save file, not a monobehavior
 public class CharacterSaveData
 {
+    [Header("Scene Index")]
+    public int sceneIndex;
+
     [Header("Character Name")]
     public string characterName = "Character";
 

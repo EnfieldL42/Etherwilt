@@ -278,6 +278,34 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "UI",
+            "id": "a179d7c7-7aea-4a35-a345-726e59f10e1c",
+            "actions": [
+                {
+                    "name": "Game Pad West",
+                    "type": "Button",
+                    "id": "ba6d2bbd-bd64-4a20-8935-0a6241f602a4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "bc4d4750-dcdd-43a2-a4a1-c21bf7b9e5bc",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Game Pad West",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []

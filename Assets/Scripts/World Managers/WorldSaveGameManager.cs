@@ -139,6 +139,43 @@ public class WorldSaveGameManager : MonoBehaviour
             return;
         }
 
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_03);
+
+        if (!saveFileDataWriter.CheckToSeeIfFileExists())
+        {
+            //if this profile slot is not taken, make a new one using this slot
+            currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_03;
+            currentCharacterData = new CharacterSaveData();
+
+            StartCoroutine(LoadWorldScene());
+            return;
+        }
+
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_04);
+
+        if (!saveFileDataWriter.CheckToSeeIfFileExists())
+        {
+            //if this profile slot is not taken, make a new one using this slot
+            currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_04;
+            currentCharacterData = new CharacterSaveData();
+
+            StartCoroutine(LoadWorldScene());
+            return;
+        }
+
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_05);
+
+        if (!saveFileDataWriter.CheckToSeeIfFileExists())
+        {
+            //if this profile slot is not taken, make a new one using this slot
+            currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_05;
+            currentCharacterData = new CharacterSaveData();
+
+            StartCoroutine(LoadWorldScene());
+            return;
+        }
+
+
 
         //if there are no free slots, notify the player
         TitleScreenManager.instance.DisplayNoFreeCharacterCharacterSlotsPopUp();
@@ -172,6 +209,18 @@ public class WorldSaveGameManager : MonoBehaviour
         saveFileDataWriter.CreateNewCharacterSaveFile(currentCharacterData);
     }
 
+    public void DeleteGame(CharacterSlot characterSlot)
+    {
+        //chooose file based on name
+
+        saveFileDataWriter = new SaveFileDataWriter();
+        saveFileDataWriter.saveDataDataDirectoryPath = Application.persistentDataPath;
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(characterSlot);
+
+        saveFileDataWriter.DeleteSaveFile();
+
+
+    }
 
     private void LoadAllCharacterProfiles()
     {
@@ -201,7 +250,11 @@ public class WorldSaveGameManager : MonoBehaviour
 
     public IEnumerator LoadWorldScene()
     {
+        //for just 1 scene game
         UnityEngine.AsyncOperation loadOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(worldSceneIndex);
+
+        //can use this if we want to save different scenes
+        //UnityEngine.AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
 
         player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
 
