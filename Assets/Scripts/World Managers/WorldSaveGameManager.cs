@@ -6,8 +6,7 @@ using UnityEngine.SceneManagement;
 public class WorldSaveGameManager : MonoBehaviour
 {
     public static WorldSaveGameManager instance;
-
-    [SerializeField] PlayerManager player;
+    public PlayerManager player;
 
     [Header("SAVE/LOAD")]
     [SerializeField] bool saveGame;
@@ -109,12 +108,38 @@ public class WorldSaveGameManager : MonoBehaviour
         return fileName;
     }
 
-    public void CreateNewGame()
+    public void AttemptToCreateNewGame()
     {
-        //create new file, name of file depends on which slot
-        saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(currentCharacterSlotBeingUsed);
+        saveFileDataWriter = new SaveFileDataWriter();
 
-        currentCharacterData = new CharacterSaveData();
+        //check if we can create a new save file
+        saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_01);
+
+        if(!saveFileDataWriter.CheckToSeeIfFileExists())
+        {
+            //if this profile slot is not taken, make a new one using this slot
+            currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_01;
+            currentCharacterData = new CharacterSaveData();
+            StartCoroutine(LoadWorldScene());
+            return;
+        }
+
+        //check if we can create a new save file
+        saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_02);
+
+        if (!saveFileDataWriter.CheckToSeeIfFileExists())
+        {
+            //if this profile slot is not taken, make a new one using this slot
+            currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_02;
+            currentCharacterData = new CharacterSaveData();
+
+            StartCoroutine(LoadWorldScene());
+            return;
+        }
+
+
+        //if there are no free slots, notify the player
+        TitleScreenManager.instance.DisplayNoFreeCharacterCharacterSlotsPopUp();
     }
 
     public void LoadGame()
@@ -175,6 +200,9 @@ public class WorldSaveGameManager : MonoBehaviour
     public IEnumerator LoadWorldScene()
     {
         UnityEngine.AsyncOperation loadOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(worldSceneIndex);
+
+        player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
+
         yield return null;
     }
 
@@ -182,5 +210,6 @@ public class WorldSaveGameManager : MonoBehaviour
     {
         return worldSceneIndex;
     }
+
 
 }

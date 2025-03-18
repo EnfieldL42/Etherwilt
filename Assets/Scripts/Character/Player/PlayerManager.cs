@@ -55,6 +55,7 @@ public class PlayerManager : CharacterManager
         {
             PlayerInputManager.instance.player = this;
             PlayerCamera.instance.player = this;
+            WorldSaveGameManager.instance.player = this;
 
             playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
             playerNetworkManager.currentStamina.OnValueChanged += playerStatsManager.ResetStaminaRegenTimer;
@@ -81,6 +82,7 @@ public class PlayerManager : CharacterManager
         Vector3 myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
         transform.position = myPosition;
     }
+
 
 
 }
