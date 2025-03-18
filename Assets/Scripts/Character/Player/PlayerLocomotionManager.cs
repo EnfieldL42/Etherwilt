@@ -16,16 +16,14 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     private Vector3 targetRotationDirection;
     [SerializeField] float walkingSpeed = 2f;
     [SerializeField] float runningSpeed = 7f;
+    [SerializeField] float sprintSpeed = 9f;
     [SerializeField] float rotationSpeed = 15f;
+    [SerializeField] float sprintingStaminaCost = 2;
 
     [Header("Dodge")]
     private Vector3 rollDirection;
     [SerializeField] float dodgeStaminaCost = 25;
-
-    [Header("Sprint")]
-    public bool isSprinting = false;
-    [SerializeField] float sprintSpeed = 9f;
-    [SerializeField] float sprintingStaminaCost = 2;
+    [SerializeField] float jumpStaminaCost = 25;
 
 
     protected override void Awake()
@@ -176,6 +174,43 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     }
 
+    public void AttemptToPerformJump()
+    {
+
+        //prevents double jumping
+        if (player.isPerformingAction)
+        {
+            return;
+        }
+
+        if (player.characterNetworkManager.currentStamina.Value <= 0)
+        {
+            return;
+        }
+
+        if(player.isJumping)
+        {
+            return;
+        }
+
+        if (player.isGrounded)
+        {
+            return;
+        }
+        //
+
+        //check if we play one handed animation or two handed animation
+        player.playerAnimatorManager.PlayTargetActionAnimation("main_jump_start_01", false);
+
+        player.isJumping = true;
+
+
+        player.characterNetworkManager.currentStamina.Value -= jumpStaminaCost;
+
+
+    }
+
+
     public void HandleSprinting()
     {
         if(player.isPerformingAction)
@@ -203,6 +238,13 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             player.playerNetworkManager.currentStamina.Value -= sprintingStaminaCost * Time.deltaTime;
 
         }
+
+    }
+
+    public void ApplyJumpingVelocity()
+    {
+        //apply upwards velocity
+
 
     }
 

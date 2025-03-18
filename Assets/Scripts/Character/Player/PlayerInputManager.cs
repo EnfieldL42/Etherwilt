@@ -24,6 +24,7 @@ public class PlayerInputManager : MonoBehaviour
     [Header("Player Action Input")]
     [SerializeField] bool dodgeInput = false;
     [SerializeField] bool sprintInput = false;
+    [SerializeField] bool jumpInput = false;
 
     private void Awake()
     {
@@ -53,11 +54,15 @@ public class PlayerInputManager : MonoBehaviour
 
             //movement
             playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>(); //stores vector 2 of input in i then reads it and adds it to the vector 2 movement
+            
             //camera
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
             //playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
+
             //dodge
             playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
+            playerControls.PlayerActions.Jump.performed += i => jumpInput = true;
+
             //sprint
             playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
             playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
@@ -128,7 +133,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleCameraMovementInput();
         HandlePlayerMovementInput();
         HandleDodgeInput();
-        HandleSprinting();
+        HandleSprintInput();
 
     }
 
@@ -180,7 +185,7 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-    private void HandleSprinting()
+    private void HandleSprintInput()
     {
         if (sprintInput)
         {
@@ -191,5 +196,17 @@ public class PlayerInputManager : MonoBehaviour
             player.playerNetworkManager.isSprinting.Value = false;
         }
     }
+    private void HandleJumpInput()
+    {
+        if(jumpInput)
+        {
+            jumpInput = false;
 
+            //if ui window open, return without doing anything
+
+            //attempt to perform jump
+            player.playerLocomotionManager.AttemptToPerformJump();
+        }
+
+    }
 }
