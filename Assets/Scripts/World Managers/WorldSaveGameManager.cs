@@ -111,11 +111,13 @@ public class WorldSaveGameManager : MonoBehaviour
     public void AttemptToCreateNewGame()
     {
         saveFileDataWriter = new SaveFileDataWriter();
+        saveFileDataWriter.saveDataDataDirectoryPath = Application.persistentDataPath;
+
 
         //check if we can create a new save file
-        saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_01);
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_01);
 
-        if(!saveFileDataWriter.CheckToSeeIfFileExists())
+        if (!saveFileDataWriter.CheckToSeeIfFileExists())
         {
             //if this profile slot is not taken, make a new one using this slot
             currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_01;
@@ -125,7 +127,7 @@ public class WorldSaveGameManager : MonoBehaviour
         }
 
         //check if we can create a new save file
-        saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_02);
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_02);
 
         if (!saveFileDataWriter.CheckToSeeIfFileExists())
         {
