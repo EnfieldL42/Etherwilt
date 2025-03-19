@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: -2286953313118907648}
   - component: {fileID: 1858340189648924075}
   - component: {fileID: 2728993095040920138}
+  - component: {fileID: -8557350535241051443}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -35,7 +36,7 @@ Transform:
   m_GameObject: {fileID: 2289034102416512074}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.532266, y: 1, z: 2.7174366}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -198,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2612319035
+  GlobalObjectIdHash: 2682729802
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -262,14 +263,16 @@ MonoBehaviour:
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0
-  moveDirection: {x: 0, y: 0, z: 0}
   walkingSpeed: 2
   runningSpeed: 7
   sprintSpeed: 10.5
   rotationSpeed: 15
   sprintingStaminaCost: 20
-  dodgeStaminaCost: 20
   jumpStaminaCost: 25
+  jumpHeight: 1.5
+  jumpForwardSpeed: 5
+  freeFallSpeed: 2
+  dodgeStaminaCost: 20
 --- !u!114 &3251472341305306367
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -412,6 +415,20 @@ MonoBehaviour:
         byte0059: 0
         byte0060: 0
         byte0061: 0
+--- !u!114 &-8557350535241051443
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289034102416512074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e3ade79b7a457fe42b4c7845e7bc849d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  effectToTest: {fileID: 11400000, guid: b2f0b63ca671f8745ba8f451a86931fb, type: 2}
+  processEffect: 0
 --- !u!1001 &7762929333060964732
 PrefabInstance:
   m_ObjectHideFlags: 0
