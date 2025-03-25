@@ -374,7 +374,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b77b762e4f334f74882247aeea60b6b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthBar: {fileID: 0}
+  healthBar: {fileID: 1013575725375371448}
   staminaBar: {fileID: 6039964487909668817}
 --- !u!1 &3055319243841492308
 GameObject:
@@ -782,6 +782,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82aabcb61434dbe4d98638d8d2778e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scaleBarLengthWithStats: 1
+  widthScaleMultiplier: 2
 --- !u!1 &7140415294732364552
 GameObject:
   m_ObjectHideFlags: 0
@@ -1032,3 +1034,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82aabcb61434dbe4d98638d8d2778e9b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  scaleBarLengthWithStats: 1
+  widthScaleMultiplier: 2.5

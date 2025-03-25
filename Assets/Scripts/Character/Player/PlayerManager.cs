@@ -58,13 +58,16 @@ public class PlayerManager : CharacterManager
             PlayerCamera.instance.player = this;
             WorldSaveGameManager.instance.player = this;
 
+            //update health and stamina when vitality/endurance stats changes
+            playerNetworkManager.vitality.OnValueChanged += playerNetworkManager.SetNewMaxHealthValue;
+            playerNetworkManager.endurance.OnValueChanged += playerNetworkManager.SetNewMaxStaminaValue;
+
+
+            //updates ui stat bar when health/stamina changes
+            playerNetworkManager.currentHealth.OnValueChanged += PlayerUIManager.instance.playerUIHudManager.SetNewHealthValue;
             playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
             playerNetworkManager.currentStamina.OnValueChanged += playerStatsManager.ResetStaminaRegenTimer;
 
-
-            playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
-            playerNetworkManager.currentStamina.Value = playerStatsManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
-            PlayerUIManager.instance.playerUIHudManager.SetMaxStaminaValue(playerNetworkManager.maxStamina.Value);
         }    
 
     }
@@ -78,6 +81,12 @@ public class PlayerManager : CharacterManager
         currentCharacterData.yPosition = transform.position.y;
         currentCharacterData.zPosition = transform.position.z;
 
+        currentCharacterData.currentHealth = playerNetworkManager.currentHealth.Value;
+        currentCharacterData.currentStamina = playerNetworkManager.currentStamina.Value;
+
+        currentCharacterData.vitality = playerNetworkManager.vitality.Value;
+        currentCharacterData.endurance = playerNetworkManager.endurance.Value;
+
 
     }
 
@@ -86,6 +95,16 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.characterName.Value = currentCharacterData.characterName;
         Vector3 myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
         transform.position = myPosition;
+
+        playerNetworkManager.vitality.Value = currentCharacterData.vitality;
+        playerNetworkManager.endurance.Value = currentCharacterData.endurance;
+
+        playerNetworkManager.maxHealth.Value = playerStatsManager.CalculateHealthBasedOnLevel(playerNetworkManager.vitality.Value);
+        playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
+        playerNetworkManager.currentHealth.Value = currentCharacterData.currentHealth;
+        playerNetworkManager.currentStamina.Value = currentCharacterData.currentStamina;
+
+        PlayerUIManager.instance.playerUIHudManager.SetMaxHealthValue(playerNetworkManager.maxHealth.Value);
     }
 
 

@@ -4,6 +4,9 @@ using Unity.Netcode;
 
 public class CharacterManager : NetworkBehaviour
 {
+    [Header("Status")]
+    public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
     public CharacterController characterController;
     public CharacterNetworkManager characterNetworkManager;
 

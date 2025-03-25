@@ -21,17 +21,32 @@ public class CharacterStatsManager : MonoBehaviour
     {
         character = GetComponent<CharacterManager>();
     }
+    protected virtual void Start()
+    {
+
+    }
+
+
+    public float CalculateHealthBasedOnLevel(int vitality)
+    {
+        float health = 10;
+
+        //can change this logic to fit whatever stamina should be depending on endurance points
+        health = vitality * 15;
+
+        return health;
+    }
+
 
     public float CalculateStaminaBasedOnLevel(int endurance)
     {
-        float stamina = 0;
+        float stamina = 10;
 
         //can change this logic to fit whatever stamina should be depending on endurance points
-        stamina = endurance * 100;
+        stamina = endurance * 10;
 
         return stamina;
     }
-
 
     public virtual void RegenerateStamina()
     {
@@ -77,5 +92,8 @@ public class CharacterStatsManager : MonoBehaviour
 
         }
     }
+
+
+
 
 }

@@ -122,7 +122,7 @@ public class WorldSaveGameManager : MonoBehaviour
             //if this profile slot is not taken, make a new one using this slot
             currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_01;
             currentCharacterData = new CharacterSaveData();
-            StartCoroutine(LoadWorldScene());
+            NewGame();
             return;
         }
 
@@ -135,7 +135,7 @@ public class WorldSaveGameManager : MonoBehaviour
             currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_02;
             currentCharacterData = new CharacterSaveData();
 
-            StartCoroutine(LoadWorldScene());
+            NewGame();
             return;
         }
 
@@ -147,7 +147,7 @@ public class WorldSaveGameManager : MonoBehaviour
             currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_03;
             currentCharacterData = new CharacterSaveData();
 
-            StartCoroutine(LoadWorldScene());
+            NewGame();
             return;
         }
 
@@ -159,7 +159,7 @@ public class WorldSaveGameManager : MonoBehaviour
             currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_04;
             currentCharacterData = new CharacterSaveData();
 
-            StartCoroutine(LoadWorldScene());
+            NewGame();
             return;
         }
 
@@ -171,7 +171,7 @@ public class WorldSaveGameManager : MonoBehaviour
             currentCharacterSlotBeingUsed = CharacterSlot.CharacterSlot_05;
             currentCharacterData = new CharacterSaveData();
 
-            StartCoroutine(LoadWorldScene());
+            NewGame();
             return;
         }
 
@@ -179,6 +179,12 @@ public class WorldSaveGameManager : MonoBehaviour
 
         //if there are no free slots, notify the player
         TitleScreenManager.instance.DisplayNoFreeCharacterCharacterSlotsPopUp();
+    }
+
+    private void NewGame()
+    {
+        SaveGame();
+        StartCoroutine(LoadWorldScene());
     }
 
     public void LoadGame()
