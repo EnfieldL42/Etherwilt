@@ -13,13 +13,13 @@ public class PlayerUIHudManager : MonoBehaviour
         staminaBar.gameObject.SetActive(true);
     }
 
-    public void SetNewHealthValue(float oldValue, float newValue)
+    public void SetNewHealthValue(int oldValue, int newValue)
     {
         healthBar.SetStat(Mathf.RoundToInt(newValue));
 
     }
 
-    public void SetMaxHealthValue(float maxHealth)
+    public void SetMaxHealthValue(int maxHealth)
     {
         healthBar.SetMaxStat(maxHealth);
     }

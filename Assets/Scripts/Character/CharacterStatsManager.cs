@@ -6,6 +6,9 @@ public class CharacterStatsManager : MonoBehaviour
 {
     CharacterManager character;
 
+    [Header("Stats modifiers")]
+    [SerializeField] int vitalityModifier = 15;
+    [SerializeField] int enduranceModifier = 10;
 
     [Header("StaminaRegenation")]
     [SerializeField] float staminaRegenerationAmount = 2;
@@ -27,12 +30,12 @@ public class CharacterStatsManager : MonoBehaviour
     }
 
 
-    public float CalculateHealthBasedOnLevel(int vitality)
+    public int CalculateHealthBasedOnLevel(int vitality)
     {
-        float health = 10;
+        int health = 0;
 
         //can change this logic to fit whatever stamina should be depending on endurance points
-        health = vitality * 15;
+        health = vitality * vitalityModifier;
 
         return health;
     }
@@ -40,10 +43,10 @@ public class CharacterStatsManager : MonoBehaviour
 
     public float CalculateStaminaBasedOnLevel(int endurance)
     {
-        float stamina = 10;
+        float stamina = 0;
 
         //can change this logic to fit whatever stamina should be depending on endurance points
-        stamina = endurance * 10;
+        stamina = endurance * enduranceModifier;
 
         return stamina;
     }

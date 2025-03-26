@@ -1,6 +1,7 @@
 using Unity.VisualScripting;
 using UnityEngine;
 using Unity.Netcode;
+using System.Collections;
 
 public class CharacterManager : NetworkBehaviour
 {
@@ -12,6 +13,7 @@ public class CharacterManager : NetworkBehaviour
 
     [HideInInspector] public Animator animator;
     [HideInInspector] public CharacterEffectsManager characterEffectsManager;
+    [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
 
     [Header("Flags")]
     public bool isPerformingAction = false;
@@ -32,6 +34,7 @@ public class CharacterManager : NetworkBehaviour
         characterNetworkManager = GetComponent<CharacterNetworkManager>();//
         animator = GetComponent<Animator>();
         characterEffectsManager = GetComponent<CharacterEffectsManager>();
+        characterAnimatorManager = GetComponent<CharacterAnimatorManager>();
     }
 
     protected virtual void Update()
@@ -52,6 +55,38 @@ public class CharacterManager : NetworkBehaviour
     }
 
     protected virtual void LateUpdate()
+    {
+
+    }
+
+    public virtual IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+    {
+        if(IsOwner)
+        {
+            characterNetworkManager.currentHealth.Value = 0;
+            isDead.Value = true;
+
+            //reset flags that need to be reset
+
+            //if not grounded play arial death anim
+
+            if(!manuallySelectDeathAnimation)
+            {
+                characterAnimatorManager.PlayTargetActionAnimation("Dead_01", true); 
+            }
+        
+        }
+
+        //play some death sfx
+
+        yield return new WaitForSeconds(5);
+
+        //award players with runes
+        //disable character model
+    }
+
+
+    public virtual void ReviveCharacter()
     {
 
     }

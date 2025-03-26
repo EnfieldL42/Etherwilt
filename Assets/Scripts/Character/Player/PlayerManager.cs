@@ -1,9 +1,13 @@
 using JetBrains.Annotations;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class PlayerManager : CharacterManager
 {
+    [Header("DEBUG MENU")]
+    [SerializeField] bool respawnCharacter = false;
+
     public PlayerLocomotionManager playerLocomotionManager;
     public PlayerAnimatorManager playerAnimatorManager;
     public PlayerStatsManager playerStatsManager;
@@ -46,6 +50,8 @@ public class PlayerManager : CharacterManager
 
         playerLocomotionManager.HandleAllMovement();
         playerStatsManager.RegenerateStamina();
+
+        DebugMenu();
     }
 
     public override void OnNetworkSpawn()
@@ -68,8 +74,39 @@ public class PlayerManager : CharacterManager
             playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
             playerNetworkManager.currentStamina.OnValueChanged += playerStatsManager.ResetStaminaRegenTimer;
 
-        }    
+        }
 
+        playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
+    }
+
+    public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+    {
+        if (IsOwner)
+        {
+            PlayerUIManager.instance.playerUIPopUpManager.SendYouDiePopUp();
+        }
+
+        return base.ProcessDeathEvent(manuallySelectDeathAnimation);
+
+
+
+    }
+
+    public override void ReviveCharacter()
+    {
+        base.ReviveCharacter();
+
+        if(IsOwner)
+        {
+            playerNetworkManager.currentHealth.Value = playerNetworkManager.maxHealth.Value;
+            playerNetworkManager.currentStamina.Value = playerNetworkManager.maxStamina.Value;
+            //restore mana
+
+            //play rebirth effects
+            playerAnimatorManager.PlayTargetActionAnimation("Empty", true);
+
+            
+        }
     }
 
     public void SaveGameDataToCurrentCharacterData(ref CharacterSaveData currentCharacterData)
@@ -107,6 +144,13 @@ public class PlayerManager : CharacterManager
         PlayerUIManager.instance.playerUIHudManager.SetMaxHealthValue(playerNetworkManager.maxHealth.Value);
     }
 
-
+    private void DebugMenu()
+    {
+        if(respawnCharacter)
+        {
+            respawnCharacter = false;
+            ReviveCharacter();
+        }
+    }
 
 }
