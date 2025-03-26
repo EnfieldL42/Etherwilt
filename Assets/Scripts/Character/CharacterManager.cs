@@ -7,11 +7,11 @@ public class CharacterManager : NetworkBehaviour
     [Header("Status")]
     public NetworkVariable<bool> isDead = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
-    public CharacterController characterController;
-    public CharacterNetworkManager characterNetworkManager;
+    [HideInInspector] public CharacterController characterController;
+    [HideInInspector] public CharacterNetworkManager characterNetworkManager;
 
-    public Animator animator;
-    public CharacterStatsManager characterStatsManager;
+    [HideInInspector] public Animator animator;
+    [HideInInspector] public CharacterEffectsManager characterEffectsManager;
 
     [Header("Flags")]
     public bool isPerformingAction = false;
@@ -30,8 +30,8 @@ public class CharacterManager : NetworkBehaviour
 
         characterController = GetComponent<CharacterController>();//
         characterNetworkManager = GetComponent<CharacterNetworkManager>();//
-        characterStatsManager = GetComponent<CharacterStatsManager>();
         animator = GetComponent<Animator>();
+        characterEffectsManager = GetComponent<CharacterEffectsManager>();
     }
 
     protected virtual void Update()
