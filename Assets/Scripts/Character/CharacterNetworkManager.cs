@@ -24,8 +24,8 @@ public class CharacterNetworkManager : NetworkBehaviour
     public NetworkVariable<float> currentStamina = new NetworkVariable<float> (0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
     public NetworkVariable<float> maxStamina = new NetworkVariable<float> (0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
 
-    public NetworkVariable<float> currentHealth = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public NetworkVariable<float> maxHealth = new NetworkVariable<float>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> currentHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> maxHealth = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Stats")]
     public NetworkVariable<int> vitality = new NetworkVariable<int>(1, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -34,6 +34,22 @@ public class CharacterNetworkManager : NetworkBehaviour
     protected virtual void Awake()
     {
         character = GetComponent<CharacterManager>();
+    }
+
+    public void CheckHP(int oldValue, int newValue)
+    {
+        if(currentHealth.Value <= 0)
+        {
+            StartCoroutine(character.ProcessDeathEvent());
+
+        }
+        if(character.IsOwner)//prevents over healing
+        {
+            if(currentHealth.Value > maxHealth.Value)
+            {
+                currentHealth.Value = maxHealth.Value;
+            }
+        }
     }
 
     [ServerRpc]//function called from a client to the server/host

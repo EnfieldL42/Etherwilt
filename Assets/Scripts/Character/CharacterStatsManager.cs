@@ -27,9 +27,9 @@ public class CharacterStatsManager : MonoBehaviour
     }
 
 
-    public float CalculateHealthBasedOnLevel(int vitality)
+    public int CalculateHealthBasedOnLevel(int vitality)
     {
-        float health = 10;
+        int health = 10;
 
         //can change this logic to fit whatever stamina should be depending on endurance points
         health = vitality * 15;
