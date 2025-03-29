@@ -20,6 +20,8 @@ GameObject:
   - component: {fileID: 1858340189648924075}
   - component: {fileID: 2728993095040920138}
   - component: {fileID: -8557350535241051443}
+  - component: {fileID: -6697940456139424963}
+  - component: {fileID: 2724205782518766232}
   m_Layer: 6
   m_Name: Player_NO_WEAPONS
   m_TagString: Untagged
@@ -199,7 +201,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2748568471
+  GlobalObjectIdHash: 437863140
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -289,8 +291,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd8def1fb776404da765cc04908c8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vitalityModifier: 15
-  enduranceModifier: 10
   staminaRegenerationAmount: 5
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
@@ -441,6 +441,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   effectToTest: {fileID: 11400000, guid: b2f0b63ca671f8745ba8f451a86931fb, type: 2}
   processEffect: 0
+--- !u!114 &-6697940456139424963
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289034102416512074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c66a69d3320f6364b9ca3d21abf31f09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2724205782518766232
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2289034102416512074}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 37a2fb220494a79488adc489160d9dbc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7762929333060964732
 PrefabInstance:
   m_ObjectHideFlags: 0
