@@ -4178,10 +4178,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player UI Manager
       objectReference: {fileID: 0}
-    - target: {fileID: 5704050012466393964, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6003977724654707755, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
