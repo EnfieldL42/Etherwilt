@@ -3,9 +3,6 @@ using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
 {
-    [Header("Collider")]
-    protected Collider damageCollider;
-
     [Header("Damage")]
     public int physicalDamage = 0; 
     public int magicDamage = 0;
@@ -53,16 +50,5 @@ public class DamageCollider : MonoBehaviour
         damageEffect.contactPoint = contactPoint;
 
         damageTarget.characterEffectsManager.ProcessInstantEffect(damageEffect);
-    }
-
-    public virtual void EnableDamageCollider()
-    {
-        damageCollider.enabled = true;
-    }
-
-    public virtual void DisableDamageCollider()
-    {
-        damageCollider.enabled = false;
-        charactersDamaged.Clear(); //reset character that gas been hit when we reset the collider, so they can be hit again on the next attakc
     }
 }
