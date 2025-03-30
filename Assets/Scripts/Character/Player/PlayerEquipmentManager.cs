@@ -7,6 +7,9 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
     public WeaponModelInstantiationSlot rightHandSlot;
     public WeaponModelInstantiationSlot leftHandSlot;
 
+    [SerializeField] WeaponManager rightWeaponManager;
+    [SerializeField] WeaponManager leftWeaponManager;
+
     public GameObject rightHandWeaponModel;
     public GameObject leftHandWeaponModel;
 
@@ -57,6 +60,9 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         {
             rightHandWeaponModel = Instantiate(player.PlayerInventoryManager.currentRightHandWeapon.weaponModel);
             rightHandSlot.LoadWeapon(rightHandWeaponModel);
+            rightWeaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
+            rightWeaponManager.SetWeaponDamage(player.PlayerInventoryManager.currentRightHandWeapon);
+            //assign weapon dmg, to its collider
         }
     }
 
@@ -66,7 +72,9 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         {
             leftHandWeaponModel = Instantiate(player.PlayerInventoryManager.currentLeftHandWeapon.weaponModel);
             leftHandSlot.LoadWeapon(leftHandWeaponModel);
-
+            leftWeaponManager = leftHandWeaponModel.GetComponent<WeaponManager>();
+            leftWeaponManager.SetWeaponDamage(player.PlayerInventoryManager.currentLeftHandWeapon);
+            //assign weapon damage, to its collider
         }
 
     }
