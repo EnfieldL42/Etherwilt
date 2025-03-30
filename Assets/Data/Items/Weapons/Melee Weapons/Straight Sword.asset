@@ -19,12 +19,12 @@ MonoBehaviour:
     dulled\u2014until its master fell. Now, abandoned in a forgotten ruin, rust devours
     its brilliance, and the wind mourns the echoes of its former glory."
   itemID: 0
-  weaponModel: {fileID: 6324636216164624828, guid: af71384f30347534d99a41c76742a0d9, type: 3}
+  weaponModel: {fileID: 0}
   strengthREQ: 0
   dexREQ: 0
   intREQ: 0
   faithREQ: 0
-  physicalDamage: 100
+  physicalDamage: 0
   magicDamage: 0
-  poiseDamage: 25
+  poiseDamage: 10
   baseStaminaCost: 20

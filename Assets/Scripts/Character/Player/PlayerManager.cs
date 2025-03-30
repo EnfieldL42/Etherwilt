@@ -9,11 +9,10 @@ public class PlayerManager : CharacterManager
     [SerializeField] bool respawnCharacter = false;
 
 
-    [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
-    [HideInInspector] public PlayerAnimatorManager playerAnimatorManager;
-    [HideInInspector] public PlayerStatsManager playerStatsManager;
-    [HideInInspector] public PlayerNetworkManager playerNetworkManager;
-    [HideInInspector] public PlayerInventoryManager PlayerInventoryManager;
+    public PlayerLocomotionManager playerLocomotionManager;
+    public PlayerAnimatorManager playerAnimatorManager;
+    public PlayerStatsManager playerStatsManager;
+    public PlayerNetworkManager playerNetworkManager;
 
     protected override void Awake()
     {
@@ -24,7 +23,6 @@ public class PlayerManager : CharacterManager
         playerAnimatorManager = GetComponent<PlayerAnimatorManager>();
         playerStatsManager = GetComponent<PlayerStatsManager>();
         playerNetworkManager = GetComponent<PlayerNetworkManager>();
-        PlayerInventoryManager = GetComponent<PlayerInventoryManager>();
 
 
 
