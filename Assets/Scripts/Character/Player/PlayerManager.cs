@@ -158,10 +158,15 @@ public class PlayerManager : CharacterManager
 
     private void DebugMenu()
     {
-        if(respawnCharacter)
+        if(respawnCharacter && isDead.Value)
         {
+            isDead.Value = false;
             respawnCharacter = false;
             ReviveCharacter();
+        }
+        else
+        {
+            respawnCharacter = false; 
         }
 
         if(switchRightWeapon)

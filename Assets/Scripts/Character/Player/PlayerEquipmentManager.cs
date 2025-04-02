@@ -62,7 +62,7 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             return;
         }
 
-        player.playerAnimatorManager.PlayTargetActionAnimation("Swap_Right_Weapon_01", false, true, true);
+        player.playerAnimatorManager.PlayTargetActionAnimation("Swap_Right_Weapon_01", false, true, true, true);
 
         WeaponItem selectedWeapon = null;
         
