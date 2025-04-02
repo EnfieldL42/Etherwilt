@@ -111,7 +111,7 @@ public class PlayerManager : CharacterManager
 
         if(IsOwner)
         {
-            isDead.Value = false;
+            //isDead.Value = false;
             playerNetworkManager.currentHealth.Value = playerNetworkManager.maxHealth.Value;
             playerNetworkManager.currentStamina.Value = playerNetworkManager.maxStamina.Value;
             //restore mana
