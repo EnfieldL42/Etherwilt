@@ -41,6 +41,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 37305748469119368}
+  - component: {fileID: 4626100049281048768}
   m_Layer: 0
   m_Name: Weapon_Straight_01
   m_TagString: Untagged
@@ -64,6 +65,19 @@ Transform:
   - {fileID: 1412237113711891830}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4626100049281048768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 850997595745854258}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f42bf7a11c385240869fcb96fb63af0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeWeaponDamageCollider: {fileID: 0}
 --- !u!1 &2263317660027958229
 GameObject:
   m_ObjectHideFlags: 0
@@ -201,7 +215,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 1
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 0.061516818, y: 1.1937397, z: 0.14448935}
   m_Center: {x: 0.0000002585534, y: 0.75313056, z: -0.0019398481}
@@ -217,3 +231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99d160bcbab90f41b66701f498ea72d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  physicalDamage: 0
+  magicDamage: 0
+  characterCausingDamage: {fileID: 0}

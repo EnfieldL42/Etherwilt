@@ -10,18 +10,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 25653234694592d498d65b69c65beb6b, type: 3}
-  m_Name: Shield
+  m_Name: Unarmed
   m_EditorClassIdentifier: 
-  itemName: Shield
+  itemName: 
   itemIcon: {fileID: 0}
   itemDescription: 
   itemID: 0
-  weaponModel: {fileID: 498829045212649127, guid: ee143f21f8d8b724cbaeebb7bf57dd2b, type: 3}
-  strengthREQ: 1
-  dexREQ: 1
+  weaponModel: {fileID: 2678443821020079586, guid: 1ed695b5fa9883a418e9d2a915fa6ab3, type: 3}
+  strengthREQ: 0
+  dexREQ: 0
   intREQ: 0
   faithREQ: 0
-  physicalDamage: 0
+  physicalDamage: 10
   magicDamage: 0
   poiseDamage: 10
   baseStaminaCost: 20

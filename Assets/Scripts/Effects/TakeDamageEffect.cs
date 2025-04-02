@@ -4,7 +4,7 @@ using UnityEngine;
 public class TakeDamageEffect : InstantCharacterEffect
 {
     [Header("Character Causing Damage")]
-    public CharacterManager characterCausingDamange;
+    public CharacterManager characterCausingDamage;
 
     [Header("Damage")]
     public int physicalDamage = 0; //usually split into standard, strike, slash and piece
@@ -60,7 +60,7 @@ public class TakeDamageEffect : InstantCharacterEffect
             return;
         }
 
-        if(characterCausingDamange != null)
+        if(characterCausingDamage != null)
         {
             //check for gmd modifiers and modify base dmg (physical and magic buffs)
         }
@@ -75,7 +75,7 @@ public class TakeDamageEffect : InstantCharacterEffect
 
         if(finalDamageDealt <= 0)
         {
-            finalDamageDealt = 1;
+            finalDamageDealt = 1; //////////////CHANGE TO 1 LATER ON
         }
 
         character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;

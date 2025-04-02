@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25653234694592d498d65b69c65beb6b, type: 3}
   m_Name: Straight Sword
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Straight Sword
   itemIcon: {fileID: 21300000, guid: 88857f9c879be144cb620cefdc5865e3, type: 3}
   itemDescription: "Once a blade of legend, this straight sword carved through battlefields
     with unmatched grace, its edge keen as moonlight. Forged in dragonfire, it never

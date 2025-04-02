@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class MeleeWeaponDamageCollder : DamageCollider
+public class MeleeWeaponDamageCollider : DamageCollider
 {
     [Header("Attacking Character")]
     public CharacterManager characterCausingDamage;
