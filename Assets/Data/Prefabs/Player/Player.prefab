@@ -681,6 +681,18 @@ PrefabInstance:
       propertyPath: m_SkinnedMotionVectors
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2767782153812760304, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e5823b2c23186d14f83118f2f7777ff4, type: 2}
+    - target: {fileID: 2767782153812760304, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e5823b2c23186d14f83118f2f7777ff4, type: 2}
+    - target: {fileID: 2767782153812760304, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e5823b2c23186d14f83118f2f7777ff4, type: 2}
     - target: {fileID: 2851693124973802418, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
       propertyPath: m_Layer
       value: 6

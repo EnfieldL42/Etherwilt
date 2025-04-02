@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 2748568471
+  GlobalObjectIdHash: 437863140
   InScenePlacedSourceGlobalObjectIdHash: 0
   DeferredDespawnTick: 0
   Ownership: 1
@@ -239,10 +239,13 @@ MonoBehaviour:
   canRotate: 1
   canMove: 1
   respawnCharacter: 0
+  switchRightWeapon: 0
   playerLocomotionManager: {fileID: -7585139013812004898}
   playerAnimatorManager: {fileID: -2286953313118907648}
   playerStatsManager: {fileID: 3251472341305306367}
   playerNetworkManager: {fileID: 2728993095040920138}
+  playerInventoryManager: {fileID: 0}
+  playerEquipmentManager: {fileID: 0}
 --- !u!114 &-7585139013812004898
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -289,8 +292,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd8def1fb776404da765cc04908c8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  vitalityModifier: 15
-  enduranceModifier: 10
   staminaRegenerationAmount: 5
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
@@ -427,6 +428,10 @@ MonoBehaviour:
         byte0059: 0
         byte0060: 0
         byte0061: 0
+  currentRightHandWeaponID:
+    m_InternalValue: 0
+  currentLeftHandWeaponID:
+    m_InternalValue: 0
 --- !u!114 &-8557350535241051443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -581,6 +586,18 @@ PrefabInstance:
       propertyPath: m_SkinnedMotionVectors
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2767782153812760304, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
+      propertyPath: 'm_Materials.Array.data[0]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e5823b2c23186d14f83118f2f7777ff4, type: 2}
+    - target: {fileID: 2767782153812760304, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e5823b2c23186d14f83118f2f7777ff4, type: 2}
+    - target: {fileID: 2767782153812760304, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
+      propertyPath: 'm_Materials.Array.data[2]'
+      value: 
+      objectReference: {fileID: 2100000, guid: e5823b2c23186d14f83118f2f7777ff4, type: 2}
     - target: {fileID: 2851693124973802418, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
       propertyPath: m_Layer
       value: 6
