@@ -126,7 +126,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void HandleJumpingMovement()
     {
-        if(player.isJumping)
+        if(player.playerNetworkManager.isJumping.Value)
         {
             player.characterController.Move(jumpDirection * jumpForwardSpeed * Time.deltaTime);
         }
@@ -220,7 +220,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             return;
         }
 
-        if(player.isJumping)
+        if(player.playerNetworkManager.isJumping.Value)
         {
             return;
         }
@@ -234,7 +234,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         //check if we play one handed animation or two handed animation
         player.playerAnimatorManager.PlayTargetActionAnimation("main_jump_start_01", false);
 
-        player.isJumping = true;
+        player.playerNetworkManager.isJumping.Value = true;
 
 
         player.characterNetworkManager.currentStamina.Value -= jumpStaminaCost;

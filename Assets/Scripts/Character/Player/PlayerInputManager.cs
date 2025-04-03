@@ -19,7 +19,6 @@ public class PlayerInputManager : MonoBehaviour
     public float verticalInput;
     public float horizontalInput;
     public float moveAmount;
-    public bool sPrinting;
 
     [Header("Player Action Input")]
     [SerializeField] bool dodgeInput = false;
@@ -45,7 +44,6 @@ public class PlayerInputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        //player = FindAnyObjectByType<PlayerManager>();
         
 
         if (playerControls == null)
@@ -89,6 +87,10 @@ public class PlayerInputManager : MonoBehaviour
 
         instance.enabled = false;
 
+        if(playerControls != null)
+        {
+            playerControls.Disable();
+        }
 
     }
 
@@ -126,6 +128,11 @@ public class PlayerInputManager : MonoBehaviour
         else
         {
             instance.enabled = false;
+
+            if (playerControls != null)
+            {
+                playerControls.Disable();
+            }
         }
     }
     private void HandleAllInputs()
