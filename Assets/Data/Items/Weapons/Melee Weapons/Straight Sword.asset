@@ -18,7 +18,7 @@ MonoBehaviour:
     with unmatched grace, its edge keen as moonlight. Forged in dragonfire, it never
     dulled\u2014until its master fell. Now, abandoned in a forgotten ruin, rust devours
     its brilliance, and the wind mourns the echoes of its former glory."
-  itemID: 0
+  itemID: 1
   weaponModel: {fileID: 850997595745854258, guid: af71384f30347534d99a41c76742a0d9, type: 3}
   strengthREQ: 1
   dexREQ: 1
@@ -28,3 +28,4 @@ MonoBehaviour:
   magicDamage: 0
   poiseDamage: 25
   baseStaminaCost: 20
+  oneHandedRBAction: {fileID: 11400000, guid: 43c55a3145376ed4ebd96677c614a174, type: 2}

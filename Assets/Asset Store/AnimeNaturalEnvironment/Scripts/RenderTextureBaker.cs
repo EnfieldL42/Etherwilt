@@ -90,6 +90,7 @@ public class RenderTextureBaker : MonoBehaviour
         RenderPipeline.beginCameraRendering -= UpdateCamera;
     }
 
+    [System.Obsolete]
     void UpdateCamera(ScriptableRenderContext SRC, Camera camera)
     {
        // Unity reverted the obsolete status and RenderSingleCamera will soon be usable again while they are looking for a better solution.

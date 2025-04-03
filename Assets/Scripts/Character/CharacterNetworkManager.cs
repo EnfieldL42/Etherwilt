@@ -78,4 +78,30 @@ public class CharacterNetworkManager : NetworkBehaviour
         character.applyRootMotion = applyRootMotion;
         character.animator.CrossFade(animationID, 0.2f);
     }
+
+    [ServerRpc]//function called from a client to the server/host
+    public void NotifyTheServerOfAttackActionAnimationServerRpc(ulong clientID, string animationID, bool applyRootMotion)
+    {
+        //if plauer is host, activate client rpc
+        if (IsServer)
+        {
+            PlayAttackActionAnimationForAllClientsClientRpc(clientID, animationID, applyRootMotion);
+        }
+    }
+
+    [ClientRpc]//client rpc is sent to all clients(from the server)
+    public void PlayAttackActionAnimationForAllClientsClientRpc(ulong clientID, string animationID, bool applyRootMotion)
+    {
+        //make sure we dont run the function on the character that sent it (dont play the animation twice for the player playing)
+        if (clientID != NetworkManager.Singleton.LocalClientId)
+        {
+            PerformAttackActionAnimationFromServer(animationID, applyRootMotion);
+        }
+    }
+
+    private void PerformAttackActionAnimationFromServer(string animationID, bool applyRootMotion)
+    {
+        character.applyRootMotion = applyRootMotion;
+        character.animator.CrossFade(animationID, 0.2f);
+    }
 }

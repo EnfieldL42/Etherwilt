@@ -24,6 +24,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool dodgeInput = false;
     [SerializeField] bool sprintInput = false;
     [SerializeField] bool jumpInput = false;
+    [SerializeField] bool RBInput = false;
 
     private void Awake()
     {
@@ -65,6 +66,9 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
             playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
 
+            //Attacking
+            playerControls.PlayerActions.RB.performed += i => RBInput = true;
+
         }
 
         playerControls.Enable();
@@ -75,8 +79,6 @@ public class PlayerInputManager : MonoBehaviour
     {
         SceneManager.activeSceneChanged -= OnSceneChange; //stop checking if scene is being changed
     }
-
-
 
     private void Start()
     {
@@ -116,8 +118,6 @@ public class PlayerInputManager : MonoBehaviour
         }
 
     }
-
-
     private void OnSceneChange(Scene oldScene, Scene newScene)    //checks if the the scene is the main world scene, enables player input if it is/ disables if its not(main menu)
 
     {
@@ -135,6 +135,10 @@ public class PlayerInputManager : MonoBehaviour
             }
         }
     }
+
+
+
+
     private void HandleAllInputs()
     {
         HandleCameraMovementInput();
@@ -142,6 +146,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleDodgeInput();
         HandleSprintInput();
         HandleJumpInput();
+        HandleRBInput();
 
     }
 
@@ -204,6 +209,7 @@ public class PlayerInputManager : MonoBehaviour
             player.playerNetworkManager.isSprinting.Value = false;
         }
     }
+
     private void HandleJumpInput()
     {
         if(jumpInput)
@@ -216,5 +222,21 @@ public class PlayerInputManager : MonoBehaviour
             player.playerLocomotionManager.AttemptToPerformJump();
         }
 
+    }
+
+    private void HandleRBInput()
+    {
+        if(RBInput)
+        {
+            RBInput = false;
+
+            //TODO: if we have UI window, return and do nothing
+
+            player.playerNetworkManager.SetCharacterActionHand(true);
+
+            //TODO: if we are two handing the weapon, use the two handed action
+
+            player.PlayerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.oneHandedRBAction, player.playerInventoryManager.currentRightHandWeapon);
+        }
     }
 }

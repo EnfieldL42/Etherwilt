@@ -34,7 +34,8 @@ public class WeaponItem : Item
     //heavy attack stamina cost modier
 
 
-    //item based actions (RB, RT, LB, LT)
+    [Header("Actions")]
+    public WeaponItemAction oneHandedRBAction;
 
     //ash of war (not happening)
 
