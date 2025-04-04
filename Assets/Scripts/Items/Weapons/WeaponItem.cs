@@ -22,15 +22,16 @@ public class WeaponItem : Item
     //offensive poise bonus dmg when attacking
 
 
-    //weapon modifiers
+    [Header("Damage Modifier")]
+    public float lightAttackModifer01 = 1.1f;
     //light attach modifier
     //heavy attack modifier
     //critial damage modifier
 
-    [Header("Stamina Costs")]
+    [Header("Stamina Costs Modifiers")]
     public int baseStaminaCost = 20;
+    public float lightAttackStaminaCostMultiplier = 0.9f;
     //running attack stamina cost modifier (low importance)
-    //light attack stamina cost modifier
     //heavy attack stamina cost modier
 
 
