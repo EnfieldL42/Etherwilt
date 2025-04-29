@@ -25,6 +25,9 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool sprintInput = false;
     [SerializeField] bool jumpInput = false;
     [SerializeField] bool RBInput = false;
+    [SerializeField] bool RightArrowInput = false;
+    [SerializeField] bool LeftArrowInput = false;
+    [SerializeField] bool reviveInput = false;
 
     private void Awake()
     {
@@ -68,6 +71,11 @@ public class PlayerInputManager : MonoBehaviour
 
             //Attacking
             playerControls.PlayerActions.RB.performed += i => RBInput = true;
+
+            //Dpad
+            playerControls.PlayerActions.RightArrow.performed += i => RightArrowInput = true;
+            playerControls.PlayerActions.LeftArrow.performed += i => LeftArrowInput = true;
+            playerControls.PlayerActions.ReviveInput.performed += i => reviveInput = true;
 
         }
 
@@ -147,6 +155,10 @@ public class PlayerInputManager : MonoBehaviour
         HandleSprintInput();
         HandleJumpInput();
         HandleRBInput();
+
+        HandleRightWeaponSwitch();
+        HandleLeftWeaponSwitch();
+        HandleRevive();
 
     }
 
@@ -239,4 +251,35 @@ public class PlayerInputManager : MonoBehaviour
             player.PlayerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.oneHandedRBAction, player.playerInventoryManager.currentRightHandWeapon);
         }
     }
+
+    private void HandleRightWeaponSwitch()
+    {
+        if(RightArrowInput)
+        {
+            RightArrowInput = false;
+
+            player.switchRightWeapon = true;
+
+        }
+    }
+
+    private void HandleLeftWeaponSwitch()
+    {
+        if(LeftArrowInput)
+        {
+            LeftArrowInput = false;
+            player.switchLeftWeapon = true;
+        }
+    }
+
+    private void HandleRevive()
+    {
+        if(reviveInput)
+        {
+            reviveInput = false;
+
+            player.respawnCharacter = true;
+        }
+    }
+
 }

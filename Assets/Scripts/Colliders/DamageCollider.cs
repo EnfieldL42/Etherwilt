@@ -17,7 +17,12 @@ public class DamageCollider : MonoBehaviour
     protected List<CharacterManager> charactersDamaged = new List<CharacterManager>();
 
 
-    private void OnTriggerEnter(Collider other)
+    protected virtual void Awake()
+    {
+
+    }
+
+    protected virtual void OnTriggerEnter(Collider other)
     {
         CharacterManager damageTarget = other.GetComponentInParent<CharacterManager>();
 

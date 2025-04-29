@@ -7,8 +7,8 @@ public class TakeDamageEffect : InstantCharacterEffect
     public CharacterManager characterCausingDamage;
 
     [Header("Damage")]
-    public int physicalDamage = 0; //usually split into standard, strike, slash and piece
-    public int magicDamage = 0;
+    public float physicalDamage = 0; //usually split into standard, strike, slash and piece
+    public float magicDamage = 0;
     private int finalDamageDealt = 0;
 
     [Header("Poise")]

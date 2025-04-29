@@ -6,9 +6,9 @@ using UnityEngine.SceneManagement;
 public class PlayerManager : CharacterManager
 {
     [Header("DEBUG MENU")]
-    [SerializeField] bool respawnCharacter = false;
-    [SerializeField] bool switchRightWeapon = false;
-    [SerializeField] bool switchLeftWeapon = false;
+    public bool respawnCharacter = false;
+    public bool switchRightWeapon = false;
+    public bool switchLeftWeapon = false;
 
 
     [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
