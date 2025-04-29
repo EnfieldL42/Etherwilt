@@ -4,7 +4,7 @@ using UnityEngine;
 public class DamageCollider : MonoBehaviour
 {
     [Header("Collider")]
-    protected Collider damageCollider;
+    [SerializeField] protected Collider damageCollider;
 
     [Header("Damage")]
     public int physicalDamage = 0; 

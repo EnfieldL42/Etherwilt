@@ -12,6 +12,11 @@ public class MeleeWeaponDamageCollider : DamageCollider
     {
         base.Awake();
 
+        if(damageCollider == null)
+        {
+            damageCollider = GetComponent<Collider>();
+        
+        }
         damageCollider.enabled = false; //always be unabled and only let animation event allow collider to turn on
 
     }
@@ -69,7 +74,16 @@ public class MeleeWeaponDamageCollider : DamageCollider
 
         if(characterCausingDamage.IsOwner)
         {
-
+            damageTarget.characterNetworkManager.NotifyTheServerOfCharacterDamageServerRpc(
+                damageTarget.NetworkObjectId,
+                characterCausingDamage.NetworkObjectId,
+                damageEffect.physicalDamage,
+                damageEffect.magicDamage,
+                damageEffect.poiseDamage,
+                damageEffect.angleHitFrom,
+                damageEffect.contactPoint.x,
+                damageEffect.contactPoint.y,
+                damageEffect.contactPoint.z);
         }
     }
 
