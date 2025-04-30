@@ -24,8 +24,10 @@ MonoBehaviour:
   dexREQ: 1
   intREQ: 0
   faithREQ: 0
-  physicalDamage: 100
+  physicalDamage: 20
   magicDamage: 0
   poiseDamage: 25
+  lightAttackModifer01: 1.1
   baseStaminaCost: 20
+  lightAttackStaminaCostMultiplier: 0.9
   oneHandedRBAction: {fileID: 11400000, guid: 43c55a3145376ed4ebd96677c614a174, type: 2}

@@ -60,6 +60,7 @@ public class MeleeWeaponDamageCollider : DamageCollider
         damageEffect.physicalDamage = physicalDamage;
         damageEffect.magicDamage = magicDamage;
         damageEffect.contactPoint = contactPoint;
+        damageEffect.angleHitFrom = Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up);
 
         switch(characterCausingDamage.characterCombatManager.currentAttackType)
         {

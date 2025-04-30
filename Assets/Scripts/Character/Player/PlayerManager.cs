@@ -2,6 +2,7 @@ using JetBrains.Annotations;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 public class PlayerManager : CharacterManager
 {
@@ -64,6 +65,7 @@ public class PlayerManager : CharacterManager
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+        NetworkManager.Singleton.OnClientConnectedCallback += OnClientConnectedCallback;
 
         if(IsOwner)
         {
@@ -98,6 +100,22 @@ public class PlayerManager : CharacterManager
             LoadGameDataFromCurrentCharacterData(ref WorldSaveGameManager.instance.currentCharacterData);
         }
 
+    }
+
+    private void OnClientConnectedCallback(ulong clientID)
+    {
+        WorldGameSessionManager.instance.AddPlayerToActivePlayerList(this);
+
+        if (!IsServer && IsOwner)
+        {
+            foreach (var player in WorldGameSessionManager.instance.players)
+            {
+                if(player != this)
+                {
+                    player.LoadOtherPlayerCharacterWhenJoiningSerer();
+                }
+            }
+        }
     }
 
     public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
@@ -165,6 +183,15 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.currentStamina.Value = currentCharacterData.currentStamina;
 
         PlayerUIManager.instance.playerUIHudManager.SetMaxHealthValue(playerNetworkManager.maxHealth.Value);
+    }
+
+    public void LoadOtherPlayerCharacterWhenJoiningSerer()
+    {
+        //sync weapons
+        playerNetworkManager.OnCurrentRightHandWeaponIDChange(0, playerNetworkManager.currentRightHandWeaponID.Value);
+        playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0, playerNetworkManager.currentLeftHandWeaponID.Value);
+
+        //armor
     }
 
     private void DebugMenu()

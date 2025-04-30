@@ -2550,6 +2550,24 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1575618342}
   m_CullTransparentMesh: 1
+--- !u!1 &1605832081 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2769802678024297620, guid: f6a3924b2c3928148afe5daf66d17446, type: 3}
+  m_PrefabInstance: {fileID: 8245538143911965860}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1605832085
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1605832081}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64037114a75f8274ea75f6da133653f2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  players: []
 --- !u!1 &1623857420
 GameObject:
   m_ObjectHideFlags: 0
@@ -3124,6 +3142,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: World Character Effects Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 5869553322556348185, guid: 7d9d2040788e3a84b8989099a34278dc, type: 3}
+      propertyPath: bloodSplatterVFX
+      value: 
+      objectReference: {fileID: 100004, guid: 4f92edaf819c3a840afb16152608df14, type: 3}
     - target: {fileID: 7724378818613424216, guid: 7d9d2040788e3a84b8989099a34278dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -4262,6 +4284,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2883990919884822837, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3135651258544713042, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
@@ -4317,6 +4343,10 @@ PrefabInstance:
     - target: {fileID: 7208893389015042863, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchoredPosition.y
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7558350247425253330, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -4483,6 +4513,18 @@ PrefabInstance:
       propertyPath: backStepSFX
       value: 
       objectReference: {fileID: 8300000, guid: f037b5487e00f4747b03f8e61fea26ae, type: 3}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: physicalDamageSFX.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: 'physicalDamageSFX.Array.data[0]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 3df9bbbc130ccb344af5f3fc793a630f, type: 3}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: 'physicalDamageSFX.Array.data[1]'
+      value: 
+      objectReference: {fileID: 8300000, guid: 1e3312d22540aa14597a1fb4739f2782, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5033,7 +5075,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 2769802678024297620, guid: f6a3924b2c3928148afe5daf66d17446, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1605832085}
   m_SourcePrefab: {fileID: 100100000, guid: f6a3924b2c3928148afe5daf66d17446, type: 3}
 --- !u!224 &8247943178975097329
 RectTransform:

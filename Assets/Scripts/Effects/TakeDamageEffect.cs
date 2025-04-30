@@ -43,12 +43,11 @@ public class TakeDamageEffect : InstantCharacterEffect
         //check for invulnerability
 
         CalculateDamage(character);
+        PlayDirectonalBasedDamageAnimation(character);
 
-        //check direction of dmg origin
-        //play dmg anim
         //check for build ups
-        //play dmg sfx
-        //play dmg vfx
+        PlayDamageSFX(character);
+        PlayDamageVFX(character);
 
         //if character is ai, check for new target if chararcter caysubg damage is nearby
     }
@@ -84,4 +83,65 @@ public class TakeDamageEffect : InstantCharacterEffect
 
     }
 
+    private void PlayDamageVFX(CharacterManager character)
+    {
+        character.characterEffectsManager.PlayBloodSplatterVFX(contactPoint);
+    }
+
+    private void PlayDamageSFX(CharacterManager character)
+    {
+        AudioClip physicalDamageSFX = WorldSoundFXManager.instance.ChooseRandomSFXFromArray(WorldSoundFXManager.instance.physicalDamageSFX);
+
+        character.characterSoundFXManager.PlaySoundFX(physicalDamageSFX);
+
+
+    }
+
+    private void PlayDirectonalBasedDamageAnimation(CharacterManager character)
+    {
+        if (!character.IsOwner)
+        {
+            return;
+        }
+
+
+        //TODO calculate is poise is broken
+        poiseIsBroken = true;
+
+        if(angleHitFrom >= 145 && angleHitFrom <= 180)
+        {
+            //play front anim
+            damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
+        }
+        else if (angleHitFrom <= -145 && angleHitFrom >= -180)
+        {
+            //play front anim
+            damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
+
+        }
+        else if(angleHitFrom >= -45 && angleHitFrom <= 45)
+        {
+            //play back anim
+            damageAnimation = character.characterAnimatorManager.hit_Backward_Medium_01;
+
+        }
+        else if (angleHitFrom >= -144 && angleHitFrom <= -45)
+        {
+            //play left anim
+            damageAnimation = character.characterAnimatorManager.hit_Left_Medium_01;
+
+        }
+        else if (angleHitFrom >= 45 && angleHitFrom <= 144)
+        {
+            //play right anim
+            damageAnimation = character.characterAnimatorManager.hit_Right_Medium_01;
+
+        }
+
+        if (poiseIsBroken)
+        {
+            character.characterAnimatorManager.PlayTargetActionAnimation(damageAnimation, true);
+        }
+
+    }
 }

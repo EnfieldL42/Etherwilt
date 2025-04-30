@@ -8,6 +8,12 @@ public class CharacterAnimatorManager : MonoBehaviour
     int vertical;
     int horizontal;
 
+    [Header("Damage Animations")]
+    public string hit_Forward_Medium_01 = "hit_Forward_Medium_01";
+    public string hit_Backward_Medium_01 = "hit_Backward_Medium_01";
+    public string hit_Left_Medium_01 = "hit_Left_Medium_01";
+    public string hit_Right_Medium_01 = "hit_Right_Medium_01";
+
 
     protected virtual void Awake()
     {
@@ -53,6 +59,7 @@ public class CharacterAnimatorManager : MonoBehaviour
         //decide if our attack can be parried
         //tell the network we are in an "isattacking" flag (for counter damage)
 
+        Debug.Log("PLAYING ANIMATION: " + targetAnimation);
         character.characterCombatManager.currentAttackType = attackType;
         character.applyRootMotion = applyRootMotion;
         character.animator.CrossFade(targetAnimation, 0.2f);
