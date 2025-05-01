@@ -36,10 +36,6 @@ public class TakeDamageEffect : InstantCharacterEffect
     {
         base.ProcessEffect(character);
 
-        if(character.isDead.Value)
-        {
-            return;
-        }
         //check for invulnerability
 
         CalculateDamage(character);
@@ -104,6 +100,10 @@ public class TakeDamageEffect : InstantCharacterEffect
             return;
         }
 
+        if (character.isDead.Value)
+        {
+            return;
+        }
 
         //TODO calculate is poise is broken
         poiseIsBroken = true;

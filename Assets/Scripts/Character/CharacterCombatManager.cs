@@ -1,7 +1,10 @@
 using UnityEngine;
+using Unity.Netcode;
 
-public class CharacterCombatManager : MonoBehaviour
+public class CharacterCombatManager : NetworkBehaviour
 {
+    CharacterManager character;
+
     [Header("Attack Target")]
     public CharacterManager currentTarget;
 
@@ -13,9 +16,23 @@ public class CharacterCombatManager : MonoBehaviour
 
     protected virtual void Awake()
     {
-
+        character = GetComponent<CharacterManager>();
     }
 
-
+    public virtual void SetTarget(CharacterManager newTarget)
+    {
+        if(character.IsOwner)
+        {
+            if(newTarget != null)
+            {
+                currentTarget = newTarget;
+                character.characterNetworkManager.currentTargetNetworkObjectID.Value = newTarget.GetComponent<NetworkObject>().NetworkObjectId;
+            }
+            else
+            {
+                currentTarget = null;
+            }
+        }
+    }
 
 }

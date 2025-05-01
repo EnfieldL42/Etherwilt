@@ -88,6 +88,10 @@ public class PlayerManager : CharacterManager
         //STATS
         playerNetworkManager.currentHealth.OnValueChanged += playerNetworkManager.CheckHP;
 
+        //LOCK ON
+        playerNetworkManager.isLockedOn.OnValueChanged += playerNetworkManager.OnIsLockedOnChanged;
+        playerNetworkManager.currentTargetNetworkObjectID.OnValueChanged += playerNetworkManager.OnLockOnTargetIDChange;
+
         //EQUIPMENT
         playerNetworkManager.currentRightHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
         playerNetworkManager.currentLeftHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
@@ -140,7 +144,9 @@ public class PlayerManager : CharacterManager
 
         if(IsOwner)
         {
-            //isDead.Value = false;
+
+            isDead.Value = false;
+
             playerNetworkManager.currentHealth.Value = playerNetworkManager.maxHealth.Value;
             playerNetworkManager.currentStamina.Value = playerNetworkManager.maxStamina.Value;
             //restore mana
@@ -192,13 +198,18 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0, playerNetworkManager.currentLeftHandWeaponID.Value);
 
         //armor
+
+        //lock on
+        if(playerNetworkManager.isLockedOn.Value)
+        {
+            playerNetworkManager.OnLockOnTargetIDChange(0, playerNetworkManager.currentTargetNetworkObjectID.Value);
+        }
     }
 
     private void DebugMenu()
     {
         if(respawnCharacter && isDead.Value)
         {
-            isDead.Value = false;
             respawnCharacter = false;
             ReviveCharacter();
         }

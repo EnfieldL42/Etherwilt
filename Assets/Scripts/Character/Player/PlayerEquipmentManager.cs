@@ -62,6 +62,21 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             return;
         }
 
+        if(player.isPerformingAction)
+        {
+            return;
+        }
+        
+        if(player.isDead.Value)
+        {
+            return;
+        }
+
+        if(!player.isGrounded)
+        {
+            return;
+        }
+
         player.playerAnimatorManager.PlayTargetActionAnimation("Swap_Right_Weapon_01", false, true, true, true);
 
         WeaponItem selectedWeapon = null;
@@ -149,6 +164,21 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
     public void SwitchLeftWeapon()
     {
         if (!player.IsOwner)
+        {
+            return;
+        }
+
+        if (player.isPerformingAction)
+        {
+            return;
+        }
+
+        if (player.isDead.Value)
+        {
+            return;
+        }
+
+        if (!player.isGrounded)
         {
             return;
         }
