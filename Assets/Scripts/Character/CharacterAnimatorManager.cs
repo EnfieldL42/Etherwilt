@@ -9,10 +9,10 @@ public class CharacterAnimatorManager : MonoBehaviour
     int horizontal;
 
     [Header("Damage Animations")]
-    public string hit_Forward_Medium_01 = "hit_Forward_Medium_01";
-    public string hit_Backward_Medium_01 = "hit_Backward_Medium_01";
-    public string hit_Left_Medium_01 = "hit_Left_Medium_01";
-    public string hit_Right_Medium_01 = "hit_Right_Medium_01";
+    [HideInInspector] public string hit_Forward_Medium_01 = "hit_Forward_Medium_01";
+    [HideInInspector] public string hit_Backward_Medium_01 = "hit_Backward_Medium_01";
+    [HideInInspector] public string hit_Left_Medium_01 = "hit_Left_Medium_01";
+    [HideInInspector] public string hit_Right_Medium_01 = "hit_Right_Medium_01";
 
 
     protected virtual void Awake()

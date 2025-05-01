@@ -1,4 +1,6 @@
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class PlayerInputManager : MonoBehaviour
@@ -29,6 +31,8 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool LeftArrowInput = false;
     [SerializeField] bool reviveInput = false;
 
+
+
     private void Awake()
     {
 
@@ -48,7 +52,6 @@ public class PlayerInputManager : MonoBehaviour
 
     private void OnEnable()
     {
-        
 
         if (playerControls == null)
         {
@@ -56,7 +59,7 @@ public class PlayerInputManager : MonoBehaviour
 
             //movement
             playerControls.PlayerMovement.Movement.performed += i => movementInput = i.ReadValue<Vector2>(); //stores vector 2 of input in i then reads it and adds it to the vector 2 movement
-            
+            playerControls.PlayerMovement.Movement.canceled += i => movementInput = Vector2.zero;
             //camera
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
             //playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
@@ -107,6 +110,7 @@ public class PlayerInputManager : MonoBehaviour
     private void Update()
     {
         HandleAllInputs();
+
     }
 
     private void OnApplicationFocus(bool focus)//cant move player if tabbed out of the game
@@ -282,4 +286,12 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
+
+    public void OnMove(InputAction.CallbackContext context)
+    {
+        Vector2 input = context.ReadValue<Vector2>();
+        Debug.Log($"Move input: {input}, from device: {context.control?.device?.displayName}");
+    }
+
 }
+

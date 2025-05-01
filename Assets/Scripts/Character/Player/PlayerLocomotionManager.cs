@@ -176,6 +176,16 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             return;
         }
 
+        if (player.playerNetworkManager.isJumping.Value)
+        {
+            return;
+        }
+
+        if (!player.isGrounded)
+        {
+            return;
+        }
+
         if (player.characterNetworkManager.currentStamina.Value <= 0)
         {
             return;
