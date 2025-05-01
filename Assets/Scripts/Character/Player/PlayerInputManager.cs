@@ -31,6 +31,9 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool LeftArrowInput = false;
     [SerializeField] bool reviveInput = false;
 
+    [Header("Lock On Input")]
+    [SerializeField] bool lockOnInput;
+
 
 
     private void Awake()
@@ -74,6 +77,8 @@ public class PlayerInputManager : MonoBehaviour
 
             //Attacking
             playerControls.PlayerActions.RB.performed += i => RBInput = true;
+            playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
+
 
             //Dpad
             playerControls.PlayerActions.RightArrow.performed += i => RightArrowInput = true;
@@ -158,7 +163,9 @@ public class PlayerInputManager : MonoBehaviour
         HandleDodgeInput();
         HandleSprintInput();
         HandleJumpInput();
+
         HandleRBInput();
+        HandleLockOnInput();
 
         HandleRightWeaponSwitch();
         HandleLeftWeaponSwitch();
@@ -286,12 +293,39 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-
-    public void OnMove(InputAction.CallbackContext context)
+    private void HandleLockOnInput()
     {
-        Vector2 input = context.ReadValue<Vector2>();
-        Debug.Log($"Move input: {input}, from device: {context.control?.device?.displayName}");
+        if(player.playerNetworkManager.isLockedOn.Value)//checks if target lock on is dead
+        {
+            if(player.PlayerCombatManager.currentTarget == null)
+            {
+                return;
+            }
+
+            if (player.PlayerCombatManager.currentTarget.isDead.Value)
+            {
+                player.playerNetworkManager.isLockedOn.Value = false;
+            }
+
+            //attempt to find new target
+        }
+
+        if(lockOnInput && player.playerNetworkManager.isLockedOn.Value)
+        {
+            lockOnInput = false;
+            //disable lock on
+            return;
+        }
+
+        if (lockOnInput && !player.playerNetworkManager.isLockedOn.Value)
+        {
+            lockOnInput = false;
+            //if we are aiming with ranged then return
+
+            PlayerCamera.instance.HandleLocatingLockOnTarget();
+        }
     }
+
 
 }
 

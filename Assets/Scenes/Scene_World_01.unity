@@ -11276,6 +11276,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 744ea6cf6bffb5644a3a7192e338845b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageCollider: {fileID: 0}
   physicalDamage: 1000
   magicDamage: 0
 --- !u!65 &1205587949
@@ -15725,6 +15726,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 744ea6cf6bffb5644a3a7192e338845b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageCollider: {fileID: 0}
   physicalDamage: 25
   magicDamage: 0
 --- !u!1 &1507506977

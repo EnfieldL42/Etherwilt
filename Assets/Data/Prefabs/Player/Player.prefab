@@ -225,6 +225,8 @@ MonoBehaviour:
     m_InternalValue: 0
   isJumping:
     m_InternalValue: 0
+  isLockedOn:
+    m_InternalValue: 0
   currentStamina:
     m_InternalValue: 0
   maxStamina:
@@ -447,7 +449,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ade79b7a457fe42b4c7845e7bc849d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloodSplatterVFX: {fileID: 100004, guid: 4f92edaf819c3a840afb16152608df14, type: 3}
+  bloodSplatterVFX: {fileID: 0}
   effectToTest: {fileID: 11400000, guid: b2f0b63ca671f8745ba8f451a86931fb, type: 2}
   processEffect: 0
 --- !u!114 &-4794798470647859019
@@ -462,7 +464,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dca9410322aecd74c9ec9ec31250cb10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentTarget: {fileID: 0}
   currentAttackType: 0
+  lockOnTransform: {fileID: 8757587993154113388}
   currentWeaponBeingUsed: {fileID: 0}
 --- !u!54 &1814220279378202261
 Rigidbody:
@@ -727,6 +731,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponSlot: 0
   currentWeaponModel: {fileID: 0}
+--- !u!1 &4571029998894926281
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8757587993154113388}
+  m_Layer: 6
+  m_Name: Lock On Target
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8757587993154113388
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4571029998894926281}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.0005716408, y: 0.14806779, z: -0.028399713}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5041845644635288449}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &7762929333060964732
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1122,6 +1157,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 3333592811132494589, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
+      insertIndex: 2
+      addedObject: {fileID: 8757587993154113388}
     - targetCorrespondingSourceObject: {fileID: 5584391757195782803, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1491476113761387118}
@@ -1507,6 +1545,11 @@ CapsuleCollider:
   m_Height: 0.21
   m_Direction: 1
   m_Center: {x: 0, y: 0.06, z: 0}
+--- !u!4 &5041845644635288449 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3333592811132494589, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
+  m_PrefabInstance: {fileID: 7762929333060964732}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &5072604823295898235 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3305347660377170695, guid: 30e4a1a325310804592db2c850b956fb, type: 3}
