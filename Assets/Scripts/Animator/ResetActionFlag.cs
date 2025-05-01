@@ -12,6 +12,11 @@ public class ResetActionFlag : StateMachineBehaviour
             character = animator.GetComponent<CharacterManager>();
         }
 
+        if(character.isDead.Value)
+        {
+            return;
+        }
+
         character.isPerformingAction = false;
         character.canRotate = true;
         character.canMove = true;

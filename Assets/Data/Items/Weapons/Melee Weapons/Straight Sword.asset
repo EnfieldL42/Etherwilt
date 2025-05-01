@@ -24,7 +24,7 @@ MonoBehaviour:
   dexREQ: 1
   intREQ: 0
   faithREQ: 0
-  physicalDamage: 20
+  physicalDamage: 50
   magicDamage: 0
   poiseDamage: 25
   lightAttackModifer01: 1.1

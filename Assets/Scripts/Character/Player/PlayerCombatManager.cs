@@ -16,6 +16,11 @@ public class PlayerCombatManager : CharacterCombatManager
 
     public void PerformWeaponBasedAction(WeaponItemAction weaponAction, WeaponItem weaponPerformingAction)
     {
+        if(player.isPerformingAction)
+        {
+            return;
+        }
+
         if(player.IsOwner)
         {
             //perform action
