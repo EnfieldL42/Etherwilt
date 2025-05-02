@@ -2231,6 +2231,7 @@ GameObject:
   - component: {fileID: 5332074023815476637}
   - component: {fileID: 8009395205120749764}
   - component: {fileID: 5842574225269186287}
+  - component: {fileID: 3562432220951620581}
   m_Layer: 6
   m_Name: Dummy
   m_TagString: Untagged
@@ -2266,7 +2267,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 412166804
+  GlobalObjectIdHash: 2896296757
   InScenePlacedSourceGlobalObjectIdHash: 2682729802
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2503,6 +2504,8 @@ MonoBehaviour:
     m_InternalValue: 0
   moveAmount:
     m_InternalValue: 0
+  currentTargetNetworkObjectID:
+    m_InternalValue: 0
   isSprinting:
     m_InternalValue: 0
   isJumping:
@@ -2634,9 +2637,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4c2cd19a58fe52a4ebc72e1a8d71a665, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
   currentTarget: {fileID: 0}
   currentAttackType: 0
   lockOnTransform: {fileID: 4534798130942268786}
+--- !u!114 &3562432220951620581
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6024376136044591119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac5392af5ff786c4bb3507a110914b4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6195745117223399818
 GameObject:
   m_ObjectHideFlags: 0

@@ -34,6 +34,8 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField] float maximumViewableAngle = 50;
     private List<CharacterManager> availableTargets = new List<CharacterManager>();
     public CharacterManager nearestLockOnTarget;
+    public CharacterManager leftLockOnTarget;
+    public CharacterManager rightLockOnTarget;
     [SerializeField] float lockOnTargetFollowSpeed = 0.2f;
 
 
@@ -149,8 +151,8 @@ public class PlayerCamera : MonoBehaviour
     public void HandleLocatingLockOnTarget()
     {
         float shortestDistance = Mathf.Infinity; //used to find closest target to player
-        float shortestDistanceOnRightTarget = Mathf.Infinity; //used to find shortest distance on one axis to the right of current target (closest target to the right of the current target)
-        float shortestDistanceOnLeftTarget = -Mathf.Infinity; //same but for left
+        float shortestDistanceOfRightTarget = Mathf.Infinity; //used to find shortest distance on one axis to the right of current target (closest target to the right of the current target)
+        float shortestDistanceOfLeftTarget = -Mathf.Infinity; //same but for left
 
         //to do use a layermask
         Collider[] colliders = Physics.OverlapSphere(player.transform.position, lockOnRadius, WorldUtilityManager.instance.GetCharacterLayers());
@@ -209,6 +211,31 @@ public class PlayerCamera : MonoBehaviour
                     nearestLockOnTarget = availableTargets[k];
                 }
 
+                //if already locked on, look for nearest left or right target
+                if(player.playerNetworkManager.isLockedOn.Value)
+                {
+                    Vector3 relativeEnemyPosition = player.transform.InverseTransformPoint(availableTargets[k].transform.position);
+                    var distanceFromLeftTarget = relativeEnemyPosition.x;
+                    var distanceFromRightTarget = relativeEnemyPosition.x;
+
+                    if (availableTargets[k] != player.PlayerCombatManager.currentTarget)
+                    {
+                        continue;
+                    }
+                    //check for left targets
+                    if(relativeEnemyPosition.x <= 0.00 && distanceFromLeftTarget > shortestDistanceOfLeftTarget)
+                    {
+                        shortestDistanceOfLeftTarget = distanceFromLeftTarget;
+                        leftLockOnTarget = availableTargets[k];
+                    }
+                    //check for right targets
+                    else if(relativeEnemyPosition.x >= 0.00 && distanceFromRightTarget < shortestDistanceOfRightTarget)
+                    {
+                        shortestDistanceOfRightTarget = distanceFromRightTarget;
+                        rightLockOnTarget = availableTargets[k];
+                    }
+                }
+
             }
             else
             {
@@ -221,6 +248,8 @@ public class PlayerCamera : MonoBehaviour
     public void ClearLockOnTargets()
     {
         nearestLockOnTarget = null;
+        leftLockOnTarget = null;
+        rightLockOnTarget = null;
         availableTargets.Clear();
     }
 

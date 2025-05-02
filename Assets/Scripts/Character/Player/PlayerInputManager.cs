@@ -33,6 +33,8 @@ public class PlayerInputManager : MonoBehaviour
 
     [Header("Lock On Input")]
     [SerializeField] bool lockOnInput;
+    [SerializeField] bool lockOnLeftInput;
+    [SerializeField] bool lockOnRightInput;
 
 
 
@@ -78,6 +80,8 @@ public class PlayerInputManager : MonoBehaviour
             //Attacking
             playerControls.PlayerActions.RB.performed += i => RBInput = true;
             playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
+            playerControls.PlayerActions.LockOnSeekLeftTarget.performed += i => lockOnLeftInput = true;
+            playerControls.PlayerActions.LockOnSeekRightTarget.performed += i => lockOnRightInput = true;
 
 
             //Dpad
@@ -332,6 +336,41 @@ public class PlayerInputManager : MonoBehaviour
                 //set the target as our current target
                 player.PlayerCombatManager.SetTarget(PlayerCamera.instance.nearestLockOnTarget);
                 player.playerNetworkManager.isLockedOn.Value = true;
+            }
+        }
+    }
+
+    private void HandleLockOnSwitchInput()
+    {
+        if(lockOnLeftInput)
+        {
+            lockOnLeftInput = false;
+
+            if(player.playerNetworkManager.isLockedOn.Value)
+            {
+                PlayerCamera.instance.HandleLocatingLockOnTarget();
+
+                if(PlayerCamera.instance.leftLockOnTarget != null)
+                {
+                    player.PlayerCombatManager.SetTarget(PlayerCamera.instance.leftLockOnTarget);
+                }
+
+            }
+        }
+
+        if (lockOnRightInput)
+        {
+            lockOnRightInput = false;
+
+            if (player.playerNetworkManager.isLockedOn.Value)
+            {
+                PlayerCamera.instance.HandleLocatingLockOnTarget();
+
+                if (PlayerCamera.instance.rightLockOnTarget != null)
+                {
+                    player.PlayerCombatManager.SetTarget(PlayerCamera.instance.rightLockOnTarget);
+                }
+
             }
         }
     }
