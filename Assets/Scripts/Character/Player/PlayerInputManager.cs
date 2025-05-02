@@ -35,6 +35,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool lockOnInput;
     [SerializeField] bool lockOnLeftInput;
     [SerializeField] bool lockOnRightInput;
+    private Coroutine lockOnCoroutine;
 
 
 
@@ -170,6 +171,7 @@ public class PlayerInputManager : MonoBehaviour
 
         HandleRBInput();
         HandleLockOnInput();
+        HandleLockOnSwitchInput();
 
         HandleRightWeaponSwitch();
         HandleLeftWeaponSwitch();
@@ -204,7 +206,17 @@ public class PlayerInputManager : MonoBehaviour
             return;
         }
 
-        player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerNetworkManager.isSprinting.Value);
+        if (!player.playerNetworkManager.isLockedOn.Value || player.playerNetworkManager.isSprinting.Value)
+        {
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerNetworkManager.isSprinting.Value);
+
+        }
+        else
+        {
+            player.playerAnimatorManager.UpdateAnimatorMovementParameters(horizontalInput, verticalInput, player.playerNetworkManager.isSprinting.Value);
+
+        }
+
     }
 
     private void HandleCameraMovementInput()
@@ -312,6 +324,15 @@ public class PlayerInputManager : MonoBehaviour
             }
 
             //attempt to find new target
+
+
+            //this makes it so the couritine cannot be run at the same time
+            if(lockOnCoroutine != null)
+            {
+                StopCoroutine(lockOnCoroutine);
+            }
+
+            lockOnCoroutine = StartCoroutine(PlayerCamera.instance.WaitThenFindNewTarget());
         }
 
         if(lockOnInput && player.playerNetworkManager.isLockedOn.Value)
