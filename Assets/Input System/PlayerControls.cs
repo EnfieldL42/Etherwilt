@@ -499,11 +499,33 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""4a9b0dd4-3709-43a7-b67d-2ec779778d50"",
+                    ""path"": ""<Keyboard>/leftArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard Controls"",
+                    ""action"": ""Lock On Seek Left Target"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""e454d803-1456-45ab-817f-8f90c34a4cae"",
                     ""path"": ""<Gamepad>/rightStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Gamepad Controls"",
+                    ""action"": ""Lock On Seek Right Target"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""89153e06-dd5e-4674-846d-49c29eef40b8"",
+                    ""path"": ""<Keyboard>/rightArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard Controls"",
                     ""action"": ""Lock On Seek Right Target"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false

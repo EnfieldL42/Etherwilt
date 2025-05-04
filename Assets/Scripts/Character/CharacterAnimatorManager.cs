@@ -26,8 +26,8 @@ public class CharacterAnimatorManager : MonoBehaviour
 
     public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement, bool isSprinting)
     {
-        float snappedHorizontalAmount = horizontalMovement;
-        float snappedVerticalAmount = verticalMovement;
+        float snappedHorizontalAmount;
+        float snappedVerticalAmount;
 
         if(horizontalMovement > 0 && horizontalMovement <= 0.5f)
         {
@@ -45,6 +45,10 @@ public class CharacterAnimatorManager : MonoBehaviour
         {
             snappedHorizontalAmount = -1;
         }
+        else
+        {
+            snappedHorizontalAmount = 0;
+        }
 
         if (verticalMovement > 0 && verticalMovement <= 0.5f)
         {
@@ -61,6 +65,10 @@ public class CharacterAnimatorManager : MonoBehaviour
         else if (verticalMovement < -0.5f && verticalMovement >= -1)
         {
             snappedVerticalAmount = -1;
+        }
+        else
+        {
+            snappedVerticalAmount = 0;
         }
 
         if (isSprinting)

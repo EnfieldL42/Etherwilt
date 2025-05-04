@@ -275,7 +275,7 @@ public class PlayerInputManager : MonoBehaviour
 
             //TODO: if we are two handing the weapon, use the two handed action
 
-            player.PlayerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.oneHandedRBAction, player.playerInventoryManager.currentRightHandWeapon);
+            player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.oneHandedRBAction, player.playerInventoryManager.currentRightHandWeapon);
         }
     }
 
@@ -313,26 +313,28 @@ public class PlayerInputManager : MonoBehaviour
     {
         if(player.playerNetworkManager.isLockedOn.Value)//checks if target lock on is dead
         {
-            if(player.PlayerCombatManager.currentTarget == null)
+            if(player.playerCombatManager.currentTarget == null)
             {
                 return;
             }
 
-            if (player.PlayerCombatManager.currentTarget.isDead.Value)
+            if (player.playerCombatManager.currentTarget.isDead.Value)
             {
                 player.playerNetworkManager.isLockedOn.Value = false;
+
+                //attempt to find new target
+
+
+                //this makes it so the couritine cannot be run at the same time
+                if (lockOnCoroutine != null)
+                {
+                    StopCoroutine(lockOnCoroutine);
+                }
+
+                lockOnCoroutine = StartCoroutine(PlayerCamera.instance.WaitThenFindNewTarget());
             }
 
-            //attempt to find new target
 
-
-            //this makes it so the couritine cannot be run at the same time
-            if(lockOnCoroutine != null)
-            {
-                StopCoroutine(lockOnCoroutine);
-            }
-
-            lockOnCoroutine = StartCoroutine(PlayerCamera.instance.WaitThenFindNewTarget());
         }
 
         if(lockOnInput && player.playerNetworkManager.isLockedOn.Value)
@@ -355,7 +357,7 @@ public class PlayerInputManager : MonoBehaviour
             if(PlayerCamera.instance.nearestLockOnTarget != null)
             {
                 //set the target as our current target
-                player.PlayerCombatManager.SetTarget(PlayerCamera.instance.nearestLockOnTarget);
+                player.playerCombatManager.SetTarget(PlayerCamera.instance.nearestLockOnTarget);
                 player.playerNetworkManager.isLockedOn.Value = true;
             }
         }
@@ -373,7 +375,7 @@ public class PlayerInputManager : MonoBehaviour
 
                 if(PlayerCamera.instance.leftLockOnTarget != null)
                 {
-                    player.PlayerCombatManager.SetTarget(PlayerCamera.instance.leftLockOnTarget);
+                    player.playerCombatManager.SetTarget(PlayerCamera.instance.leftLockOnTarget);
                 }
 
             }
@@ -389,7 +391,7 @@ public class PlayerInputManager : MonoBehaviour
 
                 if (PlayerCamera.instance.rightLockOnTarget != null)
                 {
-                    player.PlayerCombatManager.SetTarget(PlayerCamera.instance.rightLockOnTarget);
+                    player.playerCombatManager.SetTarget(PlayerCamera.instance.rightLockOnTarget);
                 }
 
             }

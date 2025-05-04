@@ -84,7 +84,7 @@ public class PlayerCamera : MonoBehaviour
         if (player.playerNetworkManager.isLockedOn.Value)
         {
             //main player camera object, this rotates this gameobject
-            Vector3 rotationDirection = player.PlayerCombatManager.currentTarget.characterCombatManager.lockOnTransform.position - transform.position;
+            Vector3 rotationDirection = player.playerCombatManager.currentTarget.characterCombatManager.lockOnTransform.position - transform.position;
             rotationDirection.Normalize();
             rotationDirection.y = 0;
 
@@ -92,7 +92,7 @@ public class PlayerCamera : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, lockOnTargetFollowSpeed);
 
             //this rotates the pivot object
-            rotationDirection = player.PlayerCombatManager.currentTarget.characterCombatManager.lockOnTransform.position - cameraPivotTransform.position;
+            rotationDirection = player.playerCombatManager.currentTarget.characterCombatManager.lockOnTransform.position - cameraPivotTransform.position;
             rotationDirection.Normalize();
 
             targetRotation = Quaternion.LookRotation(rotationDirection);
@@ -189,9 +189,10 @@ public class PlayerCamera : MonoBehaviour
                     RaycastHit hit;
 
                     // TODO ADD LAYER MASK FOR ENVIRONMENT LAYERS ONLY
-                    if (Physics.Linecast(player.PlayerCombatManager.lockOnTransform.position, lockOnTarget.characterCombatManager.lockOnTransform.position, out hit, WorldUtilityManager.instance.GetEnviroLayers()))
+                    if (Physics.Linecast(player.playerCombatManager.lockOnTransform.position, lockOnTarget.characterCombatManager.lockOnTransform.position, out hit, WorldUtilityManager.instance.GetEnviroLayers()))
                     {
                         //we hit something, we cannot see our lock on target
+                        continue;
                     }
                     else
                     {
@@ -216,7 +217,6 @@ public class PlayerCamera : MonoBehaviour
                     nearestLockOnTarget = availableTargets[k];
                 }
 
-                
                 //if already locked on, look for nearest left or right target
                 if(player.playerNetworkManager.isLockedOn.Value)
                 {
@@ -224,7 +224,7 @@ public class PlayerCamera : MonoBehaviour
                     var distanceFromLeftTarget = relativeEnemyPosition.x;
                     var distanceFromRightTarget = relativeEnemyPosition.x;
 
-                    if (availableTargets[k] == player.PlayerCombatManager.currentTarget)
+                    if (availableTargets[k] == player.playerCombatManager.currentTarget)
                     {
                         continue;
                     }
@@ -282,7 +282,7 @@ public class PlayerCamera : MonoBehaviour
 
         if(nearestLockOnTarget != null)
         {
-            player.PlayerCombatManager.SetTarget(nearestLockOnTarget);
+            player.playerCombatManager.SetTarget(nearestLockOnTarget);
             player.playerNetworkManager.isLockedOn.Value = true;
         }
 
@@ -304,7 +304,7 @@ public class PlayerCamera : MonoBehaviour
 
             if(player != null)
             {
-                if(player.PlayerCombatManager.currentTarget != null)
+                if(player.playerCombatManager.currentTarget != null)
                 {
                     cameraPivotTransform.transform.localPosition = Vector3.SmoothDamp(cameraPivotTransform.transform.localPosition, newLockedCameraHeight, ref velocity, setCameraHeightSpeed);
                     cameraPivotTransform.transform.localRotation = Quaternion.Slerp(cameraPivotTransform.transform.localRotation, Quaternion.Euler(0, 0, 0), lockOnTargetFollowSpeed);
@@ -322,7 +322,7 @@ public class PlayerCamera : MonoBehaviour
 
         if (player != null)
         {
-            if (player.PlayerCombatManager.currentTarget != null)
+            if (player.playerCombatManager.currentTarget != null)
             {
                 cameraPivotTransform.transform.localPosition = newLockedCameraHeight;
                 cameraPivotTransform.transform.localRotation = Quaternion.Euler(0,0,0);

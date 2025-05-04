@@ -167,9 +167,9 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             return;
         }
 
-        if(player.playerNetworkManager.isLockedOn.Value || player.playerLocomotionManager.isRolling)
+        if(player.playerNetworkManager.isLockedOn.Value)
         {
-            if(player.playerNetworkManager.isSprinting.Value)
+            if(player.playerNetworkManager.isSprinting.Value || player.playerLocomotionManager.isRolling)
             {
                 Vector3 targetDirection = Vector3.zero;
                 targetDirection = PlayerCamera.instance.cameraObject.transform.forward * verticalMovement;
@@ -188,13 +188,14 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             }
             else
             {
-                if(player.PlayerCombatManager.currentTarget == null)
+                if(player.playerCombatManager.currentTarget == null)
                 {
                     return;
                 }
 
                 Vector3 targetDirection;
-                targetDirection = player.PlayerCombatManager.currentTarget.transform.position - transform.position;
+                targetDirection = player.playerCombatManager.currentTarget.transform.position - transform.position;
+                targetDirection.y = 0;
                 targetDirection.Normalize();
                 Quaternion targetRotation = Quaternion.LookRotation(targetDirection);
                 quaternion finalRotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);

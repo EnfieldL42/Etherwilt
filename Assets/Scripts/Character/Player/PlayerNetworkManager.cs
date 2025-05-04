@@ -68,7 +68,7 @@ public class PlayerNetworkManager : CharacterNetworkManager
     public void OnCurrentWeaponBeingUsedIDChange(int oldID, int newID)
     {
         WeaponItem newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
-        player.PlayerCombatManager.currentWeaponBeingUsed = newWeapon;
+        player.playerCombatManager.currentWeaponBeingUsed = newWeapon;
     }
 
     [ServerRpc]
