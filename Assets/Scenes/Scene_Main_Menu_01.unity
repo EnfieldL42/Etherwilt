@@ -132,7 +132,7 @@ GameObject:
   - component: {fileID: 12573697}
   - component: {fileID: 12573696}
   m_Layer: 0
-  m_Name: Plane
+  m_Name: Player Spawning Platform
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2613,6 +2613,10 @@ PrefabInstance:
     - target: {fileID: 7166997024879258430, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
       propertyPath: player
       value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7166997024879258430, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
+      propertyPath: mouseDeltaThreshold
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 8473401971133313074, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -5432,14 +5436,14 @@ SceneRoots:
   - {fileID: 832575519}
   - {fileID: 3280052923494504611}
   - {fileID: 1230380585}
+  - {fileID: 12573699}
+  - {fileID: 8245538143911965860}
   - {fileID: 9021672356649094974}
   - {fileID: 6061052021591022136}
   - {fileID: 863839165522231036}
-  - {fileID: 8245538143911965860}
   - {fileID: 5129397088949341201}
   - {fileID: 17076538717232630}
   - {fileID: 1811794543}
   - {fileID: 4006314288930604811}
   - {fileID: 5732233350342737931}
   - {fileID: 864426085611094595}
-  - {fileID: 12573699}

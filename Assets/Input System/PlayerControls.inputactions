@@ -221,6 +221,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Lock On Seek Target Mouse",
+                    "type": "Value",
+                    "id": "05f96936-ba8e-4142-9a54-834977936b68",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
                 }
             ],
             "bindings": [
@@ -232,6 +241,17 @@
                     "processors": "",
                     "groups": ";Gamepad Controls",
                     "action": "Dodge",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "02b6e182-1d54-4db0-b0cd-116b3c94cf99",
+                    "path": "<Mouse>/delta",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "Lock On Seek Target Mouse",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -413,17 +433,6 @@
                 },
                 {
                     "name": "",
-                    "id": "4a9b0dd4-3709-43a7-b67d-2ec779778d50",
-                    "path": "<Keyboard>/leftArrow",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Keyboard Controls",
-                    "action": "Lock On Seek Left Target",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "e454d803-1456-45ab-817f-8f90c34a4cae",
                     "path": "<Gamepad>/rightStick/right",
                     "interactions": "",
@@ -463,7 +472,7 @@
                     "name": "Mouse",
                     "type": "PassThrough",
                     "id": "fbde7ab8-6f9a-4e52-8387-c878dd1809db",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false

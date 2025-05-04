@@ -35,9 +35,20 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool lockOnInput;
     [SerializeField] bool lockOnLeftInput;
     [SerializeField] bool lockOnRightInput;
+    [SerializeField] Vector2 lockOnMouseInput;
     private Coroutine lockOnCoroutine;
+    private float mouseSwitchCooldown = 0.25f;
+    private float mouseSwitchTimer;
+    [SerializeField] private float mouseDeltaThreshold = 10f;
 
+    [Header("Sensitivity Values")]
+    public float mouseSensitivity = 0.5f;
+    public float gamepadSensitivity = 2f;
 
+    public bool isUsingMouse;
+    public bool isUsingGamepad;
+
+    public float currentSensitivity;
 
     private void Awake()
     {
@@ -68,7 +79,7 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerMovement.Movement.canceled += i => movementInput = Vector2.zero;
             //camera
             playerControls.PlayerCamera.Movement.performed += i => cameraInput = i.ReadValue<Vector2>();
-            //playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
+            playerControls.PlayerCamera.Mouse.performed += i => cameraInput = i.ReadValue<Vector2>();
 
             //dodge
             playerControls.PlayerActions.Dodge.performed += i => dodgeInput = true;
@@ -83,6 +94,8 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
             playerControls.PlayerActions.LockOnSeekLeftTarget.performed += i => lockOnLeftInput = true;
             playerControls.PlayerActions.LockOnSeekRightTarget.performed += i => lockOnRightInput = true;
+            playerControls.PlayerActions.LockOnSeekTargetMouse.performed += i => lockOnMouseInput = i.ReadValue<Vector2>();
+            playerControls.PlayerActions.LockOnSeekTargetMouse.canceled += i => lockOnMouseInput = Vector2.zero;
 
 
             //Dpad
@@ -121,6 +134,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         HandleAllInputs();
 
+
     }
 
     private void OnApplicationFocus(bool focus)//cant move player if tabbed out of the game
@@ -138,7 +152,6 @@ public class PlayerInputManager : MonoBehaviour
 
             }
         }
-
     }
     private void OnSceneChange(Scene oldScene, Scene newScene)    //checks if the the scene is the main world scene, enables player input if it is/ disables if its not(main menu)
 
@@ -365,15 +378,15 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleLockOnSwitchInput()
     {
-        if(lockOnLeftInput)
+        if (lockOnLeftInput)
         {
             lockOnLeftInput = false;
 
-            if(player.playerNetworkManager.isLockedOn.Value)
+            if (player.playerNetworkManager.isLockedOn.Value)
             {
                 PlayerCamera.instance.HandleLocatingLockOnTarget();
 
-                if(PlayerCamera.instance.leftLockOnTarget != null)
+                if (PlayerCamera.instance.leftLockOnTarget != null)
                 {
                     player.playerCombatManager.SetTarget(PlayerCamera.instance.leftLockOnTarget);
                 }
@@ -396,6 +409,35 @@ public class PlayerInputManager : MonoBehaviour
 
             }
         }
+
+        // Mouse delta input
+        if (player.playerNetworkManager.isLockedOn.Value && mouseSwitchTimer <= 0)
+        {
+            if (lockOnMouseInput.x > mouseDeltaThreshold)
+            {
+                PlayerCamera.instance.HandleLocatingLockOnTarget();
+                if (PlayerCamera.instance.rightLockOnTarget != null)
+                {
+                    player.playerCombatManager.SetTarget(PlayerCamera.instance.rightLockOnTarget);
+                    mouseSwitchTimer = mouseSwitchCooldown;
+                }
+            }
+            else if (lockOnMouseInput.x < -mouseDeltaThreshold)
+            {
+                PlayerCamera.instance.HandleLocatingLockOnTarget();
+                if (PlayerCamera.instance.leftLockOnTarget != null)
+                {
+                    player.playerCombatManager.SetTarget(PlayerCamera.instance.leftLockOnTarget);
+                    mouseSwitchTimer = mouseSwitchCooldown;
+                }
+            }
+        }
+
+        if (mouseSwitchTimer > 0)
+        {
+            mouseSwitchTimer -= Time.deltaTime;
+        }
+
     }
 
 

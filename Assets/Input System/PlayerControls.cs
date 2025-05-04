@@ -307,6 +307,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Lock On Seek Target Mouse"",
+                    ""type"": ""Value"",
+                    ""id"": ""05f96936-ba8e-4142-9a54-834977936b68"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -318,6 +327,17 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Gamepad Controls"",
                     ""action"": ""Dodge"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""02b6e182-1d54-4db0-b0cd-116b3c94cf99"",
+                    ""path"": ""<Mouse>/delta"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard Controls"",
+                    ""action"": ""Lock On Seek Target Mouse"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -499,17 +519,6 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""4a9b0dd4-3709-43a7-b67d-2ec779778d50"",
-                    ""path"": ""<Keyboard>/leftArrow"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard Controls"",
-                    ""action"": ""Lock On Seek Left Target"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
                     ""id"": ""e454d803-1456-45ab-817f-8f90c34a4cae"",
                     ""path"": ""<Gamepad>/rightStick/right"",
                     ""interactions"": """",
@@ -549,7 +558,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""name"": ""Mouse"",
                     ""type"": ""PassThrough"",
                     ""id"": ""fbde7ab8-6f9a-4e52-8387-c878dd1809db"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -709,6 +718,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("Lock On", throwIfNotFound: true);
         m_PlayerActions_LockOnSeekLeftTarget = m_PlayerActions.FindAction("Lock On Seek Left Target", throwIfNotFound: true);
         m_PlayerActions_LockOnSeekRightTarget = m_PlayerActions.FindAction("Lock On Seek Right Target", throwIfNotFound: true);
+        m_PlayerActions_LockOnSeekTargetMouse = m_PlayerActions.FindAction("Lock On Seek Target Mouse", throwIfNotFound: true);
         // Player Camera
         m_PlayerCamera = asset.FindActionMap("Player Camera", throwIfNotFound: true);
         m_PlayerCamera_Movement = m_PlayerCamera.FindAction("Movement", throwIfNotFound: true);
@@ -905,6 +915,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_LockOnSeekLeftTarget;
     private readonly InputAction m_PlayerActions_LockOnSeekRightTarget;
+    private readonly InputAction m_PlayerActions_LockOnSeekTargetMouse;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player Actions".
     /// </summary>
@@ -956,6 +967,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerActions/LockOnSeekRightTarget".
         /// </summary>
         public InputAction @LockOnSeekRightTarget => m_Wrapper.m_PlayerActions_LockOnSeekRightTarget;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/LockOnSeekTargetMouse".
+        /// </summary>
+        public InputAction @LockOnSeekTargetMouse => m_Wrapper.m_PlayerActions_LockOnSeekTargetMouse;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1012,6 +1027,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LockOnSeekRightTarget.started += instance.OnLockOnSeekRightTarget;
             @LockOnSeekRightTarget.performed += instance.OnLockOnSeekRightTarget;
             @LockOnSeekRightTarget.canceled += instance.OnLockOnSeekRightTarget;
+            @LockOnSeekTargetMouse.started += instance.OnLockOnSeekTargetMouse;
+            @LockOnSeekTargetMouse.performed += instance.OnLockOnSeekTargetMouse;
+            @LockOnSeekTargetMouse.canceled += instance.OnLockOnSeekTargetMouse;
         }
 
         /// <summary>
@@ -1053,6 +1071,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LockOnSeekRightTarget.started -= instance.OnLockOnSeekRightTarget;
             @LockOnSeekRightTarget.performed -= instance.OnLockOnSeekRightTarget;
             @LockOnSeekRightTarget.canceled -= instance.OnLockOnSeekRightTarget;
+            @LockOnSeekTargetMouse.started -= instance.OnLockOnSeekTargetMouse;
+            @LockOnSeekTargetMouse.performed -= instance.OnLockOnSeekTargetMouse;
+            @LockOnSeekTargetMouse.canceled -= instance.OnLockOnSeekTargetMouse;
         }
 
         /// <summary>
@@ -1407,6 +1428,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLockOnSeekRightTarget(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Lock On Seek Target Mouse" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLockOnSeekTargetMouse(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "Player Camera" which allows adding and removing callbacks.

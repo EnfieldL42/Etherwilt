@@ -269,6 +269,20 @@ public class PlayerCamera : MonoBehaviour
         availableTargets.Clear();
     }
 
+    public void SwitchToMouseSensitivity()
+    {
+        upAndDownRotationSpeed = 20f;
+        leftAndRightRotationSpeed = 20f;
+
+    }
+
+    public void SwitchToGamePadSensitivity()
+    {
+        upAndDownRotationSpeed = 220f;
+        leftAndRightRotationSpeed = 220f;
+    }
+
+
     public IEnumerator WaitThenFindNewTarget()
     {
         while (player.isPerformingAction)
