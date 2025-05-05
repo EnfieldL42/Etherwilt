@@ -16,6 +16,13 @@ public class PlayerCamera : MonoBehaviour
     private float cameraSmoothSpeed = 1; //the bigger the number the longer it will take to move towards the player
     [SerializeField] float upAndDownRotationSpeed = 220;
     [SerializeField] float leftAndRightRotationSpeed = 220;
+
+    [Header("Gamepad and Mouse Sensitivity")]
+    [SerializeField] float gamepadUDSensitivity = 220;
+    [SerializeField] float gamepadLRSensitivity = 220;
+    [SerializeField] float mouseUDSensitivity = 20;
+    [SerializeField] float mouseLRSensitivity = 20;
+
     [SerializeField] float minimumPivot = -30; //lowest point you can look down
     [SerializeField] float maximumPivot = 60; //highest point you can look up
     [SerializeField] float cameraCollisionRadius = 0.2f;
@@ -271,15 +278,15 @@ public class PlayerCamera : MonoBehaviour
 
     public void SwitchToMouseSensitivity()
     {
-        upAndDownRotationSpeed = 20f;
-        leftAndRightRotationSpeed = 20f;
+        upAndDownRotationSpeed = mouseUDSensitivity;
+        leftAndRightRotationSpeed = mouseLRSensitivity;
 
     }
 
     public void SwitchToGamePadSensitivity()
     {
-        upAndDownRotationSpeed = 220f;
-        leftAndRightRotationSpeed = 220f;
+        upAndDownRotationSpeed = gamepadUDSensitivity;
+        leftAndRightRotationSpeed = gamepadLRSensitivity;
     }
 
 
@@ -349,6 +356,8 @@ public class PlayerCamera : MonoBehaviour
 
         yield return null;
     }
+
+
 
 
 }

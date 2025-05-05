@@ -2615,8 +2615,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7166997024879258430, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
+      propertyPath: inputActions
+      value: 
+      objectReference: {fileID: -944628639613478452, guid: 0122592f713a83a49970335e35d33246, type: 3}
+    - target: {fileID: 7166997024879258430, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
       propertyPath: mouseDeltaThreshold
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7166997024879258430, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
+      propertyPath: input.m_DeviceRequirements.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8473401971133313074, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2995,6 +3003,14 @@ PrefabInstance:
     - target: {fileID: 4262050567417722519, guid: 5e71ff351a00ab942aba60de55d3f84e, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367345727372892929, guid: 5e71ff351a00ab942aba60de55d3f84e, type: 3}
+      propertyPath: mouseLRSensitivity
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367345727372892929, guid: 5e71ff351a00ab942aba60de55d3f84e, type: 3}
+      propertyPath: mouseUDSensitivity
+      value: 20
       objectReference: {fileID: 0}
     - target: {fileID: 4367345727372892929, guid: 5e71ff351a00ab942aba60de55d3f84e, type: 3}
       propertyPath: setCameraHeightSpeed
