@@ -2620,7 +2620,7 @@ PrefabInstance:
       objectReference: {fileID: -944628639613478452, guid: 0122592f713a83a49970335e35d33246, type: 3}
     - target: {fileID: 7166997024879258430, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
       propertyPath: mouseDeltaThreshold
-      value: 20
+      value: 40
       objectReference: {fileID: 0}
     - target: {fileID: 7166997024879258430, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
       propertyPath: input.m_DeviceRequirements.Array.size
@@ -4543,6 +4543,18 @@ PrefabInstance:
       propertyPath: m_Name
       value: World Action Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 8149103391282669488, guid: e61d8fbd5974e094fb746f480ba74740, type: 3}
+      propertyPath: weaponItemActions.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 8149103391282669488, guid: e61d8fbd5974e094fb746f480ba74740, type: 3}
+      propertyPath: 'weaponItemActions.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 6049e2f11c260fd4ab21c7e62e91844d, type: 2}
+    - target: {fileID: 8149103391282669488, guid: e61d8fbd5974e094fb746f480ba74740, type: 3}
+      propertyPath: 'weaponItemActions.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: 58d4dfc3612d8f640968e8d1c4249546, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

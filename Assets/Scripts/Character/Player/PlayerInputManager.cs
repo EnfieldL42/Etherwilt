@@ -30,33 +30,34 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool dodgeInput = false;
     [SerializeField] bool sprintInput = false;
     [SerializeField] bool jumpInput = false;
-    [SerializeField] bool RBInput = false;
-    [SerializeField] bool RightArrowInput = false;
-    [SerializeField] bool LeftArrowInput = false;
+    [SerializeField] bool rightArrowInput = false;
+    [SerializeField] bool leftArrowInput = false;
     [SerializeField] bool reviveInput = false;
+
+
+    [Header("Bumper Inputs")]
+    [SerializeField] bool RBInput = false;
+
+
+    [Header("Trigger Inputs")]
+    [SerializeField] bool RTInput = false;
+    [SerializeField] bool holdRTInput = false;
 
     [Header("Lock On Input")]
     [SerializeField] bool lockOnInput;
     [SerializeField] bool lockOnLeftInput;
     [SerializeField] bool lockOnRightInput;
     [SerializeField] Vector2 lockOnMouseInput;
+    [SerializeField] private float mouseDeltaThreshold = 10f;
     private Coroutine lockOnCoroutine;
     private float mouseSwitchCooldown = 0.25f;
     private float mouseSwitchTimer;
-    [SerializeField] private float mouseDeltaThreshold = 10f;
 
-    [Header("Sensitivity Values")]
-    public float mouseSensitivity = 0.5f;
-    public float gamepadSensitivity = 2f;
 
-    public bool isUsingMouse;
-    public bool isUsingGamepad;
-
-    public float currentSensitivity;
-
-    public static event Action<ControlScheme> OnInputSchemeChanged;
+    [Header("Device Inputs")]
     public static ControlScheme CurrentControlScheme { get; private set; }
     public InputActionAsset inputActions;
+    public static event Action<ControlScheme> OnInputSchemeChanged;
 
 
 
@@ -101,6 +102,11 @@ public class PlayerInputManager : MonoBehaviour
 
             //Attacking
             playerControls.PlayerActions.RB.performed += i => RBInput = true;
+            playerControls.PlayerActions.RT.performed += i => RTInput = true;
+            playerControls.PlayerActions.HoldRT.performed += i => holdRTInput = true;
+            playerControls.PlayerActions.HoldRT.canceled += i => holdRTInput = false;
+
+            //Lock On
             playerControls.PlayerActions.LockOn.performed += i => lockOnInput = true;
             playerControls.PlayerActions.LockOnSeekLeftTarget.performed += i => lockOnLeftInput = true;
             playerControls.PlayerActions.LockOnSeekRightTarget.performed += i => lockOnRightInput = true;
@@ -108,9 +114,9 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerActions.LockOnSeekTargetMouse.canceled += i => lockOnMouseInput = Vector2.zero;
 
 
-            //Dpad
-            playerControls.PlayerActions.RightArrow.performed += i => RightArrowInput = true;
-            playerControls.PlayerActions.LeftArrow.performed += i => LeftArrowInput = true;
+            //DPad
+            playerControls.PlayerActions.RightArrow.performed += i => rightArrowInput = true;
+            playerControls.PlayerActions.LeftArrow.performed += i => leftArrowInput = true;
             playerControls.PlayerActions.ReviveInput.performed += i => reviveInput = true;
 
         }
@@ -122,10 +128,6 @@ public class PlayerInputManager : MonoBehaviour
     private void OnDestroy()
     {
         SceneManager.activeSceneChanged -= OnSceneChange; //stop checking if scene is being changed
-
-
-
-
 
         InputUser.onUnpairedDeviceUsed -= OnDeviceChanged;
         if (InputUser.listenForUnpairedDeviceActivity > 0)
@@ -145,8 +147,6 @@ public class PlayerInputManager : MonoBehaviour
         {
             playerControls.Disable();
         }
-
-
 
         InputUser.listenForUnpairedDeviceActivity++;
         InputUser.onUnpairedDeviceUsed += OnDeviceChanged;
@@ -206,6 +206,9 @@ public class PlayerInputManager : MonoBehaviour
         HandleJumpInput();
 
         HandleRBInput();
+        HandleRTInput();
+        HandleHoldRTInput();
+
         HandleLockOnInput();
         HandleLockOnSwitchInput();
 
@@ -315,11 +318,38 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
+    private void HandleRTInput()
+    {
+        if (RTInput)
+        {
+            RTInput = false;
+
+            //TODO: if we have UI window, return and do nothing
+
+            player.playerNetworkManager.SetCharacterActionHand(true);
+
+            //TODO: if we are two handing the weapon, use the two handed action
+
+            player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.oneHandedRTAction, player.playerInventoryManager.currentRightHandWeapon);
+        }
+    }
+
+    private void HandleHoldRTInput()
+    {
+        if(player.isPerformingAction)//only check for a charge if player is already attacking
+        {
+            if(player.playerNetworkManager.isUsingRightHand.Value)
+            {
+                //player.playerNetworkManager.isChargingAttack.Value = Hold_RT_Input;
+            }
+        }
+    }
+
     private void HandleRightWeaponSwitch()
     {
-        if(RightArrowInput)
+        if(rightArrowInput)
         {
-            RightArrowInput = false;
+            rightArrowInput = false;
 
             player.switchRightWeapon = true;
 
@@ -328,9 +358,9 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleLeftWeaponSwitch()
     {
-        if(LeftArrowInput)
+        if(leftArrowInput)
         {
-            LeftArrowInput = false;
+            leftArrowInput = false;
             player.switchLeftWeapon = true;
         }
     }
@@ -472,12 +502,15 @@ public class PlayerInputManager : MonoBehaviour
             CurrentControlScheme = ControlScheme.Gamepad;
             OnInputSchemeChanged?.Invoke(ControlScheme.Gamepad);
             PlayerCamera.instance.SwitchToGamePadSensitivity();
+            PlayerUIManager.instance.LockMouse();
         }
         else if ((device is Pointer || device is Keyboard) && CurrentControlScheme != ControlScheme.KeyboardMouse)
         {
             CurrentControlScheme = ControlScheme.KeyboardMouse;
             OnInputSchemeChanged?.Invoke(ControlScheme.KeyboardMouse);
             PlayerCamera.instance.SwitchToMouseSensitivity();
+            PlayerUIManager.instance.UnlockMouse();
+
         }
     }
 
@@ -485,6 +518,18 @@ public class PlayerInputManager : MonoBehaviour
     {
         // Prioritize gamepad if present
         var gamepad = Gamepad.current;
+        var keyboard = Keyboard.current;
+        var mouse = Mouse.current;
+
+        Debug.Log("gamepad is " + gamepad);
+        Debug.Log("keyboard is " + keyboard);
+        Debug.Log("mouse is " + mouse);
+
+        if (gamepad == null)
+        {
+            PlayerCamera.instance.SwitchToMouseSensitivity();
+        }
+
         if (gamepad != null)
         {
             OnDeviceChanged(gamepad, new InputEventPtr());
@@ -492,16 +537,17 @@ public class PlayerInputManager : MonoBehaviour
         }
 
         // Else use keyboard or mouse
-        if (Keyboard.current != null)
+        if (keyboard != null)
         {
             OnDeviceChanged(Keyboard.current, new InputEventPtr());
         }
-        else if (Mouse.current != null)
+        else if (mouse != null)
         {
             OnDeviceChanged(Mouse.current, new InputEventPtr());
         }
-    }
 
+
+    }
 
     public enum ControlScheme
     {

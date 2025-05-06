@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 400004}
-  - component: {fileID: 114000011629096170}
   - component: {fileID: 86715745895502724}
   m_Layer: 0
   m_Name: BloodEffect4(edited)
@@ -35,18 +34,6 @@ Transform:
   - {fileID: 400008}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114000011629096170
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 100004}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ee2d51cd96616d7418f4bdf22e018f4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &86715745895502724
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,6 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3135f263498a4a4d9be1e0d5dd95941, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeUntilDestroyed: 5
 --- !u!1 &100006
 GameObject:
   m_ObjectHideFlags: 0

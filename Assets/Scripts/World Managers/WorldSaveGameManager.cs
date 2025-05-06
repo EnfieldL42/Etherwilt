@@ -200,6 +200,8 @@ public class WorldSaveGameManager : MonoBehaviour
         saveFileDataWriter.saveDataDataDirectoryPath = Application.persistentDataPath;
         saveFileDataWriter.saveFileName = saveFileName;
         currentCharacterData = saveFileDataWriter.LoadSaveFile();
+        PlayerUIManager.instance.LockMouse();
+
 
         StartCoroutine(LoadWorldScene());
     }
