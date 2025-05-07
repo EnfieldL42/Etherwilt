@@ -24,7 +24,13 @@ MonoBehaviour:
   physicalDamage: 10
   magicDamage: 0
   poiseDamage: 10
-  lightAttackModifer01: 1.1
+  lightAttackModifer01: 1
+  heavyAttackModifer01: 1.4
+  chargedAttackModifer01: 2
   baseStaminaCost: 20
-  lightAttackStaminaCostMultiplier: 0.9
+  meleeAttackStaminaCostMultiplier: 1
+  lightAttackStaminaCostMultiplier: 1
+  heavyAttackStaminaCostMultiplier: 1
+  chargedAttackStaminaCostMultiplier: 1
   oneHandedRBAction: {fileID: 11400000, guid: 6049e2f11c260fd4ab21c7e62e91844d, type: 2}
+  oneHandedRTAction: {fileID: 11400000, guid: 58d4dfc3612d8f640968e8d1c4249546, type: 2}

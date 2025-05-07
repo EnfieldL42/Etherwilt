@@ -24,13 +24,18 @@ public class WeaponItem : Item
 
     [Header("Damage Modifier")]
     public float lightAttackModifer01 = 1.1f;
+    public float heavyAttackModifer01 = 1.4f;
+    public float chargedAttackModifer01 = 2.0f;
     //light attach modifier
     //heavy attack modifier
     //critial damage modifier
 
     [Header("Stamina Costs Modifiers")]
     public int baseStaminaCost = 20;
+    public float meleeAttackStaminaCostMultiplier = 0.9f;
     public float lightAttackStaminaCostMultiplier = 0.9f;
+    public float heavyAttackStaminaCostMultiplier = 0.9f;
+    public float chargedAttackStaminaCostMultiplier = 0.9f;
     //running attack stamina cost modifier (low importance)
     //heavy attack stamina cost modier
 

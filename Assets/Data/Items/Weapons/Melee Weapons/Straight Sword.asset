@@ -28,6 +28,12 @@ MonoBehaviour:
   magicDamage: 0
   poiseDamage: 25
   lightAttackModifer01: 1.1
+  heavyAttackModifer01: 1.4
+  chargedAttackModifer01: 2
   baseStaminaCost: 20
+  meleeAttackStaminaCostMultiplier: 0
   lightAttackStaminaCostMultiplier: 0.9
+  heavyAttackStaminaCostMultiplier: 1.4
+  chargedAttackStaminaCostMultiplier: 2
   oneHandedRBAction: {fileID: 11400000, guid: 43c55a3145376ed4ebd96677c614a174, type: 2}
+  oneHandedRTAction: {fileID: 11400000, guid: 58d4dfc3612d8f640968e8d1c4249546, type: 2}

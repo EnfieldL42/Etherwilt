@@ -340,7 +340,7 @@ public class PlayerInputManager : MonoBehaviour
         {
             if(player.playerNetworkManager.isUsingRightHand.Value)
             {
-                //player.playerNetworkManager.isChargingAttack.Value = Hold_RT_Input;
+                player.playerNetworkManager.isChargingAttack.Value = holdRTInput;
             }
         }
     }
