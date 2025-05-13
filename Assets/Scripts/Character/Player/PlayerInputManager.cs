@@ -351,7 +351,7 @@ public class PlayerInputManager : MonoBehaviour
         {
             rightArrowInput = false;
 
-            player.switchRightWeapon = true;
+            player.playerEquipmentManager.SwitchRightWeapon();
 
         }
     }
@@ -361,7 +361,7 @@ public class PlayerInputManager : MonoBehaviour
         if(leftArrowInput)
         {
             leftArrowInput = false;
-            player.switchLeftWeapon = true;
+            player.playerEquipmentManager.SwitchLeftWeapon();
         }
     }
 
@@ -371,7 +371,7 @@ public class PlayerInputManager : MonoBehaviour
         {
             reviveInput = false;
 
-            player.respawnCharacter = true;
+            player.ReviveCharacter();
         }
     }
 

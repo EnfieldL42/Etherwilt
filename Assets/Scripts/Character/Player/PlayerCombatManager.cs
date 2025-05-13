@@ -7,6 +7,10 @@ public class PlayerCombatManager : CharacterCombatManager
     PlayerManager player;
     public WeaponItem currentWeaponBeingUsed;
 
+    [Header("Flags")]
+    public bool canComboWithMainHandWeapon = false;
+    //public bool canComboWithOffHandWeapon = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -76,4 +80,5 @@ public class PlayerCombatManager : CharacterCombatManager
             PlayerCamera.instance.SetLockCameraHeight();
         }
     }
+
 }

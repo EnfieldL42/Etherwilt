@@ -8,8 +8,6 @@ public class PlayerManager : CharacterManager
 {
     [Header("DEBUG MENU")]
     public bool respawnCharacter = false;
-    public bool switchRightWeapon = false;
-    public bool switchLeftWeapon = false;
 
 
     [HideInInspector] public PlayerLocomotionManager playerLocomotionManager;
@@ -260,18 +258,6 @@ public class PlayerManager : CharacterManager
         {
             respawnCharacter = false; 
         }
-
-        if(switchRightWeapon)
-        {
-            switchRightWeapon = false;
-            playerEquipmentManager.SwitchRightWeapon();
-        }
-        if(switchLeftWeapon)
-        {
-            switchLeftWeapon = false;
-            playerEquipmentManager.SwitchLeftWeapon();
-        }
-
 
     }
 
