@@ -24,8 +24,17 @@ public class WeaponItem : Item
 
     [Header("Damage Modifier")]
     public float lightAttackModifer01 = 1.1f;
+    public float lightAttackModifer02 = 1.2f;
+    public float lightAttackModifer03 = 1.3f;
+    public float lightAttackModifer04 = 1.4f;
+
     public float heavyAttackModifer01 = 1.4f;
+    public float heavyAttackModifer02 = 1.6f;
+    public float heavyAttackModifer03 = 1.8f;
+
     public float chargedAttackModifer01 = 2.0f;
+    public float chargedAttackModifer02 = 2.2f;
+    public float chargedAttackModifer03 = 2.4f;
     //light attach modifier
     //heavy attack modifier
     //critial damage modifier

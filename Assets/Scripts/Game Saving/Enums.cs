@@ -16,6 +16,12 @@ public enum CharacterSlot
     NO_SLOT,
 }
 
+public enum CharacterGroup
+{
+    Team01,
+    Team02,
+}
+
 public enum WeaponModelSlot
 {
     RightHand,
@@ -27,7 +33,12 @@ public enum AttackType
     MeleeAttack01,
     LightAttack01,
     LightAttack02,
+    LightAttack03,
+    LightAttack04,
     HeavyAttack01,
+    HeavyAttack02,
+    HeavyAttack03,
     ChargedAttack01,
     ChargedAttack02,
+    ChargedAttack03,
 }

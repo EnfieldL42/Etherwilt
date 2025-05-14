@@ -5,6 +5,9 @@ using UnityEngine;
 public class LightAttackWeaponItemAction : WeaponItemAction
 {
     [SerializeField] string light_Attack_01 = "Main_Light_Attack_01"; //main hand
+    [SerializeField] string light_Attack_02 = "Main_Light_Attack_02"; 
+    [SerializeField] string light_Attack_03 = "Main_Light_Attack_03"; 
+    [SerializeField] string light_Attack_04 = "Main_Light_Attack_04"; 
     public override void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
     {
         if (!playerPerformingAction.IsOwner)
@@ -31,14 +34,32 @@ public class LightAttackWeaponItemAction : WeaponItemAction
 
     private void PerformLightAttack(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
     {
+        //of we are attack currentlly, and can combo, perform combo
+        if(playerPerformingAction.playerCombatManager.canComboWithMainHandWeapon && playerPerformingAction.isPerformingAction)
+        {
+            playerPerformingAction.playerCombatManager.canComboWithMainHandWeapon = false;
 
-        if(playerPerformingAction.playerNetworkManager.isUsingRightHand.Value)
+            //perform attack based on previous attack
+            if (playerPerformingAction.characterCombatManager.lastAttackAnimationPerformed == light_Attack_01)
+            {
+                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack02, light_Attack_02, true);
+            }
+            else if (playerPerformingAction.characterCombatManager.lastAttackAnimationPerformed == light_Attack_02)
+            {
+                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack03, light_Attack_03, true);
+
+            }
+            else if (playerPerformingAction.characterCombatManager.lastAttackAnimationPerformed == light_Attack_03)
+            {
+                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack04, light_Attack_04, true);
+
+            }
+        }
+        //otherwise, just do regular attack
+        else if(!playerPerformingAction.isPerformingAction)
         {
             playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack01, light_Attack_01, true);
         }
-        if (playerPerformingAction.playerNetworkManager.isUsingLeftHand.Value)
-        {
 
-        }
     }
 }

@@ -103,6 +103,7 @@ public class CharacterAnimatorManager : MonoBehaviour
 
         Debug.Log("PLAYING ANIMATION: " + targetAnimation);
         character.characterCombatManager.currentAttackType = attackType;
+        character.characterCombatManager.lastAttackAnimationPerformed = targetAnimation;
         character.applyRootMotion = applyRootMotion;
         character.animator.CrossFade(targetAnimation, 0.2f);
         character.isPerformingAction = isPerformingAction;
@@ -111,6 +112,16 @@ public class CharacterAnimatorManager : MonoBehaviour
 
 
         character.characterNetworkManager.NotifyTheServerOfAttackActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
+    }
+
+    public virtual void EnableCanDoCombo()
+    {
+
+    }
+
+    public virtual void DisableCanDoCombo()
+    {
+
     }
 
 }

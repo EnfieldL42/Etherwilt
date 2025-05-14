@@ -23,7 +23,7 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
     }
 
     //animation event calls
-    public void EnableCanDoCombo()
+    public override void EnableCanDoCombo()
     {
         if (player.playerNetworkManager.isUsingRightHand.Value)
         {
@@ -36,7 +36,7 @@ public class PlayerAnimatorManager : CharacterAnimatorManager
         }
     }
 
-    public void DisableCanDoCombo()
+    public override void DisableCanDoCombo()
     {
         player.playerCombatManager.canComboWithMainHandWeapon = false;
         //player.playerCombatManager.canComboWithOffHandWeapon = false;
