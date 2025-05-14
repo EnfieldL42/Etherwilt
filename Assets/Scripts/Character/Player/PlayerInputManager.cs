@@ -245,6 +245,17 @@ public class PlayerInputManager : MonoBehaviour
             return;
         }
 
+        if(moveAmount != 0)
+        {
+            player.playerNetworkManager.isMoving.Value =  true;
+        }
+        else
+        {
+            player.playerNetworkManager.isMoving.Value = false;
+
+        }
+
+
         if (!player.playerNetworkManager.isLockedOn.Value || player.playerNetworkManager.isSprinting.Value)
         {
             player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerNetworkManager.isSprinting.Value);

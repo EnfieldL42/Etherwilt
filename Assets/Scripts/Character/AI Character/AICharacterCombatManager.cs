@@ -49,14 +49,14 @@ public class AICharacterCombatManager : CharacterCombatManager
 
                     if (Physics.Linecast(aiCharacter.characterCombatManager.lockOnTransform.position, targetCharacter.characterCombatManager.lockOnTransform.position, WorldUtilityManager.instance.GetEnviroLayers()))
                     {
-                        Debug.DrawLine(aiCharacter.characterCombatManager.lockOnTransform.position, targetCharacter.characterCombatManager.lockOnTransform.position);
-
+                        Debug.DrawLine(aiCharacter.characterCombatManager.lockOnTransform.position, targetCharacter.characterCombatManager.lockOnTransform.position, Color.red);
                         Debug.Log("Blocked");
+
                     }
                     else
                     {
                         aiCharacter.characterCombatManager.SetTarget(targetCharacter);
-                    }
+                    } 
 
                 }
             }

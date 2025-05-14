@@ -2222,6 +2222,7 @@ GameObject:
   - component: {fileID: 1279576391529061241}
   - component: {fileID: 8806110676403888528}
   - component: {fileID: 597027157566342967}
+  - component: {fileID: -7506630005446901716}
   - component: {fileID: 5294802491938740942}
   - component: {fileID: 6275744166873604523}
   - component: {fileID: 6415799772314113251}
@@ -2230,7 +2231,6 @@ GameObject:
   - component: {fileID: 9123473675479595409}
   - component: {fileID: 5332074023815476637}
   - component: {fileID: 8009395205120749764}
-  - component: {fileID: 5842574225269186287}
   - component: {fileID: 3562432220951620581}
   m_Layer: 6
   m_Name: Dummy_01
@@ -2481,7 +2481,27 @@ MonoBehaviour:
   canRotate: 1
   canMove: 1
   aICharacterCombatManager: {fileID: 0}
-  currentState: {fileID: 0}
+  currentState: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
+--- !u!114 &-7506630005446901716
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6024376136044591119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1be44d1e99e9f1841aa4c292629a5d12, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  lastAttackAnimationPerformed: 
+  currentTarget: {fileID: 0}
+  currentAttackType: 0
+  lockOnTransform: {fileID: 4534798130942268786}
+  detectionRadius: 15
+  minimumDetectionAngle: -35
+  maximumDetectionAngle: 35
 --- !u!114 &5294802491938740942
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2632,23 +2652,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodSplatterVFX: {fileID: 0}
---- !u!114 &5842574225269186287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6024376136044591119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c2cd19a58fe52a4ebc72e1a8d71a665, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  lastAttackAnimationPerformed: 
-  currentTarget: {fileID: 0}
-  currentAttackType: 0
-  lockOnTransform: {fileID: 4534798130942268786}
 --- !u!114 &3562432220951620581
 MonoBehaviour:
   m_ObjectHideFlags: 0
