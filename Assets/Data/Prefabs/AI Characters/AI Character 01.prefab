@@ -1160,7 +1160,7 @@ MonoBehaviour:
   characterGroup: 1
   isPerformingAction: 0
   isGrounded: 1
-  applyRootMotion: 0
+  applyRootMotion: 1
   canRotate: 1
   canMove: 1
   aICharacterCombatManager: {fileID: 0}

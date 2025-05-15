@@ -17,18 +17,22 @@ public class ResetActionFlag : StateMachineBehaviour
             return;
         }
 
+        character.applyRootMotion = false;
         character.isPerformingAction = false;
         character.canRotate = true;
         character.canMove = true;
-        character.animator.applyRootMotion = false;
         character.characterLocomotionManager.isRolling = false;
         character.characterAnimatorManager.DisableCanDoCombo();
 
-        if(character.IsOwner)
+
+        if (character.IsOwner)
         {
             character.characterNetworkManager.isJumping.Value = false;
 
         }
+
+
+
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
