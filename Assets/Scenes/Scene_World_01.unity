@@ -27941,7 +27941,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1746795303989463365, guid: 9058c68cef7c79e48893b1ec2a9a1ee5, type: 3}
       propertyPath: aiCharacters.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1746795303989463365, guid: 9058c68cef7c79e48893b1ec2a9a1ee5, type: 3}
       propertyPath: 'aiCharacters.Array.data[0]'
@@ -27950,7 +27950,7 @@ PrefabInstance:
     - target: {fileID: 1746795303989463365, guid: 9058c68cef7c79e48893b1ec2a9a1ee5, type: 3}
       propertyPath: 'aiCharacters.Array.data[1]'
       value: 
-      objectReference: {fileID: 6024376136044591119, guid: 30a52a471414f364a8a0ced879af20f5, type: 3}
+      objectReference: {fileID: 542781558509733378, guid: 3f0554796b1def64b8fb0ece39f802ae, type: 3}
     - target: {fileID: 1746795303989463365, guid: 9058c68cef7c79e48893b1ec2a9a1ee5, type: 3}
       propertyPath: 'aiCharacters.Array.data[2]'
       value: 
