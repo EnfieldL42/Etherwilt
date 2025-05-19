@@ -20,6 +20,9 @@ public class AICharacterManager : CharacterManager
     //combat stance
     //attack
 
+    public bool canAITurn = false;
+
+
     protected override void Awake()
     {
         base.Awake();

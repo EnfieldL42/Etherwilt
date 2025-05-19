@@ -780,7 +780,7 @@ MonoBehaviour:
   characterCombatManager: {fileID: 0}
   characterSoundFXManager: {fileID: 0}
   characterLocomotionManager: {fileID: 0}
-  characterGroup: 0
+  characterGroup: 1
   isPerformingAction: 0
   isGrounded: 1
   applyRootMotion: 0
@@ -790,10 +790,10 @@ MonoBehaviour:
   aICharacterNetworkManager: {fileID: 0}
   aICharacterLocomotionManager: {fileID: 0}
   navmeshAgent: {fileID: 8364343053465735496}
-  AIapplyRootMotion: 1
   currentState: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
   idle: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
   pursueState: {fileID: 11400000, guid: aa37797012693564290d3d70049da9ab, type: 2}
+  canAITurn: 0
 --- !u!114 &-7425840479360445570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -860,6 +860,7 @@ MonoBehaviour:
   hit_Backward_Medium_01: hit_Backward_Medium_01
   hit_Left_Medium_01: hit_Left_Medium_01
   hit_Right_Medium_01: hit_Right_Medium_01
+  canAITurn: 0
 --- !u!114 &6218975348903476949
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -877,6 +878,7 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   currentAttackType: 0
   lockOnTransform: {fileID: 34898050088564692}
+  distanceFromTarget: 0
   viewableAngle: 0
   targetsDirection: {x: 0, y: 0, z: 0}
   detectionRadius: 15

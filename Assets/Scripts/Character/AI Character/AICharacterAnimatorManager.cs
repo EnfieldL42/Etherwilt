@@ -3,6 +3,7 @@ using UnityEngine;
 public class AICharacterAnimatorManager : CharacterAnimatorManager
 {
     AICharacterManager aiCharacter;
+    public bool canAITurn = false;
 
     protected override void Awake()
     {

@@ -79,6 +79,11 @@ public class AICharacterCombatManager : CharacterCombatManager
             return;
         }
 
+        if(!aiCharacter.canAITurn)
+        {
+            return;
+        }
+
         //if(viewableAngle >= 20 && viewableAngle <= 60)
         //{
         //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_45", true);
