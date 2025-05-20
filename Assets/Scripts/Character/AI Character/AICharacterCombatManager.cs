@@ -117,23 +117,56 @@ public class AICharacterCombatManager : CharacterCombatManager
         //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_180", true);
         //}
 
-        if (viewableAngle >= 20 && viewableAngle <= 110)
+        //if (viewableAngle >= 20 && viewableAngle <= 110)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_90", true);
+        //}
+        //else if (viewableAngle <= -20 && viewableAngle >= -110)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_90", true);
+        //}
+        //else if (viewableAngle >= 111 && viewableAngle <= 180)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_180", true);
+        //}
+        //else if (viewableAngle <= -111 && viewableAngle >= -180)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_180", true);
+        //}
+
+
+        if (viewableAngle >= 20 && viewableAngle <= 60)
+        {
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_45", true);
+        }
+        else if (viewableAngle <= -20 && viewableAngle >= -60)
+        {
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_45", true);
+        }
+        else if (viewableAngle >= 61 && viewableAngle <= 110)
         {
             aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_90", true);
         }
-        else if (viewableAngle <= -20 && viewableAngle >= -110)
+        else if (viewableAngle <= -61 && viewableAngle >= -110)
         {
             aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_90", true);
         }
-        else if (viewableAngle >= 111 && viewableAngle <= 180)
+        else if (viewableAngle >= 111 && viewableAngle <= 145)
+        {
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_135", true);
+        }
+        else if (viewableAngle <= -111 && viewableAngle >= -145)
+        {
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_135", true);
+        }
+        else if (viewableAngle >= 146 && viewableAngle <= 180)
         {
             aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_180", true);
         }
-        else if (viewableAngle <= -111 && viewableAngle >= -180)
+        else if (viewableAngle <= -146 && viewableAngle >= -180)
         {
             aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_180", true);
         }
-
 
 
 
