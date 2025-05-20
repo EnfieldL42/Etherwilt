@@ -676,16 +676,16 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1840935484630405517}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.3446503, y: 0.039176464, z: -1.5106311}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: -0, y: 0.37742302, z: -0, w: 0.926041}
+  m_LocalPosition: {x: -103.243355, y: -5.59, z: -5.3861504}
+  m_LocalScale: {x: 2.1137, y: 2.1137, z: 2.1137}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2533471181417284816}
   - {fileID: 8093207795751708334}
   - {fileID: 9003723168820309097}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 44.348, z: 0}
 --- !u!54 &3816503159179664525
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -985,7 +985,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  groundCheckSphereRadius: 0.35
+  groundCheckSphereRadius: 0.5
   groundCheckPlusOrMinusPosition: {x: 0, y: 0.15, z: 0}
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
