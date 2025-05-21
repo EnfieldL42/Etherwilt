@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
-[CreateAssetMenu(menuName = "A.I/States/Combat Target")]
+[CreateAssetMenu(menuName = "A.I/States/Combat State")]
 public class CombatStanceState : AIState
 {
     [Header("Attacks")]
@@ -19,7 +19,7 @@ public class CombatStanceState : AIState
     protected bool hasRolledForComboChance = false; //if we have already rolled for the chance during this state
 
     [Header("Engagement Distance")]
-    [SerializeField] protected float maximumEngagementDistance = 5; //distance we have to be away from the target before we enter the pursue state
+    [SerializeField] public float maximumEngagementDistance = 10; //distance we have to be away from the target before we enter the pursue state
 
     public override AIState Tick(AICharacterManager aiCharacter)
     {
@@ -42,10 +42,10 @@ public class CombatStanceState : AIState
             }
         }
 
-        //rotate to face the target
+        aiCharacter.aICharacterCombatManager.RotateTowardsAgent(aiCharacter);
 
         //if out target is no longer present, switch back to idle state
-        if(aiCharacter.aICharacterCombatManager.currentTarget == null)
+        if (aiCharacter.aICharacterCombatManager.currentTarget == null)
         {
             return SwitchState(aiCharacter, aiCharacter.idle);
         }
@@ -56,10 +56,9 @@ public class CombatStanceState : AIState
         }
         else
         {
-            //check recovery timer
-            //pass attack to attack chance
+            aiCharacter.attack.currentAttack = choosenAttack;
             //roll for combo chance
-            //switch state
+            return SwitchState(aiCharacter, aiCharacter.attack);
         }
 
         //uf we are outside of the combat engagement distance, swutch to pursue state
@@ -79,7 +78,7 @@ public class CombatStanceState : AIState
     {
         potentialAttacks = new List<AICharacterAttackAction>();
 
-        foreach (var potentialAttack in potentialAttacks)
+        foreach (var potentialAttack in aiCharacterAttacks)
         {
             //if we are too close, continue
             if(potentialAttack.minimumAttackDistance > aiCharacter.aICharacterCombatManager.distanceFromTarget)
@@ -94,13 +93,13 @@ public class CombatStanceState : AIState
             }
 
             //if target is outside min fov, continue
-            if (potentialAttack.minimumAttackDistance > aiCharacter.aICharacterCombatManager.viewableAngle)
+            if (potentialAttack.minimumAttackAngle > aiCharacter.aICharacterCombatManager.viewableAngle)
             {
                 continue;
             }
 
             //if target is outside max fov, continue
-            if (potentialAttack.maximumAttackDistance < aiCharacter.aICharacterCombatManager.viewableAngle)
+            if (potentialAttack.maximumAttackAngle < aiCharacter.aICharacterCombatManager.viewableAngle)
             {
                 continue;
             }
@@ -133,6 +132,7 @@ public class CombatStanceState : AIState
                 choosenAttack = attack;
                 previousAttack = choosenAttack;
                 hasAttack = true;
+                return;
             }
         }
 

@@ -17,8 +17,9 @@ public class AICharacterManager : CharacterManager
     [Header("States")]
     public IdleState idle;
     public PursueTargetState pursueState;
-    //combat stance
-    //attack
+    public CombatStanceState combatState;
+    public AttackState attack;
+
 
     public bool canAITurn = false;
 
@@ -38,6 +39,14 @@ public class AICharacterManager : CharacterManager
         pursueState = Instantiate(pursueState);
 
         currentState = idle;
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+
+        aICharacterCombatManager.HandleActionRecovery(this);
     }
     protected override void FixedUpdate()
     {

@@ -1170,6 +1170,8 @@ MonoBehaviour:
   currentState: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
   idle: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
   pursueState: {fileID: 11400000, guid: aa37797012693564290d3d70049da9ab, type: 2}
+  combatState: {fileID: 11400000, guid: 3cc0293ea41977348a2fe3e42d2c32b2, type: 2}
+  attack: {fileID: 11400000, guid: 60bed3ac727b7f74c9d36e0dcf963d9d, type: 2}
   canAITurn: 1
 --- !u!114 &-8941331187296660634
 MonoBehaviour:
@@ -1188,12 +1190,14 @@ MonoBehaviour:
   currentTarget: {fileID: 0}
   currentAttackType: 0
   lockOnTransform: {fileID: 8709258930728549245}
+  actionRecoveryTimer: 0
   distanceFromTarget: 0
   viewableAngle: 0
   targetsDirection: {x: 0, y: 0, z: 0}
   detectionRadius: 15
   minimumFOV: -35
   maximumFOV: 35
+  attackRotationSpeed: 25
 --- !u!114 &-402049157198359571
 MonoBehaviour:
   m_ObjectHideFlags: 0
