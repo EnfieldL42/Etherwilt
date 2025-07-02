@@ -275,11 +275,13 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         if(player.playerNetworkManager.isUsingRightHand.Value)
         {
             rightWeaponManager.meleeWeaponDamageCollider.EnableDamageCollider();
+            player.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(player.playerInventoryManager.currentRightHandWeapon.whooshes));
         }
         //open left hand damage collder
         else if(player.playerNetworkManager.isUsingLeftHand.Value)
         {
             leftWeaponManager.meleeWeaponDamageCollider.EnableDamageCollider();
+            player.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(player.playerInventoryManager.currentLeftHandWeapon.whooshes));
         }
 
         //play sword/swoosh sound fx

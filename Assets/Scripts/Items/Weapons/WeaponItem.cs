@@ -57,4 +57,7 @@ public class WeaponItem : Item
 
     //blocking sounds
 
+    [Header("Whooshing sounds")]
+    public AudioClip[] whooshes;
+
 }

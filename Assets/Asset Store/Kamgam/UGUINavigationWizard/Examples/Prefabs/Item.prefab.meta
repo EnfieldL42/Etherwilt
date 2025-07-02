@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: bda1964496c4250479232c0b6ae37a5e
+PrefabImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 284552
+  packageName: UI Navigation Wizard - Gamepad / Keyboard Navigation & Selection
+  packageVersion: 1.0.7
+  assetPath: Assets/Kamgam/UGUINavigationWizard/Examples/Prefabs/Item.prefab
+  uploadId: 752119

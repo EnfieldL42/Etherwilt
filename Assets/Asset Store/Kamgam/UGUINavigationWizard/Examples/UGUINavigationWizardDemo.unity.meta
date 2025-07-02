@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: bc8b496e4d0ac1c43a13bd9f99e0fed5
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 284552
+  packageName: UI Navigation Wizard - Gamepad / Keyboard Navigation & Selection
+  packageVersion: 1.0.7
+  assetPath: Assets/Kamgam/UGUINavigationWizard/Examples/UGUINavigationWizardDemo.unity
+  uploadId: 752119

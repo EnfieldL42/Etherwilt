@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: d47a9d1a268eb7047b8b540c84a70c4e
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 284552
+  packageName: UI Navigation Wizard - Gamepad / Keyboard Navigation & Selection
+  packageVersion: 1.0.7
+  assetPath: Assets/Kamgam/UGUINavigationWizard/Runtime/UGUINavigationWizardConstraint.cs
+  uploadId: 752119

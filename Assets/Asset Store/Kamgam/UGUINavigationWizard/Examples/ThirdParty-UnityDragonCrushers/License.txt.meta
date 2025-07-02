@@ -1,0 +1,14 @@
+fileFormatVersion: 2
+guid: 19c4cde2d17dd7c4db9bb877afa07481
+TextScriptImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 284552
+  packageName: UI Navigation Wizard - Gamepad / Keyboard Navigation & Selection
+  packageVersion: 1.0.7
+  assetPath: Assets/Kamgam/UGUINavigationWizard/Examples/ThirdParty-UnityDragonCrushers/License.txt
+  uploadId: 752119

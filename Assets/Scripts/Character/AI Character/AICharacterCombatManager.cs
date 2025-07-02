@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class AICharacterCombatManager : CharacterCombatManager
 {
+    protected AICharacterManager aiCharacter;
+
     [Header("Action Recovery")]
     public float actionRecoveryTimer = 0;
 
@@ -23,6 +25,7 @@ public class AICharacterCombatManager : CharacterCombatManager
     {
         base.Awake();
 
+        aiCharacter = GetComponent<AICharacterManager>();
         lockOnTransform = GetComponentInChildren<LockOnTrasform>().transform;
     }
 

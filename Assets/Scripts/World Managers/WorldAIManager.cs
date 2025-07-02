@@ -11,12 +11,8 @@ public class WorldAIManager : MonoBehaviour
     public static WorldAIManager instance;
 
     [Header("Characters")]
-    [SerializeField] GameObject[] aiCharacters;
+    [SerializeField] List<AICharacterSpawner> aiCharacterSpawners;
     [SerializeField] List<GameObject> spawnedInCharacters;
-
-    [Header("Debug")]
-    [SerializeField] bool despawnCharacters = false;
-    [SerializeField] bool spawnCharacters = false;
 
     private void Awake()
     {
@@ -29,37 +25,13 @@ public class WorldAIManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void Start()
+
+    public void SpawnCharacter(AICharacterSpawner aiCharacterSpawner)
     {
-        if (NetworkManager.Singleton.IsServer)
+        if(NetworkManager.Singleton.IsServer)
         {
-            StartCoroutine(WaitForSceneToLoadThenSpawnCharacters());
-        }
-    }
-
-    private void Update()
-    {
-        Debug();
-    }
-
-    private IEnumerator WaitForSceneToLoadThenSpawnCharacters()
-    {
-        while (!SceneManager.GetActiveScene().isLoaded)
-        {
-            yield return null;
-        }
-
-        SpawnAllCharacters();
-
-    }
-
-    private void SpawnAllCharacters()
-    {
-        foreach (var character in aiCharacters)
-        {
-            GameObject instantiatedCharacter = Instantiate(character);
-            instantiatedCharacter.GetComponent<NetworkObject>().Spawn();
-            spawnedInCharacters.Add(instantiatedCharacter);
+            aiCharacterSpawners.Add(aiCharacterSpawner);
+            aiCharacterSpawner.AttemptToSpawnCharacter();
         }
 
     }
@@ -81,20 +53,6 @@ public class WorldAIManager : MonoBehaviour
         //characters can be split into areas
     }
 
-    private void Debug()
-    {
-        if(despawnCharacters)
-        {
-            despawnCharacters = false;
-            DespawnAllCharacters();
-        }
-
-        if(spawnCharacters)
-        {
-            spawnCharacters = false;
-            SpawnAllCharacters();
-        }
-    }
 
 
 }

@@ -520,7 +520,7 @@ public class PlayerInputManager : MonoBehaviour
             CurrentControlScheme = ControlScheme.KeyboardMouse;
             OnInputSchemeChanged?.Invoke(ControlScheme.KeyboardMouse);
             PlayerCamera.instance.SwitchToMouseSensitivity();
-            PlayerUIManager.instance.UnlockMouse();
+            PlayerUIManager.instance.LockMouse();
 
         }
     }
@@ -539,6 +539,7 @@ public class PlayerInputManager : MonoBehaviour
         if (gamepad == null)
         {
             PlayerCamera.instance.SwitchToMouseSensitivity();
+
         }
 
         if (gamepad != null)

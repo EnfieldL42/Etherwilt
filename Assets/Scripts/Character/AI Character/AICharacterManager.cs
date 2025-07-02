@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -20,6 +19,7 @@ public class AICharacterManager : CharacterManager
     public CombatStanceState combatState;
     public AttackState attack;
 
+    public bool doFunction = false;
 
     public bool canAITurn = false;
 
@@ -39,6 +39,14 @@ public class AICharacterManager : CharacterManager
         pursueState = Instantiate(pursueState);
 
         currentState = idle;
+
+        
+    }
+
+    protected override void Start()
+    {
+        base.Start();
+        ResetNavmeshPostion();
     }
 
     protected override void Update()
@@ -95,6 +103,14 @@ public class AICharacterManager : CharacterManager
             aICharacterNetworkManager.isMoving.Value = false;
 
         }
+    }
+
+    private void ResetNavmeshPostion()
+    {
+
+        navmeshAgent.Warp(this.transform.position);
+
+        navmeshAgent.enabled = true;
     }
 
 

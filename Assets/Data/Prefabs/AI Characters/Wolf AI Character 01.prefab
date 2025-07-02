@@ -39,7 +39,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 902774389897588733}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
@@ -194,31 +194,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.11
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 12.659997
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 91.04
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.79612863
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0.60512745
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -226,7 +226,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 74.476
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
@@ -760,7 +760,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -907,6 +907,7 @@ MonoBehaviour:
   pursueState: {fileID: 11400000, guid: aa37797012693564290d3d70049da9ab, type: 2}
   combatState: {fileID: 11400000, guid: e8820d1458273d444ad5826ff3bcd240, type: 2}
   attack: {fileID: 11400000, guid: 60bed3ac727b7f74c9d36e0dcf963d9d, type: 2}
+  doFunction: 0
   canAITurn: 0
 --- !u!114 &-7425840479360445570
 MonoBehaviour:
@@ -1076,6 +1077,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa7bb6c1f70312d4db59712396f3a90f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damageGrunt:
+  - {fileID: 8300000, guid: 65a47c3fdd4dc4045b12a0145171e9e6, type: 3}
+  attackGrunt:
+  - {fileID: 8300000, guid: 7d281154830a5624d8a1915df1a28a7b, type: 3}
 --- !u!114 &7785668568497423788
 MonoBehaviour:
   m_ObjectHideFlags: 0

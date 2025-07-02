@@ -818,7 +818,20 @@ PlayerSettings:
   webGLWebAssemblyBigInt: 0
   webGLCloseOnQuit: 0
   webWasm2023: 0
-  scriptingDefineSymbols: {}
+  scriptingDefineSymbols:
+    Android: KAMGAM_UGUI_NAVIGATION_WIZARD
+    EmbeddedLinux: KAMGAM_UGUI_NAVIGATION_WIZARD
+    GameCoreXboxOne: KAMGAM_UGUI_NAVIGATION_WIZARD
+    Nintendo Switch: KAMGAM_UGUI_NAVIGATION_WIZARD
+    PS4: KAMGAM_UGUI_NAVIGATION_WIZARD
+    PS5: KAMGAM_UGUI_NAVIGATION_WIZARD
+    QNX: KAMGAM_UGUI_NAVIGATION_WIZARD
+    ReservedCFE: KAMGAM_UGUI_NAVIGATION_WIZARD
+    Standalone: KAMGAM_UGUI_NAVIGATION_WIZARD
+    VisionOS: KAMGAM_UGUI_NAVIGATION_WIZARD
+    WebGL: KAMGAM_UGUI_NAVIGATION_WIZARD
+    XboxOne: KAMGAM_UGUI_NAVIGATION_WIZARD
+    tvOS: KAMGAM_UGUI_NAVIGATION_WIZARD
   additionalCompilerArguments: {}
   platformArchitecture: {}
   scriptingBackend:

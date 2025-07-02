@@ -1,0 +1,10 @@
+fileFormatVersion: 2
+guid: 6a8ef5e8b09a4b20baaadcc4fd8084d9
+timeCreated: 1745619938
+AssetOrigin:
+  serializedVersion: 1
+  productId: 284552
+  packageName: UI Navigation Wizard - Gamepad / Keyboard Navigation & Selection
+  packageVersion: 1.0.7
+  assetPath: Assets/Kamgam/UGUINavigationWizard/Runtime/Input/InputDetector.cs
+  uploadId: 752119

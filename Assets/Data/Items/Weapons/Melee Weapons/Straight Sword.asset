@@ -44,3 +44,7 @@ MonoBehaviour:
   chargedAttackStaminaCostMultiplier: 2
   oneHandedRBAction: {fileID: 11400000, guid: 43c55a3145376ed4ebd96677c614a174, type: 2}
   oneHandedRTAction: {fileID: 11400000, guid: 58d4dfc3612d8f640968e8d1c4249546, type: 2}
+  whooshes:
+  - {fileID: 8300000, guid: a65d792d6907f744490c9b15bb70edfe, type: 3}
+  - {fileID: 8300000, guid: 4d4ef7516a431934681038a3dc391e55, type: 3}
+  - {fileID: 8300000, guid: 482611fe6bc559142a00be6e726b4862, type: 3}
