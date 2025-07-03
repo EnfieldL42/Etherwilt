@@ -56,6 +56,7 @@ public class AICharacterManager : CharacterManager
 
         aICharacterCombatManager.HandleActionRecovery(this);
     }
+
     protected override void FixedUpdate()
     {
         base.FixedUpdate();

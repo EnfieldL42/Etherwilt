@@ -1611,7 +1611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 3528734544
+  GlobalObjectIdHash: 1586009361
   InScenePlacedSourceGlobalObjectIdHash: 3528734544
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1714,6 +1714,9 @@ MonoBehaviour:
   attack: {fileID: 11400000, guid: 60bed3ac727b7f74c9d36e0dcf963d9d, type: 2}
   doFunction: 0
   canAITurn: 0
+  bossID: 0
+  hasBeenDefeated: 0
+  defeatedBossDebug: 0
 --- !u!114 &7423727800142222652
 MonoBehaviour:
   m_ObjectHideFlags: 0
