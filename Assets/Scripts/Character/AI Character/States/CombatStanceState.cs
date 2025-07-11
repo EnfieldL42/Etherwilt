@@ -8,7 +8,7 @@ public class CombatStanceState : AIState
 {
     [Header("Attacks")]
     public List<AICharacterAttackAction> aiCharacterAttacks; //a list of all possible attacks
-    private List<AICharacterAttackAction> potentialAttacks; //all attacks possible in this situation (based on angle, distance, etc)
+    public List<AICharacterAttackAction> potentialAttacks; //all attacks possible in this situation (based on angle, distance, etc)
     private AICharacterAttackAction choosenAttack;
     private AICharacterAttackAction previousAttack;
     protected bool hasAttack = false;

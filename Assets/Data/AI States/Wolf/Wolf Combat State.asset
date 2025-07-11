@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8437d09f28c3e444086bcf3001243485, type: 3}
-  m_Name: Humanoid Combat State
+  m_Name: Wolf Combat State
   m_EditorClassIdentifier: 
   aiCharacterAttacks:
-  - {fileID: 11400000, guid: dbd55d1dd7077c448b718c2f354c77e7, type: 2}
-  - {fileID: 11400000, guid: 750f21a4b9a4b1b4485b1a129039c344, type: 2}
-  - {fileID: 11400000, guid: c59f7f0e7b14d854c8f49e925eddc237, type: 2}
-  - {fileID: 11400000, guid: 8a671f85cde2ec147af29a1adfb9454f, type: 2}
+  - {fileID: 11400000, guid: 275f5438f2857f64bb8d81d155700c6f, type: 2}
+  potentialAttacks:
+  - {fileID: 11400000, guid: 275f5438f2857f64bb8d81d155700c6f, type: 2}
   canPerformCombo: 0
   chanceToPerformCombo: 25
   maximumEngagementDistance: 5

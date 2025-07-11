@@ -13,7 +13,8 @@ public class CharacterManager : NetworkBehaviour
     [HideInInspector] public CharacterController characterController;
     [HideInInspector] public CharacterNetworkManager characterNetworkManager;
 
-    [HideInInspector] public Animator animator;
+    public Animator animator;
+
     [HideInInspector] public CharacterEffectsManager characterEffectsManager;
     [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
     [HideInInspector] public CharacterCombatManager characterCombatManager;
@@ -54,9 +55,11 @@ public class CharacterManager : NetworkBehaviour
 
     protected virtual void Update()
     {
+
         animator.SetBool("isGrounded", isGrounded);
 
-        if(IsOwner) //if character is being controlled from host side(player), then assign its network position to the position of our transform
+
+        if (IsOwner) //if character is being controlled from host side(player), then assign its network position to the position of our transform
 
         {
             characterNetworkManager.networkPosition.Value = transform.position;

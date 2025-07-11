@@ -27,6 +27,7 @@ public class AICharacterAnimatorManager : CharacterAnimatorManager
 
             aiCharacter.characterController.Move(velocity);
             aiCharacter.transform.rotation *= aiCharacter.animator.deltaRotation;
+
         }
         //CLIENT
         else
@@ -41,6 +42,8 @@ public class AICharacterAnimatorManager : CharacterAnimatorManager
             aiCharacter.characterController.Move(velocity);
             aiCharacter.transform.position = Vector3.SmoothDamp(transform.position, aiCharacter.characterNetworkManager.networkPosition.Value, ref aiCharacter.characterNetworkManager.networkPositionVelocity, aiCharacter.characterNetworkManager.networkPositionSmoothTime);
             aiCharacter.transform.rotation *= aiCharacter.animator.deltaRotation;
+
+
         }
     }
 

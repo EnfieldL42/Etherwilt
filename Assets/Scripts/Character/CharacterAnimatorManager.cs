@@ -1,5 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
+using static UnityEngine.Rendering.DebugUI;
+using System;
 
 public class CharacterAnimatorManager : MonoBehaviour
 {
@@ -75,6 +77,7 @@ public class CharacterAnimatorManager : MonoBehaviour
         {
             snappedVerticalAmount = 2;
         }
+
 
         character.animator.SetFloat(horizontal, snappedHorizontalAmount, 0.1f, Time.deltaTime);
         character.animator.SetFloat(vertical, snappedVerticalAmount, 0.1f, Time.deltaTime);

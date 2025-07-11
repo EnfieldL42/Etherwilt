@@ -1,15 +1,15 @@
 using UnityEngine;
 
-public class SnakeBossDamageCollider : DamageCollider
+public class EarthGuardianTailDamageCollider : DamageCollider
 {
-    [SerializeField] public AICharacterManager snakeCharacter;
+    [SerializeField] public AIBossCharacterManager bossCharacter;
 
     protected override void Awake()
     {
         base.Awake();
 
         damageCollider = GetComponent<Collider>();
-        snakeCharacter = GetComponentInParent<AICharacterManager>();
+        bossCharacter = GetComponentInParent<AIBossCharacterManager>();
     }
 
     protected override void DamageTarget(CharacterManager damageTarget)
@@ -27,13 +27,13 @@ public class SnakeBossDamageCollider : DamageCollider
         damageEffect.physicalDamage = physicalDamage;
         damageEffect.magicDamage = magicDamage;
         damageEffect.contactPoint = contactPoint;
-        damageEffect.angleHitFrom = Vector3.SignedAngle(snakeCharacter.transform.forward, damageTarget.transform.forward, Vector3.up);
+        damageEffect.angleHitFrom = Vector3.SignedAngle(bossCharacter.transform.forward, damageTarget.transform.forward, Vector3.up);
 
         if (damageTarget.IsOwner)
         {
             damageTarget.characterNetworkManager.NotifyTheServerOfCharacterDamageServerRpc(
                 damageTarget.NetworkObjectId,
-                snakeCharacter.NetworkObjectId,
+                bossCharacter.NetworkObjectId,
                 damageEffect.physicalDamage,
                 damageEffect.magicDamage,
                 damageEffect.poiseDamage,

@@ -1,5 +1,6 @@
 using UnityEngine;
 using Unity.Netcode;
+using static UnityEngine.Rendering.DebugUI;
 
 public class CharacterNetworkManager : NetworkBehaviour
 {
@@ -80,11 +81,13 @@ public class CharacterNetworkManager : NetworkBehaviour
 
     public void OnIsChargingAttackChanged(bool oldStatus, bool newStatus)
     {
+
         character.animator.SetBool("isChargingAttack", isChargingAttack.Value);
     }
 
     public void OnIsMovingChanged(bool oldStatus, bool newStatus)
     {
+
         character.animator.SetBool("isMoving", isMoving.Value);
     }
 
@@ -117,6 +120,7 @@ public class CharacterNetworkManager : NetworkBehaviour
     private void PerformActionAnimationFromServer(string animationID, bool applyRootMotion)
     {
         character.applyRootMotion = applyRootMotion;
+
         character.animator.CrossFade(animationID, 0.2f);
     }
 
@@ -145,6 +149,7 @@ public class CharacterNetworkManager : NetworkBehaviour
     private void PerformAttackActionAnimationFromServer(string animationID, bool applyRootMotion)
     {
         character.applyRootMotion = applyRootMotion;
+
         character.animator.CrossFade(animationID, 0.2f);
     }
 

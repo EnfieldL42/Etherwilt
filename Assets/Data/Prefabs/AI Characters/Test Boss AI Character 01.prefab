@@ -1587,7 +1587,7 @@ Animator:
   m_GameObject: {fileID: 4085988564449640478}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f3a808dfde089ff47b4f57df8c002771, type: 3}
-  m_Controller: {fileID: 9100000, guid: 1314bb3682deaf4419fbc9dc25414c0c, type: 2}
+  m_Controller: {fileID: 9100000, guid: 2d9f366bf99ca4a4abb8e95cb1a28b12, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -1611,7 +1611,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1586009361
+  GlobalObjectIdHash: 1821737602
   InScenePlacedSourceGlobalObjectIdHash: 3528734544
   DeferredDespawnTick: 0
   Ownership: 1
@@ -1637,6 +1637,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  isActive:
+    m_InternalValue: 1
   networkPosition:
     m_InternalValue: {x: 0, y: 0, z: 0}
   networkRotation:
@@ -1707,16 +1709,18 @@ MonoBehaviour:
   aICharacterNetworkManager: {fileID: 0}
   aICharacterLocomotionManager: {fileID: 0}
   navmeshAgent: {fileID: 7579578344251770458}
-  currentState: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
-  idle: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
-  pursueState: {fileID: 11400000, guid: aa37797012693564290d3d70049da9ab, type: 2}
-  combatState: {fileID: 11400000, guid: e8820d1458273d444ad5826ff3bcd240, type: 2}
-  attack: {fileID: 11400000, guid: 60bed3ac727b7f74c9d36e0dcf963d9d, type: 2}
+  currentState: {fileID: 11400000, guid: 6a08c8080365f4743b8ebc4991cad1eb, type: 2}
+  idle: {fileID: 11400000, guid: 6a08c8080365f4743b8ebc4991cad1eb, type: 2}
+  pursueState: {fileID: 11400000, guid: 2de985307ddb8e4478946d6c2b055d00, type: 2}
+  combatState: {fileID: 11400000, guid: 31f663ec774af1c4796bc4f582c2691d, type: 2}
+  attack: {fileID: 11400000, guid: 92c84719f3080e24992b2cfaf1f271ae, type: 2}
   doFunction: 0
   canAITurn: 0
   bossID: 0
   hasBeenDefeated: 0
-  defeatedBossDebug: 0
+  hasBeenAwakened: 0
+  fogWalls: []
+  wakeBossUp: 0
 --- !u!114 &7423727800142222652
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1742,9 +1746,11 @@ MonoBehaviour:
   minimumFOV: -35
   maximumFOV: 35
   attackRotationSpeed: 25
-  damageCollider: {fileID: 2933077632668927742}
+  bitedamageCollider: {fileID: 2933077632668927742}
   baseDamage: 25
   attack01DamageModifier: 1
+  attack02DamageModifier: 1.4
+  attack03DamageModifier: 1.6
 --- !u!114 &2692669606794294470
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1758,6 +1764,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  isActive:
+    m_InternalValue: 1
   networkPosition:
     m_InternalValue: {x: 0, y: 0, z: 0}
   networkRotation:
@@ -2238,7 +2246,7 @@ GameObject:
   - component: {fileID: 3136693588079958094}
   - component: {fileID: 2933077632668927742}
   - component: {fileID: 919840086949746257}
-  m_Layer: 6
+  m_Layer: 10
   m_Name: Right Hand Collider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2272,10 +2280,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damageCollider: {fileID: 0}
+  damageCollider: {fileID: 919840086949746257}
   physicalDamage: 0
   magicDamage: 0
-  snakeCharacter: {fileID: 0}
+  bossCharacter: {fileID: 0}
 --- !u!135 &919840086949746257
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2291,7 +2299,7 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3

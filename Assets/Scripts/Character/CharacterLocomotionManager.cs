@@ -1,4 +1,5 @@
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 public class CharacterLocomotionManager : MonoBehaviour
 {
@@ -48,6 +49,7 @@ public class CharacterLocomotionManager : MonoBehaviour
             }
 
             inAirTimer += Time.deltaTime;
+
             character.animator.SetFloat("InAirTimer", inAirTimer);
 
             yVelocity.y += gravityForce * Time.deltaTime;

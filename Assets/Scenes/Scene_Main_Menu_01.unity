@@ -2670,7 +2670,7 @@ PrefabInstance:
     - target: {fileID: 7166997024879258430, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
       propertyPath: player
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5602889298933114635, guid: b3627b78068a1dc46ba7f3ac81773a43, type: 3}
     - target: {fileID: 7166997024879258430, guid: 3cbe0ea5bb20fde4fbff3335d68d27ac, type: 3}
       propertyPath: inputActions
       value: 
@@ -3065,6 +3065,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4367345727372892929, guid: 5e71ff351a00ab942aba60de55d3f84e, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 5602889298933114635, guid: b3627b78068a1dc46ba7f3ac81773a43, type: 3}
     - target: {fileID: 4367345727372892929, guid: 5e71ff351a00ab942aba60de55d3f84e, type: 3}
       propertyPath: lockedCameraHeight
       value: 1.8
