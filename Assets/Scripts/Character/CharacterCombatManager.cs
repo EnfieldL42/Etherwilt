@@ -10,6 +10,8 @@ public class CharacterCombatManager : NetworkBehaviour
 
     [Header("Attack Target")]
     public CharacterManager currentTarget;
+    public NetworkVariable<bool> hasChangedTarget = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
 
     [Header("Attack Type")]
     public AttackType currentAttackType;
@@ -30,6 +32,7 @@ public class CharacterCombatManager : NetworkBehaviour
             {
                 currentTarget = newTarget;
                 character.characterNetworkManager.currentTargetNetworkObjectID.Value = newTarget.GetComponent<NetworkObject>().NetworkObjectId;
+                hasChangedTarget.Value = true;
             }
             else
             {

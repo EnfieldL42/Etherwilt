@@ -12,9 +12,7 @@ public class CharacterManager : NetworkBehaviour
 
     [HideInInspector] public CharacterController characterController;
     [HideInInspector] public CharacterNetworkManager characterNetworkManager;
-
-    public Animator animator;
-
+    [HideInInspector] public Animator animator;
     [HideInInspector] public CharacterEffectsManager characterEffectsManager;
     [HideInInspector] public CharacterAnimatorManager characterAnimatorManager;
     [HideInInspector] public CharacterCombatManager characterCombatManager;
@@ -30,7 +28,6 @@ public class CharacterManager : NetworkBehaviour
     public bool applyRootMotion = false;
     public bool canRotate = true;
     public bool canMove = true;
-
 
 
 

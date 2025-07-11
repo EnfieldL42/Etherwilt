@@ -9500,6 +9500,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Boss AI Spawner (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 6661790363981006564, guid: a1012cfd7c68c8345a94bf8d27135051, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6969707255540270168, guid: a1012cfd7c68c8345a94bf8d27135051, type: 3}
       propertyPath: characterGameObject
       value: 

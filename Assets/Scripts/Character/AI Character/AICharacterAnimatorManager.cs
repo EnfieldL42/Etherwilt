@@ -43,7 +43,6 @@ public class AICharacterAnimatorManager : CharacterAnimatorManager
             aiCharacter.transform.position = Vector3.SmoothDamp(transform.position, aiCharacter.characterNetworkManager.networkPosition.Value, ref aiCharacter.characterNetworkManager.networkPositionVelocity, aiCharacter.characterNetworkManager.networkPositionSmoothTime);
             aiCharacter.transform.rotation *= aiCharacter.animator.deltaRotation;
 
-
         }
     }
 
