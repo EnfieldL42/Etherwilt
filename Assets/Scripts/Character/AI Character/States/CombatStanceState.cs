@@ -67,7 +67,8 @@ public class CombatStanceState : AIState
             return SwitchState(aiCharacter, aiCharacter.pursueState);
         }
 
-        NavMeshPath path = new NavMeshPath();
+
+        NavMeshPath path = new();
         aiCharacter.navmeshAgent.CalculatePath(aiCharacter.aICharacterCombatManager.currentTarget.transform.position, path);
         aiCharacter.navmeshAgent.SetPath(path);
 

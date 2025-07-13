@@ -2,9 +2,12 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.TextCore.Text;
+using System.Collections;
 
-public class AIEarthGuardianCombatManager : AICharacterCombatManager
+public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
 {
+    [SerializeField] AIEarthGuardianTailCombatManager secondBody;
+
     //will have to add motible colliders depending on where the damage is comming fromt
     [Header("Damage Colliders")]
     [SerializeField] EarthGuardianTailDamageCollider bitedamageCollider;
@@ -22,15 +25,21 @@ public class AIEarthGuardianCombatManager : AICharacterCombatManager
 
     private void Start()
     {
-        positionConstraints = GetComponentsInChildren<MultiPositionConstraint>();
+
     }
 
     private void Update()
     {
+        if (secondBody == null)
+        {
+            secondBody = FindFirstObjectByType<AIEarthGuardianTailCombatManager>();
+        }
+
         if (hasChangedTarget.Value)
         {
             hasChangedTarget.Value = false;
             SetAimTarget();
+            SetTarget();
         }
     }
     public void SetAttack01Damage()
@@ -89,4 +98,10 @@ public class AIEarthGuardianCombatManager : AICharacterCombatManager
         }
     }
 
+    public void SetTarget()
+    {
+        secondBody.currentTarget = currentTarget;
+        secondBody.SetAimTarget();
+
+    }
 }
