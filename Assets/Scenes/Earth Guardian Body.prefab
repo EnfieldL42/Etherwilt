@@ -1687,6 +1687,10 @@ GameObject:
   - component: {fileID: 2945296929994410322}
   - component: {fileID: 5953733881414455540}
   - component: {fileID: 1602255938879834053}
+  - component: {fileID: 2505935513114839153}
+  - component: {fileID: 4809687278390432218}
+  - component: {fileID: 6451187813055123171}
+  - component: {fileID: 7022329275977067824}
   m_Layer: 7
   m_Name: Earth Guardian Body
   m_TagString: Untagged
@@ -1989,7 +1993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 232257513
+  GlobalObjectIdHash: 734170095
   InScenePlacedSourceGlobalObjectIdHash: 232257513
   DeferredDespawnTick: 0
   Ownership: 1
@@ -2175,6 +2179,62 @@ MonoBehaviour:
   hit_Left_Medium_01: hit_Left_Medium_01
   hit_Right_Medium_01: hit_Right_Medium_01
   canAITurn: 0
+--- !u!114 &2505935513114839153
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313747940594742879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72108ae89361afc42a5856dc54c9a134, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  staminaRegenerationAmount: 2
+  staminaRegenarationTimer: 0
+  staminaRegenerationDelay: 2
+--- !u!114 &4809687278390432218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313747940594742879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa7bb6c1f70312d4db59712396f3a90f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageGrunt:
+  - {fileID: 8300000, guid: 88b91714a2e2cbb428f61e18ca4d39d8, type: 3}
+  attackGrunt:
+  - {fileID: 8300000, guid: 5583e9c9a0afdf0408f9d0946666f85a, type: 3}
+--- !u!114 &6451187813055123171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313747940594742879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea83efdd6b614c443bed4e504b38225b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bloodSplatterVFX: {fileID: 0}
+--- !u!114 &7022329275977067824
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5313747940594742879}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc95d728f16897741ade703a7401e33a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5402798713933766455
 GameObject:
   m_ObjectHideFlags: 0
