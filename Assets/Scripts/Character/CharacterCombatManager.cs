@@ -26,8 +26,7 @@ public class CharacterCombatManager : NetworkBehaviour
 
     public virtual void SetTarget(CharacterManager newTarget)
     {
-        if(character.IsOwner)
-        {
+
             if(newTarget != null)
             {
                 currentTarget = newTarget;
@@ -38,7 +37,7 @@ public class CharacterCombatManager : NetworkBehaviour
             {
                 currentTarget = null;
             }
-        }
+        
     }
 
 }

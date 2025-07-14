@@ -73,6 +73,7 @@ public class CharacterNetworkManager : NetworkBehaviour
 
     public void OnIsLockedOnChanged(bool old, bool isLockedOn)
     {
+
         if (!isLockedOn)
         {
             character.characterCombatManager.currentTarget = null;

@@ -31,7 +31,7 @@ public class AICharacterCombatManager : CharacterCombatManager
 
     public void FindTargetViaLineOfSight(AICharacterManager aiCharacter)
     {
-        if (currentTarget != null)
+        if (aiCharacter.aICharacterCombatManager.currentTarget != null)
         {
             return;
         }
@@ -200,7 +200,7 @@ public class AICharacterCombatManager : CharacterCombatManager
 
     public void RotateTowardsTargetWhilstAttacking(AICharacterManager aiCharacter)
     {
-        if (currentTarget = null)
+        if (currentTarget == null)
         {
             return;
         }

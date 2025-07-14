@@ -39,7 +39,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
         {
             hasChangedTarget.Value = false;
             SetAimTarget();
-            SetTarget();
+            SetSecondBodyTarget();
         }
     }
     public void SetAttack01Damage()
@@ -98,7 +98,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
         }
     }
 
-    public void SetTarget()
+    public void SetSecondBodyTarget()
     {
         secondBody.currentTarget = currentTarget;
         secondBody.SetAimTarget();
