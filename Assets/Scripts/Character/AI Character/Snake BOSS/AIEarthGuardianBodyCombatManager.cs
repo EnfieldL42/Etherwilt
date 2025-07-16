@@ -25,6 +25,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     [SerializeField] float attackSwipeDamageModifier = 1.6f;
 
 
+
     [Header("Rigging Refresh")]
     [SerializeField] RigBuilder[] rig;
     [SerializeField] Rig rigWeight;
@@ -147,7 +148,6 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     {
         //character.characterController.enabled = false;
     }
-
 
 
 

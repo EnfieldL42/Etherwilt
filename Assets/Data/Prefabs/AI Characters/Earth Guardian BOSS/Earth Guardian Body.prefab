@@ -2590,6 +2590,8 @@ MonoBehaviour:
     m_InternalValue: 0
   currentTargetNetworkObjectID:
     m_InternalValue: 0
+  isInvulnerable:
+    m_InternalValue: 0
   isSprinting:
     m_InternalValue: 0
   isJumping:
@@ -2639,6 +2641,8 @@ MonoBehaviour:
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
+  actionTimer: 0
+  canTakeDMG: 1
   aICharacterCombatManager: {fileID: 0}
   aICharacterNetworkManager: {fileID: 0}
   aICharacterLocomotionManager: {fileID: 0}
@@ -2649,7 +2653,6 @@ MonoBehaviour:
   combatState: {fileID: 11400000, guid: 31f663ec774af1c4796bc4f582c2691d, type: 2}
   attack: {fileID: 11400000, guid: 92c84719f3080e24992b2cfaf1f271ae, type: 2}
   doFunction: 0
-  canAITurn: 0
   isPerformingActionTimer: 0
   bossID: 0
   hasBeenDefeated: 0
@@ -2676,6 +2679,7 @@ MonoBehaviour:
   currentAttackType: 0
   lockOnTransform: {fileID: 6053254177834945684}
   actionRecoveryTimer: 0
+  enablePivot: 0
   distanceFromTarget: 0
   viewableAngle: 0
   targetsDirection: {x: 0, y: 0, z: 0}

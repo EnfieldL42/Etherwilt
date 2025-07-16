@@ -976,6 +976,8 @@ MonoBehaviour:
     m_InternalValue: 0
   currentTargetNetworkObjectID:
     m_InternalValue: 0
+  isInvulnerable:
+    m_InternalValue: 0
   isSprinting:
     m_InternalValue: 0
   isJumping:
@@ -1025,6 +1027,8 @@ MonoBehaviour:
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
+  actionTimer: 0
+  canTakeDMG: 1
   aICharacterCombatManager: {fileID: 0}
   aICharacterNetworkManager: {fileID: 0}
   aICharacterLocomotionManager: {fileID: 0}
@@ -1035,7 +1039,6 @@ MonoBehaviour:
   combatState: {fileID: 11400000, guid: 0129d2d7686622b4395a6bb8e35eb2a7, type: 2}
   attack: {fileID: 11400000, guid: 7204fc5b93dba3d4f9d46bd803f194d9, type: 2}
   doFunction: 0
-  canAITurn: 0
   isPerformingActionTimer: 0
   bossID: 0
   hasBeenDefeated: 0
@@ -1062,6 +1065,7 @@ MonoBehaviour:
   currentAttackType: 0
   lockOnTransform: {fileID: 8797667629973108194}
   actionRecoveryTimer: 0
+  enablePivot: 0
   distanceFromTarget: 0
   viewableAngle: 0
   targetsDirection: {x: 0, y: 0, z: 0}
@@ -1085,6 +1089,8 @@ MonoBehaviour:
   - {fileID: 4438471658346313746}
   - {fileID: 478410358329967796}
   - {fileID: 4731705503946262424}
+  tailStab: {fileID: 2399534535756810892}
+  AEOEffectRadius: 1.5
   tailColliders:
   - {fileID: 164695446719557204}
   - {fileID: 6389164054635976959}
@@ -1100,6 +1106,7 @@ MonoBehaviour:
   attackStabHeavyDamageModifier: 2
   attackSwingDamageModifier: 1.4
   attackSwipeDamageModifier: 1.4
+  AOEDamage: 25
   rig:
   - {fileID: 6972680018397322834}
   rigWeight: {fileID: 2778676226862539473}
@@ -2071,7 +2078,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.002
+  m_Radius: 0.0035
   m_Height: 0.02
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -2232,7 +2239,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.002
+  m_Radius: 0.0035
   m_Height: 0.035
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
@@ -2433,7 +2440,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: 0.002
+  m_Radius: 0.0035
   m_Height: 0.02
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}

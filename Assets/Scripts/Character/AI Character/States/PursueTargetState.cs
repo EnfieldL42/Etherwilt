@@ -24,9 +24,12 @@ public class PursueTargetState : AIState
             aiCharacter.navmeshAgent.enabled = true;
         }
 
-        if(aiCharacter.aICharacterCombatManager.viewableAngle < aiCharacter.aICharacterCombatManager.minimumFOV || aiCharacter.aICharacterCombatManager.viewableAngle > aiCharacter.aICharacterCombatManager.maximumFOV)
+        if(aiCharacter.aICharacterCombatManager.enablePivot)
         {
-            aiCharacter.aICharacterCombatManager.PivotTowardsTarget(aiCharacter);
+            if (aiCharacter.aICharacterCombatManager.viewableAngle < aiCharacter.aICharacterCombatManager.minimumFOV || aiCharacter.aICharacterCombatManager.viewableAngle > aiCharacter.aICharacterCombatManager.maximumFOV)
+            {
+                aiCharacter.aICharacterCombatManager.PivotTowardsTarget(aiCharacter);
+            }
         }
 
         aiCharacter.aICharacterLocomotionManager.RotateTowardsAgent(aiCharacter);

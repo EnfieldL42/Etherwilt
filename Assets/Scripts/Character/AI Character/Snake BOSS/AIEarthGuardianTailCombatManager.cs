@@ -13,6 +13,8 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     [Header("Damage Colliders")]
     [SerializeField] EarthGuardianBodyDamageCollider[] stabdamageCollider;
     [SerializeField] EarthGuardianBodyDamageCollider[] slamdamageCollider;
+    [SerializeField] Transform tailStab;
+    [SerializeField] float AEOEffectRadius = 1.5f;
 
     [Header("Colliders")]
     [SerializeField] Collider[] tailColliders;
@@ -24,6 +26,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     [SerializeField] float attackStabHeavyDamageModifier = 2f;
     [SerializeField] float attackSwingDamageModifier = 1.4f;
     [SerializeField] float attackSwipeDamageModifier = 1.4f;
+    [SerializeField] float AOEDamage = 25;
 
 
     [Header("Rigging Refresh")]
@@ -192,6 +195,39 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     public void ActivateBorrow()
     {
 
+    }
+    public void ActivateAOEEffect()
+    {
+        Collider[] colliders = Physics.OverlapSphere(tailStab.position, AEOEffectRadius, WorldUtilityManager.instance.GetCharacterLayers());
+        List<CharacterManager> charactersDamaged = new List<CharacterManager>();
+
+        foreach (var collider in colliders)
+        {
+            CharacterManager character = collider.GetComponent<CharacterManager>();
+
+            if (character != null)
+            {
+                if (charactersDamaged.Contains(character))
+                {
+                    continue;
+                }
+
+                charactersDamaged.Add(character);
+
+                if (character.IsOwner)
+                {
+                    //check for block
+
+                    TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
+                    damageEffect.physicalDamage = AOEDamage;
+                    damageEffect.poiseDamage = AOEDamage;
+
+                    character.characterEffectsManager.ProcessInstantEffect(damageEffect);
+                }
+            }
+
+
+        }
     }
     public void AvoidOverlapWhileOrbitingPlayer(CharacterManager currentTarget, AIEarthGuardianBodyCombatManager secondBody, CharacterController characterController, float minSeparation, float orbitStrength)
     {

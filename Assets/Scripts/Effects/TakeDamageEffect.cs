@@ -34,9 +34,18 @@ public class TakeDamageEffect : InstantCharacterEffect
 
     public override void ProcessEffect(CharacterManager character)
     {
-        base.ProcessEffect(character);
 
-        //check for invulnerability
+        if (character.characterNetworkManager.isInvulnerable.Value)
+        {
+            return;
+        }
+
+        if (!character.canTakeDMG)
+        {
+            return;
+        }
+
+        base.ProcessEffect(character);
 
         CalculateDamage(character);
         PlayDirectonalBasedDamageAnimation(character);
@@ -46,6 +55,8 @@ public class TakeDamageEffect : InstantCharacterEffect
         PlayDamageVFX(character);
 
         //if character is ai, check for new target if chararcter caysubg damage is nearby
+
+
     }
 
     private void CalculateDamage(CharacterManager character)
@@ -60,6 +71,9 @@ public class TakeDamageEffect : InstantCharacterEffect
             //check for gmd modifiers and modify base dmg (physical and magic buffs)
         }
 
+        character.canTakeDMG = false;
+        character.actionTimer = 0f; //reset action timer so character can take dmg again
+
         //check character for flat dmg reduction and subtract from damage
 
         //check for character armor absorptions, subtract te percentage from dmg
@@ -70,7 +84,7 @@ public class TakeDamageEffect : InstantCharacterEffect
 
         if(finalDamageDealt <= 0)
         {
-            finalDamageDealt = 1; //////////////CHANGE TO 1 LATER ON
+            finalDamageDealt = 1; 
         }
 
         character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;

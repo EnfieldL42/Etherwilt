@@ -29,6 +29,10 @@ public class CharacterManager : NetworkBehaviour
     public bool canRotate = true;
     public bool canMove = true;
 
+    [Header("Anti Spamming")]
+    [HideInInspector] public float actionTimer = 0f;
+    [HideInInspector] public bool canTakeDMG = true;
+
 
 
     protected virtual void Awake()
@@ -52,6 +56,8 @@ public class CharacterManager : NetworkBehaviour
 
     protected virtual void Update()
     {
+        PreventTakeDMGSpam();
+
 
         animator.SetBool("isGrounded", isGrounded);
 
@@ -129,6 +135,17 @@ public class CharacterManager : NetworkBehaviour
 
 
         }
+    }
+
+    public virtual void PreventTakeDMGSpam()
+    {
+        actionTimer =+ Time.deltaTime;
+
+        if (actionTimer < 0.1f)
+        {
+            canTakeDMG = true;
+        }
+
     }
 
     public virtual void ReviveCharacter()

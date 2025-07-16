@@ -33,14 +33,18 @@ public class CombatStanceState : AIState
             aiCharacter.navmeshAgent.enabled = true;
         }
 
-        //USE THIS IF YOU WANT THE CHARACTER TO TURN WHEN OUTSIDE FOV INSTEAD OF ROTATE TOWARDS YOU
-        if(!aiCharacter.aICharacterNetworkManager.isMoving.Value)
+        if (aiCharacter.aICharacterCombatManager.enablePivot)
         {
-            if(aiCharacter.aICharacterCombatManager.viewableAngle <- 30 || aiCharacter.aICharacterCombatManager.viewableAngle > 30)
+            if (!aiCharacter.aICharacterNetworkManager.isMoving.Value)
             {
-                aiCharacter.aICharacterCombatManager.PivotTowardsTarget(aiCharacter);
+                if (aiCharacter.aICharacterCombatManager.viewableAngle < -30 || aiCharacter.aICharacterCombatManager.viewableAngle > 30)
+                {
+                    aiCharacter.aICharacterCombatManager.PivotTowardsTarget(aiCharacter);
+                }
             }
         }
+
+        //USE THIS IF YOU WANT THE CHARACTER TO TURN WHEN OUTSIDE FOV INSTEAD OF ROTATE TOWARDS YOU
 
         aiCharacter.aICharacterCombatManager.RotateTowardsAgent(aiCharacter);
 

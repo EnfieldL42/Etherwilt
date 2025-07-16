@@ -24,4 +24,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: d8e3be1aa1aab4d4e960ed1c97e6163d, type: 2}
   canPerformCombo: 0
   chanceToPerformCombo: 25
+  enablePivot: 1
   maximumEngagementDistance: 5
