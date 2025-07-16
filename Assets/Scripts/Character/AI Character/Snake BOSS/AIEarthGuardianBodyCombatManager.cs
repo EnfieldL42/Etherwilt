@@ -1,31 +1,43 @@
+using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.TextCore.Text;
-using System.Collections;
 
 public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
 {
+    [Header("Tail")]
     [SerializeField] AIEarthGuardianTailCombatManager secondBody;
 
     //will have to add motible colliders depending on where the damage is comming fromt
     [Header("Damage Colliders")]
-    [SerializeField] EarthGuardianTailDamageCollider bitedamageCollider;
+    [SerializeField] EarthGuardianBodyDamageCollider bitedamageCollider;
+    [SerializeField] EarthGuardianBodyDamageCollider[] slamdamageCollider;
+
+    [Header("Colliders")]
+    [SerializeField] Collider[] bodyColliders;
 
     [Header("Damage")]
     [SerializeField] int baseDamage = 25;
-    [SerializeField] float attack01DamageModifier = 1.0f;
-    [SerializeField] float attack02DamageModifier = 1.4f; 
-    [SerializeField] float attack03DamageModifier = 1.6f;
+    [SerializeField] float attackBiteDamageModifier = 1.0f;
+    [SerializeField] float attackSlamDamageModifier = 1.3f; 
+    [SerializeField] float attackSwipeDamageModifier = 1.6f;
+
 
     [Header("Rigging Refresh")]
-    public RigBuilder[] rig;
-    [SerializeField] private MultiPositionConstraint[] positionConstraints;
+    [SerializeField] RigBuilder[] rig;
+    [SerializeField] Rig rigWeight;
+    [SerializeField] MultiPositionConstraint[] positionConstraints;
 
 
     private void Start()
     {
-
+        foreach (var rigBuilder in rig)
+        {
+            if (rigBuilder != null)
+                rigBuilder.Build();
+        }
     }
 
     private void Update()
@@ -40,39 +52,106 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
             hasChangedTarget.Value = false;
             SetAimTarget();
             SetSecondBodyTarget();
+            FadeRigWeight(1f);
+            secondBody.FadeRigWeight(1f);
         }
     }
-    public void SetAttack01Damage()
+
+    // Set Damage Values
+    public void SetBiteDamage()
     {
-        bitedamageCollider.physicalDamage = (int)(baseDamage * attack01DamageModifier);
+        bitedamageCollider.physicalDamage = (int)(baseDamage * attackBiteDamageModifier);
+    }
+    public void SetSlamDamage()
+    {
+        foreach (var collider in slamdamageCollider)
+        {
+            if (collider != null)
+            {
+                collider.physicalDamage = (int)(baseDamage * attackSlamDamageModifier);
+            }
+        }
+
+    }
+    public void SetSwipeDamage()
+    {
+        foreach (var collider in slamdamageCollider)
+        {
+            if (collider != null)
+            {
+                collider.physicalDamage = (int)(baseDamage * attackSwipeDamageModifier);
+            }
+        }
     }
 
-    public void SetAttack02Damage()
-    {
-        bitedamageCollider.physicalDamage = (int)(baseDamage * attack02DamageModifier);
-    }
 
-    public void SetAttack03Damage()
-    {
-        bitedamageCollider.physicalDamage = (int)(baseDamage * attack03DamageModifier);
-    }
 
+    //Open and Close Colliders
     public void OpenBiteDamageCollider()
     {
         aiCharacter.characterSoundFXManager.PlayAttackGrunt();
         bitedamageCollider.EnableDamageCollider();
     }
-
     public void CloseBiteDamageCollider()
     {
         bitedamageCollider.DisableDamageCollider();
     }
+    public void OpenSlamSwipeDamageCollider()
+    {
+        aiCharacter.characterSoundFXManager.PlayAttackGrunt();
 
-    public void ActivateBorrow()
+        foreach (var collider in slamdamageCollider)
+        {
+            if (collider != null)
+            {
+                collider.EnableDamageCollider();
+            }
+        }
+    }
+    public void CloseSlamSwipeDamageCollider()
     {
 
+        foreach (var collider in slamdamageCollider)
+        {
+            if (collider != null)
+            {
+                collider.DisableDamageCollider();
+            }
+        }
+    }
+    public void TurnOffCollidersOnTriggers()
+    {
+        foreach (var collider in bodyColliders)
+        {
+            if (collider != null)
+            {
+                collider.isTrigger = false;
+            }
+        }
+    }
+    public void TurnOnCollidersOnTriggers()
+    {
+        foreach (var collider in bodyColliders)
+        {
+            if (collider != null)
+            {
+                collider.isTrigger = true;
+            }
+        }
     }
 
+
+
+    //Special Functions
+    public void ActivateBorrow()
+    {
+        //character.characterController.enabled = false;
+    }
+
+
+
+
+    //Rigging Functions
     public void SetAimTarget()
     {
         hasChangedTarget.Value = false;
@@ -97,11 +176,32 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
                 rigBuilder.Build();
         }
     }
-
     public void SetSecondBodyTarget()
     {
         secondBody.currentTarget = currentTarget;
         secondBody.SetAimTarget();
-
     }
+    public void FadeRigWeight(float targetWeight)
+    {
+        //StopAllCoroutines(); // optional: stop any previous blend in progress
+        StartCoroutine(FadeRigWeightRoutine(targetWeight, 0.75f));
+    }
+    private IEnumerator FadeRigWeightRoutine(float targetWeight, float duration)
+    {
+        float startWeight = rigWeight.weight;
+        float time = 0;
+
+        while (time < duration)
+        {
+            time += Time.deltaTime;
+            float t = time / duration;
+            rigWeight.weight = Mathf.Lerp(startWeight, targetWeight, t);
+            yield return null;
+        }
+
+        rigWeight.weight = targetWeight; // make sure it's set exactly at the end
+    }
+
+
+
 }

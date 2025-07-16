@@ -7,4 +7,5 @@ public class AICharacterLocomotionManager : CharacterLocomotionManager
         aiCharacter.transform.rotation = aiCharacter.navmeshAgent.transform.rotation;
 
     }
+
 }

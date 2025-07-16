@@ -10,7 +10,10 @@ public class AICharacterAnimatorManager : CharacterAnimatorManager
         base.Awake();
 
         aiCharacter = GetComponent<AICharacterManager>();
+
+
     }
+
 
 
     private void OnAnimatorMove()

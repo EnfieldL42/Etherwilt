@@ -1,5 +1,6 @@
 using UnityEngine;
 using static UnityEngine.Rendering.DebugUI;
+using UnityEngine.SceneManagement;
 
 public class CharacterLocomotionManager : MonoBehaviour
 {
@@ -20,9 +21,22 @@ public class CharacterLocomotionManager : MonoBehaviour
     [Header("Flags")]
     public bool isRolling = false;
 
+
+    public float yOffset = 2f;
+
     protected virtual void Awake()
     {
         character = GetComponent<CharacterManager>();
+    }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     protected virtual void Update()
@@ -77,6 +91,14 @@ public class CharacterLocomotionManager : MonoBehaviour
     public void DisableCanRotate()
     {
         character.canRotate = false;
-
     }
+
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        Vector3 newPosition = transform.position;
+        newPosition.y += yOffset;
+        transform.position = newPosition;
+    }
+
 }

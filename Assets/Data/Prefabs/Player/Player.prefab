@@ -609,9 +609,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.12
   m_Height: 0.31
@@ -967,9 +967,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.12
   m_Height: 0.37
@@ -1178,9 +1178,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.09
   m_Height: 0.37
@@ -1328,9 +1328,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.07
   m_Height: 0.22
@@ -1455,9 +1455,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.06
   m_Height: 0.16
@@ -1809,9 +1809,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.06
   m_Height: 0.16
@@ -2189,7 +2189,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6996593062366450161}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -2253,7 +2253,6 @@ MonoBehaviour:
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
-  aimTransform: {fileID: 4974591816155263218}
   respawnCharacter: 0
   playerLocomotionManager: {fileID: 0}
   playerAnimatorManager: {fileID: 0}
@@ -2413,7 +2412,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   rightHandWeaponIndex: -1
   weaponsInLeftHandSlots:
-  - {fileID: 11400000, guid: dac5ff37e5d2e8741acff698b080aca3, type: 2}
+  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   leftHandWeaponIndex: -1
@@ -2433,12 +2432,13 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  groundCheckSphereRadius: 0.35
-  groundCheckPlusOrMinusPosition: {x: 0, y: 0.15, z: 0}
+  groundCheckSphereRadius: 0.14
+  groundCheckPlusOrMinusPosition: {x: 0, y: 0.1, z: 0}
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
   fallStartYVelocity: -5
   isRolling: 0
+  yOffset: 1
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0
@@ -2589,7 +2589,7 @@ CharacterController:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6996593062366450161}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: f7653e7b3db8a1141b66bdab99fd1394, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -2601,7 +2601,7 @@ CharacterController:
   m_Enabled: 1
   serializedVersion: 3
   m_Height: 1.7
-  m_Radius: 0.5
+  m_Radius: 0.17
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
@@ -3321,9 +3321,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.09
   m_Height: 0.37
@@ -3411,9 +3411,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.12
   m_Height: 0.31
@@ -3467,9 +3467,9 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_Radius: 0.07
   m_Height: 0.22

@@ -37,13 +37,18 @@ public class CharacterSoundFXManager : MonoBehaviour
 
     public virtual void PlayDamageGrunt()
     {
-        PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(damageGrunt));
+        if(damageGrunt.Length > 0)
+        {
+            PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(damageGrunt));
+        }
     }
 
     public virtual void PlayAttackGrunt()
     {
-        PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(attackGrunt));
-
+        if (damageGrunt.Length > 0)
+        {
+            PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(attackGrunt));
+        }
     }
 
 }

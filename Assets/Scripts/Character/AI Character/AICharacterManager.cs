@@ -20,8 +20,9 @@ public class AICharacterManager : CharacterManager
     public AttackState attack;
 
     public bool doFunction = false;
-
     public bool canAITurn = false;
+    [SerializeField] private float isPerformingActionTimer = 0f;
+    private float isPerformingActionMaxTime = 10f;
 
 
     protected override void Awake()
@@ -40,7 +41,7 @@ public class AICharacterManager : CharacterManager
 
         currentState = idle;
 
-        
+
     }
 
     protected override void Start()
@@ -55,6 +56,15 @@ public class AICharacterManager : CharacterManager
 
 
         aICharacterCombatManager.HandleActionRecovery(this);
+
+        if (isPerformingAction)
+        {
+            CheckForPerformingActionBug();
+        }
+        else
+        {
+            isPerformingActionTimer = 0f;
+        }
     }
 
     protected override void FixedUpdate()
@@ -77,7 +87,7 @@ public class AICharacterManager : CharacterManager
         navmeshAgent.transform.localPosition = Vector3.zero;
         navmeshAgent.transform.localRotation = Quaternion.identity;
 
-        if(aICharacterCombatManager.currentTarget != null)
+        if (aICharacterCombatManager.currentTarget != null)
         {
             aICharacterCombatManager.targetsDirection = aICharacterCombatManager.currentTarget.transform.position - transform.position;
             aICharacterCombatManager.viewableAngle = WorldUtilityManager.instance.GetAngleOfTarget(transform, aICharacterCombatManager.targetsDirection);
@@ -85,7 +95,7 @@ public class AICharacterManager : CharacterManager
         }
 
 
-        if(navmeshAgent.enabled)
+        if (navmeshAgent.enabled)
         {
             Vector3 agentDestination = navmeshAgent.destination;
             float remainingDistance = Vector3.Distance(agentDestination, transform.position);
@@ -115,6 +125,16 @@ public class AICharacterManager : CharacterManager
         navmeshAgent.enabled = true;
     }
 
+    private void CheckForPerformingActionBug()
+    {
+        isPerformingActionTimer += Time.deltaTime;
+
+        if(isPerformingActionTimer >= isPerformingActionMaxTime)
+        {
+            isPerformingAction = false;
+            isPerformingActionTimer = 0f;
+        }
+    }
 
 
 }

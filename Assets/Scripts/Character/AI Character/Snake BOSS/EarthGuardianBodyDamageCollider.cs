@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EarthGuardianTailDamageCollider : DamageCollider
+public class EarthGuardianBodyDamageCollider : DamageCollider
 {
     [SerializeField] public AIBossCharacterManager bossCharacter;
 

@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 346e0630b6e0cf147be432e8dae9d42a, type: 3}
-  m_Name: Earth Guardian Body Bite Attack 01
+  m_Name: Earth Guardian Tail Slam Attack 01
   m_EditorClassIdentifier: 
   attackAnimation: Attack_01
   comboAction: {fileID: 0}

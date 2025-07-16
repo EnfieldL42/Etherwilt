@@ -14,10 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   aiCharacterAttacks:
   - {fileID: 11400000, guid: b05ec1ad2975d0e429f3b0e9ff556c27, type: 2}
+  - {fileID: 11400000, guid: 3731bf75fe5eb3b4296f517b563623c8, type: 2}
   - {fileID: 11400000, guid: d6ebce43757b54e42981089af041305f, type: 2}
+  - {fileID: 11400000, guid: d8e3be1aa1aab4d4e960ed1c97e6163d, type: 2}
   potentialAttacks:
   - {fileID: 11400000, guid: b05ec1ad2975d0e429f3b0e9ff556c27, type: 2}
+  - {fileID: 11400000, guid: 3731bf75fe5eb3b4296f517b563623c8, type: 2}
   - {fileID: 11400000, guid: d6ebce43757b54e42981089af041305f, type: 2}
+  - {fileID: 11400000, guid: d8e3be1aa1aab4d4e960ed1c97e6163d, type: 2}
   canPerformCombo: 0
   chanceToPerformCombo: 25
   maximumEngagementDistance: 5
