@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections.Generic;
 
 public class AICharacterCombatManager : CharacterCombatManager
 {
@@ -22,6 +23,8 @@ public class AICharacterCombatManager : CharacterCombatManager
 
     [Header("Attack Rotation Speed")]
     public float attackRotationSpeed = 25;
+
+    public HashSet<CharacterManager> damagedCharactersThisAttack = new HashSet<CharacterManager>();
 
     protected override void Awake()
     {
@@ -242,4 +245,9 @@ public class AICharacterCombatManager : CharacterCombatManager
         }
     }
 
+    public void ResetAttackHashSet()
+    {
+        damagedCharactersThisAttack.Clear();
+        // Enable all relevant colliders here
+    }
 }

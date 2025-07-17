@@ -16,17 +16,27 @@ public class DamageCollider : MonoBehaviour
     [Header("Characters Damaged")]
     protected List<CharacterManager> charactersDamaged = new List<CharacterManager>();
 
+    public AICharacterCombatManager parentCombatManager;
+    public CharacterManager character;
+
 
     protected virtual void Awake()
     {
 
     }
 
+    private void Start()
+    {
+        parentCombatManager = GetComponentInParent<AICharacterCombatManager>();
+        character = GetComponentInParent<CharacterManager>();
+    }
+
     protected virtual void OnTriggerEnter(Collider other)
     {
         CharacterManager damageTarget = other.GetComponentInParent<CharacterManager>();
+        //CharacterManager target = other.GetComponent<CharacterManager>();
 
-        if(damageTarget != null )
+        if (damageTarget != null)
         {
             contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
 
@@ -34,9 +44,22 @@ public class DamageCollider : MonoBehaviour
 
             //check if target is blocking
 
+            if(character.hasMultipleColliders)
+            {
+                // Prevent multiple hits from different colliders in the same attack
+                if (parentCombatManager.damagedCharactersThisAttack.Contains(damageTarget))
+                    return;
+            }
+
+            if(damageTarget.characterGroup == character.characterGroup)
+            {
+                return;
+            }
+
 
             DamageTarget(damageTarget);
-        }    
+        }
+        parentCombatManager.damagedCharactersThisAttack.Add(damageTarget);
     }
 
     protected virtual void DamageTarget(CharacterManager damageTarget)

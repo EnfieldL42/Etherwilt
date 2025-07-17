@@ -32,6 +32,7 @@ public class CharacterManager : NetworkBehaviour
     [Header("Anti Spamming")]
     [HideInInspector] public float actionTimer = 0f;
     [HideInInspector] public bool canTakeDMG = true;
+    public bool hasMultipleColliders = false;
 
 
 
@@ -141,7 +142,7 @@ public class CharacterManager : NetworkBehaviour
     {
         actionTimer =+ Time.deltaTime;
 
-        if (actionTimer < 0.1f)
+        if (actionTimer < 0.5f)
         {
             canTakeDMG = true;
         }

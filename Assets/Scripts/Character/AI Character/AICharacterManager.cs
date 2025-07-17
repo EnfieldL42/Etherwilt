@@ -19,7 +19,6 @@ public class AICharacterManager : CharacterManager
     public CombatStanceState combatState;
     public AttackState attack;
 
-    public bool doFunction = false;
     [SerializeField] private float isPerformingActionTimer = 0f;
     private float isPerformingActionMaxTime = 10f;
 

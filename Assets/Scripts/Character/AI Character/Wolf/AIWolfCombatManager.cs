@@ -16,7 +16,7 @@ public class AIWolfCombatManager : AICharacterCombatManager
     
     public void OpenDamageCollider()
     {
-        aiCharacter.characterSoundFXManager.PlayAttackGrunt();
+        aiCharacter.characterSoundFXManager.PlayAttackGruntSoundFX();
         damageCollider.EnableDamageCollider();
     }
 

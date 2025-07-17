@@ -6,15 +6,18 @@ using UnityEngine.TextCore.Text;
 
 public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
 {
+    AIEarthGuardianCharacterManager earthGuardianManager;
+
+
     [Header("Body")]
     [SerializeField] AIEarthGuardianBodyCombatManager secondBody;
 
     //will have to add motible colliders depending on where the damage is comming fromt
     [Header("Damage Colliders")]
+    [SerializeField] EarthGuardianAEODamageCollider aoeCollider;
     [SerializeField] EarthGuardianBodyDamageCollider[] stabdamageCollider;
     [SerializeField] EarthGuardianBodyDamageCollider[] slamdamageCollider;
-    [SerializeField] Transform tailStab;
-    [SerializeField] float AEOEffectRadius = 1.5f;
+    public float AEOEffectRadius = 1.5f;
 
     [Header("Colliders")]
     [SerializeField] Collider[] tailColliders;
@@ -26,7 +29,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     [SerializeField] float attackStabHeavyDamageModifier = 2f;
     [SerializeField] float attackSwingDamageModifier = 1.4f;
     [SerializeField] float attackSwipeDamageModifier = 1.4f;
-    [SerializeField] float AOEDamage = 25;
+    public float AOEDamage = 25;
 
 
     [Header("Rigging Refresh")]
@@ -39,6 +42,16 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     [SerializeField] private float minSeparation = 5f;
     [SerializeField] private float orbitStrength = 0.5f;
 
+    [Header("VFX")]
+    public GameObject earthGuardianVFX;
+
+
+    protected override void Awake()
+    {
+        base.Awake();
+
+        earthGuardianManager = GetComponentInParent<AIEarthGuardianCharacterManager>();
+    }
 
     private void Start()
     {
@@ -62,6 +75,11 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
             {
                 AvoidOverlapWhileOrbitingPlayer(currentTarget, secondBody, character.characterController, minSeparation, orbitStrength);
             }
+        }
+
+        if(!character.isPerformingAction && rigWeight.weight == 0)
+        {
+            FadeRigWeight(1f);
         }
 
     }
@@ -127,7 +145,6 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     //Open and Close Colliders
     public void OpenStabDamageColliders()
     {
-        aiCharacter.characterSoundFXManager.PlayAttackGrunt();
 
         foreach (var collider in stabdamageCollider)
         {
@@ -136,6 +153,9 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
                 collider.EnableDamageCollider();
             }
         }
+
+        earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
+
     }
     public void CloseStabDamageColliders()
     {
@@ -149,7 +169,6 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     }
     public void OpenSlamDamageColliders()
     {
-        aiCharacter.characterSoundFXManager.PlayAttackGrunt();
         foreach (var collider in slamdamageCollider)
         {
             if (collider != null)
@@ -157,6 +176,8 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
                 collider.EnableDamageCollider();
             }
         }
+
+        earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
     }
     public void CloseSlamDamageColliders()
     {
@@ -198,36 +219,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     }
     public void ActivateAOEEffect()
     {
-        Collider[] colliders = Physics.OverlapSphere(tailStab.position, AEOEffectRadius, WorldUtilityManager.instance.GetCharacterLayers());
-        List<CharacterManager> charactersDamaged = new List<CharacterManager>();
-
-        foreach (var collider in colliders)
-        {
-            CharacterManager character = collider.GetComponent<CharacterManager>();
-
-            if (character != null)
-            {
-                if (charactersDamaged.Contains(character))
-                {
-                    continue;
-                }
-
-                charactersDamaged.Add(character);
-
-                if (character.IsOwner)
-                {
-                    //check for block
-
-                    TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
-                    damageEffect.physicalDamage = AOEDamage;
-                    damageEffect.poiseDamage = AOEDamage;
-
-                    character.characterEffectsManager.ProcessInstantEffect(damageEffect);
-                }
-            }
-
-
-        }
+        aoeCollider.HeavyStabEffect();
     }
     public void AvoidOverlapWhileOrbitingPlayer(CharacterManager currentTarget, AIEarthGuardianBodyCombatManager secondBody, CharacterController characterController, float minSeparation, float orbitStrength)
     {

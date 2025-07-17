@@ -7,6 +7,8 @@ using UnityEngine.TextCore.Text;
 
 public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
 {
+    AIEarthGuardianCharacterManager earthGuardianManager;
+
     [Header("Tail")]
     [SerializeField] AIEarthGuardianTailCombatManager secondBody;
 
@@ -24,13 +26,17 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     [SerializeField] float attackSlamDamageModifier = 1.3f; 
     [SerializeField] float attackSwipeDamageModifier = 1.6f;
 
-
-
     [Header("Rigging Refresh")]
     [SerializeField] RigBuilder[] rig;
     [SerializeField] Rig rigWeight;
     [SerializeField] MultiPositionConstraint[] positionConstraints;
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        earthGuardianManager = GetComponentInParent<AIEarthGuardianCharacterManager>();
+    }
 
     private void Start()
     {
@@ -61,10 +67,14 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     // Set Damage Values
     public void SetBiteDamage()
     {
+        aiCharacter.characterSoundFXManager.PlayAttackGruntSoundFX();// CAN CHANGE THIS TO BE MORE SPECIFIC
+
         bitedamageCollider.physicalDamage = (int)(baseDamage * attackBiteDamageModifier);
     }
     public void SetSlamDamage()
     {
+        aiCharacter.characterSoundFXManager.PlayAttackGruntSoundFX();// CAN CHANGE THIS TO BE MORE SPECIFIC
+
         foreach (var collider in slamdamageCollider)
         {
             if (collider != null)
@@ -76,6 +86,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     }
     public void SetSwipeDamage()
     {
+        aiCharacter.characterSoundFXManager.PlayAttackGruntSoundFX();// CAN CHANGE THIS TO BE MORE SPECIFIC
         foreach (var collider in slamdamageCollider)
         {
             if (collider != null)
@@ -90,8 +101,8 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     //Open and Close Colliders
     public void OpenBiteDamageCollider()
     {
-        aiCharacter.characterSoundFXManager.PlayAttackGrunt();
         bitedamageCollider.EnableDamageCollider();
+        earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
     }
     public void CloseBiteDamageCollider()
     {
@@ -99,7 +110,6 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     }
     public void OpenSlamSwipeDamageCollider()
     {
-        aiCharacter.characterSoundFXManager.PlayAttackGrunt();
 
         foreach (var collider in slamdamageCollider)
         {
@@ -108,6 +118,9 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
                 collider.EnableDamageCollider();
             }
         }
+
+        earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
+
     }
     public void CloseSlamSwipeDamageCollider()
     {

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 400004}
   - component: {fileID: 86715745895502724}
   m_Layer: 0
-  m_Name: BloodEffect4(edited)
+  m_Name: FX_Blood_01
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
