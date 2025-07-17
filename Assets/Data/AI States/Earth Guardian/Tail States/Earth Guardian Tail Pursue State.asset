@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a24496201894184496ea993d1f789a9, type: 3}
-  m_Name: Earth Guadian Tail Idle State
+  m_Script: {fileID: 11500000, guid: e10a08aa0ab185843a858a226585e1c9, type: 3}
+  m_Name: Earth Guardian Tail Pursue State
   m_EditorClassIdentifier: 

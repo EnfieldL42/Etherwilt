@@ -2652,22 +2652,30 @@ MonoBehaviour:
   actionTimer: 0
   canTakeDMG: 1
   hasMultipleColliders: 0
+  characterName: Earth Guadian Body
   aICharacterCombatManager: {fileID: 0}
   aICharacterNetworkManager: {fileID: 0}
   aICharacterLocomotionManager: {fileID: 0}
   navmeshAgent: {fileID: 3597519778679866846}
-  currentState: {fileID: 11400000, guid: 6a08c8080365f4743b8ebc4991cad1eb, type: 2}
+  currentState: {fileID: 0}
   idle: {fileID: 11400000, guid: 6a08c8080365f4743b8ebc4991cad1eb, type: 2}
   pursueState: {fileID: 11400000, guid: 2de985307ddb8e4478946d6c2b055d00, type: 2}
   combatState: {fileID: 11400000, guid: 31f663ec774af1c4796bc4f582c2691d, type: 2}
   attack: {fileID: 11400000, guid: 92c84719f3080e24992b2cfaf1f271ae, type: 2}
   isPerformingActionTimer: 0
   bossID: 0
-  hasBeenDefeated: 0
-  hasBeenAwakened: 0
+  bossFightIsActive:
+    m_InternalValue: 0
+  hasBeenAwakened:
+    m_InternalValue: 0
+  hasBeenDefeated:
+    m_InternalValue: 0
   fogWalls: []
-  wakeBossUp: 0
+  sleepAnimation: Sleep_01
+  awakenAnimation: Awaken_01
+  sleepState: {fileID: 11400000, guid: e5c59905a3c72e7479af72010cf2997f, type: 2}
   earthGuardianSoundFXManager: {fileID: 0}
+  tailCombatManager: {fileID: 0}
 --- !u!114 &2945296929994410322
 MonoBehaviour:
   m_ObjectHideFlags: 0

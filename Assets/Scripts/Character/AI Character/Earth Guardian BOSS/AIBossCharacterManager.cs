@@ -6,27 +6,35 @@ using System.Collections.Generic;
 public class AIBossCharacterManager : AICharacterManager
 {
     public int bossID = 0;
-    [SerializeField] bool hasBeenDefeated = false;
-    [SerializeField] bool hasBeenAwakened = false;
+
+    [Header("Status")]
+    public NetworkVariable<bool> bossFightIsActive = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> hasBeenAwakened = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> hasBeenDefeated = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     [SerializeField] List<FogWallInteractable> fogWalls;
+    [SerializeField] string sleepAnimation;
+    [SerializeField] string awakenAnimation;
 
-    [Header("DEBUG")]
-    [SerializeField] bool wakeBossUp = false;
+    [Header("States")]
+    public BossSleepState sleepState;
 
-    protected override void Update()
+    protected override void Awake()
     {
-        base.Update();
-
-        if (wakeBossUp)
-        {
-            wakeBossUp = false;
-            WakeBoss();
-        }
+        base.Awake();
     }
 
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
+
+        bossFightIsActive.OnValueChanged += OnBossFightIsActiveChanged;
+        OnBossFightIsActiveChanged(false, bossFightIsActive.Value);
+
+        if (IsOwner)
+        {
+            sleepState = Instantiate(sleepState);
+            currentState = sleepState;
+        }
 
         if (IsServer)
         {
@@ -39,13 +47,13 @@ public class AIBossCharacterManager : AICharacterManager
             //else load the data that already exists on this boss
             else
             {
-                hasBeenDefeated = WorldSaveGameManager.instance.currentCharacterData.bossesDefeated[bossID];
-                hasBeenAwakened = WorldSaveGameManager.instance.currentCharacterData.bossesAwakened[bossID];
+                hasBeenDefeated.Value = WorldSaveGameManager.instance.currentCharacterData.bossesDefeated[bossID];
+                hasBeenAwakened.Value = WorldSaveGameManager.instance.currentCharacterData.bossesAwakened[bossID];
             }
 
             StartCoroutine(GetFogWallsFromWorldObjectManager());
             
-            if(hasBeenAwakened)
+            if(hasBeenAwakened.Value)
             {
                 for(int i = 0; i < fogWalls.Count; i++)
                 {
@@ -53,7 +61,7 @@ public class AIBossCharacterManager : AICharacterManager
                 }
             }
 
-            if (hasBeenDefeated)
+            if (hasBeenDefeated.Value)
             {
                 for (int i = 0; i < fogWalls.Count; i++)
                 {
@@ -63,6 +71,20 @@ public class AIBossCharacterManager : AICharacterManager
                 aICharacterNetworkManager.isActive.Value = false;
             }
         }
+
+        if(!hasBeenAwakened.Value)
+        {
+            characterAnimatorManager.PlayTargetActionAnimation(sleepAnimation, true);
+        }
+
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+
+        bossFightIsActive.OnValueChanged -= OnBossFightIsActiveChanged;
+
     }
 
     private IEnumerator GetFogWallsFromWorldObjectManager()
@@ -90,6 +112,7 @@ public class AIBossCharacterManager : AICharacterManager
             characterNetworkManager.currentHealth.Value = 0;
             isDead.Value = true;
 
+            bossFightIsActive.Value = false;
             //reset any flags
 
             //if not grounded play falling death anim
@@ -100,7 +123,7 @@ public class AIBossCharacterManager : AICharacterManager
 
             }
 
-            hasBeenDefeated = true;
+            hasBeenDefeated.Value = true;
 
             if (!WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.ContainsKey(bossID))
             {
@@ -129,23 +152,49 @@ public class AIBossCharacterManager : AICharacterManager
 
     public void WakeBoss()
     {
-        hasBeenAwakened = true;
 
-
-        if (!WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.ContainsKey(bossID))
+        if (IsOwner)
         {
-            WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Add(bossID, true);
+            if (!hasBeenAwakened.Value)
+            {
+                characterAnimatorManager.PlayTargetActionAnimation(awakenAnimation, true);
+            }
+
+            bossFightIsActive.Value = true;
+            hasBeenAwakened.Value = true;
+            currentState = idle;
+
+            if (!WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.ContainsKey(bossID))
+            {
+                WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Add(bossID, true);
+            }
+            //else load the data that already exists on this boss
+            else
+            {
+                WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Remove(bossID);
+                WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Add(bossID, true);
+            }
+
+            for (int i = 0; i < fogWalls.Count; i++)
+            {
+                fogWalls[i].isActive.Value = true;
+            }
+
+
         }
-        //else load the data that already exists on this boss
-        else
-        {
-            WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Remove(bossID);
-            WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Add(bossID, true);
-        }
 
-        for(int i = 0; i < fogWalls.Count; i++)
+
+
+    }
+
+    private void OnBossFightIsActiveChanged(bool oldStatus, bool newStatus)
+    {
+        if(bossFightIsActive.Value)
         {
-            fogWalls[i].isActive.Value = true;
+            GameObject bossHealthBar = Instantiate(PlayerUIManager.instance.playerUIHudManager.bossHealthBarObject, PlayerUIManager.instance.playerUIHudManager.bossHealthBarParent);
+
+            UI_Boss_HP_Bar bossHPBar = bossHealthBar.GetComponentInChildren<UI_Boss_HP_Bar>();
+            bossHPBar.EnableBossHPBar(this);
         }
     }
 }

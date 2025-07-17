@@ -77,7 +77,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
             }
         }
 
-        if(!character.isPerformingAction && rigWeight.weight == 0)
+        if(!character.isPerformingAction && rigWeight.weight == 0 && !earthGuardianManager.sleepState)
         {
             FadeRigWeight(1f);
         }

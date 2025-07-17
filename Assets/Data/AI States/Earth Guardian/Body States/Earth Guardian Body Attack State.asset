@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: edd4be1e426864a45848ae93181e7718, type: 3}
-  m_Name: Earth Guadian Tail Attack State
+  m_Name: Earth Guardian Body Attack State
   m_EditorClassIdentifier: 
   currentAttack: {fileID: 0}
   willPerformCombo: 1
