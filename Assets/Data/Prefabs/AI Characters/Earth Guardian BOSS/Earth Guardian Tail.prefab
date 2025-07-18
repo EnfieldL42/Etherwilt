@@ -838,7 +838,7 @@ GameObject:
   - component: {fileID: 4779918820737913601}
   - component: {fileID: 7407723686607912899}
   - component: {fileID: 1823628901574155617}
-  - component: {fileID: 8798459255444733044}
+  - component: {fileID: -5239601945023406610}
   - component: {fileID: 1588135390861105207}
   - component: {fileID: 5890563049310126815}
   - component: {fileID: 5404331575280930828}
@@ -1131,7 +1131,7 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &8798459255444733044
+--- !u!114 &-5239601945023406610
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1140,7 +1140,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3663683355913951658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d136140874c73584aaa64bb82f0ffbe8, type: 3}
+  m_Script: {fileID: 11500000, guid: 2da04e471d55b8b4dbbf427c59d7a7b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
@@ -1217,6 +1217,8 @@ MonoBehaviour:
   actionTimer: 0
   canTakeDMG: 1
   hasMultipleColliders: 0
+  combineHealthBar: 0
+  isMainBody: 0
   characterName: Earth Guadian Tail
   aICharacterCombatManager: {fileID: 0}
   aICharacterNetworkManager: {fileID: 0}
@@ -1228,7 +1230,10 @@ MonoBehaviour:
   combatState: {fileID: 11400000, guid: 0129d2d7686622b4395a6bb8e35eb2a7, type: 2}
   attack: {fileID: 11400000, guid: 7204fc5b93dba3d4f9d46bd803f194d9, type: 2}
   isPerformingActionTimer: 0
+  maxHealth: 800
   bossID: 1
+  bossIntroClip: {fileID: 0}
+  bossBattleLoopClip: {fileID: 0}
   bossFightIsActive:
     m_InternalValue: 0
   hasBeenAwakened:
@@ -1239,8 +1244,14 @@ MonoBehaviour:
   sleepAnimation: Sleep_01
   awakenAnimation: Awaken_01
   sleepState: {fileID: 11400000, guid: aa1c2b103dfb9f643b98dce22ce4ea0e, type: 2}
+  bossDefeatedMessage: Guardian Vanquished
+  hasMultipleEnemies: 0
+  minimumHealthPercentageForPhaseShift: 50
+  phaseShiftAnimation: Phase_Shift_01
+  phase02CombatStanceState: {fileID: 11400000, guid: 1ab59e47a0f18bb428fc8d368991b7d8, type: 2}
   earthGuardianSoundFXManager: {fileID: 0}
   tailCombatManager: {fileID: 0}
+  bodyCombatManager: {fileID: 0}
 --- !u!114 &5890563049310126815
 MonoBehaviour:
   m_ObjectHideFlags: 0

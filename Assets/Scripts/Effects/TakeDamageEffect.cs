@@ -88,9 +88,6 @@ public class TakeDamageEffect : InstantCharacterEffect
         }
 
         character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;
-
-
-
     }
 
     private void PlayDamageVFX(CharacterManager character)

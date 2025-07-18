@@ -10,7 +10,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     AIEarthGuardianCharacterManager earthGuardianManager;
 
     [Header("Tail")]
-    [SerializeField] AIEarthGuardianTailCombatManager secondBody;
+    public AIEarthGuardianTailCombatManager secondBody;
 
     //will have to add motible colliders depending on where the damage is comming fromt
     [Header("Damage Colliders")]
@@ -36,15 +36,12 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
         base.Awake();
 
         earthGuardianManager = GetComponentInParent<AIEarthGuardianCharacterManager>();
+
     }
 
     private void Start()
     {
-        foreach (var rigBuilder in rig)
-        {
-            if (rigBuilder != null)
-                rigBuilder.Build();
-        }
+        ReRig();
     }
 
     private void Update()
@@ -183,11 +180,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
             constraint.data.sourceObjects = data;
         }
 
-        foreach (var rigBuilder in rig)
-        {
-            if (rigBuilder != null)
-                rigBuilder.Build();
-        }
+        ReRig();
     }
     public void SetSecondBodyTarget()
     {
@@ -213,6 +206,15 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
         }
 
         rigWeight.weight = targetWeight; // make sure it's set exactly at the end
+    }
+
+    public void ReRig()
+    {
+        foreach (var rigBuilder in rig)
+        {
+            if (rigBuilder != null)
+                rigBuilder.Build();
+        }
     }
 
 

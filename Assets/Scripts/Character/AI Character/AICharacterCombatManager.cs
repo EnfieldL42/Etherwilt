@@ -41,6 +41,11 @@ public class AICharacterCombatManager : CharacterCombatManager
             return;
         }
 
+        if(aiCharacter.isPerformingAction)
+        {
+            return;
+        }
+
         Collider[] colliders = Physics.OverlapSphere(aiCharacter.transform.position, detectionRadius, WorldUtilityManager.instance.GetCharacterLayers());
 
         for (int i = 0; i < colliders.Length; i++)

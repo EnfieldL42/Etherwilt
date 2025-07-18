@@ -7,6 +7,10 @@ public class AIBossCharacterManager : AICharacterManager
 {
     public int bossID = 0;
 
+    [Header("Music")]
+    [SerializeField] AudioClip bossIntroClip;
+    [SerializeField] AudioClip bossBattleLoopClip;
+
     [Header("Status")]
     public NetworkVariable<bool> bossFightIsActive = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> hasBeenAwakened = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -17,6 +21,14 @@ public class AIBossCharacterManager : AICharacterManager
 
     [Header("States")]
     public BossSleepState sleepState;
+
+    [SerializeField] string bossDefeatedMessage = "Ancient Conquered";
+    [SerializeField] bool hasMultipleEnemies = false;
+
+    [Header("Phase Shift")]
+    public float minimumHealthPercentageForPhaseShift = 50;
+    [SerializeField] string phaseShiftAnimation = "Phase_Shift_01";
+    [SerializeField] CombatStanceState phase02CombatStanceState;
 
     protected override void Awake()
     {
@@ -107,12 +119,26 @@ public class AIBossCharacterManager : AICharacterManager
 
     public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
     {
+        //if(!hasMultipleEnemies)
+        //{
+        //    PlayerUIManager.instance.playerUIPopUpManager.SendBossDefeatedPopUp(bossDefeatedMessage);
+        //}
+
+        PlayerUIManager.instance.playerUIPopUpManager.SendBossDefeatedPopUp(bossDefeatedMessage);
+
+
         if (IsOwner)
         {
             characterNetworkManager.currentHealth.Value = 0;
             isDead.Value = true;
 
             bossFightIsActive.Value = false;
+
+            foreach (var fogWall in fogWalls)
+            {
+                fogWall.isActive.Value = false;
+            }
+
             //reset any flags
 
             //if not grounded play falling death anim
@@ -146,7 +172,6 @@ public class AIBossCharacterManager : AICharacterManager
             yield return new WaitForSeconds(5);
 
             //award players with runers
-            //disable character
         }
     }
 
@@ -191,10 +216,31 @@ public class AIBossCharacterManager : AICharacterManager
     {
         if(bossFightIsActive.Value)
         {
+            if(bossIntroClip != null && bossBattleLoopClip != null)
+            {
+                WorldSoundFXManager.instance.PlayBossTrack(bossIntroClip, bossBattleLoopClip);
+            }
+
             GameObject bossHealthBar = Instantiate(PlayerUIManager.instance.playerUIHudManager.bossHealthBarObject, PlayerUIManager.instance.playerUIHudManager.bossHealthBarParent);
 
             UI_Boss_HP_Bar bossHPBar = bossHealthBar.GetComponentInChildren<UI_Boss_HP_Bar>();
             bossHPBar.EnableBossHPBar(this);
         }
+        else
+        {
+            WorldSoundFXManager.instance.StopBossMusic();
+        }
+    }
+
+    public void PhaseShift()
+    {
+        characterAnimatorManager.PlayTargetActionAnimation(phaseShiftAnimation, true);
+        combatState = Instantiate(phase02CombatStanceState);
+        currentState = combatState;
+    }
+
+    public void TurnOffObjAfterDeath()
+    {
+        gameObject.SetActive(false);
     }
 }

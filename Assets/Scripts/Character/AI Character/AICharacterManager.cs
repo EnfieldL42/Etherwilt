@@ -25,6 +25,9 @@ public class AICharacterManager : CharacterManager
     [SerializeField] private float isPerformingActionTimer = 0f;
     private float isPerformingActionMaxTime = 10f;
 
+    [Header("Stats")]
+    [SerializeField] int maxHealth = 100;
+
 
     protected override void Awake()
     {
@@ -46,8 +49,21 @@ public class AICharacterManager : CharacterManager
         {
             idle = Instantiate(idle);
             pursueState = Instantiate(pursueState);
+            combatState = Instantiate(combatState);
+            attack = Instantiate(attack);
             currentState = idle;
+
+            aICharacterNetworkManager.currentHealth.Value = maxHealth;
+            aICharacterNetworkManager.maxHealth.Value = maxHealth;
         }
+
+        aICharacterNetworkManager.currentHealth.OnValueChanged += aICharacterNetworkManager.CheckHP;
+    }
+
+    public override void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+        aICharacterNetworkManager.currentHealth.OnValueChanged -= aICharacterNetworkManager.CheckHP;
     }
 
     protected override void Start()

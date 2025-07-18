@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8437d09f28c3e444086bcf3001243485, type: 3}
-  m_Name: Earth Guardian Body Combat State
+  m_Name: Earth Guardian Body Phase 1 Combat State
   m_EditorClassIdentifier: 
   aiCharacterAttacks:
   - {fileID: 11400000, guid: b05ec1ad2975d0e429f3b0e9ff556c27, type: 2}

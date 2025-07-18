@@ -10,7 +10,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
 
 
     [Header("Body")]
-    [SerializeField] AIEarthGuardianBodyCombatManager secondBody;
+    public AIEarthGuardianBodyCombatManager secondBody;
 
     //will have to add motible colliders depending on where the damage is comming fromt
     [Header("Damage Colliders")]
@@ -55,11 +55,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
 
     private void Start()
     {
-        foreach (var rigBuilder in rig)
-        {
-            if (rigBuilder != null)
-                rigBuilder.Build();
-        }
+        ReRig();
     }
 
     private void Update()
@@ -279,11 +275,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
             constraint.data.sourceObjects = data;
         }
 
-        foreach (var rigBuilder in rig)
-        {
-            if (rigBuilder != null)
-                rigBuilder.Build();
-        }
+        ReRig();
     }
     public void FadeRigWeight(float targetWeight)
     {
@@ -305,4 +297,13 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
 
         rigWeight.weight = targetWeight; // make sure it's set exactly at the end
     }
+    public void ReRig()
+    {
+        foreach (var rigBuilder in rig)
+        {
+            if (rigBuilder != null)
+                rigBuilder.Build();
+        }
+    }
+
 }

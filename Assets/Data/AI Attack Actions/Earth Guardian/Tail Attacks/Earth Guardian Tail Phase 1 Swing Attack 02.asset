@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 346e0630b6e0cf147be432e8dae9d42a, type: 3}
-  m_Name: Earth Guardian Body Slam Attack 01
+  m_Name: Earth Guardian Tail Phase 1 Swing Attack 02
   m_EditorClassIdentifier: 
-  attackAnimation: Attack_03
+  attackAnimation: Attack_06
   comboAction: {fileID: 0}
   attackWeight: 50
   attackType: 0
@@ -20,4 +20,4 @@ MonoBehaviour:
   minimumAttackAngle: -35
   maximumAttackAngle: 35
   minimumAttackDistance: 0
-  maximumAttackDistance: 5
+  maximumAttackDistance: 10

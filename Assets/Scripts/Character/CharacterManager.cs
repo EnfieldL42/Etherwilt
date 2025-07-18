@@ -35,6 +35,9 @@ public class CharacterManager : NetworkBehaviour
     public bool hasMultipleColliders = false;
 
 
+    public bool combineHealthBar = false;
+    public bool isMainBody = false;
+
 
     protected virtual void Awake()
     {

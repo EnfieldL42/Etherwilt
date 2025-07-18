@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8437d09f28c3e444086bcf3001243485, type: 3}
+  m_Name: Earth Guardian Tail Phase 2 Combat State
+  m_EditorClassIdentifier: 
+  aiCharacterAttacks:
+  - {fileID: 11400000, guid: 78a12eaea34766b42a0a81edbc811067, type: 2}
+  - {fileID: 11400000, guid: 490ed7418854ce146b09e93b821784c3, type: 2}
+  - {fileID: 11400000, guid: 0c4e4ea0968b9984c9265993eac29e1e, type: 2}
+  - {fileID: 11400000, guid: 9501e485a9bcfb54dbcc6b53bd06b4e7, type: 2}
+  - {fileID: 11400000, guid: 8c41e42a683098640b831f9db182f363, type: 2}
+  - {fileID: 11400000, guid: 83ec53c0a1908b44c9cd129cc2f5078a, type: 2}
+  - {fileID: 11400000, guid: 7a96f652d896b7b4ca941ab5d40e7dd4, type: 2}
+  - {fileID: 11400000, guid: dcd6ce1ba4483894c8c8ec39f08bb1eb, type: 2}
+  potentialAttacks: []
+  canPerformCombo: 0
+  chanceToPerformCombo: 25
+  maximumEngagementDistance: 10

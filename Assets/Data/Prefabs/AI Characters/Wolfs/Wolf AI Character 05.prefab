@@ -102,6 +102,8 @@ MonoBehaviour:
   damageCollider: {fileID: 0}
   physicalDamage: 0
   magicDamage: 0
+  parentCombatManager: {fileID: 0}
+  character: {fileID: 0}
   wolfCharacter: {fileID: 0}
 --- !u!135 &8480859806004101012
 SphereCollider:
@@ -872,6 +874,12 @@ MonoBehaviour:
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
+  actionTimer: 0
+  canTakeDMG: 1
+  hasMultipleColliders: 0
+  combineHealthBar: 0
+  isMainBody: 0
+  characterName: 
   aICharacterCombatManager: {fileID: 0}
   aICharacterNetworkManager: {fileID: 0}
   aICharacterLocomotionManager: {fileID: 0}
@@ -881,7 +889,8 @@ MonoBehaviour:
   pursueState: {fileID: 11400000, guid: aa37797012693564290d3d70049da9ab, type: 2}
   combatState: {fileID: 11400000, guid: e8820d1458273d444ad5826ff3bcd240, type: 2}
   attack: {fileID: 11400000, guid: 60bed3ac727b7f74c9d36e0dcf963d9d, type: 2}
-  canAITurn: 0
+  isPerformingActionTimer: 0
+  maxHealth: 200
 --- !u!114 &-7425840479360445570
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -895,6 +904,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
+  isActive:
+    m_InternalValue: 1
   networkPosition:
     m_InternalValue: {x: 0, y: 0, z: 0}
   networkRotation:
@@ -911,6 +922,8 @@ MonoBehaviour:
   moveAmount:
     m_InternalValue: 0
   currentTargetNetworkObjectID:
+    m_InternalValue: 0
+  isInvulnerable:
     m_InternalValue: 0
   isSprinting:
     m_InternalValue: 0
@@ -947,9 +960,12 @@ MonoBehaviour:
   ShowTopMostFoldoutHeaderGroup: 1
   lastAttackAnimationPerformed: 
   currentTarget: {fileID: 0}
+  hasChangedTarget:
+    m_InternalValue: 0
   currentAttackType: 0
   lockOnTransform: {fileID: 0}
   actionRecoveryTimer: 0
+  enablePivot: 1
   distanceFromTarget: 0
   viewableAngle: 0
   targetsDirection: {x: 0, y: 0, z: 0}
@@ -999,6 +1015,7 @@ MonoBehaviour:
   groundedYVelocity: -20
   fallStartYVelocity: -5
   isRolling: 0
+  yOffset: 2
 --- !u!114 &1105910090718943158
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1054,6 +1071,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 65a47c3fdd4dc4045b12a0145171e9e6, type: 3}
   attackGrunt:
   - {fileID: 8300000, guid: 7d281154830a5624d8a1915df1a28a7b, type: 3}
+  footsteps: []
 --- !u!114 &7785668568497423788
 MonoBehaviour:
   m_ObjectHideFlags: 0
