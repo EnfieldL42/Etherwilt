@@ -1,6 +1,8 @@
 using UnityEngine;
 using Unity.Netcode;
 using System;
+using System.Collections.Generic;
+using System.Collections;
 
 public class FogWallInteractable : NetworkBehaviour
 {
@@ -35,9 +37,16 @@ public class FogWallInteractable : NetworkBehaviour
 
     private void OnIsActiveChanged(bool oldStatus, bool newStatus)
     {
-        if(isActive.Value)
+
+        StartCoroutine(HandleFogChangeWithDelay(newStatus));
+    }
+    private IEnumerator HandleFogChangeWithDelay(bool newStatus)
+    {
+        yield return new WaitForSeconds(0.5f); // Adjust delay as needed
+
+        if (isActive.Value)
         {
-            foreach(var fogObject in fogGameObjects)
+            foreach (var fogObject in fogGameObjects)
             {
                 fogObject.SetActive(true);
             }
@@ -49,6 +58,7 @@ public class FogWallInteractable : NetworkBehaviour
                 fogObject.SetActive(false);
             }
         }
+
     }
 
 }

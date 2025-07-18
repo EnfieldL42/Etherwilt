@@ -34,11 +34,6 @@ public class CharacterManager : NetworkBehaviour
     [HideInInspector] public bool canTakeDMG = true;
     public bool hasMultipleColliders = false;
 
-
-    public bool combineHealthBar = false;
-    public bool isMainBody = false;
-
-
     protected virtual void Awake()
     {
         DontDestroyOnLoad(this);
@@ -183,5 +178,8 @@ public class CharacterManager : NetworkBehaviour
         }
     }
 
-
+    public void TurnOffObjAfterDeath()
+    {
+        gameObject.SetActive(false);
+    }
 }

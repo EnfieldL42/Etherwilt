@@ -3,6 +3,7 @@ using UnityEngine;
 public class ResetActionFlag : StateMachineBehaviour
 {
     CharacterManager character;
+    AIEarthGuardianBodyCombatManager earthGuardian;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -10,6 +11,7 @@ public class ResetActionFlag : StateMachineBehaviour
         if(character == null)
         {
             character = animator.GetComponent<CharacterManager>();
+            earthGuardian = animator.GetComponent<AIEarthGuardianBodyCombatManager>();
         }
 
         if(character.isDead.Value)
@@ -23,7 +25,6 @@ public class ResetActionFlag : StateMachineBehaviour
         character.canMove = true;
         character.characterLocomotionManager.isRolling = false;
         character.characterAnimatorManager.DisableCanDoCombo();
-
 
         if (character.IsOwner)
         {

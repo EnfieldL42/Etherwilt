@@ -207,7 +207,6 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
 
         rigWeight.weight = targetWeight; // make sure it's set exactly at the end
     }
-
     public void ReRig()
     {
         foreach (var rigBuilder in rig)

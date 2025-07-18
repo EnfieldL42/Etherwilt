@@ -1217,8 +1217,6 @@ MonoBehaviour:
   actionTimer: 0
   canTakeDMG: 1
   hasMultipleColliders: 0
-  combineHealthBar: 0
-  isMainBody: 0
   characterName: Earth Guadian Tail
   aICharacterCombatManager: {fileID: 0}
   aICharacterNetworkManager: {fileID: 0}
@@ -1249,6 +1247,7 @@ MonoBehaviour:
   minimumHealthPercentageForPhaseShift: 50
   phaseShiftAnimation: Phase_Shift_01
   phase02CombatStanceState: {fileID: 11400000, guid: 1ab59e47a0f18bb428fc8d368991b7d8, type: 2}
+  bossGroupIDs: 0000000001000000
   earthGuardianSoundFXManager: {fileID: 0}
   tailCombatManager: {fileID: 0}
   bodyCombatManager: {fileID: 0}

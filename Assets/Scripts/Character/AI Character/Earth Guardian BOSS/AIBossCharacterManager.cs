@@ -23,12 +23,13 @@ public class AIBossCharacterManager : AICharacterManager
     public BossSleepState sleepState;
 
     [SerializeField] string bossDefeatedMessage = "Ancient Conquered";
-    [SerializeField] bool hasMultipleEnemies = false;
 
     [Header("Phase Shift")]
     public float minimumHealthPercentageForPhaseShift = 50;
     [SerializeField] string phaseShiftAnimation = "Phase_Shift_01";
     [SerializeField] CombatStanceState phase02CombatStanceState;
+
+    public int[] bossGroupIDs;
 
     protected override void Awake()
     {
@@ -117,21 +118,96 @@ public class AIBossCharacterManager : AICharacterManager
         }
     }
 
+    //public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+    //{
+    //    PlayerUIManager.instance.playerUIPopUpManager.SendBossDefeatedPopUp(bossDefeatedMessage);
+
+    //    if (IsOwner)
+    //    {
+    //        characterNetworkManager.currentHealth.Value = 0;
+    //        isDead.Value = true;
+
+    //        bossFightIsActive.Value = false;
+
+    //        foreach (var fogWall in fogWalls)
+    //        {
+    //            fogWall.isActive.Value = false;
+    //        }
+
+    //        //reset any flags
+
+    //        //if not grounded play falling death anim
+
+    //        if (!manuallySelectDeathAnimation)
+    //        {
+    //            characterAnimatorManager.PlayTargetActionAnimation("Dead_01", true);
+
+    //        }
+
+    //        hasBeenDefeated.Value = true;
+
+    //        if (!WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.ContainsKey(bossID))
+    //        {
+    //            WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Add(bossID, true);
+    //            WorldSaveGameManager.instance.currentCharacterData.bossesDefeated.Add(bossID, true);
+    //        }
+    //        //else load the data that already exists on this boss
+    //        else
+    //        {
+    //            WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Remove(bossID);
+    //            WorldSaveGameManager.instance.currentCharacterData.bossesDefeated.Remove(bossID);
+    //            WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Add(bossID, true);
+    //            WorldSaveGameManager.instance.currentCharacterData.bossesDefeated.Add(bossID, true);
+    //        }
+
+    //        WorldSaveGameManager.instance.SaveGame();
+
+    //        //play death sfx
+
+    //        yield return new WaitForSeconds(5);
+
+    //        //award players with runers
+    //    }
+    //}
+
     public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
     {
-        //if(!hasMultipleEnemies)
-        //{
-        //    PlayerUIManager.instance.playerUIPopUpManager.SendBossDefeatedPopUp(bossDefeatedMessage);
-        //}
-
-        PlayerUIManager.instance.playerUIPopUpManager.SendBossDefeatedPopUp(bossDefeatedMessage);
-
-
         if (IsOwner)
         {
             characterNetworkManager.currentHealth.Value = 0;
             isDead.Value = true;
 
+            // Play individual death animation
+            if (!manuallySelectDeathAnimation)
+            {
+                characterAnimatorManager.PlayTargetActionAnimation("Dead_01", true);
+            }
+
+            hasBeenDefeated.Value = true;
+        }
+
+        // Wait a frame to ensure isDead is synced before checking
+        yield return null;
+
+        // Check if all bosses in the group are dead
+        bool allDead = true;
+
+        foreach (int id in bossGroupIDs)
+        {
+            AIBossCharacterManager boss = WorldAIManager.instance.GetBossCharacterByID(id);
+            if (boss == null || !boss.isDead.Value)
+            {
+                allDead = false;
+                break;
+            }
+        }
+
+        if (!allDead)
+            yield break; // Exit if not all bosses are dead
+
+        // Only proceed once all bosses in the group are defeated
+        if (IsOwner)
+        {
             bossFightIsActive.Value = false;
 
             foreach (var fogWall in fogWalls)
@@ -139,39 +215,29 @@ public class AIBossCharacterManager : AICharacterManager
                 fogWall.isActive.Value = false;
             }
 
-            //reset any flags
+            PlayerUIManager.instance.playerUIPopUpManager.SendBossDefeatedPopUp(bossDefeatedMessage);
 
-            //if not grounded play falling death anim
-
-            if (!manuallySelectDeathAnimation)
+            foreach (int id in bossGroupIDs)
             {
-                characterAnimatorManager.PlayTargetActionAnimation("Dead_01", true);
-
-            }
-
-            hasBeenDefeated.Value = true;
-
-            if (!WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.ContainsKey(bossID))
-            {
-                WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Add(bossID, true);
-                WorldSaveGameManager.instance.currentCharacterData.bossesDefeated.Add(bossID, true);
-            }
-            //else load the data that already exists on this boss
-            else
-            {
-                WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Remove(bossID);
-                WorldSaveGameManager.instance.currentCharacterData.bossesDefeated.Remove(bossID);
-                WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Add(bossID, true);
-                WorldSaveGameManager.instance.currentCharacterData.bossesDefeated.Add(bossID, true);
+                if (!WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.ContainsKey(id))
+                {
+                    WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Add(id, true);
+                    WorldSaveGameManager.instance.currentCharacterData.bossesDefeated.Add(id, true);
+                }
+                else
+                {
+                    WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Remove(id);
+                    WorldSaveGameManager.instance.currentCharacterData.bossesDefeated.Remove(id);
+                    WorldSaveGameManager.instance.currentCharacterData.bossesAwakened.Add(id, true);
+                    WorldSaveGameManager.instance.currentCharacterData.bossesDefeated.Add(id, true);
+                }
             }
 
             WorldSaveGameManager.instance.SaveGame();
 
-            //play death sfx
-
             yield return new WaitForSeconds(5);
 
-            //award players with runers
+            // award runes, etc.
         }
     }
 
@@ -239,8 +305,5 @@ public class AIBossCharacterManager : AICharacterManager
         currentState = combatState;
     }
 
-    public void TurnOffObjAfterDeath()
-    {
-        gameObject.SetActive(false);
-    }
+
 }
