@@ -4,15 +4,14 @@ public class AICharacterAnimatorManager : CharacterAnimatorManager
 {
     AICharacterManager aiCharacter;
 
+
     protected override void Awake()
     {
         base.Awake();
 
         aiCharacter = GetComponent<AICharacterManager>();
 
-
     }
-
 
 
     private void OnAnimatorMove()
@@ -47,5 +46,4 @@ public class AICharacterAnimatorManager : CharacterAnimatorManager
 
         }
     }
-
 }

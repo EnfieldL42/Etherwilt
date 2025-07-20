@@ -841,9 +841,9 @@ GameObject:
   - component: {fileID: -5239601945023406610}
   - component: {fileID: 1588135390861105207}
   - component: {fileID: 5890563049310126815}
+  - component: {fileID: 5658748462922925029}
   - component: {fileID: 5404331575280930828}
   - component: {fileID: 9160441671722291863}
-  - component: {fileID: 5658748462922925029}
   - component: {fileID: 858219096720404201}
   - component: {fileID: 4750906219654916766}
   - component: {fileID: 3997582505469280118}
@@ -1227,7 +1227,6 @@ MonoBehaviour:
   pursueState: {fileID: 11400000, guid: e3455507a2f382948865da4f8b070f90, type: 2}
   combatState: {fileID: 11400000, guid: 0129d2d7686622b4395a6bb8e35eb2a7, type: 2}
   attack: {fileID: 11400000, guid: 7204fc5b93dba3d4f9d46bd803f194d9, type: 2}
-  isPerformingActionTimer: 0
   maxHealth: 800
   bossID: 1
   bossIntroClip: {fileID: 0}
@@ -1243,7 +1242,6 @@ MonoBehaviour:
   awakenAnimation: Awaken_01
   sleepState: {fileID: 11400000, guid: aa1c2b103dfb9f643b98dce22ce4ea0e, type: 2}
   bossDefeatedMessage: Guardian Vanquished
-  hasMultipleEnemies: 0
   minimumHealthPercentageForPhaseShift: 50
   phaseShiftAnimation: Phase_Shift_01
   phase02CombatStanceState: {fileID: 11400000, guid: 1ab59e47a0f18bb428fc8d368991b7d8, type: 2}
@@ -1270,8 +1268,6 @@ MonoBehaviour:
     m_InternalValue: 0
   currentAttackType: 0
   lockOnTransform: {fileID: 8797667629973108194}
-  actionRecoveryTimer: 0
-  enablePivot: 0
   distanceFromTarget: 0
   viewableAngle: 0
   targetsDirection: {x: 0, y: 0, z: 0}
@@ -1321,6 +1317,31 @@ MonoBehaviour:
   minSeparation: 10
   orbitStrength: 0.5
   earthGuardianVFX: {fileID: 7347693661293416132, guid: b3c0e14fc9f1c1f4eb1d6ac28e2c3821, type: 3}
+--- !u!114 &5658748462922925029
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3663683355913951658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ab60adb2bc58134d974a798b0aaf0b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damageGrunt:
+  - {fileID: 8300000, guid: 88b91714a2e2cbb428f61e18ca4d39d8, type: 3}
+  - {fileID: 8300000, guid: cad57fcf83264a4489ae5c41b55e7a8b, type: 3}
+  - {fileID: 8300000, guid: 14a883f5f8241cc4ca1f35fe54fef1d2, type: 3}
+  attackGrunt:
+  - {fileID: 8300000, guid: 48270719143516a4fb1d29f86e32dd51, type: 3}
+  footsteps: []
+  movingAudioSource: {fileID: 7882955529536409580}
+  attackingWhooshes:
+  - {fileID: 8300000, guid: 48270719143516a4fb1d29f86e32dd51, type: 3}
+  attackingImpacts: []
+  attackingAOE: []
+  movingSFX: {fileID: 0}
 --- !u!114 &5404331575280930828
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1360,32 +1381,9 @@ MonoBehaviour:
   hit_Backward_Medium_01: hit_Backward_Medium_01
   hit_Left_Medium_01: hit_Left_Medium_01
   hit_Right_Medium_01: hit_Right_Medium_01
-  canAITurn: 0
---- !u!114 &5658748462922925029
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3663683355913951658}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ab60adb2bc58134d974a798b0aaf0b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageGrunt:
-  - {fileID: 8300000, guid: 88b91714a2e2cbb428f61e18ca4d39d8, type: 3}
-  - {fileID: 8300000, guid: cad57fcf83264a4489ae5c41b55e7a8b, type: 3}
-  - {fileID: 8300000, guid: 14a883f5f8241cc4ca1f35fe54fef1d2, type: 3}
-  attackGrunt:
-  - {fileID: 8300000, guid: 48270719143516a4fb1d29f86e32dd51, type: 3}
-  footsteps: []
-  movingAudioSource: {fileID: 7882955529536409580}
-  attackingWhooshes:
-  - {fileID: 8300000, guid: 48270719143516a4fb1d29f86e32dd51, type: 3}
-  attackingImpacts: []
-  attackingAOE: []
-  movingSFX: {fileID: 0}
+  animator: {fileID: 0}
+  targetStateName: Empty
+  timeThreshold: 1
 --- !u!114 &858219096720404201
 MonoBehaviour:
   m_ObjectHideFlags: 0

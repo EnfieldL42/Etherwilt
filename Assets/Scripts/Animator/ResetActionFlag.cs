@@ -21,6 +21,7 @@ public class ResetActionFlag : StateMachineBehaviour
 
         character.applyRootMotion = false;
         character.isPerformingAction = false;
+        Debug.Log("isperminhaction reset");
         character.canRotate = true;
         character.canMove = true;
         character.characterLocomotionManager.isRolling = false;

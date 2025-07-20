@@ -238,9 +238,9 @@ public class AICharacterCombatManager : CharacterCombatManager
 
     public void HandleActionRecovery(AICharacterManager aiCharacter)
     {
-        if(actionRecoveryTimer > 0)
+        if (actionRecoveryTimer > 0)
         {
-            if(!aiCharacter.isPerformingAction)
+            if (!aiCharacter.isPerformingAction)
             {
                 actionRecoveryTimer -= Time.deltaTime;
             }

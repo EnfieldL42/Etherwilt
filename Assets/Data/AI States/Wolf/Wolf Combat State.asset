@@ -17,4 +17,4 @@ MonoBehaviour:
   potentialAttacks: []
   canPerformCombo: 0
   chanceToPerformCombo: 25
-  maximumEngagementDistance: 1.4
+  maximumEngagementDistance: 2

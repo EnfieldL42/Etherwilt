@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Netcode;
 using static UnityEngine.Rendering.DebugUI;
 using System;
+using Unity.VisualScripting;
 
 public class CharacterAnimatorManager : MonoBehaviour
 {
@@ -25,6 +26,10 @@ public class CharacterAnimatorManager : MonoBehaviour
         horizontal = Animator.StringToHash("Horizontal");
     }
 
+    protected virtual void Update()
+    {
+
+    }
 
     public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement, bool isSprinting)
     {

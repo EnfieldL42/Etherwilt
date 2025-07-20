@@ -23,8 +23,8 @@ public class AICharacterManager : CharacterManager
     public CombatStanceState combatState;
     public AttackState attack;
 
-    [SerializeField] private float isPerformingActionTimer = 0f;
-    private float isPerformingActionMaxTime = 10f;
+    //[SerializeField] private float isPerformingActionTimer = 0f;
+    //private float isPerformingActionMaxTime = 10f;
 
     [Header("Stats")]
     [SerializeField] int maxHealth = 100;
@@ -80,14 +80,14 @@ public class AICharacterManager : CharacterManager
 
         aICharacterCombatManager.HandleActionRecovery(this);
 
-        if (isPerformingAction)
-        {
-            CheckForPerformingActionBug();
-        }
-        else
-        {
-            isPerformingActionTimer = 0f;
-        }
+        //if (isPerformingAction)
+        //{
+        //    CheckForPerformingActionBug();
+        //}
+        //else
+        //{
+        //    isPerformingActionTimer = 0f;
+        //}
     }
 
     protected override void FixedUpdate()
@@ -148,16 +148,16 @@ public class AICharacterManager : CharacterManager
         navmeshAgent.enabled = true;
     }
 
-    private void CheckForPerformingActionBug()
-    {
-        isPerformingActionTimer += Time.deltaTime;
+    //private void CheckForPerformingActionBug()
+    //{
+    //    isPerformingActionTimer += Time.deltaTime;
 
-        if(isPerformingActionTimer >= isPerformingActionMaxTime)
-        {
-            isPerformingAction = false;
-            isPerformingActionTimer = 0f;
-        }
-    }
+    //    if(isPerformingActionTimer >= isPerformingActionMaxTime)
+    //    {
+    //        isPerformingAction = false;
+    //        isPerformingActionTimer = 0f;
+    //    }
+    //}
 
     public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
     {
