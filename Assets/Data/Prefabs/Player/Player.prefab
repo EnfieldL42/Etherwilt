@@ -2549,7 +2549,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  groundCheckSphereRadius: 0.14
+  groundCheckSphereRadius: 0.35
   groundCheckPlusOrMinusPosition: {x: 0, y: 0.1, z: 0}
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20

@@ -33,7 +33,7 @@ public class CombatStanceState : AIState
             aiCharacter.navmeshAgent.enabled = true;
         }
 
-        if (aiCharacter.aICharacterCombatManager.enablePivot)
+        if (aiCharacter.pursueState.canPivot)
         {
             if (!aiCharacter.aICharacterNetworkManager.isMoving.Value)
             {

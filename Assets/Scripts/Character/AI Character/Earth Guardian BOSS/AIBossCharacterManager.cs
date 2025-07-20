@@ -238,6 +238,8 @@ public class AIBossCharacterManager : AICharacterManager
             yield return new WaitForSeconds(5);
 
             // award runes, etc.
+
+            gameObject.SetActive(false);
         }
     }
 

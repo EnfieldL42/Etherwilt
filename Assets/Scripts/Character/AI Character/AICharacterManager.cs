@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -155,6 +156,34 @@ public class AICharacterManager : CharacterManager
         {
             isPerformingAction = false;
             isPerformingActionTimer = 0f;
+        }
+    }
+
+    public override IEnumerator ProcessDeathEvent(bool manuallySelectDeathAnimation = false)
+    {
+        if (IsOwner)
+        {
+            characterNetworkManager.currentHealth.Value = 0;
+            isDead.Value = true;
+
+            //reset any flags
+
+            //if not grounded play falling death anim
+
+            if (!manuallySelectDeathAnimation)
+            {
+                characterAnimatorManager.PlayTargetActionAnimation("Dead_01", true);
+
+            }
+
+            //play death sfx
+
+            yield return new WaitForSeconds(5);
+
+            //award players with runers
+
+            gameObject.SetActive(false);
+
         }
     }
 

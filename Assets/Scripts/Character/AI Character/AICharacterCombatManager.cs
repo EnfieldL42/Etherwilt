@@ -8,9 +8,6 @@ public class AICharacterCombatManager : CharacterCombatManager
     [Header("Action Recovery")]
     public float actionRecoveryTimer = 0;
 
-    [Header("Pivot")]
-    public bool enablePivot = true;
-
     [Header("Target Information")]
     public float distanceFromTarget;
     public float viewableAngle;
@@ -89,7 +86,7 @@ public class AICharacterCombatManager : CharacterCombatManager
                         viewableAngle = WorldUtilityManager.instance.GetAngleOfTarget(transform, targetsDirection);
                         aiCharacter.characterCombatManager.SetTarget(targetCharacter);
 
-                        if(enablePivot)
+                        if(aiCharacter.pursueState.canPivot)
                         {
                             PivotTowardsTarget(aiCharacter);
 

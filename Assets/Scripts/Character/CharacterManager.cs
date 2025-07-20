@@ -131,8 +131,6 @@ public class CharacterManager : NetworkBehaviour
             //disable character
 
 
-
-
         }
     }
 

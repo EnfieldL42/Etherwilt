@@ -4,6 +4,9 @@ using UnityEngine.AI;
 [CreateAssetMenu(menuName = "A.I/States/Pursue Target")]
 public class PursueTargetState : AIState
 {
+    [Header("Can Pivot")]
+    public bool canPivot = false;
+
     public override AIState Tick(AICharacterManager aiCharacter)
     {
         //check if we are performing an action
@@ -24,7 +27,7 @@ public class PursueTargetState : AIState
             aiCharacter.navmeshAgent.enabled = true;
         }
 
-        if(aiCharacter.aICharacterCombatManager.enablePivot)
+        if(canPivot)
         {
             if (aiCharacter.aICharacterCombatManager.viewableAngle < aiCharacter.aICharacterCombatManager.minimumFOV || aiCharacter.aICharacterCombatManager.viewableAngle > aiCharacter.aICharacterCombatManager.maximumFOV)
             {
