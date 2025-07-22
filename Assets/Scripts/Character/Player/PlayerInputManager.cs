@@ -1,11 +1,9 @@
 ﻿using System;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
-using UnityEngine.Windows;
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -33,6 +31,13 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool rightArrowInput = false;
     [SerializeField] bool leftArrowInput = false;
     [SerializeField] bool reviveInput = false;
+
+    [Header("Queued Inputs")]
+    [SerializeField] bool inputQueueIsActive = false;
+    [SerializeField] float defaultQueuedInputTime = 0.35f;
+    [SerializeField] float queuedInputTimer = 0;
+    [SerializeField] bool queuedRBInput = false;
+    [SerializeField] bool queuedRTInput = false;
 
 
     [Header("Bumper Inputs")]
@@ -119,6 +124,9 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerActions.LeftArrow.performed += i => leftArrowInput = true;
             playerControls.PlayerActions.ReviveInput.performed += i => reviveInput = true;
 
+            //Queued Inputs
+            playerControls.PlayerActions.QueuedRB.performed += i => QueuedInput(ref queuedRBInput);
+            playerControls.PlayerActions.QueuedRT.performed += i => QueuedInput(ref queuedRTInput);
         }
 
         playerControls.Enable();
@@ -208,6 +216,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleRBInput();
         HandleRTInput();
         HandleHoldRTInput();
+        HandleQueuedInputs();
 
         HandleLockOnInput();
         HandleLockOnSwitchInput();
@@ -566,5 +575,62 @@ public class PlayerInputManager : MonoBehaviour
         KeyboardMouse = 0, Gamepad = 1 // just need to be same indexes as defined in inputActionAsset
     }
 
+    private void QueuedInput(ref bool queuedInput)
+    {
+        queuedRBInput = false;
+        queuedRTInput = false;
+        //queuedLBInput = false;
+        //queuedLTInput = false;
+
+        //check for ui window being open, if its open, return
+
+        if(player.isPerformingAction || player.playerNetworkManager.isJumping.Value)
+        {
+            queuedInput = true;
+            queuedInputTimer = defaultQueuedInputTime;
+            inputQueueIsActive = true;
+        }
+    }
+
+    private void ProcessQueuedInputs()
+    {
+        if(player.isDead.Value)
+        {
+            return;
+        }
+        if(queuedRBInput)
+        {
+            RBInput= true;
+        }
+        if (queuedRTInput)
+        {
+            RTInput = true;
+        }
+    }
+
+    private void HandleQueuedInputs()
+    {
+        if(inputQueueIsActive)
+        {
+            //while timer is above 0, keep attempting to press the input
+            if (queuedInputTimer > 0)
+            {
+                queuedInputTimer -= Time.deltaTime;
+                ProcessQueuedInputs();
+            }
+            else
+            {
+                queuedRBInput = false;
+                queuedRTInput = false;
+
+
+                inputQueueIsActive = false;
+                queuedInputTimer = 0;
+            }
+        }
+    }
+
 }
+
+
 

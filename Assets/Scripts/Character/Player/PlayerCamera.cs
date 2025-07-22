@@ -13,7 +13,7 @@ public class PlayerCamera : MonoBehaviour
 
 
     [Header("Camera Settings")] //camera performance
-    private float cameraSmoothSpeed = 1; //the bigger the number the longer it will take to move towards the player
+    [SerializeField] float cameraSmoothSpeed = 1; //the bigger the number the longer it will take to move towards the player
     [SerializeField] float upAndDownRotationSpeed = 220;
     [SerializeField] float leftAndRightRotationSpeed = 220;
 
@@ -81,7 +81,7 @@ public class PlayerCamera : MonoBehaviour
 
     private void HandleFollowTarget()
     {
-        Vector3 targetCameraPosition = Vector3.SmoothDamp(transform.position, player.transform.position, ref cameraVelocity, cameraSmoothSpeed * Time.deltaTime);
+        Vector3 targetCameraPosition = Vector3.SmoothDamp(transform.position, player.transform.position, ref cameraVelocity, cameraSmoothSpeed);
         transform.position = targetCameraPosition;
 
     }

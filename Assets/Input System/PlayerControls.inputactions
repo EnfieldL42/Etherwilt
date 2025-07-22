@@ -187,9 +187,27 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Queued RB",
+                    "type": "Button",
+                    "id": "6d8d9a59-6ed5-4abd-b62f-caf6d5bfd128",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "RT",
                     "type": "Button",
                     "id": "c722d13f-8458-49cc-987d-d33bb7a1c2af",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Queued RT",
+                    "type": "Button",
+                    "id": "41801a47-1f65-42ce-9e3f-1e6fc15dcc49",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -396,6 +414,28 @@
                 },
                 {
                     "name": "",
+                    "id": "dad8edb6-af85-4adb-97f5-09e11840a8db",
+                    "path": "<Gamepad>/rightShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad Controls",
+                    "action": "Queued RB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6e515500-8281-4c48-aa8c-2cc2678d9f79",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "Queued RB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "bfd7b742-d1e2-4db9-9dd3-8fe139cb3c31",
                     "path": "<Gamepad>/rightTrigger",
                     "interactions": "",
@@ -413,6 +453,28 @@
                     "processors": "",
                     "groups": ";Keyboard Controls",
                     "action": "RT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "84851505-ddba-4e22-b2f1-0ed9ce31b72e",
+                    "path": "<Gamepad>/rightTrigger",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad Controls",
+                    "action": "Queued RT",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "05372670-58ef-472a-a9a6-075814dba538",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "Queued RT",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

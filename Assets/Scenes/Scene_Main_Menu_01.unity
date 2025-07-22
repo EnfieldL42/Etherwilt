@@ -3070,6 +3070,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5602889298933114635, guid: b3627b78068a1dc46ba7f3ac81773a43, type: 3}
     - target: {fileID: 4367345727372892929, guid: 5e71ff351a00ab942aba60de55d3f84e, type: 3}
+      propertyPath: cameraSmoothSpeed
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367345727372892929, guid: 5e71ff351a00ab942aba60de55d3f84e, type: 3}
       propertyPath: lockedCameraHeight
       value: 1.8
       objectReference: {fileID: 0}
