@@ -60,6 +60,20 @@ public class PlayerManager : CharacterManager
         DebugMenu();
     }
 
+    protected override void OnEnable()
+    {
+        base.OnEnable();
+
+
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+
+
+    }
+
     public override void OnNetworkSpawn()
     {
         base.OnNetworkSpawn();
@@ -81,6 +95,11 @@ public class PlayerManager : CharacterManager
             playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
             playerNetworkManager.currentStamina.OnValueChanged += playerStatsManager.ResetStaminaRegenTimer;
 
+        }
+
+        if (!IsOwner)
+        {
+            characterNetworkManager.currentHealth.OnValueChanged += characterUIManager.OnHPChanged;
         }
 
         //STATS
@@ -110,7 +129,6 @@ public class PlayerManager : CharacterManager
 
     }
 
-
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
@@ -129,6 +147,11 @@ public class PlayerManager : CharacterManager
             playerNetworkManager.currentStamina.OnValueChanged -= PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
             playerNetworkManager.currentStamina.OnValueChanged -= playerStatsManager.ResetStaminaRegenTimer;
 
+        }
+
+        if (!IsOwner)
+        {
+            characterNetworkManager.currentHealth.OnValueChanged -= characterUIManager.OnHPChanged;
         }
 
         //STATS

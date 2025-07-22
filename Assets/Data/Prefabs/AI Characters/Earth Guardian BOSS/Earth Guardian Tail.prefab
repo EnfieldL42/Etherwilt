@@ -848,6 +848,7 @@ GameObject:
   - component: {fileID: 4750906219654916766}
   - component: {fileID: 3997582505469280118}
   - component: {fileID: 6383027739165374279}
+  - component: {fileID: 5356536824266524854}
   m_Layer: 6
   m_Name: Earth Guardian Tail
   m_TagString: Untagged
@@ -1208,6 +1209,7 @@ MonoBehaviour:
   characterCombatManager: {fileID: 0}
   characterSoundFXManager: {fileID: 0}
   characterLocomotionManager: {fileID: 0}
+  characterUIManager: {fileID: 0}
   characterGroup: 1
   isPerformingAction: 0
   isGrounded: 1
@@ -1268,6 +1270,9 @@ MonoBehaviour:
     m_InternalValue: 0
   currentAttackType: 0
   lockOnTransform: {fileID: 8797667629973108194}
+  canPerformRollingAttack: 0
+  canPerformBackstepAttack: 0
+  actionRecoveryTimer: 0
   distanceFromTarget: 0
   viewableAngle: 0
   targetsDirection: {x: 0, y: 0, z: 0}
@@ -1381,9 +1386,6 @@ MonoBehaviour:
   hit_Backward_Medium_01: hit_Backward_Medium_01
   hit_Left_Medium_01: hit_Left_Medium_01
   hit_Right_Medium_01: hit_Right_Medium_01
-  animator: {fileID: 0}
-  targetStateName: Empty
-  timeThreshold: 1
 --- !u!114 &858219096720404201
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1436,6 +1438,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7b11227c12ceda45a2e1b76dacc4d87, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &5356536824266524854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3663683355913951658}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9262569e709ec7a47a26475c123f2a92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hasFloatingHPBar: 0
+  character_HP_Bar: {fileID: 0}
 --- !u!1 &4063068758865924375
 GameObject:
   m_ObjectHideFlags: 0

@@ -20,7 +20,6 @@ public class ResetActionFlag : StateMachineBehaviour
         character.characterCombatManager.DisableCanDoCombo();
         character.characterCombatManager.DisableCanDoRollingAttack();
         character.characterCombatManager.DisableCanDoBackstepAttack();
-        Debug.Log("Resetting Action Flags for: " + character.name);
 
         if (character.IsOwner)
         {
