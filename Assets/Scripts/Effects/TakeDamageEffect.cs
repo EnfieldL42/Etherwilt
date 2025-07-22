@@ -105,7 +105,7 @@ public class TakeDamageEffect : InstantCharacterEffect
 
     }
 
-    private void PlayDirectonalBasedDamageAnimation(CharacterManager character)
+    private void PlayDirectonalBasedDamageAnimation(CharacterManager character, bool isPerformingAction = true)
     {
         if (!character.IsOwner)
         {
@@ -118,7 +118,7 @@ public class TakeDamageEffect : InstantCharacterEffect
         }
 
         //TODO calculate is poise is broken
-        poiseIsBroken = true;
+        //poiseIsBroken = true;
 
         if(angleHitFrom >= 145 && angleHitFrom <= 180)
         {
@@ -152,7 +152,7 @@ public class TakeDamageEffect : InstantCharacterEffect
 
         if (poiseIsBroken)
         {
-            character.characterAnimatorManager.PlayTargetActionAnimation(damageAnimation, true);
+            character.characterAnimatorManager.PlayTargetActionAnimation(damageAnimation, isPerformingAction);
         }
 
     }

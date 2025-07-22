@@ -41,6 +41,9 @@ public enum AttackType
     ChargedAttack01,
     ChargedAttack02,
     ChargedAttack03,
+    RunningAttack01,
+    RollingAttack01,
+    BackstepAttack01,
 
     //EARTH GUARDIAN
     TailAttack01,

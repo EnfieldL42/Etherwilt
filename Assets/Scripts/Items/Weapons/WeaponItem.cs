@@ -35,19 +35,21 @@ public class WeaponItem : Item
     public float chargedAttackModifer01 = 2.0f;
     public float chargedAttackModifer02 = 2.2f;
     public float chargedAttackModifer03 = 2.4f;
-    //light attach modifier
-    //heavy attack modifier
+
+    public float runningAttackModifer = 1.2f;
+    public float rollingAttackModifer = 1.1f;
+    public float backstepAttackModifer = 1.1f;
     //critial damage modifier
 
     [Header("Stamina Costs Modifiers")]
     public int baseStaminaCost = 20;
-    public float meleeAttackStaminaCostMultiplier = 0.9f;
-    public float lightAttackStaminaCostMultiplier = 0.9f;
-    public float heavyAttackStaminaCostMultiplier = 0.9f;
-    public float chargedAttackStaminaCostMultiplier = 0.9f;
-    //running attack stamina cost modifier (low importance)
-    //heavy attack stamina cost modier
-
+    public float meleeAttackStaminaCostMultiplier = 1f;
+    public float lightAttackStaminaCostMultiplier = 1f;
+    public float heavyAttackStaminaCostMultiplier = 1.3f;
+    public float chargedAttackStaminaCostMultiplier = 1.5f;
+    public float runningAttackStaminaCostMultiplier = 1.1f;
+    public float rollingAttackStaminaCostMultiplier = 1.1f;
+    public float backstepAttackStaminaCostMultiplier = 1.1f;
 
     [Header("Actions")]
     public WeaponItemAction oneHandedRBAction;

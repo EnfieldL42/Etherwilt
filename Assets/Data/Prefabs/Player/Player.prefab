@@ -2272,16 +2272,16 @@ GameObject:
   m_Component:
   - component: {fileID: 4974591816155263218}
   - component: {fileID: 6801475419672444159}
-  - component: {fileID: 5602889298933114635}
   - component: {fileID: 653157109798938807}
-  - component: {fileID: 1017866198720386970}
+  - component: {fileID: 5602889298933114635}
+  - component: {fileID: 8853657290969883488}
   - component: {fileID: 4131731659789441024}
+  - component: {fileID: 1017866198720386970}
   - component: {fileID: 5740999402678442274}
   - component: {fileID: 3123773108772007524}
   - component: {fileID: 2685033740488950709}
   - component: {fileID: 7065168411514270167}
   - component: {fileID: -7887568700259186516}
-  - component: {fileID: 8853657290969883488}
   - component: {fileID: 4138232809167272675}
   - component: {fileID: -712048882763127582}
   - component: {fileID: 8105345913445095044}
@@ -2336,46 +2336,6 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &5602889298933114635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6996593062366450161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e67ba73ab38f4f5438c3db182a6cdf54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  isDead:
-    m_InternalValue: 0
-  characterController: {fileID: 0}
-  characterNetworkManager: {fileID: 0}
-  animator: {fileID: 0}
-  characterEffectsManager: {fileID: 0}
-  characterAnimatorManager: {fileID: 0}
-  characterCombatManager: {fileID: 0}
-  characterSoundFXManager: {fileID: 0}
-  characterLocomotionManager: {fileID: 0}
-  characterGroup: 0
-  isPerformingAction: 0
-  isGrounded: 1
-  applyRootMotion: 0
-  canRotate: 1
-  canMove: 1
-  actionTimer: 0
-  canTakeDMG: 1
-  hasMultipleColliders: 0
-  respawnCharacter: 0
-  playerLocomotionManager: {fileID: 0}
-  playerAnimatorManager: {fileID: 0}
-  playerStatsManager: {fileID: 0}
-  playerNetworkManager: {fileID: 0}
-  playerInventoryManager: {fileID: 0}
-  playerEquipmentManager: {fileID: 0}
-  playerCombatManager: {fileID: 0}
 --- !u!114 &653157109798938807
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2509,7 +2469,7 @@ MonoBehaviour:
     m_InternalValue: 0
   isUsingLeftHand:
     m_InternalValue: 0
---- !u!114 &1017866198720386970
+--- !u!114 &5602889298933114635
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2518,21 +2478,58 @@ MonoBehaviour:
   m_GameObject: {fileID: 6996593062366450161}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58623f70d9ec1b846aa9d9ae9e9e9d41, type: 3}
+  m_Script: {fileID: 11500000, guid: e67ba73ab38f4f5438c3db182a6cdf54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentRightHandWeapon: {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
-  currentLeftHandWeapon: {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
-  weaponsInRightHandSlots:
-  - {fileID: 11400000, guid: dac5ff37e5d2e8741acff698b080aca3, type: 2}
-  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
-  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
-  rightHandWeaponIndex: -1
-  weaponsInLeftHandSlots:
-  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
-  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
-  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
-  leftHandWeaponIndex: -1
+  ShowTopMostFoldoutHeaderGroup: 1
+  isDead:
+    m_InternalValue: 0
+  characterController: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
+  animator: {fileID: 0}
+  characterEffectsManager: {fileID: 0}
+  characterAnimatorManager: {fileID: 0}
+  characterCombatManager: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
+  characterLocomotionManager: {fileID: 0}
+  characterGroup: 0
+  isPerformingAction: 0
+  isGrounded: 1
+  applyRootMotion: 0
+  canRotate: 1
+  canMove: 1
+  actionTimer: 0
+  canTakeDMG: 1
+  hasMultipleColliders: 0
+  respawnCharacter: 0
+  playerLocomotionManager: {fileID: 0}
+  playerAnimatorManager: {fileID: 0}
+  playerStatsManager: {fileID: 0}
+  playerNetworkManager: {fileID: 0}
+  playerInventoryManager: {fileID: 0}
+  playerEquipmentManager: {fileID: 0}
+  playerCombatManager: {fileID: 0}
+--- !u!114 &8853657290969883488
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6996593062366450161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dca9410322aecd74c9ec9ec31250cb10, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  lastAttackAnimationPerformed: 
+  currentTarget: {fileID: 0}
+  hasChangedTarget:
+    m_InternalValue: 0
+  currentAttackType: 0
+  lockOnTransform: {fileID: 1911772263533960642}
+  currentWeaponBeingUsed: {fileID: 0}
+  canComboWithMainHandWeapon: 0
 --- !u!114 &4131731659789441024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2569,6 +2566,30 @@ MonoBehaviour:
   jumpForwardSpeed: 5
   freeFallSpeed: 2
   dodgeStaminaCost: 20
+--- !u!114 &1017866198720386970
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6996593062366450161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58623f70d9ec1b846aa9d9ae9e9e9d41, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentRightHandWeapon: {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
+  currentLeftHandWeapon: {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
+  weaponsInRightHandSlots:
+  - {fileID: 11400000, guid: dac5ff37e5d2e8741acff698b080aca3, type: 2}
+  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
+  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
+  rightHandWeaponIndex: -1
+  weaponsInLeftHandSlots:
+  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
+  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
+  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
+  leftHandWeaponIndex: -1
 --- !u!114 &5740999402678442274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2652,27 +2673,6 @@ MonoBehaviour:
   bloodSplatterVFX: {fileID: 0}
   effectToTest: {fileID: 0}
   processEffect: 0
---- !u!114 &8853657290969883488
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6996593062366450161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dca9410322aecd74c9ec9ec31250cb10, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  lastAttackAnimationPerformed: 
-  currentTarget: {fileID: 0}
-  hasChangedTarget:
-    m_InternalValue: 0
-  currentAttackType: 0
-  lockOnTransform: {fileID: 1911772263533960642}
-  currentWeaponBeingUsed: {fileID: 0}
-  canComboWithMainHandWeapon: 0
 --- !u!54 &4138232809167272675
 Rigidbody:
   m_ObjectHideFlags: 0
