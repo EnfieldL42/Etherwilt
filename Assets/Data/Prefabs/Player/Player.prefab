@@ -2282,6 +2282,7 @@ GameObject:
   - component: {fileID: 2685033740488950709}
   - component: {fileID: 7065168411514270167}
   - component: {fileID: -7887568700259186516}
+  - component: {fileID: 7845466611480596997}
   - component: {fileID: 7656734040510810181}
   - component: {fileID: 4138232809167272675}
   - component: {fileID: -712048882763127582}
@@ -2512,6 +2513,7 @@ MonoBehaviour:
   playerInventoryManager: {fileID: 0}
   playerEquipmentManager: {fileID: 0}
   playerCombatManager: {fileID: 0}
+  playerInteractionManager: {fileID: 0}
 --- !u!114 &8853657290969883488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2551,7 +2553,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  groundCheckSphereRadius: 0.35
+  groundCheckSphereRadius: 0.2
   groundCheckPlusOrMinusPosition: {x: 0, y: 0.1, z: 0}
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
@@ -2678,6 +2680,18 @@ MonoBehaviour:
   bloodSplatterVFX: {fileID: 0}
   effectToTest: {fileID: 0}
   processEffect: 0
+--- !u!114 &7845466611480596997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6996593062366450161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d659c79e6c1524b42862bb493b090efa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7656734040510810181
 MonoBehaviour:
   m_ObjectHideFlags: 0

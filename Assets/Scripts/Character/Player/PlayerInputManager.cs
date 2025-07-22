@@ -31,6 +31,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool rightArrowInput = false;
     [SerializeField] bool leftArrowInput = false;
     [SerializeField] bool reviveInput = false;
+    [SerializeField] bool interactionInput = false;
 
     [Header("Queued Inputs")]
     [SerializeField] bool inputQueueIsActive = false;
@@ -127,6 +128,9 @@ public class PlayerInputManager : MonoBehaviour
             //Queued Inputs
             playerControls.PlayerActions.QueuedRB.performed += i => QueuedInput(ref queuedRBInput);
             playerControls.PlayerActions.QueuedRT.performed += i => QueuedInput(ref queuedRTInput);
+
+            //Interaction Input
+            playerControls.PlayerActions.Interact.performed += i => interactionInput = true;
         }
 
         playerControls.Enable();
@@ -224,6 +228,8 @@ public class PlayerInputManager : MonoBehaviour
         HandleRightWeaponSwitch();
         HandleLeftWeaponSwitch();
         HandleRevive();
+
+        HandleInteractionInput();
 
     }
 
@@ -385,6 +391,16 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
+    private void HandleInteractionInput()
+    {
+        if (interactionInput)
+        {
+            interactionInput = false;
+
+            player.playerInteractionManager.Interact();
+        }
+    }
+
     private void HandleRevive()
     {
         if(reviveInput)
@@ -513,6 +529,61 @@ public class PlayerInputManager : MonoBehaviour
 
     }
 
+    private void QueuedInput(ref bool queuedInput)
+    {
+        queuedRBInput = false;
+        queuedRTInput = false;
+        //queuedLBInput = false;
+        //queuedLTInput = false;
+
+        //check for ui window being open, if its open, return
+
+        if(player.isPerformingAction || player.playerNetworkManager.isJumping.Value)
+        {
+            queuedInput = true;
+            queuedInputTimer = defaultQueuedInputTime;
+            inputQueueIsActive = true;
+        }
+    }
+
+    private void ProcessQueuedInputs()
+    {
+        if(player.isDead.Value)
+        {
+            return;
+        }
+        if(queuedRBInput)
+        {
+            RBInput= true;
+        }
+        if (queuedRTInput)
+        {
+            RTInput = true;
+        }
+    }
+
+    private void HandleQueuedInputs()
+    {
+        if(inputQueueIsActive)
+        {
+            //while timer is above 0, keep attempting to press the input
+            if (queuedInputTimer > 0)
+            {
+                queuedInputTimer -= Time.deltaTime;
+                ProcessQueuedInputs();
+            }
+            else
+            {
+                queuedRBInput = false;
+                queuedRTInput = false;
+
+
+                inputQueueIsActive = false;
+                queuedInputTimer = 0;
+            }
+        }
+    }
+
     private void OnDeviceChanged(InputControl control, InputEventPtr eventPtr)
     {
         var device = control.device;
@@ -573,61 +644,6 @@ public class PlayerInputManager : MonoBehaviour
     public enum ControlScheme
     {
         KeyboardMouse = 0, Gamepad = 1 // just need to be same indexes as defined in inputActionAsset
-    }
-
-    private void QueuedInput(ref bool queuedInput)
-    {
-        queuedRBInput = false;
-        queuedRTInput = false;
-        //queuedLBInput = false;
-        //queuedLTInput = false;
-
-        //check for ui window being open, if its open, return
-
-        if(player.isPerformingAction || player.playerNetworkManager.isJumping.Value)
-        {
-            queuedInput = true;
-            queuedInputTimer = defaultQueuedInputTime;
-            inputQueueIsActive = true;
-        }
-    }
-
-    private void ProcessQueuedInputs()
-    {
-        if(player.isDead.Value)
-        {
-            return;
-        }
-        if(queuedRBInput)
-        {
-            RBInput= true;
-        }
-        if (queuedRTInput)
-        {
-            RTInput = true;
-        }
-    }
-
-    private void HandleQueuedInputs()
-    {
-        if(inputQueueIsActive)
-        {
-            //while timer is above 0, keep attempting to press the input
-            if (queuedInputTimer > 0)
-            {
-                queuedInputTimer -= Time.deltaTime;
-                ProcessQueuedInputs();
-            }
-            else
-            {
-                queuedRBInput = false;
-                queuedRTInput = false;
-
-
-                inputQueueIsActive = false;
-                queuedInputTimer = 0;
-            }
-        }
     }
 
 }

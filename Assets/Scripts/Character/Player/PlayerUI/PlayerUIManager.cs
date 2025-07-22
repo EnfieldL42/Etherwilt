@@ -12,7 +12,9 @@ public class PlayerUIManager : MonoBehaviour
     [HideInInspector] public PlayerUIHudManager playerUIHudManager;
     [HideInInspector] public PlayerUIPopUpManager playerUIPopUpManager;
 
-
+    [Header("UI Flags")]
+    public bool menuWindowIsOpen = false;
+    public bool popUpWindowIsOpen = false;
 
     private void Awake()
     {
@@ -55,6 +57,5 @@ public class PlayerUIManager : MonoBehaviour
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
-
 
 }

@@ -187,6 +187,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "03b7a041-58e4-40e8-9115-1f3ebb61bdc3",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Queued RB",
                     "type": "Button",
                     "id": "6d8d9a59-6ed5-4abd-b62f-caf6d5bfd128",
@@ -409,6 +418,28 @@
                     "processors": "",
                     "groups": ";Keyboard Controls",
                     "action": "RB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d39346c0-85e1-4653-809d-20640affbebc",
+                    "path": "<Gamepad>/buttonNorth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad Controls",
+                    "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "06a6f026-33f9-4611-91fb-0930df6e4a6b",
+                    "path": "<Keyboard>/e",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -4,6 +4,10 @@ using System.Collections;
 
 public class PlayerUIPopUpManager : MonoBehaviour
 {
+    [Header("Message Pop up")]
+    [SerializeField] TextMeshProUGUI popUpMessageText;
+    [SerializeField] GameObject popUpMessageGameObject;
+
     [Header("You DIED Pop up")]
     [SerializeField] GameObject youDiedPopUpGameObject;
     //[SerializeField] TextMeshProUGUI youDiedPopUpBackgroundText;
@@ -15,6 +19,20 @@ public class PlayerUIPopUpManager : MonoBehaviour
     //[SerializeField] TextMeshProUGUI youDiedPopUpBackgroundText;
     [SerializeField] TextMeshProUGUI bossDefeatedPopUpText;
     [SerializeField] CanvasGroup bossDefeatedCanvasGroup;
+
+    public void CloseAllPopUpWindows()
+    {
+        popUpMessageGameObject.SetActive(false);
+
+        PlayerUIManager.instance.popUpWindowIsOpen = false;
+    }
+
+    public void SendPlayerMessagePopUp(string messageText)
+    {
+        PlayerUIManager.instance.popUpWindowIsOpen = true;
+        popUpMessageText.text = messageText;
+        popUpMessageGameObject.SetActive(true);
+    }
 
     public void SendYouDiePopUp()
     {
@@ -69,7 +87,6 @@ public class PlayerUIPopUpManager : MonoBehaviour
         }
     }
 
-
     private IEnumerator FadeInPopUpOverTime(CanvasGroup canvas, float duration)
     {
         if(duration > 0)
@@ -92,7 +109,6 @@ public class PlayerUIPopUpManager : MonoBehaviour
             yield return null;
         }
     }
-
 
     private IEnumerator WaitThenFadeOutPopUpOverTime(CanvasGroup canvas, float duration, float delay)
     {

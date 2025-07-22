@@ -4909,7 +4909,7 @@ MonoBehaviour:
   fogGameObjects:
   - {fileID: 241191804662851916}
   - {fileID: 5348771216020180655}
-  fogWallID: 0
+  fogWallID: 1
   isActive:
     m_InternalValue: 0
 --- !u!1 &5348771216020180655
