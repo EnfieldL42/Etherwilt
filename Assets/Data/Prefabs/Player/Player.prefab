@@ -1473,7 +1473,7 @@ Transform:
   m_GameObject: {fileID: 3530261005793747482}
   serializedVersion: 2
   m_LocalRotation: {x: -4.419666e-15, y: -0.0000000048471085, z: -0.00000071926604, w: 1}
-  m_LocalPosition: {x: -0.0003429121, y: 0.95578784, z: 0.0050036493}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -2288,7 +2288,7 @@ GameObject:
   - component: {fileID: -712048882763127582}
   - component: {fileID: 8105345913445095044}
   - component: {fileID: -4238459592806784428}
-  - component: {fileID: 5795914906462486615}
+  - component: {fileID: -3919292847694811582}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -2758,7 +2758,7 @@ CharacterController:
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.92, z: 0}
+  m_Center: {x: 0, y: 0.93, z: 0}
 --- !u!95 &8105345913445095044
 Animator:
   serializedVersion: 7
@@ -2878,7 +2878,7 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
---- !u!114 &5795914906462486615
+--- !u!114 &-3919292847694811582
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2892,7 +2892,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   lengthFromHeelToToes: 0.1
   maxRotationAngle: 45
-  ankleHeightOffset: 0
+  ankleHeightOffset: 0.05
   enableIKPositioning: 1
   enableIKRotating: 1
   globalWeight: 1
@@ -2908,10 +2908,10 @@ MonoBehaviour:
   leftFootRayStartHeight: 0.5
   rightFootRayStartHeight: 0.5
   enableFootLifting: 1
-  floorRange: 0
-  enableBodyPositioning: 1
+  floorRange: 0.1
+  enableBodyPositioning: 0
   crouchRange: 0.25
-  stretchRange: 0.5
+  stretchRange: 0
   giveWorldHeightOffset: 0
   worldHeightOffset: 0
 --- !u!1 &7051239483330291053
