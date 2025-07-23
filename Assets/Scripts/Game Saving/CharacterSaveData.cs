@@ -1,3 +1,4 @@
+using NUnit.Framework.Interfaces;
 using UnityEngine;
 
 [System.Serializable]
@@ -27,12 +28,16 @@ public class CharacterSaveData
     public int vitality;
     public int endurance;
 
+    [Header("Bonfires")]
+    public SerializableDictionary<int, bool> bonfires; //int is the id of the bonfire, bool is whether it is activated or not
+
     [Header("Bosses")]
     public SerializableDictionary<int, bool> bossesAwakened;
     public SerializableDictionary<int, bool> bossesDefeated;
 
     public CharacterSaveData()
     {
+        bonfires = new SerializableDictionary<int, bool>();
         bossesAwakened = new SerializableDictionary<int, bool>();
         bossesDefeated = new SerializableDictionary<int, bool>();
     }

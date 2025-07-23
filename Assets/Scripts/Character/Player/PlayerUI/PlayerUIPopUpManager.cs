@@ -20,6 +20,12 @@ public class PlayerUIPopUpManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI bossDefeatedPopUpText;
     [SerializeField] CanvasGroup bossDefeatedCanvasGroup;
 
+    [Header("Bonfire Restored Pop up")]
+    [SerializeField] GameObject bonfireRestoredPopUpGameObject;
+    //[SerializeField] TextMeshProUGUI youDiedPopUpBackgroundText;
+    [SerializeField] TextMeshProUGUI bonfireRestoredPopUpText;
+    [SerializeField] CanvasGroup bonfireRestoredCanvasGroup;
+
     public void CloseAllPopUpWindows()
     {
         popUpMessageGameObject.SetActive(false);
@@ -65,8 +71,22 @@ public class PlayerUIPopUpManager : MonoBehaviour
         //stretch our the pop up
         //fade in the pop up
         //wait, then dafe out the pop up
+    }
 
+    public void SendBonfireRestoredDefeatedPopUp(string bonfireRestoredMessage)
+    {
+        //actuvate post processing effects
 
+        bonfireRestoredPopUpText.text = bonfireRestoredMessage;
+        bonfireRestoredPopUpGameObject.SetActive(true);
+        //youDiedPopUpBackgroundText.characterSpacing = 0;
+        StartCoroutine(StretchPopUpTextOverTime(bonfireRestoredPopUpText, 8, 10));
+        StartCoroutine(FadeInPopUpOverTime(bonfireRestoredCanvasGroup, 5));
+        StartCoroutine(WaitThenFadeOutPopUpOverTime(bonfireRestoredCanvasGroup, 2, 5));
+
+        //stretch our the pop up
+        //fade in the pop up
+        //wait, then dafe out the pop up
     }
 
     private IEnumerator StretchPopUpTextOverTime(TextMeshProUGUI text, float duration, float stretchAmount)
