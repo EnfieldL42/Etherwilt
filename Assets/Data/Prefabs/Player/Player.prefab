@@ -2559,7 +2559,7 @@ MonoBehaviour:
   groundedYVelocity: -20
   fallStartYVelocity: -5
   isRolling: 0
-  yOffset: 1.5
+  yOffset: 3
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0

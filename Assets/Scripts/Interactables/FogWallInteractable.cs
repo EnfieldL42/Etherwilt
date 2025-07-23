@@ -4,17 +4,42 @@ using System;
 using System.Collections.Generic;
 using System.Collections;
 
-public class FogWallInteractable : NetworkBehaviour
+public class FogWallInteractable : Interactable
 {
     [Header("Fog")]
     [SerializeField] GameObject[] fogGameObjects;
 
+    [Header("Collision")]
+    [SerializeField] Collider fogWallCollider;
+
     [Header("ID")]
     public int fogWallID;
+
+    [Header("Sound")]
+    private AudioSource fogWallAudioSource;
+    [SerializeField] AudioClip fogWallSFX;
 
     [Header("Active")]
     public NetworkVariable<bool> isActive = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
+    protected override void Awake()
+    {
+        base.Awake();
+
+        fogWallAudioSource = GetComponent<AudioSource>();
+    }
+
+    public override void Interact(PlayerManager player)
+    {
+        base.Interact(player);
+
+        Quaternion targetRotation = transform.localRotation;
+        player.transform.rotation = targetRotation;
+
+        AllowPlayerThroughFogWallksCollidersServerRpc(player.NetworkObjectId);
+        player.playerAnimatorManager.PlayTargetActionAnimation("Pass_Through_Fog_01", true);
+
+    }
 
     public override void OnNetworkSpawn()
     {
@@ -58,6 +83,38 @@ public class FogWallInteractable : NetworkBehaviour
                 fogObject.SetActive(false);
             }
         }
+
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void AllowPlayerThroughFogWallksCollidersServerRpc(ulong playerObjectID)
+    {
+        if (IsServer)
+        {
+            AllowPlayerThroughFogWallksCollidersClientRpc(playerObjectID);
+        }
+    }
+    [ClientRpc]
+    private void AllowPlayerThroughFogWallksCollidersClientRpc(ulong playerObjectID)
+    {
+        PlayerManager player = NetworkManager.Singleton.SpawnManager.SpawnedObjects[playerObjectID].GetComponent<PlayerManager>();
+
+        if (fogWallSFX != null)
+        {
+            fogWallAudioSource.PlayOneShot(fogWallSFX);
+        }
+
+        if (player != null)
+        {
+            StartCoroutine(DisableCollisionForTime(player));
+        }
+    }
+
+    private IEnumerator DisableCollisionForTime(PlayerManager player)
+    {
+        Physics.IgnoreCollision(player.characterController, fogWallCollider, true);
+        yield return new WaitForSeconds(1);
+        Physics.IgnoreCollision(player.characterController, fogWallCollider, false);
 
     }
 

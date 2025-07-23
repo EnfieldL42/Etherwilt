@@ -2,6 +2,7 @@ using System.Collections;
 using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using Unity.Netcode;
 
 public class WorldSaveGameManager : MonoBehaviour
 {
@@ -187,7 +188,7 @@ public class WorldSaveGameManager : MonoBehaviour
         player.playerNetworkManager.endurance.Value = 10;
 
         SaveGame();
-        StartCoroutine(LoadWorldScene());
+        LoadWorldScene(worldSceneIndex);
     }
 
     public void LoadGame()
@@ -203,7 +204,7 @@ public class WorldSaveGameManager : MonoBehaviour
         PlayerUIManager.instance.LockMouse();
 
 
-        StartCoroutine(LoadWorldScene());
+        LoadWorldScene(worldSceneIndex);
     }
 
     public void SaveGame()
@@ -259,17 +260,17 @@ public class WorldSaveGameManager : MonoBehaviour
 
     }
 
-    public IEnumerator LoadWorldScene()
+    public void LoadWorldScene(int buildIndex)
     {
-        //for just 1 scene game
-        UnityEngine.AsyncOperation loadOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(worldSceneIndex);
+        string worldScene = SceneUtility.GetScenePathByBuildIndex(buildIndex);
+        NetworkManager.Singleton.SceneManager.LoadScene(worldScene, LoadSceneMode.Single);
+        //UnityEngine.AsyncOperation loadOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(worldSceneIndex);
 
         //can use this if we want to save different scenes
         //UnityEngine.AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
 
         player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
 
-        yield return null;
     }
 
     public int GetWorldSceneIndex()

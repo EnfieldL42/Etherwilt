@@ -1,7 +1,7 @@
 using UnityEngine;
 using Unity.Netcode;
 
-public class Interactable : MonoBehaviour
+public class Interactable : NetworkBehaviour
 {
     public string interactableText;
     [SerializeField] protected Collider interactableCollider;
@@ -23,7 +23,6 @@ public class Interactable : MonoBehaviour
 
     public virtual void Interact(PlayerManager player)
     {
-        Debug.Log("You have interacted");
         if (!player.IsOwner)
         {
             return;

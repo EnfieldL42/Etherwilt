@@ -57,7 +57,6 @@ public class UI_Character_HP_Bar : UI_StatBar
 
     public override void SetStat(float newValue)
     {
-        Debug.Log("its getting here");
         if (displayCharacterNameOnDamage)
         {
             characterName.enabled = true;
