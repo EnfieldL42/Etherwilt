@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
 {
+
+    public AICharacterCombatManager parentCombatManager;
+    public CharacterManager character;
+
     [Header("Collider")]
     [SerializeField] protected Collider damageCollider;
 
@@ -16,9 +20,9 @@ public class DamageCollider : MonoBehaviour
     [Header("Characters Damaged")]
     protected List<CharacterManager> charactersDamaged = new List<CharacterManager>();
 
-    public AICharacterCombatManager parentCombatManager;
-    public CharacterManager character;
-
+    [Header("Block")]
+    protected Vector3 directionFromAttackToDamageTarget;
+    protected float dotValueFromAttackToDamageTarget;
 
     protected virtual void Awake()
     {
@@ -56,17 +60,48 @@ public class DamageCollider : MonoBehaviour
                 return;
             }
 
-
+            CheckForBlock(damageTarget);
             DamageTarget(damageTarget);
         }
-        parentCombatManager.damagedCharactersThisAttack.Add(damageTarget);
+
+        charactersDamaged.Add(damageTarget);
+    }
+
+    protected virtual void CheckForBlock(CharacterManager damageTarget)
+    {
+        if (charactersDamaged.Contains(damageTarget))
+        {
+            return;
+        }
+
+        GetBlockedDotValues(damageTarget);
+
+        if (damageTarget.characterNetworkManager.isBlocking.Value && dotValueFromAttackToDamageTarget > 0.3f)
+        {
+            charactersDamaged.Contains(damageTarget);
+            TakeBlockedDamage damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeBlockedDamageEffect);
+
+            damageEffect.physicalDamage = physicalDamage;
+            damageEffect.magicDamage = magicDamage;
+            damageEffect.contactPoint = contactPoint;
+
+            damageTarget.characterEffectsManager.ProcessInstantEffect(damageEffect);
+
+        }
+
+    }
+
+    protected virtual void GetBlockedDotValues(CharacterManager damageTarget)
+    {
+        directionFromAttackToDamageTarget = transform.position - damageTarget.transform.position;
+        dotValueFromAttackToDamageTarget = Vector3.Dot(directionFromAttackToDamageTarget, damageTarget.transform.forward);
     }
 
     protected virtual void DamageTarget(CharacterManager damageTarget)
     {
-        //prevent dmg from being hit twice in a single attack -> add a lust that checks before applying dmg
+        //prevent dmg from being hit twice in a single attack -> add a list that checks before applying dmg
 
-        if (charactersDamaged.Contains(damageTarget))
+        if (charactersDamaged.Contains(damageTarget)) //used to be charactersDamaged.Contains(damageTarget)
         {
             return;
         }

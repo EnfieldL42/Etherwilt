@@ -53,5 +53,10 @@ public enum AttackType
     //to add more
 }
 
+public enum DamageIntensity
+{
+    Normal,
+}
+
 
 

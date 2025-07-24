@@ -1,8 +1,11 @@
+using FischlWorks;
 using UnityEngine;
 
 public class ResetActionFlag : StateMachineBehaviour
 {
     CharacterManager character;
+    PlayerManager player;
+    csHomebrewIK footIK;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -10,6 +13,16 @@ public class ResetActionFlag : StateMachineBehaviour
         if(character == null)
         {
             character = animator.GetComponent<CharacterManager>();
+        }
+
+        if (player == null)
+        {
+            player = animator.GetComponent<PlayerManager>();
+        }
+
+        if (footIK == null)
+        {
+            footIK = animator.GetComponent<csHomebrewIK>();
         }
 
         character.isPerformingAction = false;
@@ -20,6 +33,17 @@ public class ResetActionFlag : StateMachineBehaviour
         character.characterCombatManager.DisableCanDoCombo();
         character.characterCombatManager.DisableCanDoRollingAttack();
         character.characterCombatManager.DisableCanDoBackstepAttack();
+
+        if(player != null)
+        {
+            player.playerLocomotionManager.canWallSlide = true;
+        }
+
+
+        if (footIK != null)
+        {
+            footIK.enableBodyPositioning = true;
+        }
 
         if (character.IsOwner)
         {

@@ -181,7 +181,7 @@ public class PlayerManager : CharacterManager
             {
                 if(player != this)
                 {
-                    player.LoadOtherPlayerCharacterWhenJoiningSerer();
+                    player.LoadOtherPlayerCharacterWhenJoiningServer();
                 }
             }
         }
@@ -231,7 +231,7 @@ public class PlayerManager : CharacterManager
         currentCharacterData.zPosition = transform.position.z;
 
         currentCharacterData.currentHealth = playerNetworkManager.currentHealth.Value;
-        currentCharacterData.currentStamina = playerNetworkManager.currentStamina.Value;
+        currentCharacterData.currentStamina = playerNetworkManager.maxStamina.Value;
 
         currentCharacterData.vitality = playerNetworkManager.vitality.Value;
         currentCharacterData.endurance = playerNetworkManager.endurance.Value;
@@ -256,7 +256,7 @@ public class PlayerManager : CharacterManager
         PlayerUIManager.instance.playerUIHudManager.SetMaxHealthValue(playerNetworkManager.maxHealth.Value);
     }
 
-    public void LoadOtherPlayerCharacterWhenJoiningSerer()
+    public void LoadOtherPlayerCharacterWhenJoiningServer()
     {
         //sync weapons
         playerNetworkManager.OnCurrentRightHandWeaponIDChange(0, playerNetworkManager.currentRightHandWeaponID.Value);
@@ -270,6 +270,32 @@ public class PlayerManager : CharacterManager
             playerNetworkManager.OnLockOnTargetIDChange(0, playerNetworkManager.currentTargetNetworkObjectID.Value);
         }
     }
+
+    public virtual void EnableIsPerformingAction()
+    {
+        playerNetworkManager.isJumping.Value = true;
+        isPerformingAction = true;
+        applyRootMotion = true;
+        canRotate = false;
+        canMove = false;
+    }
+
+    public virtual void EnableFootIK()
+    {
+        if (footIK != null)
+        {
+            footIK.enableBodyPositioning = true;
+        }
+    }
+
+    public virtual void DisableFootIK()
+    {
+        if (footIK != null)
+        {
+            footIK.enableBodyPositioning = false;
+        }
+    }
+
 
     private void DebugMenu()
     {

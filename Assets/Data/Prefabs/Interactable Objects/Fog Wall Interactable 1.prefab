@@ -5023,7 +5023,6 @@ MonoBehaviour:
   fogGameObjects:
   - {fileID: 241191804662851916}
   - {fileID: 5348771216020180655}
-  - {fileID: 2367002250407699595}
   fogWallCollider: {fileID: 6836360280727935651}
   fogWallID: 1
   fogWallSFX: {fileID: 0}

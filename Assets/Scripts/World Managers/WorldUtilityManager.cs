@@ -67,4 +67,11 @@ public class WorldUtilityManager : MonoBehaviour
 
         return viewableAngle;
     }
+
+    public DamageIntensity GetDamageIntensityBasedOnPoiseDamage(float poinseDamage)
+    {
+        DamageIntensity damageIntensity = DamageIntensity.Normal;
+
+        return damageIntensity;
+    }
 }

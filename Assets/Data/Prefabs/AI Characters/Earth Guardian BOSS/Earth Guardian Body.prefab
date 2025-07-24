@@ -2609,6 +2609,8 @@ MonoBehaviour:
     m_InternalValue: 0
   isChargingAttack:
     m_InternalValue: 0
+  isBlocking:
+    m_InternalValue: 0
   currentStamina:
     m_InternalValue: 0
   maxStamina:
@@ -2645,6 +2647,7 @@ MonoBehaviour:
   characterSoundFXManager: {fileID: 0}
   characterLocomotionManager: {fileID: 0}
   characterUIManager: {fileID: 0}
+  footIK: {fileID: 0}
   characterGroup: 1
   isPerformingAction: 0
   isGrounded: 1
@@ -2652,8 +2655,8 @@ MonoBehaviour:
   canRotate: 1
   canMove: 1
   actionTimer: 0
-  canTakeDMG: 1
-  hasMultipleColliders: 0
+  canTakeDmgAnimation: 1
+  hasMultipleColliders: 1
   characterName: Earth Guadian Body
   aICharacterCombatManager: {fileID: 0}
   aICharacterNetworkManager: {fileID: 0}
@@ -2873,7 +2876,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hasFloatingHPBar: 0
-  character_HP_Bar: {fileID: 0}
+  characterHPBar: {fileID: 0}
 --- !u!1 &5402798713933766455
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,7 +1,7 @@
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Character Effects/Instant Effects/Take Damage")]
-public class TakeDamageEffect : InstantCharacterEffect
+[CreateAssetMenu(menuName = "Character Effects/Instant Effects/Take Blocked Damage")]
+public class TakeBlockedDamage : InstantCharacterEffect
 {
     [Header("Character Causing Damage")]
     public CharacterManager characterCausingDamage;
@@ -43,11 +43,10 @@ public class TakeDamageEffect : InstantCharacterEffect
 
         base.ProcessEffect(character);
 
+        Debug.Log("Hit was blocked");
+
         CalculateDamage(character);
-
-
-        PlayDirectonalBasedDamageAnimation(character);
-        
+        PlayDirectonalBasedBlockingAnimation(character);
 
         //check for build ups
         PlayDamageSFX(character);
@@ -60,12 +59,12 @@ public class TakeDamageEffect : InstantCharacterEffect
 
     private void CalculateDamage(CharacterManager character)
     {
-        if(!character.IsOwner)
+        if (!character.IsOwner)
         {
             return;
         }
 
-        if(characterCausingDamage != null)
+        if (characterCausingDamage != null)
         {
             //check for gmd modifiers and modify base dmg (physical and magic buffs)
         }
@@ -79,32 +78,37 @@ public class TakeDamageEffect : InstantCharacterEffect
 
         //add all dmg types together and apply dmg
 
+        Debug.Log("Original Physical Damage: " + physicalDamage);
+
+        physicalDamage -= (physicalDamage * (character.characterStatsManager.blockingPhyicalAbsorption / 100));
+        magicDamage -= (magicDamage * (character.characterStatsManager.blockingMagicAbsorption / 100));
+
         finalDamageDealt = Mathf.RoundToInt(physicalDamage + magicDamage);
 
-        if(finalDamageDealt <= 0)
+        if (finalDamageDealt <= 0)
         {
-            finalDamageDealt = 1; 
+            finalDamageDealt = 1;
         }
 
+        Debug.Log("Final Physical Damage: " + physicalDamage);
+
         character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;
+
     }
 
     private void PlayDamageVFX(CharacterManager character)
     {
-        character.characterEffectsManager.PlayBloodSplatterVFX(contactPoint);
+        //vfx based on material
     }
 
     private void PlayDamageSFX(CharacterManager character)
     {
-        AudioClip physicalDamageSFX = WorldSoundFXManager.instance.ChooseRandomSFXFromArray(WorldSoundFXManager.instance.physicalDamageSFX);
-
-        character.characterSoundFXManager.PlaySoundFX(physicalDamageSFX);
-        character.characterSoundFXManager.PlayDamageGruntSoundFX();
+        //sfx based on material
 
 
     }
 
-    private void PlayDirectonalBasedDamageAnimation(CharacterManager character, bool isPerformingAction = true)
+    private void PlayDirectonalBasedBlockingAnimation(CharacterManager character, bool isPerformingAction = true)
     {
         if (!character.IsOwner)
         {
@@ -116,43 +120,21 @@ public class TakeDamageEffect : InstantCharacterEffect
             return;
         }
 
-        //TODO calculate is poise is broken
-        //poiseIsBroken = true;
+        DamageIntensity damageIntensity = WorldUtilityManager.instance.GetDamageIntensityBasedOnPoiseDamage(poiseDamage);
 
-        if(angleHitFrom >= 145 && angleHitFrom <= 180)
-        {
-            //play front anim
-            damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
-        }
-        else if (angleHitFrom <= -145 && angleHitFrom >= -180)
-        {
-            //play front anim
-            damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
 
-        }
-        else if(angleHitFrom >= -45 && angleHitFrom <= 45)
+        switch(damageIntensity)
         {
-            //play back anim
-            damageAnimation = character.characterAnimatorManager.hit_Backward_Medium_01;
-
-        }
-        else if (angleHitFrom >= -144 && angleHitFrom <= -45)
-        {
-            //play left anim
-            damageAnimation = character.characterAnimatorManager.hit_Left_Medium_01;
-
-        }
-        else if (angleHitFrom >= 45 && angleHitFrom <= 144)
-        {
-            //play right anim
-            damageAnimation = character.characterAnimatorManager.hit_Right_Medium_01;
-
+            case DamageIntensity.Normal:
+                damageAnimation = "block_Normal_01";
+                break;
+            default:
+                damageAnimation = "block_Normal_01";
+                break;
         }
 
-        if (poiseIsBroken)
-        {
-            character.characterAnimatorManager.PlayTargetActionAnimation(damageAnimation, isPerformingAction);
-        }
 
+        //character.characterAnimatorManager.PlayTargetActionAnimation(damageAnimation, true);
+       
     }
 }

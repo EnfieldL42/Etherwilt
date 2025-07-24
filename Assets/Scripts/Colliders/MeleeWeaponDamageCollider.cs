@@ -53,6 +53,12 @@ public class MeleeWeaponDamageCollider : DamageCollider
         }
     }
 
+    protected override void GetBlockedDotValues(CharacterManager damageTarget)
+    {
+        directionFromAttackToDamageTarget = characterCausingDamage.transform.position - damageTarget.transform.position;
+        dotValueFromAttackToDamageTarget = Vector3.Dot(directionFromAttackToDamageTarget, damageTarget.transform.forward);
+    }
+
     protected override void DamageTarget(CharacterManager damageTarget)
     {
         //prevent dmg from being hit twice in a single attack -> add a lust that checks before applying dmg

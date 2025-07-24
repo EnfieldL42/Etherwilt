@@ -22,12 +22,12 @@ public class AICharacterCombatManager : CharacterCombatManager
     public float attackRotationSpeed = 25;
 
     public HashSet<CharacterManager> damagedCharactersThisAttack = new HashSet<CharacterManager>();
-
+     
     protected override void Awake()
-    {
+    {  
         base.Awake();
 
-        aiCharacter = GetComponent<AICharacterManager>();
+        aiCharacter = GetComponent<AICharacterManager>();      
         lockOnTransform = GetComponentInChildren<LockOnTrasform>().transform;
     }
 

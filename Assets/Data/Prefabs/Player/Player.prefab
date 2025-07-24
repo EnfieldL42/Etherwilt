@@ -144,7 +144,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -361,7 +361,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -611,7 +611,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.12
   m_Height: 0.31
@@ -841,7 +841,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -897,7 +897,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1081,7 +1081,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.12
   m_Height: 0.37
@@ -1292,7 +1292,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.09
   m_Height: 0.37
@@ -1442,7 +1442,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.07
   m_Height: 0.22
@@ -1569,7 +1569,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.06
   m_Height: 0.16
@@ -1654,7 +1654,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -1923,7 +1923,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.06
   m_Height: 0.16
@@ -2009,7 +2009,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2159,7 +2159,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
@@ -2284,7 +2284,7 @@ GameObject:
   - component: {fileID: -7887568700259186516}
   - component: {fileID: 7845466611480596997}
   - component: {fileID: 7656734040510810181}
-  - component: {fileID: 4138232809167272675}
+  - component: {fileID: 204147308333223495}
   - component: {fileID: -712048882763127582}
   - component: {fileID: 8105345913445095044}
   - component: {fileID: -4238459592806784428}
@@ -2381,6 +2381,8 @@ MonoBehaviour:
   isLockedOn:
     m_InternalValue: 0
   isChargingAttack:
+    m_InternalValue: 0
+  isBlocking:
     m_InternalValue: 0
   currentStamina:
     m_InternalValue: 0
@@ -2497,6 +2499,8 @@ MonoBehaviour:
   characterSoundFXManager: {fileID: 0}
   characterLocomotionManager: {fileID: 0}
   characterUIManager: {fileID: 0}
+  footIK: {fileID: 0}
+  characterStatsManager: {fileID: 0}
   characterGroup: 0
   isPerformingAction: 0
   isGrounded: 1
@@ -2504,7 +2508,7 @@ MonoBehaviour:
   canRotate: 1
   canMove: 1
   actionTimer: 0
-  canTakeDMG: 1
+  canTakeDmgAnimation: 1
   hasMultipleColliders: 0
   respawnCharacter: 0
   playerLocomotionManager: {fileID: 0}
@@ -2554,8 +2558,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  groundCheckSphereRadius: 0.2
-  groundCheckPlusOrMinusPosition: {x: 0, y: 0.1, z: 0}
+  groundCheckSphereRadius: 0.1
+  groundCheckPlusOrMinusPosition: {x: 0, y: 0, z: 0}
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
   fallStartYVelocity: -5
@@ -2574,6 +2578,10 @@ MonoBehaviour:
   jumpForwardSpeed: 5
   freeFallSpeed: 2
   dodgeStaminaCost: 20
+  isTouchingWall: 0
+  wallSlideSpeed: 6
+  wallRepelForce: 1
+  canWallSlide: 1
 --- !u!114 &1017866198720386970
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2631,6 +2639,8 @@ MonoBehaviour:
   staminaRegenerationAmount: 5
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
+  blockingPhyicalAbsorption: 0
+  blockingMagicAbsorption: 0
 --- !u!114 &2685033740488950709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2707,7 +2717,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hasFloatingHPBar: 1
   characterHPBar: {fileID: 4024659771968816242}
---- !u!54 &4138232809167272675
+--- !u!54 &204147308333223495
 Rigidbody:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2715,7 +2725,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6996593062366450161}
   serializedVersion: 4
-  m_Mass: 1
+  m_Mass: 70
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -2909,7 +2919,7 @@ MonoBehaviour:
   rightFootRayStartHeight: 0.5
   enableFootLifting: 1
   floorRange: 0.1
-  enableBodyPositioning: 0
+  enableBodyPositioning: 1
   crouchRange: 0.25
   stretchRange: 0
   giveWorldHeightOffset: 0
@@ -3511,7 +3521,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.09
   m_Height: 0.37
@@ -3601,7 +3611,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.12
   m_Height: 0.31
@@ -3657,7 +3667,7 @@ CapsuleCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 0
+  m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.07
   m_Height: 0.22

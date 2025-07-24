@@ -16,12 +16,12 @@ public class EarthGuardianBodyDamageCollider : DamageCollider
     {
         //prevent dmg from being hit twice in a single attack -> add a lust that checks before applying dmg
 
-        if (charactersDamaged.Contains(damageTarget))
+        if (parentCombatManager.damagedCharactersThisAttack.Contains(damageTarget))
         {
             return;
         }
 
-        charactersDamaged.Add(damageTarget);
+        parentCombatManager.damagedCharactersThisAttack.Add(damageTarget);
 
         TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
         damageEffect.physicalDamage = physicalDamage;

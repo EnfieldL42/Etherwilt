@@ -156,7 +156,7 @@ namespace FischlWorks
         [SerializeField]
         private float floorRange = 0;
         [SerializeField]
-        private bool enableBodyPositioning = true;
+        public bool enableBodyPositioning = true;
         [ShowIf("enableBodyPositioning")]
         [SerializeField]
         private float crouchRange = 0.25f;

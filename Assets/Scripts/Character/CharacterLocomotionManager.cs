@@ -101,4 +101,5 @@ public class CharacterLocomotionManager : MonoBehaviour
         transform.position = newPosition;
     }
 
+
 }

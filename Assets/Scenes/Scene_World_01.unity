@@ -417,9 +417,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 41256664}
-  - {fileID: 755141513}
+  m_Children: []
   m_Father: {fileID: 419656211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &37896241
@@ -1140,7 +1138,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 30184447}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3276760387128009633, guid: 9e659cb8ae86c0545b895a7c11ce0d52, type: 3}
       propertyPath: m_Name
@@ -1190,6 +1188,10 @@ PrefabInstance:
       propertyPath: fogWallCollider
       value: 
       objectReference: {fileID: 41256663}
+    - target: {fileID: 6406361149144538578, guid: 9e659cb8ae86c0545b895a7c11ce0d52, type: 3}
+      propertyPath: fogGameObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8119395222730771568, guid: 9e659cb8ae86c0545b895a7c11ce0d52, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 4194379483
@@ -1202,11 +1204,6 @@ PrefabInstance:
 --- !u!65 &41256663 stripped
 BoxCollider:
   m_CorrespondingSourceObject: {fileID: 6836360280727935651, guid: 9e659cb8ae86c0545b895a7c11ce0d52, type: 3}
-  m_PrefabInstance: {fileID: 41256662}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &41256664 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4230396848245009631, guid: 9e659cb8ae86c0545b895a7c11ce0d52, type: 3}
   m_PrefabInstance: {fileID: 41256662}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &71815162
@@ -5753,7 +5750,7 @@ MeshCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 408635497}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 6a999b368ffa87d4da54d27f6d6ae9ce, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -11639,7 +11636,7 @@ PrefabInstance:
     - target: {fileID: 6969707255540270168, guid: a1012cfd7c68c8345a94bf8d27135051, type: 3}
       propertyPath: characterGameObject
       value: 
-      objectReference: {fileID: 542781558509733378, guid: baae05cdf01402749b68aa3a982df846, type: 3}
+      objectReference: {fileID: 542781558509733378, guid: 411efb9f8ecdb97488d3a4734d24b0dc, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11656,7 +11653,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 30184447}
+    m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 3276760387128009633, guid: 09e3cb4b1ff936241a1a158ef01bc56f, type: 3}
       propertyPath: m_Name
@@ -11702,6 +11699,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 4.133
       objectReference: {fileID: 0}
+    - target: {fileID: 6406361149144538578, guid: 09e3cb4b1ff936241a1a158ef01bc56f, type: 3}
+      propertyPath: isActive.m_InternalValue
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6406361149144538578, guid: 09e3cb4b1ff936241a1a158ef01bc56f, type: 3}
+      propertyPath: fogGameObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 8119395222730771568, guid: 09e3cb4b1ff936241a1a158ef01bc56f, type: 3}
       propertyPath: GlobalObjectIdHash
       value: 3157566052
@@ -11715,11 +11720,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 09e3cb4b1ff936241a1a158ef01bc56f, type: 3}
---- !u!4 &755141513 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4230396848245009631, guid: 09e3cb4b1ff936241a1a158ef01bc56f, type: 3}
-  m_PrefabInstance: {fileID: 755141512}
-  m_PrefabAsset: {fileID: 0}
 --- !u!43 &808170267
 Mesh:
   m_ObjectHideFlags: 0
@@ -12278,7 +12278,7 @@ PrefabInstance:
     - target: {fileID: 6969707255540270168, guid: a1012cfd7c68c8345a94bf8d27135051, type: 3}
       propertyPath: characterGameObject
       value: 
-      objectReference: {fileID: 542781558509733378, guid: ba47cba05baa8994299b1cc20b058759, type: 3}
+      objectReference: {fileID: 542781558509733378, guid: e6e7b13599da5a243b9ae7f7abb6a6df, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19756,6 +19756,7 @@ MonoBehaviour:
   activatedParticles: {fileID: 212201352}
   unactivatedInteractionText: Activate the Bonefire
   activatedInteractionText: Rest
+  interactionText: BONFIRE RESTORED
 --- !u!54 &1641471760
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -21099,7 +21100,7 @@ PrefabInstance:
     - target: {fileID: 6969707255540270168, guid: a1012cfd7c68c8345a94bf8d27135051, type: 3}
       propertyPath: characterGameObject
       value: 
-      objectReference: {fileID: 542781558509733378, guid: da083095b69bbc145a57fa62085f38f5, type: 3}
+      objectReference: {fileID: 542781558509733378, guid: eb28b48f26d934a458339dab900593c7, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -22119,7 +22120,7 @@ PrefabInstance:
     - target: {fileID: 6969707255540270168, guid: a1012cfd7c68c8345a94bf8d27135051, type: 3}
       propertyPath: characterGameObject
       value: 
-      objectReference: {fileID: 542781558509733378, guid: 5d90506e5f1a62941aee14a1cffac208, type: 3}
+      objectReference: {fileID: 542781558509733378, guid: dbace74de872a9d43894577fce84b484, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25805,7 +25806,7 @@ PrefabInstance:
     - target: {fileID: 6969707255540270168, guid: a1012cfd7c68c8345a94bf8d27135051, type: 3}
       propertyPath: characterGameObject
       value: 
-      objectReference: {fileID: 542781558509733378, guid: 3ac26560ca1dd5f468fcc5001223f5d8, type: 3}
+      objectReference: {fileID: 542781558509733378, guid: 0756892c3d0b50b438b3634d0554362c, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -26982,6 +26983,8 @@ SceneRoots:
   - {fileID: 471192383}
   - {fileID: 1857280431}
   - {fileID: 1703272317}
+  - {fileID: 41256662}
+  - {fileID: 755141512}
   - {fileID: 419656211}
   - {fileID: 151089344}
   - {fileID: 1641471756}

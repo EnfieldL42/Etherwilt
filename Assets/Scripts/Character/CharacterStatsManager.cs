@@ -13,6 +13,10 @@ public class CharacterStatsManager : MonoBehaviour
     [SerializeField] float staminaRegenerationDelay = 2;
     private float staminaTickTimer = 0;
 
+    [Header("Blocking Absorptions")]
+    public float blockingPhyicalAbsorption;
+    public float blockingMagicAbsorption;
+
     protected virtual void Update()
     {
 

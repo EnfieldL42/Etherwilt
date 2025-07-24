@@ -4,6 +4,7 @@ using Unity.Netcode;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.TextCore.Text;
+using FischlWorks;
 
 public class CharacterManager : NetworkBehaviour
 {
@@ -19,6 +20,8 @@ public class CharacterManager : NetworkBehaviour
     [HideInInspector] public CharacterSoundFXManager characterSoundFXManager;
     [HideInInspector] public CharacterLocomotionManager characterLocomotionManager;
     [HideInInspector] public CharacterUIManager characterUIManager;
+    [HideInInspector] public csHomebrewIK footIK;
+    [HideInInspector] public CharacterStatsManager characterStatsManager;
 
     [Header("Character Group")]
     public CharacterGroup characterGroup;
@@ -32,7 +35,7 @@ public class CharacterManager : NetworkBehaviour
 
     [Header("Anti Spamming")]
     [HideInInspector] public float actionTimer = 0f;
-    [HideInInspector] public bool canTakeDMG = true;
+    public bool canTakeDmgAnimation = true;
     public bool hasMultipleColliders = false;
 
     protected virtual void Awake()
@@ -48,6 +51,8 @@ public class CharacterManager : NetworkBehaviour
         characterSoundFXManager = GetComponent<CharacterSoundFXManager>();
         characterLocomotionManager = GetComponent<CharacterLocomotionManager>();
         characterUIManager = GetComponent<CharacterUIManager>();
+        footIK = GetComponent<csHomebrewIK>();
+        characterStatsManager = GetComponent<CharacterStatsManager>();
     }
 
     protected virtual void Start()
@@ -152,7 +157,7 @@ public class CharacterManager : NetworkBehaviour
 
         if (actionTimer < 0.5f)
         {
-            canTakeDMG = true;
+            canTakeDmgAnimation = true;
         }
 
     }

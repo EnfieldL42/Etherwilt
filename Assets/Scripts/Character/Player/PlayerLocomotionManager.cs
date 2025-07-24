@@ -1,11 +1,14 @@
 using Unity.Mathematics;
 using UnityEngine;
+using UnityEngine.InputSystem.XR;
 using UnityEngine.Rendering;
 
 public class PlayerLocomotionManager : CharacterLocomotionManager
 {
     PlayerManager player;
     CharacterStatsManager characterStatsManager;
+
+    private Rigidbody rb;
 
     public float verticalMovement;
     public float horizontalMovement;
@@ -33,12 +36,23 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] float dodgeStaminaCost = 25;
 
 
+    [Header("Wall Sliding")]
+    [SerializeField] bool isTouchingWall = false;
+    Vector3 wallNormal;
+    [SerializeField] float wallSlideSpeed = 2f;
+    [SerializeField] float wallRepelForce = 0.05f;
+    public bool canWallSlide = true;
+
+
+
+
     protected override void Awake()
     {
         base.Awake();
 
         player = GetComponent<PlayerManager>();//
         characterStatsManager = GetComponent<CharacterStatsManager>();
+        rb = GetComponent<Rigidbody>();
     }
 
     protected override void Update()
@@ -72,12 +86,11 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     public void HandleAllMovement()
     {
-
-
         HandleGroundedMovement();
         HandleRotation();
         HandleJumpingMovement();
         HandeFreeFallMovement();
+        HandleWallSliding();
     }
 
     private void GetMovementValues()
@@ -97,7 +110,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             GetMovementValues();
         }
 
-        if(!player.canMove)
+        if (!player.canMove)
         {
             return;
         }
@@ -108,7 +121,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         moveDirection.Normalize();
         moveDirection.y = 0;
 
-        if(player.playerNetworkManager.isSprinting.Value)
+        if (player.playerNetworkManager.isSprinting.Value)
         {
             player.characterController.Move(moveDirection * sprintSpeed * Time.deltaTime);
 
@@ -128,8 +141,6 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
             }
         }
-
-
 
 
     }
@@ -296,7 +307,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             return;
         }
         //
-
+        canWallSlide = false;
         //check if we play one handed animation or two handed animation
         player.playerAnimatorManager.PlayTargetActionAnimation("main_jump_start_01", false);
 
@@ -330,7 +341,6 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
 
     }
-
 
     public void HandleSprinting()
     {
@@ -367,6 +377,37 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         //apply upwards velocity
         yVelocity.y = Mathf.Sqrt(jumpHeight * -2 * gravityForce);
 
+    }
+
+    private void HandleWallSliding()
+    {
+        if (isTouchingWall && !player.isGrounded && canWallSlide)
+        {
+
+            Vector3 repel = wallNormal * wallRepelForce;
+            Vector3 wallSlide = Vector3.down * wallSlideSpeed;
+            player.characterController.Move((repel + wallSlide) * Time.deltaTime);
+        }
+
+    }
+
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        if (Vector3.Angle(hit.normal, Vector3.up) > 65f)
+        {
+            isTouchingWall = true;
+            wallNormal = hit.normal;
+            Debug.Log("Hit Wall");
+        }
+        else
+        {
+            isTouchingWall = false;
+        }
+    }
+
+    public void EnableWallSlide()
+    {
+        canWallSlide = true;
     }
 
 }

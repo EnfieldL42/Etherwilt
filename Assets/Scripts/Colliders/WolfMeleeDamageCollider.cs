@@ -12,6 +12,12 @@ public class WolfMeleeDamageCollider : DamageCollider
         wolfCharacter = GetComponentInParent<AICharacterManager>();
     }
 
+    protected override void GetBlockedDotValues(CharacterManager damageTarget)
+    {
+        directionFromAttackToDamageTarget = wolfCharacter.transform.position - damageTarget.transform.position;
+        dotValueFromAttackToDamageTarget = Vector3.Dot(directionFromAttackToDamageTarget, damageTarget.transform.forward);
+    }
+
     protected override void DamageTarget(CharacterManager damageTarget)
     {
         //prevent dmg from being hit twice in a single attack -> add a lust that checks before applying dmg
