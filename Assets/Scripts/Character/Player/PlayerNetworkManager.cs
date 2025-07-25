@@ -6,6 +6,7 @@ public class PlayerNetworkManager : CharacterNetworkManager
 {
     PlayerManager player;
 
+    [Header("Character Name")]
     public NetworkVariable<FixedString64Bytes> characterName = new NetworkVariable<FixedString64Bytes>("Character", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Equipment")]
@@ -79,6 +80,15 @@ public class PlayerNetworkManager : CharacterNetworkManager
     {
         WeaponItem newWeapon = Instantiate(WorldItemDatabase.instance.GetWeaponByID(newID));
         player.playerCombatManager.currentWeaponBeingUsed = newWeapon;
+        if(player.IsOwner)
+        {
+            return;
+        }
+
+        if(player.playerCombatManager.currentWeaponBeingUsed != null)
+        {
+            player.playerAnimatorManager.UpdateAnimatorController(player.playerCombatManager.currentWeaponBeingUsed.weaponAnimator);
+        }
     }
 
     [ServerRpc]

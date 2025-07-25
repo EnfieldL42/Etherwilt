@@ -18,6 +18,8 @@ public class PlayerManager : CharacterManager
     [HideInInspector] public PlayerEquipmentManager playerEquipmentManager;
     [HideInInspector] public PlayerCombatManager playerCombatManager;
     [HideInInspector] public PlayerInteractionManager playerInteractionManager;
+
+    [HideInInspector] private bool sceneLoaded = false;
     protected override void Awake()
     {
         base.Awake(); //ok so its like an awake that happens after the main awake in the parent class(charactermanager) /(not too sure why this is useful just yet)
@@ -64,7 +66,6 @@ public class PlayerManager : CharacterManager
     protected override void OnEnable()
     {
         base.OnEnable();
-
 
     }
 
@@ -227,7 +228,7 @@ public class PlayerManager : CharacterManager
 
         currentCharacterData.characterName = playerNetworkManager.characterName.Value.ToString();
         currentCharacterData.xPosition = transform.position.x;
-        currentCharacterData.yPosition = transform.position.y;
+        currentCharacterData.yPosition = transform.position.y + 5;
         currentCharacterData.zPosition = transform.position.z;
 
         currentCharacterData.currentHealth = playerNetworkManager.currentHealth.Value;
@@ -242,6 +243,8 @@ public class PlayerManager : CharacterManager
     public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
     {
         playerNetworkManager.characterName.Value = currentCharacterData.characterName;
+
+
         Vector3 myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
         transform.position = myPosition;
 
@@ -297,6 +300,7 @@ public class PlayerManager : CharacterManager
     }
 
 
+
     private void DebugMenu()
     {
         if(respawnCharacter && isDead.Value)
@@ -310,7 +314,6 @@ public class PlayerManager : CharacterManager
         }
 
     }
-
 
 
 }

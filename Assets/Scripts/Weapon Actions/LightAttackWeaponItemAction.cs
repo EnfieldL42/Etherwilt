@@ -69,23 +69,23 @@ public class LightAttackWeaponItemAction : WeaponItemAction
             //perform attack based on previous attack
             if (playerPerformingAction.characterCombatManager.lastAttackAnimationPerformed == light_Attack_01)
             {
-                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack02, light_Attack_02, true);
+                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(weaponPerformingAction, AttackType.LightAttack02, light_Attack_02, true);
             }
             else if (playerPerformingAction.characterCombatManager.lastAttackAnimationPerformed == light_Attack_02)
             {
-                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack03, light_Attack_03, true);
+                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(weaponPerformingAction, AttackType.LightAttack03, light_Attack_03, true);
 
             }
             else if (playerPerformingAction.characterCombatManager.lastAttackAnimationPerformed == light_Attack_03)
             {
-                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack04, light_Attack_04, true);
+                playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(weaponPerformingAction, AttackType.LightAttack04, light_Attack_04, true);
 
             }
         }
         //otherwise, just do regular attack
         else if(!playerPerformingAction.isPerformingAction)
         {
-            playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.LightAttack01, light_Attack_01, true);
+            playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(weaponPerformingAction, AttackType.LightAttack01, light_Attack_01, true);
         }
 
     }
@@ -95,7 +95,7 @@ public class LightAttackWeaponItemAction : WeaponItemAction
         //if we are two handing, play two handed running attack
         //else tun one handed running attack
 
-        playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.RunningAttack01, run_Attack_01, true);
+        playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(weaponPerformingAction, AttackType.RunningAttack01, run_Attack_01, true);
     }
 
     private void PerformRollingtAttack(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
@@ -103,7 +103,7 @@ public class LightAttackWeaponItemAction : WeaponItemAction
         //if we are two handing, play two handed running attack
         //else tun one handed running attack
         playerPerformingAction.playerCombatManager.canPerformRollingAttack = false;
-        playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.RollingAttack01, roll_Attack_01, true);
+        playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(weaponPerformingAction, AttackType.RollingAttack01, roll_Attack_01, true);
     }
 
     private void PerformBackstepAttack(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
@@ -111,6 +111,6 @@ public class LightAttackWeaponItemAction : WeaponItemAction
         //if we are two handing, play two handed running attack
         //else tun one handed running attack
         playerPerformingAction.playerCombatManager.canPerformBackstepAttack = false;
-        playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.BackstepAttack01, backstep_Attack_01, true);
+        playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(weaponPerformingAction, AttackType.BackstepAttack01, backstep_Attack_01, true);
     }
 }

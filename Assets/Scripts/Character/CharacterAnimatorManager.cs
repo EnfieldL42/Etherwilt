@@ -100,7 +100,7 @@ public class CharacterAnimatorManager : MonoBehaviour
         character.characterNetworkManager.NotifyTheServerOfActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
     }
 
-    public virtual void PlayTargetAttackActionAnimation(AttackType attackType, string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false)
+    public virtual void PlayTargetAttackActionAnimation(WeaponItem weapon, AttackType attackType, string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false)
     {
 
         //keep track of last attack performed (for combos)
@@ -112,6 +112,7 @@ public class CharacterAnimatorManager : MonoBehaviour
         Debug.Log("PLAYING ANIMATION: " + targetAnimation);
         character.characterCombatManager.currentAttackType = attackType;
         character.characterCombatManager.lastAttackAnimationPerformed = targetAnimation;
+        UpdateAnimatorController(weapon.weaponAnimator);
         character.applyRootMotion = applyRootMotion;
         character.animator.CrossFade(targetAnimation, 0.2f);
         character.isPerformingAction = isPerformingAction;
@@ -120,6 +121,11 @@ public class CharacterAnimatorManager : MonoBehaviour
 
 
         character.characterNetworkManager.NotifyTheServerOfAttackActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
+    }
+
+    public void UpdateAnimatorController(AnimatorOverrideController weaponController)
+    {
+        character.animator.runtimeAnimatorController = weaponController;
     }
 
 }

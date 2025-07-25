@@ -34,7 +34,7 @@ public class MeleeAttackWeaponItemAction : WeaponItemAction
 
         if (playerPerformingAction.playerNetworkManager.isUsingRightHand.Value)
         {
-            playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(AttackType.MeleeAttack01, melee_Attack_01, true);
+            playerPerformingAction.playerAnimatorManager.PlayTargetAttackActionAnimation(weaponPerformingAction, AttackType.MeleeAttack01, melee_Attack_01, true);
         }
         if (playerPerformingAction.playerNetworkManager.isUsingLeftHand.Value)
         {

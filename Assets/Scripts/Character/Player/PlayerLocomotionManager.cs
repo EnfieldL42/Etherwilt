@@ -393,16 +393,24 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
-        if (Vector3.Angle(hit.normal, Vector3.up) > 65f)
+        LayerMask enviroLayers = WorldUtilityManager.instance.GetEnviroLayers();
+
+        // Check if the hit object's layer is in the environment layers
+        if (((1 << hit.gameObject.layer) & enviroLayers) != 0)
         {
-            isTouchingWall = true;
-            wallNormal = hit.normal;
-            Debug.Log("Hit Wall");
+            // Check angle to determine if it's a wall
+            if (Vector3.Angle(hit.normal, Vector3.up) > 65f)
+            {
+                isTouchingWall = true;
+                wallNormal = hit.normal;
+                Debug.Log("Hit Wall");
+            }
+            else
+            {
+                isTouchingWall = false;
+            }
         }
-        else
-        {
-            isTouchingWall = false;
-        }
+
     }
 
     public void EnableWallSlide()

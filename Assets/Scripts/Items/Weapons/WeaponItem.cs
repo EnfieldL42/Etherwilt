@@ -2,7 +2,8 @@ using UnityEngine;
 
 public class WeaponItem : Item
 {
-    //animator controller override (change attakc animations based on weapon you are currently using)
+    [Header("Animation")]
+    public AnimatorOverrideController weaponAnimator;
 
     [Header("Weapon Model")]
     public GameObject weaponModel;

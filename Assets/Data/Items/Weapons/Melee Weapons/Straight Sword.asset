@@ -19,6 +19,7 @@ MonoBehaviour:
     dulled\u2014until its master fell. Now, abandoned in a forgotten ruin, rust devours
     its brilliance, and the wind mourns the echoes of its former glory."
   itemID: 1
+  weaponAnimator: {fileID: 22100000, guid: e8bd68f2bf297f64e9c35ab3dab85316, type: 2}
   weaponModel: {fileID: 850997595745854258, guid: af71384f30347534d99a41c76742a0d9, type: 3}
   strengthREQ: 1
   dexREQ: 1
@@ -37,11 +38,17 @@ MonoBehaviour:
   chargedAttackModifer01: 2
   chargedAttackModifer02: 2.2
   chargedAttackModifer03: 2.4
+  runningAttackModifer: 1.2
+  rollingAttackModifer: 1.1
+  backstepAttackModifer: 1.1
   baseStaminaCost: 20
   meleeAttackStaminaCostMultiplier: 0
   lightAttackStaminaCostMultiplier: 0.9
   heavyAttackStaminaCostMultiplier: 1.4
   chargedAttackStaminaCostMultiplier: 2
+  runningAttackStaminaCostMultiplier: 1.1
+  rollingAttackStaminaCostMultiplier: 1.1
+  backstepAttackStaminaCostMultiplier: 1.1
   oneHandedRBAction: {fileID: 11400000, guid: 43c55a3145376ed4ebd96677c614a174, type: 2}
   oneHandedRTAction: {fileID: 11400000, guid: 58d4dfc3612d8f640968e8d1c4249546, type: 2}
   whooshes:
