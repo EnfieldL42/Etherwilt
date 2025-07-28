@@ -187,18 +187,27 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Interact",
+                    "name": "Queued RB",
                     "type": "Button",
-                    "id": "03b7a041-58e4-40e8-9115-1f3ebb61bdc3",
+                    "id": "6d8d9a59-6ed5-4abd-b62f-caf6d5bfd128",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Queued RB",
+                    "name": "LB",
                     "type": "Button",
-                    "id": "6d8d9a59-6ed5-4abd-b62f-caf6d5bfd128",
+                    "id": "4189ca2e-ec85-42b4-9a97-efae7fdf0428",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Interact",
+                    "type": "Button",
+                    "id": "03b7a041-58e4-40e8-9115-1f3ebb61bdc3",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -423,6 +432,28 @@
                 },
                 {
                     "name": "",
+                    "id": "26aed2eb-4332-4baa-9676-228c417ab907",
+                    "path": "<Gamepad>/leftShoulder",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad Controls",
+                    "action": "LB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "5829a684-2bdb-4d8e-bbdf-b3c7d09b393d",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "LB",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "d39346c0-85e1-4653-809d-20640affbebc",
                     "path": "<Gamepad>/buttonNorth",
                     "interactions": "",
@@ -478,11 +509,11 @@
                 },
                 {
                     "name": "",
-                    "id": "9811f992-5eba-43cc-b267-9db270b81c5a",
+                    "id": "0be86039-2345-4d0f-805f-1533a5947c50",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard Controls",
+                    "groups": "",
                     "action": "RT",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -500,11 +531,11 @@
                 },
                 {
                     "name": "",
-                    "id": "05372670-58ef-472a-a9a6-075814dba538",
+                    "id": "e4d6ca77-86a0-4bc6-87aa-1e6fa3116b87",
                     "path": "<Mouse>/rightButton",
                     "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard Controls",
+                    "groups": "",
                     "action": "Queued RT",
                     "isComposite": false,
                     "isPartOfComposite": false
@@ -522,11 +553,11 @@
                 },
                 {
                     "name": "",
-                    "id": "f94b48e6-a99a-4b9a-9487-9bea680fdca0",
+                    "id": "ef3dc463-6c1f-4c2a-a036-30a263ab8496",
                     "path": "<Mouse>/rightButton",
-                    "interactions": "Hold(pressPoint=0.1)",
+                    "interactions": "",
                     "processors": "",
-                    "groups": ";Keyboard Controls",
+                    "groups": "",
                     "action": "Hold RT",
                     "isComposite": false,
                     "isPartOfComposite": false

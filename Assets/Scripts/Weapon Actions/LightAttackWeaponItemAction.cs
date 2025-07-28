@@ -20,16 +20,13 @@ public class LightAttackWeaponItemAction : WeaponItemAction
     [SerializeField] string backstep_Attack_01 = "Main_Backstep_Attack_01";
     public override void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
     {
+        base.AttemptToPerformAction(playerPerformingAction, weaponPerformingAction);
+
+
         if (!playerPerformingAction.IsOwner)
         {
             return;
         }
-
-
-        base.AttemptToPerformAction(playerPerformingAction, weaponPerformingAction);
-
-        //check for stops like stamina
-
         if(playerPerformingAction.playerNetworkManager.currentStamina.Value <= 0)
         {
             return;
@@ -38,6 +35,12 @@ public class LightAttackWeaponItemAction : WeaponItemAction
         {
             return;
         }
+        if(playerPerformingAction.IsOwner)
+        {
+            playerPerformingAction.playerNetworkManager.isAttacking.Value = true;
+        }
+
+
         //if sprinting, perform running attack
         if (playerPerformingAction.characterNetworkManager.isSprinting.Value)
         {

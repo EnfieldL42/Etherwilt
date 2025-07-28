@@ -55,6 +55,7 @@ public class WeaponItem : Item
     [Header("Actions")]
     public WeaponItemAction oneHandedRBAction;
     public WeaponItemAction oneHandedRTAction;
+    public WeaponItemAction oneHandedLBAction;
 
     //ash of war (not happening)
 

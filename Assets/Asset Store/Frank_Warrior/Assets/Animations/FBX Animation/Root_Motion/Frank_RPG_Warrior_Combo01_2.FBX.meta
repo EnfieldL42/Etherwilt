@@ -959,7 +959,7 @@ ModelImporter:
     second: Star001
   - first:
       74: 7400000
-    second: Take 001
+    second: sword combo 2
   - first:
       95: 9500000
     second: //RootNode
@@ -1078,7 +1078,7 @@ ModelImporter:
     extraUserProperties: []
     clipAnimations:
     - serializedVersion: 16
-      name: Take 001
+      name: sword combo 2
       takeName: Take 001
       internalID: 7400000
       firstFrame: 0

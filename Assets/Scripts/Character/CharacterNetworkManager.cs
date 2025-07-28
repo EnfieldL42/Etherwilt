@@ -32,6 +32,7 @@ public class CharacterNetworkManager : NetworkBehaviour
     public NetworkVariable<bool> isLockedOn = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> isChargingAttack = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> isBlocking = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> isAttacking = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Resources")]
     public NetworkVariable<float> currentStamina = new NetworkVariable<float> (0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
@@ -97,6 +98,15 @@ public class CharacterNetworkManager : NetworkBehaviour
     public virtual void OnIsActiveChanged(bool oldStatus, bool newStatus)
     {
         gameObject.SetActive(isActive.Value);
+    }
+
+    public void OnIsBlockingOnChanged(bool oldStatus, bool newStatus)
+    {
+
+        if (this.isBlocking.Value)
+        {
+            character.animator.SetBool("isBlocking", this.isBlocking.Value);
+        }
     }
 
 

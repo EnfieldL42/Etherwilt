@@ -43,6 +43,7 @@ public class PlayerInputManager : MonoBehaviour
 
     [Header("Bumper Inputs")]
     [SerializeField] bool RBInput = false;
+    [SerializeField] bool LBInput = false;
 
 
     [Header("Trigger Inputs")]
@@ -108,6 +109,8 @@ public class PlayerInputManager : MonoBehaviour
 
             //Attacking
             playerControls.PlayerActions.RB.performed += i => RBInput = true;
+            playerControls.PlayerActions.LB.performed += i => LBInput = true;
+            playerControls.PlayerActions.LB.canceled += i => player.playerNetworkManager.isBlocking.Value = false;
             playerControls.PlayerActions.RT.performed += i => RTInput = true;
             playerControls.PlayerActions.HoldRT.performed += i => holdRTInput = true;
             playerControls.PlayerActions.HoldRT.canceled += i => holdRTInput = false;
@@ -217,10 +220,12 @@ public class PlayerInputManager : MonoBehaviour
         HandleSprintInput();
         HandleJumpInput();
 
-        HandleRBInput();
         HandleRTInput();
         HandleHoldRTInput();
         HandleQueuedInputs();
+        HandleRBInput();
+        HandleLBInput();
+
 
         HandleLockOnInput();
         HandleLockOnSwitchInput();
@@ -341,6 +346,22 @@ public class PlayerInputManager : MonoBehaviour
             //TODO: if we are two handing the weapon, use the two handed action
 
             player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentRightHandWeapon.oneHandedRBAction, player.playerInventoryManager.currentRightHandWeapon);
+        }
+    }
+
+    private void HandleLBInput()
+    {
+        if (LBInput)
+        {
+            LBInput = false;
+
+            //TODO: if we have UI window, return and do nothing
+
+            player.playerNetworkManager.SetCharacterActionHand(false);
+
+            //TODO: if we are two handing the weapon, use the two handed action
+
+            player.playerCombatManager.PerformWeaponBasedAction(player.playerInventoryManager.currentLeftHandWeapon.oneHandedLBAction, player.playerInventoryManager.currentLeftHandWeapon);
         }
     }
 

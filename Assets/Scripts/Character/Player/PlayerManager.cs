@@ -115,6 +115,7 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.currentRightHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentRightHandWeaponIDChange;
         playerNetworkManager.currentLeftHandWeaponID.OnValueChanged += playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
         playerNetworkManager.currentWeaponBeingUsed.OnValueChanged += playerNetworkManager.OnCurrentWeaponBeingUsedIDChange;
+        playerNetworkManager.isBlocking.OnValueChanged += playerNetworkManager.OnIsBlockingOnChanged;
         int weaponID = playerNetworkManager.currentWeaponBeingUsed.Value;
         playerNetworkManager.OnCurrentWeaponBeingUsedIDChange(weaponID, weaponID);
 
@@ -167,6 +168,7 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.currentRightHandWeaponID.OnValueChanged -= playerNetworkManager.OnCurrentRightHandWeaponIDChange;
         playerNetworkManager.currentLeftHandWeaponID.OnValueChanged -= playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
         playerNetworkManager.currentWeaponBeingUsed.OnValueChanged -= playerNetworkManager.OnCurrentWeaponBeingUsedIDChange;
+        playerNetworkManager.isBlocking.OnValueChanged += playerNetworkManager.OnIsBlockingOnChanged;
 
         //FLAGS
         playerNetworkManager.isChargingAttack.OnValueChanged -= playerNetworkManager.OnIsChargingAttackChanged;
@@ -265,6 +267,9 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.OnCurrentRightHandWeaponIDChange(0, playerNetworkManager.currentRightHandWeaponID.Value);
         playerNetworkManager.OnCurrentLeftHandWeaponIDChange(0, playerNetworkManager.currentLeftHandWeaponID.Value);
 
+        //sync block status
+        playerNetworkManager.OnIsBlockingOnChanged(false, playerNetworkManager.isBlocking.Value);
+
         //armor
 
         //lock on
@@ -298,8 +303,6 @@ public class PlayerManager : CharacterManager
             footIK.enableBodyPositioning = false;
         }
     }
-
-
 
     private void DebugMenu()
     {

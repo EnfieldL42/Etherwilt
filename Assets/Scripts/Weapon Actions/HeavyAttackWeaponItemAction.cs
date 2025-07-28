@@ -9,16 +9,12 @@ public class HeavyAttackWeaponItemAction : WeaponItemAction
     [SerializeField] string heavy_Attack_03 = "Main_Heavy_Attack_03";
     public override void AttemptToPerformAction(PlayerManager playerPerformingAction, WeaponItem weaponPerformingAction)
     {
+        base.AttemptToPerformAction(playerPerformingAction, weaponPerformingAction);
+
         if (!playerPerformingAction.IsOwner)
         {
             return;
         }
-
-
-        base.AttemptToPerformAction(playerPerformingAction, weaponPerformingAction);
-
-        //check for stops like stamina
-
         if (playerPerformingAction.playerNetworkManager.currentStamina.Value <= 0)
         {
             return;
@@ -26,6 +22,10 @@ public class HeavyAttackWeaponItemAction : WeaponItemAction
         if (!playerPerformingAction.isGrounded)
         {
             return;
+        }
+        if (playerPerformingAction.IsOwner)
+        {
+            playerPerformingAction.playerNetworkManager.isAttacking.Value = true;
         }
 
         PerformHeavyAttack(playerPerformingAction, weaponPerformingAction);
