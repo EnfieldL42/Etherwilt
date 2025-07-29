@@ -2812,7 +2812,7 @@
     "m_ObjectId": "0e9263fd3b33462a98c202cdaaccf395",
     "m_Title": "Additional Lights",
     "m_Position": {
-        "x": -978.6666870117188,
+        "x": -978.6666259765625,
         "y": 615.333251953125
     }
 }
@@ -4420,10 +4420,10 @@
     "m_Guid": {
         "m_GuidSerialized": "c59fb32c-7d74-4533-b465-54a5cae550bc"
     },
-    "m_Name": "InvertedRimSmoothness",
+    "m_Name": "InvertedRimCutoff",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "InvertedRimSmoothness",
-    "m_DefaultReferenceName": "_InvertedRimSmoothness",
+    "m_RefNameGeneratedByDisplayName": "InvertedRimCutoff",
+    "m_DefaultReferenceName": "_InvertedRimCutoff",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -4481,10 +4481,10 @@
             "m_Id": "c71b16966a71481f9e2bb9bdb6af6d32"
         },
         {
-            "m_Id": "8e9de2fd13f1468fb4f734c1db1383e2"
+            "m_Id": "2b29420bb4b94608be98284557bb6b07"
         },
         {
-            "m_Id": "2b29420bb4b94608be98284557bb6b07"
+            "m_Id": "8e9de2fd13f1468fb4f734c1db1383e2"
         },
         {
             "m_Id": "0f0d0967f7c1409e947e9f235db9fa61"
@@ -5755,7 +5755,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "4061daa3629645f297e5f8f9ebb9b8fe",
     "m_Id": 0,
-    "m_DisplayName": "InvertedRimSmoothness",
+    "m_DisplayName": "InvertedRimCutoff",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -7029,7 +7029,7 @@
     "m_ObjectId": "576ca2b43f9d4be98b69ab8051e70357",
     "m_Title": "Rim Lighting",
     "m_Position": {
-        "x": -979.9999389648438,
+        "x": -979.9998779296875,
         "y": 1908.666259765625
     }
 }
@@ -7789,7 +7789,7 @@
     "m_ObjectId": "6b1835c2a98f454ba1ea7b6af14d91f0",
     "m_Title": "Cel Shading",
     "m_Position": {
-        "x": -478.00006103515627,
+        "x": -478.0001220703125,
         "y": -283.3333740234375
     }
 }
@@ -7823,7 +7823,7 @@
     "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
     "m_ObjectId": "6baad6c134f84fb0a4b01a3bb9955c81",
     "m_Id": 0,
-    "m_DisplayName": "InvertedRimCutoff",
+    "m_DisplayName": "InvertedRimSmoothness",
     "m_SlotType": 1,
     "m_Hidden": false,
     "m_ShaderOutputName": "Out",
@@ -9760,10 +9760,10 @@
     "m_Guid": {
         "m_GuidSerialized": "d7c04dd5-03c1-4159-9cfe-f8286f4ecd36"
     },
-    "m_Name": "InvertedRimCutoff",
+    "m_Name": "InvertedRimSmoothness",
     "m_DefaultRefNameVersion": 1,
-    "m_RefNameGeneratedByDisplayName": "InvertedRimCutoff",
-    "m_DefaultReferenceName": "_InvertedRimCutoff",
+    "m_RefNameGeneratedByDisplayName": "InvertedRimSmoothness",
+    "m_DefaultReferenceName": "_InvertedRimSmoothness",
     "m_OverrideReferenceName": "",
     "m_GeneratePropertyBlock": true,
     "m_UseCustomSlotLabel": false,
@@ -12491,7 +12491,7 @@
     "m_ObjectId": "bf9cc85288b14d6a961de3112cf6d78a",
     "m_Title": "Inverted Rim Lighting",
     "m_Position": {
-        "x": -272.6666259765625,
+        "x": -272.666748046875,
         "y": 2368.6669921875
     }
 }
