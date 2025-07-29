@@ -4,8 +4,9 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
 {
     PlayerManager player;
 
-    public WeaponModelInstantiationSlot rightHandSlot;
-    public WeaponModelInstantiationSlot leftHandSlot;
+    public WeaponModelInstantiationSlot rightHandWeaponSlot;
+    public WeaponModelInstantiationSlot leftHandWeaponSlot;
+    public WeaponModelInstantiationSlot leftHandShieldSlot;
 
     [SerializeField] WeaponManager rightWeaponManager;
     [SerializeField] WeaponManager leftWeaponManager;
@@ -35,13 +36,17 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         WeaponModelInstantiationSlot[] weaponSlots = GetComponentsInChildren<WeaponModelInstantiationSlot>();
         foreach (var weaponSlot in weaponSlots)
         {
-            if (weaponSlot.weaponSlot == WeaponModelSlot.RightHand)
+            if (weaponSlot.weaponSlot == WeaponModelSlot.RightHandWeaponSlot)
             {
-                rightHandSlot = weaponSlot;
+                rightHandWeaponSlot = weaponSlot;
             }
-            else if(weaponSlot.weaponSlot == WeaponModelSlot.LeftHand)
+            else if(weaponSlot.weaponSlot == WeaponModelSlot.LeftHandWeaponSlot)
             {
-                leftHandSlot = weaponSlot;
+                leftHandWeaponSlot = weaponSlot;
+            }
+            else if (weaponSlot.weaponSlot == WeaponModelSlot.LeftHandShieldSlot)
+            {
+                leftHandShieldSlot = weaponSlot;
             }
 
         }
@@ -150,10 +155,10 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         if(player.playerInventoryManager.currentRightHandWeapon != null)
         {
             //remove old
-            rightHandSlot.UnloadWeapon();
+            rightHandWeaponSlot.UnloadWeapon();
 
             rightHandWeaponModel = Instantiate(player.playerInventoryManager.currentRightHandWeapon.weaponModel);
-            rightHandSlot.LoadWeapon(rightHandWeaponModel);
+            rightHandWeaponSlot.LoadWeapon(rightHandWeaponModel);
             rightWeaponManager = rightHandWeaponModel.GetComponent<WeaponManager>();
             rightWeaponManager.SetWeaponDamage(player, player.playerInventoryManager.currentRightHandWeapon);
             player.playerAnimatorManager.UpdateAnimatorController(player.playerInventoryManager.currentRightHandWeapon.weaponAnimator);
@@ -254,10 +259,31 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
     {
         if (player.playerInventoryManager.currentLeftHandWeapon != null)
         {
-            leftHandSlot.UnloadWeapon();
+            if(leftHandWeaponSlot.currentWeaponModel != null)
+            {
+                leftHandWeaponSlot.UnloadWeapon();
+            }
+            if (leftHandShieldSlot.currentWeaponModel != null)
+            {
+                leftHandShieldSlot.UnloadWeapon();
+            }
 
             leftHandWeaponModel = Instantiate(player.playerInventoryManager.currentLeftHandWeapon.weaponModel);
-            leftHandSlot.LoadWeapon(leftHandWeaponModel);
+
+            switch (player.playerInventoryManager.currentLeftHandWeapon.weaponModelType)
+            {
+                case WeaponModelType.Weapon:
+                    leftHandWeaponSlot.LoadWeapon(leftHandWeaponModel);
+                    break;
+                case WeaponModelType.Shield:
+                    leftHandShieldSlot.LoadWeapon(leftHandWeaponModel);
+                    break;
+                default:
+                    break;
+            }
+
+
+
             leftWeaponManager = leftHandWeaponModel.GetComponent<WeaponManager>();
             leftWeaponManager.SetWeaponDamage(player, player.playerInventoryManager.currentLeftHandWeapon);
             //assgn weapon dmg

@@ -32,7 +32,7 @@ public class OffHandMeleeAction : WeaponItemAction
 
         if(playerPerformingAction.IsOwner)
         {
-            playerPerformingAction.playerNetworkManager.isBlocking.Value = false;
+            playerPerformingAction.playerNetworkManager.isBlocking.Value = true;
         }
     }
 }

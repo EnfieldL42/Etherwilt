@@ -91,6 +91,17 @@ public class PlayerNetworkManager : CharacterNetworkManager
         }
     }
 
+    public override void OnIsBlockingOnChanged(bool oldStatus, bool newStatus)
+    {
+        base.OnIsBlockingOnChanged(oldStatus, newStatus);
+
+        if (IsOwner)
+        {
+            player.playerStatsManager.blockingPhyicalAbsorption = player.playerCombatManager.currentWeaponBeingUsed.physicalBaseDamageAbsorption;
+            player.playerStatsManager.blockingMagicAbsorption = player.playerCombatManager.currentWeaponBeingUsed.magiclBaseDamageAbsorption;
+        }
+    }
+
     [ServerRpc]
     public void NotifyTheServerOfWeaponActionServerRpc(ulong clientID, int actionID, int weaponID)
     {

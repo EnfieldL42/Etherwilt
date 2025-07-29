@@ -1545,6 +1545,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1098007289586291565}
+  - {fileID: 223930923075153152}
   - {fileID: 497247211716475292}
   - {fileID: 6172059410117204851}
   - {fileID: 627768247437474152}
@@ -1673,7 +1674,7 @@ GameObject:
   - component: {fileID: 1266638788810444484}
   - component: {fileID: 8490341296970695292}
   m_Layer: 6
-  m_Name: Weapon Instantiation Slot
+  m_Name: Right Hand Weapon Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2384,6 +2385,8 @@ MonoBehaviour:
     m_InternalValue: 0
   isBlocking:
     m_InternalValue: 0
+  isAttacking:
+    m_InternalValue: 0
   currentStamina:
     m_InternalValue: 0
   maxStamina:
@@ -2540,6 +2543,7 @@ MonoBehaviour:
   lockOnTransform: {fileID: 1911772263533960642}
   canPerformRollingAttack: 0
   canPerformBackstepAttack: 0
+  canBlock: 1
   currentWeaponBeingUsed: {fileID: 0}
   canComboWithMainHandWeapon: 0
 --- !u!114 &4131731659789441024
@@ -2597,11 +2601,11 @@ MonoBehaviour:
   currentLeftHandWeapon: {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   weaponsInRightHandSlots:
   - {fileID: 11400000, guid: dac5ff37e5d2e8741acff698b080aca3, type: 2}
-  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
+  - {fileID: 11400000, guid: 5c1c6d3df86f0ec4b882c89122b1d41e, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   rightHandWeaponIndex: -1
   weaponsInLeftHandSlots:
-  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
+  - {fileID: 11400000, guid: 5c1c6d3df86f0ec4b882c89122b1d41e, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   leftHandWeaponIndex: -1
@@ -2617,8 +2621,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 861d0e90349730d43a6a47d1306ebb1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  rightHandSlot: {fileID: 0}
-  leftHandSlot: {fileID: 0}
+  rightHandWeaponSlot: {fileID: 0}
+  leftHandWeaponSlot: {fileID: 0}
+  leftHandShieldSlot: {fileID: 0}
   rightWeaponManager: {fileID: 0}
   leftWeaponManager: {fileID: 0}
   rightHandWeaponModel: {fileID: 0}
@@ -3151,7 +3156,7 @@ GameObject:
   - component: {fileID: 1098007289586291565}
   - component: {fileID: 3179212926214469248}
   m_Layer: 6
-  m_Name: Weapon Instantiation Slot
+  m_Name: Left Hand Weapon Slot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3470,6 +3475,52 @@ Transform:
   - {fileID: 967524532433339630}
   m_Father: {fileID: 2747618388423431418}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8630229106931772111
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 223930923075153152}
+  - component: {fileID: 2798206196312530546}
+  m_Layer: 6
+  m_Name: Left Hand Shield Slot
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &223930923075153152
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8630229106931772111}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0.07969727, y: -0.8487746, z: 0.16537835, w: -0.495863}
+  m_LocalPosition: {x: 0.10465689, y: 0.12317289, z: -0.023479927}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2815507485913245465}
+  m_LocalEulerAnglesHint: {x: 11.636, y: -242.41501, z: -17.793}
+--- !u!114 &2798206196312530546
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8630229106931772111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 61cb251134cbf8c49ad5b5eb68e3c8e2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponSlot: 2
+  currentWeaponModel: {fileID: 0}
 --- !u!1 &8713722192163439530
 GameObject:
   m_ObjectHideFlags: 0

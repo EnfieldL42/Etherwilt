@@ -100,13 +100,9 @@ public class CharacterNetworkManager : NetworkBehaviour
         gameObject.SetActive(isActive.Value);
     }
 
-    public void OnIsBlockingOnChanged(bool oldStatus, bool newStatus)
+    public virtual void OnIsBlockingOnChanged(bool oldStatus, bool newStatus)
     {
-
-        if (this.isBlocking.Value)
-        {
-            character.animator.SetBool("isBlocking", this.isBlocking.Value);
-        }
+         character.animator.SetBool("isBlocking", isBlocking.Value);
     }
 
 

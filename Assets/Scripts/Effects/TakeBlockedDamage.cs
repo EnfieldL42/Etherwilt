@@ -134,7 +134,7 @@ public class TakeBlockedDamage : InstantCharacterEffect
         }
 
 
-        //character.characterAnimatorManager.PlayTargetActionAnimation(damageAnimation, true);
+        character.characterAnimatorManager.PlayTargetActionAnimation(damageAnimation, true);
        
     }
 }

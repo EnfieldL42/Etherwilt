@@ -5,6 +5,9 @@ public class WeaponItem : Item
     [Header("Animation")]
     public AnimatorOverrideController weaponAnimator;
 
+    [Header("Model Instantiation")]
+    public WeaponModelType weaponModelType;
+
     [Header("Weapon Model")]
     public GameObject weaponModel;
 
@@ -51,6 +54,11 @@ public class WeaponItem : Item
     public float runningAttackStaminaCostMultiplier = 1.1f;
     public float rollingAttackStaminaCostMultiplier = 1.1f;
     public float backstepAttackStaminaCostMultiplier = 1.1f;
+
+    [Header("Weapon Blocking Absorption")]
+    public float physicalBaseDamageAbsorption = 50;
+    public float magiclBaseDamageAbsorption = 50;
+    public float stability = 50;//the higher it is the less stamina you lose
 
     [Header("Actions")]
     public WeaponItemAction oneHandedRBAction;

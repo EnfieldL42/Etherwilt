@@ -168,7 +168,7 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.currentRightHandWeaponID.OnValueChanged -= playerNetworkManager.OnCurrentRightHandWeaponIDChange;
         playerNetworkManager.currentLeftHandWeaponID.OnValueChanged -= playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
         playerNetworkManager.currentWeaponBeingUsed.OnValueChanged -= playerNetworkManager.OnCurrentWeaponBeingUsedIDChange;
-        playerNetworkManager.isBlocking.OnValueChanged += playerNetworkManager.OnIsBlockingOnChanged;
+        playerNetworkManager.isBlocking.OnValueChanged -= playerNetworkManager.OnIsBlockingOnChanged;
 
         //FLAGS
         playerNetworkManager.isChargingAttack.OnValueChanged -= playerNetworkManager.OnIsChargingAttackChanged;

@@ -13,16 +13,17 @@ MonoBehaviour:
   m_Name: Shield
   m_EditorClassIdentifier: 
   itemName: Shield
-  itemIcon: {fileID: 0}
+  itemIcon: {fileID: 21300000, guid: 771e151b9987c864db9bda8359ced269, type: 3}
   itemDescription: 
   itemID: 2
   weaponAnimator: {fileID: 22100000, guid: 1606628c3f9977e4d84683a9e23edaac, type: 2}
+  weaponModelType: 1
   weaponModel: {fileID: 498829045212649127, guid: ee143f21f8d8b724cbaeebb7bf57dd2b, type: 3}
   strengthREQ: 1
   dexREQ: 1
   intREQ: 0
   faithREQ: 0
-  physicalDamage: 0
+  physicalDamage: 10
   magicDamage: 0
   poiseDamage: 10
   lightAttackModifer01: 1.1
@@ -46,6 +47,9 @@ MonoBehaviour:
   runningAttackStaminaCostMultiplier: 1.1
   rollingAttackStaminaCostMultiplier: 1.1
   backstepAttackStaminaCostMultiplier: 1.1
+  physicalBaseDamageAbsorption: 100
+  magiclBaseDamageAbsorption: 70
+  stability: 66
   oneHandedRBAction: {fileID: 11400000, guid: 43c55a3145376ed4ebd96677c614a174, type: 2}
   oneHandedRTAction: {fileID: 11400000, guid: 58d4dfc3612d8f640968e8d1c4249546, type: 2}
   oneHandedLBAction: {fileID: 11400000, guid: be3953b830d58084b85c77f6c1bc7745, type: 2}

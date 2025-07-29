@@ -1,5 +1,86 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &285692405901204566
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6527555272176737511}
+  - component: {fileID: 3876909113641242767}
+  - component: {fileID: 4553345595008367892}
+  m_Layer: 10
+  m_Name: Damage Collider
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6527555272176737511
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285692405901204566}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8252256247696590631}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &3876909113641242767
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285692405901204566}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Size: {x: 0.6698259, y: 1.0916774, z: 0.1243926}
+  m_Center: {x: -0.0008255551, y: -0.14609385, z: 0.04700546}
+--- !u!114 &4553345595008367892
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 285692405901204566}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c99d160bcbab90f41b66701f498ea72d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  parentCombatManager: {fileID: 0}
+  character: {fileID: 0}
+  damageCollider: {fileID: 3876909113641242767}
+  physicalDamage: 0
+  magicDamage: 0
+  characterCausingDamage: {fileID: 0}
+  light_Attack_01_Modifier: 0
+  light_Attack_02_Modifier: 0
+  light_Attack_03_Modifier: 0
+  light_Attack_04_Modifier: 0
+  heavy_Attack_01_Modifier: 0
+  charged_Attack_01_Modifier: 0
+  running_Attack_01_Modifier: 0
+  rolling_Attack_01_Modifier: 0
+  backstep_Attack_01_Modifier: 0
 --- !u!1 &498829045212649127
 GameObject:
   m_ObjectHideFlags: 0
@@ -9,6 +90,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 357801615967701584}
+  - component: {fileID: 1062100879756062514}
   m_Layer: 0
   m_Name: Weapon_Shield_01
   m_TagString: Untagged
@@ -32,6 +114,19 @@ Transform:
   - {fileID: 1883781927109612272}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1062100879756062514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 498829045212649127}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f42bf7a11c385240869fcb96fb63af0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meleeWeaponDamageCollider: {fileID: 4553345595008367892}
 --- !u!1 &3510664957887934088
 GameObject:
   m_ObjectHideFlags: 0
@@ -62,7 +157,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 6527555272176737511}
   m_Father: {fileID: 1883781927109612272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5487278731982519245
@@ -142,11 +238,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7838919493202699695}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.044061206, y: 0.47237462, z: 0.023652244, w: 0.87997806}
-  m_LocalPosition: {x: 0.03, y: 0.14, z: 0.04}
+  m_LocalRotation: {x: -0.4183097, y: 0.47409073, z: 0.0017855122, w: 0.77475923}
+  m_LocalPosition: {x: 0.06140792, y: -0.10326929, z: -0.06251341}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8252256247696590631}
   m_Father: {fileID: 357801615967701584}
-  m_LocalEulerAnglesHint: {x: -5.733, y: 56.454, z: 0}
+  m_LocalEulerAnglesHint: {x: -40.532, y: 74.704, z: -31.213}
