@@ -10,12 +10,22 @@ public class CharacterAnimatorManager : MonoBehaviour
 
     int vertical;
     int horizontal;
+    public string lastDamageAnimationPlayer;
 
     [Header("Damage Animations")]
+    //ping hit
+    [HideInInspector] public string forward_Ping_Damage = "forward_Ping_Damage";
+    [HideInInspector] public string backward_Ping_Damage = "backward_Ping_Damage";
+    [HideInInspector] public string left_Ping_Damage = "left_Ping_Damage";
+    [HideInInspector] public string right_Ping_Damage = "right_Ping_Damage";
+
+    //medium hit
     [HideInInspector] public string hit_Forward_Medium_01 = "hit_Forward_Medium_01";
     [HideInInspector] public string hit_Backward_Medium_01 = "hit_Backward_Medium_01";
     [HideInInspector] public string hit_Left_Medium_01 = "hit_Left_Medium_01";
     [HideInInspector] public string hit_Right_Medium_01 = "hit_Right_Medium_01";
+
+
 
 
     protected virtual void Awake()

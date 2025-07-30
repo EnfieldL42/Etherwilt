@@ -23,6 +23,7 @@ public class CharacterManager : NetworkBehaviour
     [HideInInspector] public csHomebrewIK footIK;
     [HideInInspector] public CharacterStatsManager characterStatsManager;
 
+
     [Header("Character Group")]
     public CharacterGroup characterGroup;
 

@@ -19,8 +19,11 @@ public class CharacterStatsManager : MonoBehaviour
     public float blockingStability;
 
     [Header("Poise")]
-    public float totalPoiseDamanage;
-    public float offensivePoiseBonus;
+    public float totalPoiseDamanage;             //how much poise damage it has taken
+    public float offensivePoiseBonus;            //poise bonus from using weapons
+    public float basePoiseDefense;               //poise bonus from armor/talismans, etc.
+    public float defaultPoiseResetTime = 8;      //time it takes for poise damage to reset (musnt be hit for the duration of the timer)
+    public float poiseResetTimer = 0;            //current timer for poise reset
 
 
     protected virtual void Update()
@@ -33,7 +36,7 @@ public class CharacterStatsManager : MonoBehaviour
     }
     protected virtual void Start()
     {
-
+        HandlePoiseResetTimer();
     }
 
 
@@ -103,7 +106,17 @@ public class CharacterStatsManager : MonoBehaviour
         }
     }
 
-
+    protected virtual void HandlePoiseResetTimer()
+    {
+        if(poiseResetTimer > 0)
+        {
+            poiseResetTimer -= Time.deltaTime;
+        }
+        else
+        {
+            totalPoiseDamanage = 0;
+        }
+    }
 
 
 }

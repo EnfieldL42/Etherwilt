@@ -1327,7 +1327,7 @@ MonoBehaviour:
   attackRotationSpeed: 10
   damageCollider: {fileID: 7355109213709079738}
   baseDamage: 25
-  basePoiseDamage: 100
+  basePoiseDamage: 20
   attack01DamageModifier: 1
 --- !u!114 &6746678230267786203
 MonoBehaviour:
@@ -1341,6 +1341,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f21d525f3840ba4d84b485abd54e99f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastDamageAnimationPlayer: 
+  forward_Ping_Damage: hit_Forward_Medium_01
+  backward_Ping_Damage: hit_Backward_Medium_01
+  left_Ping_Damage: hit_Left_Medium_01
+  right_Ping_Damage: hit_Right_Medium_01
   hit_Forward_Medium_01: hit_Forward_Medium_01
   hit_Backward_Medium_01: hit_Backward_Medium_01
   hit_Left_Medium_01: hit_Left_Medium_01
@@ -1409,6 +1414,11 @@ MonoBehaviour:
   blockingPhyicalAbsorption: 0
   blockingMagicAbsorption: 0
   blockingStability: 0
+  totalPoiseDamanage: 0
+  offensivePoiseBonus: 0
+  basePoiseDefense: 50
+  defaultPoiseResetTime: 8
+  poiseResetTimer: 0
 --- !u!114 &8107381584135199624
 MonoBehaviour:
   m_ObjectHideFlags: 0
