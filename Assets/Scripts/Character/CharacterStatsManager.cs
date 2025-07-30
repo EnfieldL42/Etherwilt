@@ -18,6 +18,11 @@ public class CharacterStatsManager : MonoBehaviour
     public float blockingMagicAbsorption;
     public float blockingStability;
 
+    [Header("Poise")]
+    public float totalPoiseDamanage;
+    public float offensivePoiseBonus;
+
+
     protected virtual void Update()
     {
 
