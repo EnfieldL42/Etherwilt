@@ -45,7 +45,6 @@ public class TakeDamageEffect : InstantCharacterEffect
 
         CalculateDamage(character);
 
-
         PlayDirectonalBasedDamageAnimation(character);
         
 

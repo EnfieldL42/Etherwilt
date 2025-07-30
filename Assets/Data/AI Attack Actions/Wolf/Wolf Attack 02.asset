@@ -14,10 +14,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackAnimation: Attack_02
   comboAction: {fileID: 0}
-  attackWeight: 50
+  attackWeight: 1
   attackType: 0
   actionRecoveryTime: 1
   minimumAttackAngle: -180
   maximumAttackAngle: 180
-  minimumAttackDistance: 1
-  maximumAttackDistance: 3
+  minimumAttackDistance: 2
+  maximumAttackDistance: 2

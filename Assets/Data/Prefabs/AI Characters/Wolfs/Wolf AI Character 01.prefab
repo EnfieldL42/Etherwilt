@@ -104,6 +104,7 @@ MonoBehaviour:
   damageCollider: {fileID: 8480859806004101012}
   physicalDamage: 0
   magicDamage: 0
+  poiseDamage: 0
   wolfCharacter: {fileID: 1861652093911731947}
 --- !u!135 &8480859806004101012
 SphereCollider:
@@ -1326,6 +1327,7 @@ MonoBehaviour:
   attackRotationSpeed: 10
   damageCollider: {fileID: 7355109213709079738}
   baseDamage: 25
+  basePoiseDamage: 100
   attack01DamageModifier: 1
 --- !u!114 &6746678230267786203
 MonoBehaviour:
@@ -1406,6 +1408,7 @@ MonoBehaviour:
   staminaRegenerationDelay: 2
   blockingPhyicalAbsorption: 0
   blockingMagicAbsorption: 0
+  blockingStability: 0
 --- !u!114 &8107381584135199624
 MonoBehaviour:
   m_ObjectHideFlags: 0

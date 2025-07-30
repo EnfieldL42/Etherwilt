@@ -108,11 +108,12 @@ MonoBehaviour:
   scaleBarLengthWithStats: 1
   widthScaleMultiplier: 1
   displayCharacterNameOnDamage: 0
-  defaultTimeBeforeBarHides: 3
+  defaultTimeBeforeBarHides: 5
   hideTimer: 0
   currentDamageTaken: 0
   characterName: {fileID: 1967263653574478890}
   characterDamage: {fileID: 1457652740942055579}
+  oldHealthValue: 0
 --- !u!1 &1483254905301555345
 GameObject:
   m_ObjectHideFlags: 0

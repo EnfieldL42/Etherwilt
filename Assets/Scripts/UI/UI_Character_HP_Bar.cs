@@ -8,7 +8,7 @@ public class UI_Character_HP_Bar : UI_StatBar
     private PlayerManager playerCharacter;
 
     [SerializeField] bool displayCharacterNameOnDamage = false;
-    [SerializeField] float defaultTimeBeforeBarHides = 3f;
+    [SerializeField] float defaultTimeBeforeBarHides = 5f;
     [SerializeField] float hideTimer = 0;
     [SerializeField] int currentDamageTaken = 0;
     [SerializeField] TextMeshProUGUI characterName;
@@ -45,7 +45,7 @@ public class UI_Character_HP_Bar : UI_StatBar
         }
         else
         {
-            //gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
     }
 

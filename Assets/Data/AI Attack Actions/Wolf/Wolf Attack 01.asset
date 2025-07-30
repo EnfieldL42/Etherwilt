@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   attackAnimation: Attack_01
   comboAction: {fileID: 0}
-  attackWeight: 50
+  attackWeight: 100
   attackType: 0
   actionRecoveryTime: 1
   minimumAttackAngle: -180

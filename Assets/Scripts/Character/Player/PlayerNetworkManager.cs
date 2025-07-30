@@ -99,6 +99,7 @@ public class PlayerNetworkManager : CharacterNetworkManager
         {
             player.playerStatsManager.blockingPhyicalAbsorption = player.playerCombatManager.currentWeaponBeingUsed.physicalBaseDamageAbsorption;
             player.playerStatsManager.blockingMagicAbsorption = player.playerCombatManager.currentWeaponBeingUsed.magiclBaseDamageAbsorption;
+            player.playerStatsManager.blockingStability = player.playerCombatManager.currentWeaponBeingUsed.stability;
         }
     }
 

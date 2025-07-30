@@ -16,6 +16,7 @@ public class CharacterStatsManager : MonoBehaviour
     [Header("Blocking Absorptions")]
     public float blockingPhyicalAbsorption;
     public float blockingMagicAbsorption;
+    public float blockingStability;
 
     protected virtual void Update()
     {

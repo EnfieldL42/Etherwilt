@@ -49,7 +49,7 @@ MonoBehaviour:
   backstepAttackStaminaCostMultiplier: 1.1
   physicalBaseDamageAbsorption: 100
   magiclBaseDamageAbsorption: 70
-  stability: 66
+  stability: 1
   oneHandedRBAction: {fileID: 11400000, guid: 43c55a3145376ed4ebd96677c614a174, type: 2}
   oneHandedRTAction: {fileID: 11400000, guid: 58d4dfc3612d8f640968e8d1c4249546, type: 2}
   oneHandedLBAction: {fileID: 11400000, guid: be3953b830d58084b85c77f6c1bc7745, type: 2}

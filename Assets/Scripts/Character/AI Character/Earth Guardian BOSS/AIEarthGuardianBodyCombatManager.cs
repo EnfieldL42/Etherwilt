@@ -22,6 +22,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
 
     [Header("Damage")]
     [SerializeField] int baseDamage = 25;
+    [SerializeField] int basePoiseDamage = 25;
     [SerializeField] float attackBiteDamageModifier = 1.0f;
     [SerializeField] float attackSlamDamageModifier = 1.3f; 
     [SerializeField] float attackSwipeDamageModifier = 1.6f;
@@ -67,6 +68,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
         aiCharacter.characterSoundFXManager.PlayAttackGruntSoundFX();// CAN CHANGE THIS TO BE MORE SPECIFIC
 
         bitedamageCollider.physicalDamage = (int)(baseDamage * attackBiteDamageModifier);
+        bitedamageCollider.poiseDamage = (int)(basePoiseDamage * attackBiteDamageModifier);
     }
     public void SetSlamDamage()
     {
@@ -77,6 +79,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
             if (collider != null)
             {
                 collider.physicalDamage = (int)(baseDamage * attackSlamDamageModifier);
+                collider.poiseDamage = (int)(basePoiseDamage * attackSlamDamageModifier);
             }
         }
 
@@ -89,6 +92,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
             if (collider != null)
             {
                 collider.physicalDamage = (int)(baseDamage * attackSwipeDamageModifier);
+                collider.poiseDamage = (int)(basePoiseDamage * attackSwipeDamageModifier);
             }
         }
     }

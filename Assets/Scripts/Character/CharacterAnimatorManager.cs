@@ -109,7 +109,6 @@ public class CharacterAnimatorManager : MonoBehaviour
         //decide if our attack can be parried
         //tell the network we are in an "isattacking" flag (for counter damage)
 
-        Debug.Log("PLAYING ANIMATION: " + targetAnimation);
         character.characterCombatManager.currentAttackType = attackType;
         character.characterCombatManager.lastAttackAnimationPerformed = targetAnimation;
         UpdateAnimatorController(weapon.weaponAnimator);
@@ -122,7 +121,7 @@ public class CharacterAnimatorManager : MonoBehaviour
 
         character.characterNetworkManager.NotifyTheServerOfAttackActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
     }
-
+    
     public void UpdateAnimatorController(AnimatorOverrideController weaponController)
     {
         character.animator.runtimeAnimatorController = weaponController;

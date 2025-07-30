@@ -63,4 +63,9 @@ public class CharacterSoundFXManager : MonoBehaviour
             PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(footsteps));
         }
     }
+
+    public virtual void PlayBlockSoundFX()
+    {
+
+    }
 }

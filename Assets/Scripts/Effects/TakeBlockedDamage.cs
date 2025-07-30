@@ -15,6 +15,10 @@ public class TakeBlockedDamage : InstantCharacterEffect
     public float poiseDamage = 0;
     public bool poiseIsBroken = false;
 
+    [Header("Stamina")]
+    public float staminaDamage = 0;
+    public float finalStaminaDamage = 0;
+
 
     //MAYBE TODO build ups
 
@@ -46,6 +50,7 @@ public class TakeBlockedDamage : InstantCharacterEffect
         Debug.Log("Hit was blocked");
 
         CalculateDamage(character);
+        CalculateStamanaDamage(character);
         PlayDirectonalBasedBlockingAnimation(character);
 
         //check for build ups
@@ -54,7 +59,7 @@ public class TakeBlockedDamage : InstantCharacterEffect
 
         //if character is ai, check for new target if chararcter caysubg damage is nearby
 
-
+        CheckForGuardBreak(character);
     }
 
     private void CalculateDamage(CharacterManager character)
@@ -90,10 +95,41 @@ public class TakeBlockedDamage : InstantCharacterEffect
             finalDamageDealt = 1;
         }
 
-        Debug.Log("Final Physical Damage: " + physicalDamage);
+        Debug.Log("Final Physical Damage: " + finalDamageDealt);
 
         character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;
 
+    }
+
+    private void CalculateStamanaDamage(CharacterManager character)
+    {
+        if (!character.IsOwner)
+        {
+            return;
+        }
+
+        finalStaminaDamage = staminaDamage;
+
+        float staminaDamageAbsorption = finalStaminaDamage * (character.characterStatsManager.blockingStability / 100);
+        float staminaDamageAfterAbsorption = finalStaminaDamage - staminaDamageAbsorption;
+
+        character.characterNetworkManager.currentStamina.Value -= staminaDamageAfterAbsorption;
+    }
+
+    private void CheckForGuardBreak(CharacterManager character)
+    {
+        //play sfx
+        if (!character.IsOwner)
+        {
+            return;
+        }
+
+        if (character.characterNetworkManager.currentStamina.Value <= 0)
+        {
+            character.characterAnimatorManager.PlayTargetActionAnimation("Guard_Break_01", true);
+            character.characterNetworkManager.isBlocking.Value = false;
+  
+        }
     }
 
     private void PlayDamageVFX(CharacterManager character)
@@ -104,7 +140,7 @@ public class TakeBlockedDamage : InstantCharacterEffect
     private void PlayDamageSFX(CharacterManager character)
     {
         //sfx based on material
-
+        character.characterSoundFXManager.PlayBlockSoundFX();
 
     }
 

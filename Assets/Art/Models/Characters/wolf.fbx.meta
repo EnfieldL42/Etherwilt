@@ -241,20 +241,6 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.45185184
-        functionName: OpenDamageCollider
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.63703704
-        functionName: DisableDamageCollider
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
       - time: 0.22962964
         functionName: EnableCanRotate
         data: 
@@ -264,6 +250,20 @@ ModelImporter:
         messageOptions: 0
       - time: 0.42962962
         functionName: DisableCanRotate
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.45185184
+        functionName: OpenDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.63703704
+        functionName: DisableDamageCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -356,7 +356,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0
+      - time: 0.005249347
         functionName: EnableCanRotate
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -379,6 +379,13 @@ ModelImporter:
         messageOptions: 0
       - time: 0.49394587
         functionName: DisableDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0
+        functionName: SetAttack01Damage
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

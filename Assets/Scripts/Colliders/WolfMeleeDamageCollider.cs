@@ -32,6 +32,7 @@ public class WolfMeleeDamageCollider : DamageCollider
         TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
         damageEffect.physicalDamage = physicalDamage;
         damageEffect.magicDamage = magicDamage;
+        damageEffect.poiseDamage = poiseDamage;
         damageEffect.contactPoint = contactPoint;
         damageEffect.angleHitFrom = Vector3.SignedAngle(wolfCharacter.transform.forward, damageTarget.transform.forward, Vector3.up);
 

@@ -14,6 +14,9 @@ public class DamageCollider : MonoBehaviour
     public int physicalDamage = 0;
     public int magicDamage = 0;
 
+    [Header("Poise")]
+    public float poiseDamage = 0;
+
     [Header("Contact Point")]
     protected Vector3 contactPoint;
 
@@ -78,11 +81,14 @@ public class DamageCollider : MonoBehaviour
 
         if (damageTarget.characterNetworkManager.isBlocking.Value && dotValueFromAttackToDamageTarget > 0.3f)
         {
-            charactersDamaged.Contains(damageTarget);
+            charactersDamaged.Add(damageTarget);
+
             TakeBlockedDamage damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeBlockedDamageEffect);
 
             damageEffect.physicalDamage = physicalDamage;
             damageEffect.magicDamage = magicDamage;
+            damageEffect.poiseDamage = poiseDamage;
+            damageEffect.staminaDamage = poiseDamage;
             damageEffect.contactPoint = contactPoint;
 
             damageTarget.characterEffectsManager.ProcessInstantEffect(damageEffect);
@@ -111,6 +117,7 @@ public class DamageCollider : MonoBehaviour
         TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
         damageEffect.physicalDamage = physicalDamage;
         damageEffect.magicDamage = magicDamage;
+        damageEffect.poiseDamage = poiseDamage;
         damageEffect.contactPoint = contactPoint;
 
         damageTarget.characterEffectsManager.ProcessInstantEffect(damageEffect);

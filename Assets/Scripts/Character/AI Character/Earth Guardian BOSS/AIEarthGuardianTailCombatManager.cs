@@ -24,6 +24,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
 
     [Header("Damage")]
     [SerializeField] int baseDamage = 25;
+    [SerializeField] int basePoiseDamage = 25;
     [SerializeField] float attackSlamDamageModifier = 1.6f;
     [SerializeField] float attackStabDamageModifier = 1.0f;
     [SerializeField] float attackStabHeavyDamageModifier = 2f;
@@ -90,6 +91,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
             if (collider != null)
             {
                 collider.physicalDamage = (int)(baseDamage * attackSlamDamageModifier);
+                collider.poiseDamage = (int)(basePoiseDamage * attackSlamDamageModifier);
             }
         }
     }
@@ -100,6 +102,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
             if (collider != null)
             {
                 collider.physicalDamage = (int)(baseDamage * attackStabDamageModifier);
+                collider.poiseDamage = (int)(basePoiseDamage * attackStabDamageModifier);
             }
         }
         //stabdamageCollider.physicalDamage = (int)(baseDamage * attackStabDamageModifier);
@@ -111,6 +114,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
             if (collider != null)
             {
                 collider.physicalDamage = (int)(baseDamage * attackStabHeavyDamageModifier);
+                collider.poiseDamage = (int)(basePoiseDamage * attackStabHeavyDamageModifier);
             }
         }
         //.physicalDamage = (int)(baseDamage * attackStabHeavyDamageModifier);
@@ -122,6 +126,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
             if (collider != null)
             {
                 collider.physicalDamage = (int)(baseDamage * attackSwingDamageModifier);
+                collider.poiseDamage = (int)(basePoiseDamage * attackSwingDamageModifier);
             }
         }
     }
@@ -132,6 +137,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
             if (collider != null)
             {
                 collider.physicalDamage = (int)(baseDamage * attackSwipeDamageModifier);
+                collider.poiseDamage = (int)(basePoiseDamage * attackSwipeDamageModifier);
             }
         }
     }
