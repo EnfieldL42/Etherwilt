@@ -118,6 +118,8 @@ public class TakeBlockedDamage : InstantCharacterEffect
 
     private void CheckForGuardBreak(CharacterManager character)
     {
+        Debug.Log("guard break");
+
         //play sfx
         if (!character.IsOwner)
         {
@@ -126,7 +128,8 @@ public class TakeBlockedDamage : InstantCharacterEffect
 
         if (character.characterNetworkManager.currentStamina.Value <= 0)
         {
-            character.characterAnimatorManager.PlayTargetActionAnimation("Guard_Break_01", true);
+
+            character.characterAnimatorManager.PlayTargetActionAnimation("guard_Break_01", true);
             character.characterNetworkManager.isBlocking.Value = false;
   
         }
@@ -139,7 +142,7 @@ public class TakeBlockedDamage : InstantCharacterEffect
 
     private void PlayDamageSFX(CharacterManager character)
     {
-        //sfx based on material
+        //sfx based on materiale
         character.characterSoundFXManager.PlayBlockSoundFX();
 
     }

@@ -20,6 +20,7 @@ MonoBehaviour:
     its brilliance, and the wind mourns the echoes of its former glory."
   itemID: 1
   weaponAnimator: {fileID: 22100000, guid: e8bd68f2bf297f64e9c35ab3dab85316, type: 2}
+  weaponModelType: 0
   weaponModel: {fileID: 850997595745854258, guid: af71384f30347534d99a41c76742a0d9, type: 3}
   strengthREQ: 1
   dexREQ: 1
@@ -49,6 +50,9 @@ MonoBehaviour:
   runningAttackStaminaCostMultiplier: 1.1
   rollingAttackStaminaCostMultiplier: 1.1
   backstepAttackStaminaCostMultiplier: 1.1
+  physicalBaseDamageAbsorption: 50
+  magiclBaseDamageAbsorption: 50
+  stability: 50
   oneHandedRBAction: {fileID: 11400000, guid: 43c55a3145376ed4ebd96677c614a174, type: 2}
   oneHandedRTAction: {fileID: 11400000, guid: 58d4dfc3612d8f640968e8d1c4249546, type: 2}
   oneHandedLBAction: {fileID: 11400000, guid: be3953b830d58084b85c77f6c1bc7745, type: 2}
@@ -56,3 +60,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a65d792d6907f744490c9b15bb70edfe, type: 3}
   - {fileID: 8300000, guid: 4d4ef7516a431934681038a3dc391e55, type: 3}
   - {fileID: 8300000, guid: 482611fe6bc559142a00be6e726b4862, type: 3}
+  blocking:
+  - {fileID: 8300000, guid: a37109c51cd477548ad1c882be3971d5, type: 3}

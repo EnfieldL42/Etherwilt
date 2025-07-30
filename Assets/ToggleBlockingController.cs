@@ -19,7 +19,10 @@ public class ToggleBlockingController : StateMachineBehaviour
 
         if(player.characterNetworkManager.isBlocking.Value)
         {
-            player.characterAnimatorManager.UpdateAnimatorController(player.playerInventoryManager.currentLeftHandWeapon.weaponAnimator);
+            if(player.playerInventoryManager.currentLeftHandWeapon.itemID != WorldItemDatabase.instance.unarmedWeapon.itemID)
+            {
+                player.characterAnimatorManager.UpdateAnimatorController(player.playerInventoryManager.currentLeftHandWeapon.weaponAnimator);
+            }
         }
         else
         {

@@ -2645,6 +2645,9 @@ MonoBehaviour:
   staminaRegenerationDelay: 2
   blockingPhyicalAbsorption: 0
   blockingMagicAbsorption: 0
+  blockingStability: 0
+  totalPoiseDamanage: 0
+  offensivePoiseBonus: 0
 --- !u!114 &2685033740488950709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2783,7 +2786,7 @@ Animator:
   m_GameObject: {fileID: 6996593062366450161}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: f3a808dfde089ff47b4f57df8c002771, type: 3}
-  m_Controller: {fileID: 9100000, guid: 7f6378c65612f30409d0dae5147cdf1b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 341972be77398bf4ea27b5bba99308ad, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
