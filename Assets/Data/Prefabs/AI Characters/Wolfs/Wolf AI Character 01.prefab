@@ -1010,7 +1010,7 @@ PrefabInstance:
       addedObject: {fileID: 3691101289250790691}
     - targetCorrespondingSourceObject: {fileID: -4761561768569976958, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6313696536208003897}
+      addedObject: {fileID: 1865736470803445488}
   m_SourcePrefab: {fileID: 100100000, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
 --- !u!1 &542781558509733378 stripped
 GameObject:
@@ -1058,17 +1058,17 @@ CharacterController:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_LayerOverridePriority: 0
+  m_LayerOverridePriority: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Height: 0.81
-  m_Radius: 0.17
+  m_Height: 2
+  m_Radius: 0.4
   m_SlopeLimit: 45
   m_StepOffset: 0.3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.41, z: 0}
+  m_Center: {x: 0, y: 1.11, z: 0.81}
 --- !u!82 &3706901206231409645
 AudioSource:
   m_ObjectHideFlags: 0
@@ -1342,10 +1342,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lastDamageAnimationPlayer: 
-  forward_Ping_Damage: hit_Forward_Medium_01
-  backward_Ping_Damage: hit_Backward_Medium_01
-  left_Ping_Damage: hit_Left_Medium_01
-  right_Ping_Damage: hit_Right_Medium_01
+  forward_Ping_Damage: forward_Ping_Damage
+  backward_Ping_Damage: backward_Ping_Damage
+  left_Ping_Damage: left_Ping_Damage
+  right_Ping_Damage: right_Ping_Damage
   hit_Forward_Medium_01: hit_Forward_Medium_01
   hit_Backward_Medium_01: hit_Backward_Medium_01
   hit_Left_Medium_01: hit_Left_Medium_01
@@ -1366,8 +1366,8 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 1
-  groundCheckSphereRadius: 0.35
-  groundCheckPlusOrMinusPosition: {x: 0, y: 0.15, z: 0}
+  groundCheckSphereRadius: 0.5
+  groundCheckPlusOrMinusPosition: {x: 0, y: 0, z: 0}
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
   fallStartYVelocity: -5
@@ -1473,7 +1473,7 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: -4761561768569976958, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}
   m_PrefabInstance: {fileID: 813235230983207763}
   m_PrefabAsset: {fileID: 0}
---- !u!136 &6313696536208003897
+--- !u!136 &1865736470803445488
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1492,10 +1492,10 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.005
-  m_Height: 0.023
+  m_Radius: 0.007
+  m_Height: 0.015
   m_Direction: 1
-  m_Center: {x: 0, y: 0.001, z: 0.002}
+  m_Center: {x: 0, y: 0, z: 0.001}
 --- !u!4 &8767046620705039482 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8278741267186163497, guid: 7aa7ceb12e7bab2479557129b4e72ef0, type: 3}

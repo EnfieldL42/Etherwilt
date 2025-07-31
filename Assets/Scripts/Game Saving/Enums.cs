@@ -51,19 +51,17 @@ public enum AttackType
     RunningAttack01,
     RollingAttack01,
     BackstepAttack01,
-
-    //EARTH GUARDIAN
-    TailAttack01,
-    TailAttack02,
-    TailAttack03,
-    BiteAttack01,
-    //to add more
 }
 
 public enum DamageIntensity
 {
     Normal,
-}
+} //Damage animation intensity
 
+public enum ItemPickUpType
+{
+    WorldSpawn,
+    CharacterDrop,
+}
 
 

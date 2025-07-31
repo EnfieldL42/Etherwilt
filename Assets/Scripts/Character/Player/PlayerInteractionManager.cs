@@ -86,6 +86,8 @@ public class PlayerInteractionManager : MonoBehaviour
 
     public void Interact()
     {
+        PlayerUIManager.instance.playerUIPopUpManager.CloseAllPopUpWindows();
+
         if(currentInteractableActions.Count == 0)
         {
             return;
