@@ -9919,7 +9919,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  GlobalObjectIdHash: 1166605667
+  GlobalObjectIdHash: 3972968110
   InScenePlacedSourceGlobalObjectIdHash: 1879423279
   DeferredDespawnTick: 0
   Ownership: 1
@@ -9975,7 +9975,7 @@ CapsuleCollider:
   m_Enabled: 1
   serializedVersion: 2
   m_Radius: 0.36
-  m_Height: 1.12
+  m_Height: 1.4
   m_Direction: 1
   m_Center: {x: 0, y: 0.31, z: 0}
 --- !u!54 &3461521167091304449
@@ -34157,5 +34157,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.71
+  m_Radius: 1
   m_Center: {x: 0, y: 0.27, z: 0}

@@ -277,7 +277,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Activate_Bonfire_01
-  m_Speed: 2
+  m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: -2739865035086911869}
@@ -290,7 +290,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -203655887218126122, guid: fe972a34663c4b94c93153b73b1e232a, type: 3}
+  m_Motion: {fileID: -5488680817434945181, guid: 9fc4650354052d644805440cb16bda19, type: 3}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
