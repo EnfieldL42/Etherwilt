@@ -723,6 +723,76 @@
             ]
         },
         {
+            "name": "Player Menu",
+            "id": "b04577b1-cae6-4dd2-a669-fc06ecd97f59",
+            "actions": [
+                {
+                    "name": "Open Character Menu",
+                    "type": "Button",
+                    "id": "56abdb80-eaaa-4111-b11c-0eca458a73a1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Close Character Menu",
+                    "type": "Button",
+                    "id": "3cd4907f-8bc1-4c7f-8594-30d10dc3867a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "b7afe44c-8cc8-4042-a2f0-8d8df10dd52e",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "Open Character Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2aa94863-3e78-43c1-9bbf-e463b1defca5",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "Open Character Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7616dae9-f225-4ece-a869-7088f9387927",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad Controls",
+                    "action": "Close Character Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "7cb18d8a-f854-4509-acc0-6c5e60c6f8a6",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "Close Character Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
             "name": "UI",
             "id": "a179d7c7-7aea-4a35-a345-726e59f10e1c",
             "actions": [

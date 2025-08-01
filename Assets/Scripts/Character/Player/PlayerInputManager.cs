@@ -40,7 +40,6 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool queuedRBInput = false;
     [SerializeField] bool queuedRTInput = false;
 
-
     [Header("Bumper Inputs")]
     [SerializeField] bool RBInput = false;
     [SerializeField] bool LBInput = false;
@@ -60,11 +59,14 @@ public class PlayerInputManager : MonoBehaviour
     private float mouseSwitchCooldown = 0.25f;
     private float mouseSwitchTimer;
 
-
     [Header("Device Inputs")]
     public static ControlScheme CurrentControlScheme { get; private set; }
     public InputActionAsset inputActions;
     public static event Action<ControlScheme> OnInputSchemeChanged;
+
+    [Header("UI Inputs")]
+    [SerializeField] bool closeMenuInput = false;
+    [SerializeField] bool openCharacterMenu = false;
 
 
 
@@ -134,6 +136,10 @@ public class PlayerInputManager : MonoBehaviour
 
             //Interaction Input
             playerControls.PlayerActions.Interact.performed += i => interactionInput = true;
+
+            //UI inputs
+            playerControls.PlayerMenu.CloseCharacterMenu.performed += i => closeMenuInput = true;
+            playerControls.PlayerMenu.OpenCharacterMenu.performed += i => openCharacterMenu = true;
         }
 
         playerControls.Enable();
@@ -236,6 +242,8 @@ public class PlayerInputManager : MonoBehaviour
 
         HandleInteractionInput();
 
+        HandleOpenCharacterMenuInput();
+        HandeCloseUIInput();
     }
 
     private void HandlePlayerMovementInput()
@@ -326,6 +334,10 @@ public class PlayerInputManager : MonoBehaviour
             jumpInput = false;
 
             //if ui window open, return without doing anything
+            if(PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
 
             //attempt to perform jump
             player.playerLocomotionManager.AttemptToPerformJump();
@@ -603,6 +615,31 @@ public class PlayerInputManager : MonoBehaviour
                 queuedInputTimer = 0;
             }
         }
+    }
+
+    private void HandleOpenCharacterMenuInput()
+    {
+        if(openCharacterMenu)
+        {
+            openCharacterMenu = false;
+            PlayerUIManager.instance.playerUIPopUpManager.CloseAllPopUpWindows();
+            PlayerUIManager.instance.CloseAllMenuWindows();
+            PlayerUIManager.instance.playerUICharacterMenuManager.OpenCharacterMenu();
+        }
+    }
+
+    private void HandeCloseUIInput()
+    {
+        if(closeMenuInput)
+        {
+            closeMenuInput = false;
+
+            if(PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                PlayerUIManager.instance.CloseAllMenuWindows();
+            }
+        }
+
     }
 
     private void OnDeviceChanged(InputControl control, InputEventPtr eventPtr)

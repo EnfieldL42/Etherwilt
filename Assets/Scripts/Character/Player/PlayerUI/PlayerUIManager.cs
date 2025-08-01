@@ -11,6 +11,8 @@ public class PlayerUIManager : MonoBehaviour
 
     [HideInInspector] public PlayerUIHudManager playerUIHudManager;
     [HideInInspector] public PlayerUIPopUpManager playerUIPopUpManager;
+    [HideInInspector] public PlayerUICharacterMenuManager playerUICharacterMenuManager;
+    [HideInInspector] public PlayerUIEquipmentManager playerUIEquipmentManager;
 
     [Header("UI Flags")]
     public bool menuWindowIsOpen = false;
@@ -29,6 +31,8 @@ public class PlayerUIManager : MonoBehaviour
 
         playerUIHudManager = GetComponentInChildren<PlayerUIHudManager>();
         playerUIPopUpManager = GetComponentInChildren<PlayerUIPopUpManager>();
+        playerUICharacterMenuManager = GetComponentInChildren<PlayerUICharacterMenuManager>();
+        playerUIEquipmentManager = GetComponentInChildren<PlayerUIEquipmentManager>();
     }
 
     private void Start()
@@ -56,6 +60,12 @@ public class PlayerUIManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+    }
+
+    public void CloseAllMenuWindows()
+    {
+        playerUICharacterMenuManager.CloseCharacterMenu();
+        playerUIEquipmentManager.CloseEquipmentManagerMenu();
     }
 
 }
