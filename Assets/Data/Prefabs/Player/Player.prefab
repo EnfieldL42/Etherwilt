@@ -2609,6 +2609,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   leftHandWeaponIndex: -1
+  itemsInInventory: []
 --- !u!114 &5740999402678442274
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2648,6 +2649,9 @@ MonoBehaviour:
   blockingStability: 0
   totalPoiseDamanage: 0
   offensivePoiseBonus: 0
+  basePoiseDefense: 0
+  defaultPoiseResetTime: 8
+  poiseResetTimer: 0
 --- !u!114 &2685033740488950709
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2660,6 +2664,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cac8e71d568c40443a1c17b0c8e8100d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastDamageAnimationPlayer: 
+  forward_Ping_Damage: forward_Ping_Damage
+  backward_Ping_Damage: backward_Ping_Damage
+  left_Ping_Damage: left_Ping_Damage
+  right_Ping_Damage: right_Ping_Damage
   hit_Forward_Medium_01: hit_Forward_Medium_01
   hit_Backward_Medium_01: hit_Backward_Medium_01
   hit_Left_Medium_01: hit_Left_Medium_01
@@ -2915,9 +2924,9 @@ MonoBehaviour:
   globalWeight: 1
   leftFootWeight: 1
   rightFootWeight: 1
-  smoothTime: 0.075
+  smoothTime: 0.05
   raySphereRadius: 0.05
-  rayCastRange: 2
+  rayCastRange: 0.65
   groundLayers:
     serializedVersion: 2
     m_Bits: 1
