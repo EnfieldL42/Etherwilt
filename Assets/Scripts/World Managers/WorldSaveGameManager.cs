@@ -46,11 +46,12 @@ public class WorldSaveGameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+
         LoadAllCharacterProfiles();
     }
 

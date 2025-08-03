@@ -28,6 +28,8 @@ public class WorldItemDatabase : MonoBehaviour
             Destroy(gameObject);
         }
 
+        DontDestroyOnLoad(gameObject);
+
         //add all weapons to list of items
         foreach (var weapon in weapons)
         {
@@ -41,6 +43,7 @@ public class WorldItemDatabase : MonoBehaviour
             items[i].itemID = i;
         }
     }
+
 
     public WeaponItem GetWeaponByID(int ID)
     {

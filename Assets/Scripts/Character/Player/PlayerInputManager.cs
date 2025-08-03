@@ -84,7 +84,6 @@ public class PlayerInputManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-
     }
 
     private void OnEnable()
@@ -157,7 +156,6 @@ public class PlayerInputManager : MonoBehaviour
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
 
         SceneManager.activeSceneChanged += OnSceneChange; //checks if the scene has changed
 
@@ -173,6 +171,7 @@ public class PlayerInputManager : MonoBehaviour
         InputUser.onUnpairedDeviceUsed += OnDeviceChanged;
 
         SimulateInitialDeviceDetection();
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Update()
@@ -410,6 +409,10 @@ public class PlayerInputManager : MonoBehaviour
         {
             rightArrowInput = false;
 
+            if(PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
             player.playerEquipmentManager.SwitchRightWeapon();
 
         }
@@ -420,6 +423,11 @@ public class PlayerInputManager : MonoBehaviour
         if(leftArrowInput)
         {
             leftArrowInput = false;
+
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
             player.playerEquipmentManager.SwitchLeftWeapon();
         }
     }

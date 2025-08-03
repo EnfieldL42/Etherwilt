@@ -1,4 +1,5 @@
 using NUnit.Framework.Interfaces;
+using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
@@ -37,6 +38,19 @@ public class CharacterSaveData
 
     [Header("World Items")]
     public SerializableDictionary<int, bool> worldItemsLooted;
+
+    [Header("Inventory")]
+    //current weapons
+    //public WeaponItem currentRightHandWeapon;
+    //public WeaponItem currentLeftHandWeapon;
+    //quicklots
+    public WeaponItem[] weaponsInRightHandSlots;
+    public WeaponItem[] weaponsInLeftHandSlots;
+    //public int rightHandWeaponIndex = 0;
+    //public int leftHandWeaponIndex = 0;
+    //inventory
+    public List<Item> itemsInInventory;
+
 
     public CharacterSaveData()
     {

@@ -17,48 +17,8 @@ ModelImporter:
     removeConstantScaleCurves: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: "\nClip 'Armature.001|FlaskUse' has import animation
-      warnings that might lower retargeting quality:\nNote: Activate translation
-      DOF on avatar to improve retargeting quality.\n\t'Index1.L' has translation
-      animation that will be discarded.\n\t'Ring1.L' has translation animation that
-      will be discarded.\n\t'Index1.R' has translation animation that will be discarded.\n\t'Middle2.R'
-      has translation animation that will be discarded.\n\t'Ring1.R' has translation
-      animation that will be discarded.\n"
-    animationRetargetingWarnings: "\nRetargeting quality report for clip 'Armature.001|ActivateBonfire':\n\tLeftLowerArm
-      average position error 0.2 mm and maximum position error 1.8 mm at time 0:
-      0 (0.0%) Frame 0\n\tRightLowerArm average position error 0.2 mm and maximum
-      position error 1.8 mm at time 0: 0 (0.0%) Frame 0\n\tLeftFoot average orientation
-      error 1.1 deg and maximum orientation error 2.0 deg at time 3:14 (64.9%) Frame
-      194\n\nRetargeting quality report for clip 'Armature.001|FlaskEmpty':\n\tLeftLowerArm
-      average position error 0.2 mm and maximum position error 1.4 mm at time 0:19
-      (10.6%) Frame 19\n\nRetargeting quality report for clip 'Armature.001|FlaskUse':\n\tLeftLowerArm
-      average position error 0.2 mm and maximum position error 1.4 mm at time 0:19
-      (10.6%) Frame 19\n\nRetargeting quality report for clip 'Armature.001|JumpEnd':\n\tRetargeting
-      quality is good. No significant differences with original animation were found.\n\nRetargeting
-      quality report for clip 'Armature.001|JumpIdle':\n\tRetargeting quality is
-      good. No significant differences with original animation were found.\n\nRetargeting
-      quality report for clip 'Armature.001|JumpLift':\n\tRetargeting quality is
-      good. No significant differences with original animation were found.\n\nRetargeting
-      quality report for clip 'Armature.001|JumpStart':\n\tLeftLowerLeg average position
-      error 0.3 mm and maximum position error 1.0 mm at time 0:12 (25.5%) Frame 12\n\nRetargeting
-      quality report for clip 'Armature.001|PoiseBreak':\n\tLeftLowerLeg average
-      position error 0.2 mm and maximum position error 1.0 mm at time 0:10 (7.2%)
-      Frame 10\n\tRightLowerArm average position error 0.1 mm and maximum position
-      error 1.2 mm at time 0:12 (8.6%) Frame 12\n\tLeftFoot average orientation error
-      0.6 deg and maximum orientation error 1.4 deg at time 1:27 (62.6%) Frame 87\n\nRetargeting
-      quality report for clip 'Armature.001|PoiseBreakIdle':\n\tLeftFoot average
-      orientation error 1.2 deg and maximum orientation error 1.3 deg at time 0:49
-      (62.0%) Frame 49\n\nRetargeting quality report for clip 'Armature.001|Rest':\n\tLeftLowerLeg
-      average position error 31.1 mm and maximum position error 31.1 mm at time 0:
-      0 (0.0%) Frame 0\n\tLeftFoot average position error 3.5 mm and maximum position
-      error 3.5 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerLeg average position
-      error 31.1 mm and maximum position error 31.1 mm at time 0: 0 (0.0%) Frame
-      0\n\tRightFoot average position error 3.5 mm and maximum position error 3.5
-      mm at time 0: 0 (0.0%) Frame 0\n\tLeftLowerArm average position error 3.0 mm
-      and maximum position error 3.0 mm at time 0: 0 (0.0%) Frame 0\n\tRightLowerArm
-      average position error 3.0 mm and maximum position error 3.0 mm at time 0:
-      0 (0.0%) Frame 0\n\nRetargeting quality report for clip 'Armature.001|Sphere.002Action':\n\tRetargeting
-      quality is good. No significant differences with original animation were found.\n"
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
@@ -188,7 +148,14 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.26236558
+        functionName: EnableWallSlide
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}

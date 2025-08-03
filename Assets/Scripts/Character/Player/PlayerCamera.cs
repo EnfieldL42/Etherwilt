@@ -61,11 +61,13 @@ public class PlayerCamera : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
     {
-        DontDestroyOnLoad(gameObject);
+
         cameraZPosition = cameraObject.transform.localPosition.z;
     }
 

@@ -344,19 +344,8 @@
                 },
                 {
                     "name": "",
-                    "id": "9f82f3a1-7c29-47da-9819-4898cefaaa56",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad Controls",
-                    "action": "ReviveInput",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "99542e04-ecae-46b1-9342-732b043e72d8",
-                    "path": "<Keyboard>/upArrow",
+                    "path": "<Keyboard>/minus",
                     "interactions": "",
                     "processors": "",
                     "groups": ";Keyboard Controls",

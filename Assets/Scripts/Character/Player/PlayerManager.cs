@@ -239,6 +239,12 @@ public class PlayerManager : CharacterManager
         currentCharacterData.vitality = playerNetworkManager.vitality.Value;
         currentCharacterData.endurance = playerNetworkManager.endurance.Value;
 
+        currentCharacterData.weaponsInRightHandSlots = playerInventoryManager.weaponsInRightHandSlots;
+        currentCharacterData.weaponsInLeftHandSlots = playerInventoryManager.weaponsInLeftHandSlots;
+
+
+        currentCharacterData.itemsInInventory = playerInventoryManager.itemsInInventory;
+
 
     }
 
@@ -258,7 +264,13 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.currentHealth.Value = currentCharacterData.currentHealth;
         playerNetworkManager.currentStamina.Value = currentCharacterData.currentStamina;
 
-        PlayerUIManager.instance.playerUIHudManager.SetMaxHealthValue(playerNetworkManager.maxHealth.Value);
+        //PlayerUIManager.instance.playerUIHudManager.SetMaxHealthValue(playerNetworkManager.maxHealth.Value);
+
+
+        playerInventoryManager.weaponsInRightHandSlots = currentCharacterData.weaponsInRightHandSlots;
+        playerInventoryManager.weaponsInLeftHandSlots = currentCharacterData.weaponsInLeftHandSlots;
+
+        playerInventoryManager.itemsInInventory = currentCharacterData.itemsInInventory;
     }
 
     public void LoadOtherPlayerCharacterWhenJoiningServer()

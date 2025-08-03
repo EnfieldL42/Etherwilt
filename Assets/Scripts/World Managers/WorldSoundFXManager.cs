@@ -28,10 +28,7 @@ public class WorldSoundFXManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
 
-    private void Start()
-    {
         DontDestroyOnLoad(gameObject);
     }
 

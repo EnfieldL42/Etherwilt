@@ -36,7 +36,7 @@ public class ResetActionFlag : StateMachineBehaviour
 
         if(player != null)
         {
-            player.playerLocomotionManager.canWallSlide = true;
+            player.playerLocomotionManager.canWallSlide = false;
         }
 
 
