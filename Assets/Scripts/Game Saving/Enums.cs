@@ -66,6 +66,7 @@ public enum AttackType
 public enum DamageIntensity
 {
     Normal,
+    Colossal,
 } //Damage animation intensity
 
 public enum ItemPickUpType

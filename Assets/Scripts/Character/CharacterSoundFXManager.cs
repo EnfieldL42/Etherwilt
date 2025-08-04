@@ -33,7 +33,6 @@ public class CharacterSoundFXManager : MonoBehaviour
             audioSource.pitch += Random.Range(-pitchRandom, pitchRandom);
         }
     }
-
     public void PlayRollSoundFX()
     {
         audioSource.PlayOneShot(WorldSoundFXManager.instance.rollSFX);
@@ -63,9 +62,12 @@ public class CharacterSoundFXManager : MonoBehaviour
             PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(footsteps));
         }
     }
-
     public virtual void PlayBlockSoundFX()
     {
 
+    }
+    public virtual void PlayStanceBreakSoundFX()
+    {
+        audioSource.PlayOneShot(WorldSoundFXManager.instance.stanceBreakSFX);
     }
 }

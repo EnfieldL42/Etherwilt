@@ -43,15 +43,19 @@ public class TakeDamageEffect : InstantCharacterEffect
 
         base.ProcessEffect(character);
 
-        CalculateDamage(character);
+        if(character.isDead.Value)
+        {
+            return;
+        }
 
+        CalculateDamage(character);
         PlayDirectonalBasedDamageAnimation(character);
-        
 
         //check for build ups
         PlayDamageSFX(character);
         PlayDamageVFX(character);
 
+        CalculateStanceDamage(character);
         //if character is ai, check for new target if chararcter caysubg damage is nearby
 
 
@@ -59,12 +63,12 @@ public class TakeDamageEffect : InstantCharacterEffect
 
     private void CalculateDamage(CharacterManager character)
     {
-        if(!character.IsOwner)
+        if (!character.IsOwner)
         {
             return;
         }
 
-        if(characterCausingDamage != null)
+        if (characterCausingDamage != null)
         {
             //check for gmd modifiers and modify base dmg (physical and magic buffs)
         }
@@ -80,14 +84,14 @@ public class TakeDamageEffect : InstantCharacterEffect
 
         finalDamageDealt = Mathf.RoundToInt(physicalDamage + magicDamage);
 
-        if(finalDamageDealt <= 0)
+        if (finalDamageDealt <= 0)
         {
-            finalDamageDealt = 1; 
+            finalDamageDealt = 1;
         }
 
         character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;
         character.characterStatsManager.totalPoiseDamanage -= poiseDamage;   //subtract poise damage from character total
-
+        character.characterCombatManager.previousPoiseDamageTaken = poiseDamage; //store previous poise damage taken for other interactions
 
         float remainingPoise = character.characterStatsManager.basePoiseDefense + character.characterStatsManager.offensivePoiseBonus + character.characterStatsManager.totalPoiseDamanage;
 
@@ -97,6 +101,18 @@ public class TakeDamageEffect : InstantCharacterEffect
         }
 
         character.characterStatsManager.poiseResetTimer = character.characterStatsManager.defaultPoiseResetTime;
+    }
+
+    private void CalculateStanceDamage(CharacterManager character)
+    {
+        AICharacterManager aiCharacter = character as AICharacterManager;
+
+        int stanceDamage = Mathf.RoundToInt(poiseDamage);
+
+        if(aiCharacter != null)
+        {
+            aiCharacter.aICharacterCombatManager.DamageStance(stanceDamage);
+        }
     }
 
     private void PlayDamageVFX(CharacterManager character)

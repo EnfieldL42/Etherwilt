@@ -72,6 +72,7 @@ public class MeleeWeaponDamageCollider : DamageCollider
 
         TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
         damageEffect.physicalDamage = physicalDamage;
+        damageEffect.poiseDamage = poiseDamage;
         damageEffect.magicDamage = magicDamage;
         damageEffect.contactPoint = contactPoint;
         damageEffect.angleHitFrom = Vector3.SignedAngle(characterCausingDamage.transform.forward, damageTarget.transform.forward, Vector3.up);
@@ -135,6 +136,7 @@ public class MeleeWeaponDamageCollider : DamageCollider
                 damageEffect.contactPoint.x,
                 damageEffect.contactPoint.y,
                 damageEffect.contactPoint.z);
+
         }
     }
 
@@ -144,6 +146,7 @@ public class MeleeWeaponDamageCollider : DamageCollider
         damage.magicDamage *= modifier;
         damage.poiseDamage *= modifier;
 
+        Debug.Log("poise " + damage.poiseDamage);
         //if attack is fullt charged heavy, multiply charge modifier after normal modifiers have been calculated
     }
 }

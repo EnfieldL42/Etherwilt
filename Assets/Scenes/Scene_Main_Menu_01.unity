@@ -5265,6 +5265,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: f037b5487e00f4747b03f8e61fea26ae, type: 3}
     - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: pickUpItemSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 9d90f5c4f67e9914ea16b3fb65f687a6, type: 3}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: stanceBreakSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 39f78d9eed63cb346b47f2fa87dd94e6, type: 3}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: physicalDamageSFX.Array.size
       value: 1
       objectReference: {fileID: 0}

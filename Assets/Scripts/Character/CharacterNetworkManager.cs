@@ -33,6 +33,7 @@ public class CharacterNetworkManager : NetworkBehaviour
     public NetworkVariable<bool> isChargingAttack = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> isBlocking = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> isAttacking = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> isRepostable = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Resources")]
     public NetworkVariable<float> currentStamina = new NetworkVariable<float> (0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
@@ -131,6 +132,33 @@ public class CharacterNetworkManager : NetworkBehaviour
         character.applyRootMotion = applyRootMotion;
 
         character.animator.CrossFade(animationID, 0.2f);
+    }
+
+    [ServerRpc]//function called from a client to the server/host
+    public void NotifyTheServerOfInstantActionAnimationServerRpc(ulong clientID, string animationID, bool applyRootMotion)
+    {
+        //if plauer is host, activate client rpc
+        if(IsServer)
+        {
+            PlayInstantActionAnimationForAllClientsClientRpc(clientID, animationID, applyRootMotion);
+        }
+    }
+
+    [ClientRpc]//client rpc is sent to all clients(from the server)
+    public void PlayInstantActionAnimationForAllClientsClientRpc(ulong clientID, string animationID, bool applyRootMotion)
+    {
+        //make sure we dont run the function on the character that sent it (dont play the animation twice for the player playing)
+        if (clientID != NetworkManager.Singleton.LocalClientId)
+        {
+            PerformInstantActionAnimationFromServer(animationID, applyRootMotion);
+        }
+    }
+
+    private void PerformInstantActionAnimationFromServer(string animationID, bool applyRootMotion)
+    {
+        character.applyRootMotion = applyRootMotion;
+
+        character.animator.Play(animationID);
     }
 
     //ATTACK ANIMATION

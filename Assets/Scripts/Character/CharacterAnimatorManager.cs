@@ -109,6 +109,18 @@ public class CharacterAnimatorManager : MonoBehaviour
 
         character.characterNetworkManager.NotifyTheServerOfActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
     }
+    
+    public virtual void PlayTargetActionAnimationInstantly(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false)
+    {
+        character.applyRootMotion = applyRootMotion;
+        character.animator.Play(targetAnimation);
+        character.isPerformingAction = isPerformingAction;//can be used to stop characters from attempting a new action, flags will turn true if you are stunned
+        character.canRotate = canRotate;
+        character.canMove = canMove;
+
+
+        character.characterNetworkManager.NotifyTheServerOfInstantActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
+    }
 
     public virtual void PlayTargetAttackActionAnimation(WeaponItem weapon, AttackType attackType, string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false)
     {
@@ -136,5 +148,6 @@ public class CharacterAnimatorManager : MonoBehaviour
     {
         character.animator.runtimeAnimatorController = weaponController;
     }
+
 
 }

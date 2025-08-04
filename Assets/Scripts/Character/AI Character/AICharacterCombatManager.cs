@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine;
 
 public class AICharacterCombatManager : CharacterCombatManager
 {
@@ -21,6 +21,19 @@ public class AICharacterCombatManager : CharacterCombatManager
     [Header("Attack Rotation Speed")]
     public float attackRotationSpeed = 25;
 
+
+    [Header("Stance")]
+    public float maxStance = 150;
+    public float currentStance;
+    [SerializeField] float stanceRegeneratedPerSecond = 15;
+    [SerializeField] bool ignoreStanceBreak = false;
+
+    [Header("Stance Timer")]
+    [SerializeField] float stanceRegenerationTimer = 0;
+    private float stanceTickTimer = 0;
+    [SerializeField] float defaultTimeUntilStanceRegenerationBegins = 15;
+
+
     public HashSet<CharacterManager> damagedCharactersThisAttack = new HashSet<CharacterManager>();
      
     protected override void Awake()
@@ -29,6 +42,77 @@ public class AICharacterCombatManager : CharacterCombatManager
 
         aiCharacter = GetComponent<AICharacterManager>();      
         lockOnTransform = GetComponentInChildren<LockOnTrasform>().transform;
+    }
+
+    private void FixedUpdate()
+    {
+        HandleStanceBreak();
+    }
+
+    private void HandleStanceBreak()
+    {
+        if(!aiCharacter.IsOwner)
+        {
+            return;
+        }
+        if(aiCharacter.isDead.Value)
+        {
+            return;
+        }
+
+        if(stanceRegenerationTimer > 0)
+        {
+            stanceRegenerationTimer -= Time.deltaTime;
+        }
+        else
+        {
+            stanceRegenerationTimer = 0;
+
+            if(currentStance < maxStance)
+            {
+                //begin adding stance each tick
+                stanceTickTimer += Time.deltaTime;
+
+                if(stanceTickTimer >= 1)
+                {
+                    stanceTickTimer = 0;
+                    currentStance += stanceRegeneratedPerSecond;
+                }
+            }
+            else
+            {
+                currentStance = maxStance;
+            }
+        }
+
+        if(currentStance <= 0)
+        {
+            DamageIntensity previousDamageIntensity = WorldUtilityManager.instance.GetDamageIntensityBasedOnPoiseDamage(previousPoiseDamageTaken);
+
+            if(previousDamageIntensity == DamageIntensity.Colossal)
+            {
+                currentStance = 1;
+                return;
+            }
+
+            //check if being backstabbed or ripposted-do not play the stance break animation
+
+            currentStance = maxStance;
+
+            if(ignoreStanceBreak)
+            {
+                return;
+            }
+
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimationInstantly("Stance_Break_01", true);
+        }
+    }
+
+    public void DamageStance(int stanceDamage)
+    {
+        stanceRegenerationTimer = defaultTimeUntilStanceRegenerationBegins;
+
+        currentStance -= stanceDamage;
     }
 
     public void FindTargetViaLineOfSight(AICharacterManager aiCharacter)

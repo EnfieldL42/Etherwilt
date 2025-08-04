@@ -8,6 +8,9 @@ public class CharacterCombatManager : NetworkBehaviour
     [Header("Last Attack Animation Performed")]
     public string lastAttackAnimationPerformed;
 
+    [Header("Previous Poise Damage Take")]
+    public float previousPoiseDamageTaken;
+
     [Header("Attack Target")]
     public CharacterManager currentTarget;
     public NetworkVariable<bool> hasChangedTarget = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -62,6 +65,14 @@ public class CharacterCombatManager : NetworkBehaviour
 
     }
 
+    public void EnableIsRipostable()
+    {
+        if(character.IsOwner)
+        {
+            character.characterNetworkManager.isRepostable.Value = true;
+        }
+    }
+
     public void EnableCanDoRollingAttack()
     {
         canPerformRollingAttack = true;
@@ -84,6 +95,7 @@ public class CharacterCombatManager : NetworkBehaviour
     {
         canPerformBackstepAttack = false;
     }
+
     public virtual void EnableCanDoCombo()
     {
 

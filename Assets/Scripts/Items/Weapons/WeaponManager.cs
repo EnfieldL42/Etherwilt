@@ -15,6 +15,7 @@ public class WeaponManager : MonoBehaviour
         meleeWeaponDamageCollider.magicDamage = weapon.magicDamage;
         meleeWeaponDamageCollider.poiseDamage = weapon.poiseDamage;
 
+
         meleeWeaponDamageCollider.light_Attack_01_Modifier = weapon.lightAttackModifer01;
         meleeWeaponDamageCollider.light_Attack_02_Modifier = weapon.lightAttackModifer02;
         meleeWeaponDamageCollider.light_Attack_03_Modifier = weapon.lightAttackModifer03;
