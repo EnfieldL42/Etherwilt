@@ -32,7 +32,48 @@ public class PlayerUIEquipmentManager : MonoBehaviour
         menu.SetActive(true);
         equipmentInventoryWindow.SetActive(false);
         ClearEquipmentInventory();
-        RefreshWeaponSlotIcons();
+        RefreshEquipmentSlotIcons();
+    }
+
+    public void RefreshMenu()
+    {
+        ClearEquipmentInventory();
+        RefreshEquipmentSlotIcons();
+    }
+
+    public void SelectLastSelectedEquipmentSlot()
+    {
+        Button lastSelectedButton = null;
+
+        switch (currentSelectedEquipmentSlot)
+        {
+            case EquipmentType.RightWeapon01:
+                lastSelectedButton = rightHandSlot1.GetComponentInParent<Button>();
+                break;
+            case EquipmentType.RightWeapon02:
+                lastSelectedButton = rightHandSlot2.GetComponentInParent<Button>();
+                break;
+            case EquipmentType.RightWeapon03:
+                lastSelectedButton = rightHandSlot3.GetComponentInParent<Button>();
+                break;
+            case EquipmentType.LeftWeapon01:
+                lastSelectedButton = leftHandSlot1.GetComponentInParent<Button>();
+                break;
+            case EquipmentType.LeftWeapon02:
+                lastSelectedButton = leftHandSlot2.GetComponentInParent<Button>();
+                break;
+            case EquipmentType.LeftWeapon03:
+                lastSelectedButton = leftHandSlot3.GetComponentInParent<Button>();
+                break;
+            default:
+                break;
+        }
+
+        if (lastSelectedButton != null)
+        {
+            lastSelectedButton.Select();
+            lastSelectedButton.OnSelect(null);
+        }
     }
 
     public void CloseEquipmentManagerMenu()
@@ -41,7 +82,7 @@ public class PlayerUIEquipmentManager : MonoBehaviour
         menu.SetActive(false);
     }
 
-    private void RefreshWeaponSlotIcons()
+    private void RefreshEquipmentSlotIcons()
     {
         PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
 
@@ -186,7 +227,7 @@ public class PlayerUIEquipmentManager : MonoBehaviour
 
         if(weaponsInInventory.Count <= 0)
         {
-            OpenEquipmentManagerMenu();
+            RefreshMenu();
             return;
         }
 
@@ -208,6 +249,141 @@ public class PlayerUIEquipmentManager : MonoBehaviour
                 }
             }
         }
+    }
+
+    public void SelectEquipmentSlot(int equipmentSlot)
+    {
+        currentSelectedEquipmentSlot = (EquipmentType)equipmentSlot;
+
+    }
+
+    public void UnequipSelectedEquip()
+    {
+        PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
+        Item unequipedItem;
+
+        switch (currentSelectedEquipmentSlot)
+        {
+            case EquipmentType.RightWeapon01:
+
+                unequipedItem = player.playerInventoryManager.weaponsInRightHandSlots[0];
+                if(unequipedItem != null)
+                {
+                    player.playerInventoryManager.weaponsInRightHandSlots[0] = Instantiate(WorldItemDatabase.instance.unarmedWeapon);
+
+                    if(unequipedItem.itemID != WorldItemDatabase.instance.unarmedWeapon.itemID)
+                    {
+                        player.playerInventoryManager.AddItemToInventory(unequipedItem);
+                    }
+                }
+
+                if(player.playerInventoryManager.rightHandWeaponIndex == 0)
+                {
+                    player.playerNetworkManager.currentRightHandWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
+                }
+
+                break;
+            case EquipmentType.RightWeapon02:
+
+                unequipedItem = player.playerInventoryManager.weaponsInRightHandSlots[1];
+                if (unequipedItem != null)
+                {
+                    player.playerInventoryManager.weaponsInRightHandSlots[1] = Instantiate(WorldItemDatabase.instance.unarmedWeapon);
+
+                    if (unequipedItem.itemID != WorldItemDatabase.instance.unarmedWeapon.itemID)
+                    {
+                        player.playerInventoryManager.AddItemToInventory(unequipedItem);
+                    }
+                }
+
+                if (player.playerInventoryManager.rightHandWeaponIndex == 1)
+                {
+                    player.playerNetworkManager.currentRightHandWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
+                }
+
+                break;
+            case EquipmentType.RightWeapon03:
+
+                unequipedItem = player.playerInventoryManager.weaponsInRightHandSlots[2];
+                if (unequipedItem != null)
+                {
+                    player.playerInventoryManager.weaponsInRightHandSlots[2] = Instantiate(WorldItemDatabase.instance.unarmedWeapon);
+
+                    if (unequipedItem.itemID != WorldItemDatabase.instance.unarmedWeapon.itemID)
+                    {
+                        player.playerInventoryManager.AddItemToInventory(unequipedItem);
+                    }
+                }
+
+                if (player.playerInventoryManager.rightHandWeaponIndex == 2)
+                {
+                    player.playerNetworkManager.currentRightHandWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
+                }
+
+                break;
+            case EquipmentType.LeftWeapon01:
+
+                unequipedItem = player.playerInventoryManager.weaponsInLeftHandSlots[0];
+                if (unequipedItem != null)
+                {
+                    player.playerInventoryManager.weaponsInLeftHandSlots[0] = Instantiate(WorldItemDatabase.instance.unarmedWeapon);
+
+                    if (unequipedItem.itemID != WorldItemDatabase.instance.unarmedWeapon.itemID)
+                    {
+                        player.playerInventoryManager.AddItemToInventory(unequipedItem);
+                    }
+                }
+
+                if (player.playerInventoryManager.leftHandWeaponIndex == 0)
+                {
+                    player.playerNetworkManager.currentLeftHandWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
+                }
+
+                break;
+            case EquipmentType.LeftWeapon02:
+
+                unequipedItem = player.playerInventoryManager.weaponsInLeftHandSlots[1];
+                if (unequipedItem != null)
+                {
+                    player.playerInventoryManager.weaponsInLeftHandSlots[1] = Instantiate(WorldItemDatabase.instance.unarmedWeapon);
+
+                    if (unequipedItem.itemID != WorldItemDatabase.instance.unarmedWeapon.itemID)
+                    {
+                        player.playerInventoryManager.AddItemToInventory(unequipedItem);
+                    }
+                }
+
+                if (player.playerInventoryManager.leftHandWeaponIndex == 1)
+                {
+                    player.playerNetworkManager.currentLeftHandWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
+                }
+
+                break;
+            case EquipmentType.LeftWeapon03:
+
+                unequipedItem = player.playerInventoryManager.weaponsInLeftHandSlots[2];
+                if (unequipedItem != null)
+                {
+                    player.playerInventoryManager.weaponsInLeftHandSlots[2] = Instantiate(WorldItemDatabase.instance.unarmedWeapon);
+
+                    if (unequipedItem.itemID != WorldItemDatabase.instance.unarmedWeapon.itemID)
+                    {
+                        player.playerInventoryManager.AddItemToInventory(unequipedItem);
+                    }
+                }
+
+                if (player.playerInventoryManager.leftHandWeaponIndex == 2)
+                {
+                    player.playerNetworkManager.currentLeftHandWeaponID.Value = WorldItemDatabase.instance.unarmedWeapon.itemID;
+                }
+
+                break;
+            default:
+                break;
+        }
+
+        //refreshes screen
+        RefreshMenu();
     }
 
 }

@@ -261,17 +261,37 @@ public class WorldSaveGameManager : MonoBehaviour
 
     }
 
+    //public void LoadWorldScene(int buildIndex)
+    //{
+    //    string worldScene = SceneUtility.GetScenePathByBuildIndex(buildIndex);
+    //    NetworkManager.Singleton.SceneManager.LoadScene(worldScene, LoadSceneMode.Single);
+    //    //UnityEngine.AsyncOperation loadOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(worldSceneIndex);
+
+    //    //can use this if we want to save different scenes
+    //    //UnityEngine.AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
+
+    //    player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
+
+    //}
+
     public void LoadWorldScene(int buildIndex)
     {
+        Time.timeScale = 0f; // Freeze the game
+
         string worldScene = SceneUtility.GetScenePathByBuildIndex(buildIndex);
+        NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         NetworkManager.Singleton.SceneManager.LoadScene(worldScene, LoadSceneMode.Single);
-        //UnityEngine.AsyncOperation loadOperation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(worldSceneIndex);
+    }
 
-        //can use this if we want to save different scenes
-        //UnityEngine.AsyncOperation loadOperation = SceneManager.LoadSceneAsync(currentCharacterData.sceneIndex);
+    private void OnSceneLoaded(ulong clientId, string sceneName, LoadSceneMode mode)
+    {
+        NetworkManager.Singleton.SceneManager.OnLoadComplete -= OnSceneLoaded;
 
+        // Load character data
         player.LoadGameDataFromCurrentCharacterData(ref currentCharacterData);
 
+        // Unfreeze the game
+        Time.timeScale = 1f;
     }
 
     public int GetWorldSceneIndex()

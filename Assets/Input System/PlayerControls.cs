@@ -818,6 +818,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Use Item"",
+                    ""type"": ""Button"",
+                    ""id"": ""1d7111a0-5acb-4e7c-96ba-1e280dc0e3fe"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -862,6 +871,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard Controls"",
                     ""action"": ""Close Character Menu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""96c7a665-d72e-4257-b628-df9719528726"",
+                    ""path"": ""<Gamepad>/buttonWest"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad Controls"",
+                    ""action"": ""Use Item"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a2b1659b-2fc9-4102-ad7c-4a9091bac868"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard Controls"",
+                    ""action"": ""Use Item"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -967,6 +998,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerMenu = asset.FindActionMap("Player Menu", throwIfNotFound: true);
         m_PlayerMenu_OpenCharacterMenu = m_PlayerMenu.FindAction("Open Character Menu", throwIfNotFound: true);
         m_PlayerMenu_CloseCharacterMenu = m_PlayerMenu.FindAction("Close Character Menu", throwIfNotFound: true);
+        m_PlayerMenu_UseItem = m_PlayerMenu.FindAction("Use Item", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_GamePadWest = m_UI.FindAction("Game Pad West", throwIfNotFound: true);
@@ -1531,6 +1563,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private List<IPlayerMenuActions> m_PlayerMenuActionsCallbackInterfaces = new List<IPlayerMenuActions>();
     private readonly InputAction m_PlayerMenu_OpenCharacterMenu;
     private readonly InputAction m_PlayerMenu_CloseCharacterMenu;
+    private readonly InputAction m_PlayerMenu_UseItem;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player Menu".
     /// </summary>
@@ -1550,6 +1583,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerMenu/CloseCharacterMenu".
         /// </summary>
         public InputAction @CloseCharacterMenu => m_Wrapper.m_PlayerMenu_CloseCharacterMenu;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerMenu/UseItem".
+        /// </summary>
+        public InputAction @UseItem => m_Wrapper.m_PlayerMenu_UseItem;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -1582,6 +1619,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @CloseCharacterMenu.started += instance.OnCloseCharacterMenu;
             @CloseCharacterMenu.performed += instance.OnCloseCharacterMenu;
             @CloseCharacterMenu.canceled += instance.OnCloseCharacterMenu;
+            @UseItem.started += instance.OnUseItem;
+            @UseItem.performed += instance.OnUseItem;
+            @UseItem.canceled += instance.OnUseItem;
         }
 
         /// <summary>
@@ -1599,6 +1639,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @CloseCharacterMenu.started -= instance.OnCloseCharacterMenu;
             @CloseCharacterMenu.performed -= instance.OnCloseCharacterMenu;
             @CloseCharacterMenu.canceled -= instance.OnCloseCharacterMenu;
+            @UseItem.started -= instance.OnUseItem;
+            @UseItem.performed -= instance.OnUseItem;
+            @UseItem.canceled -= instance.OnUseItem;
         }
 
         /// <summary>
@@ -1939,6 +1982,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnCloseCharacterMenu(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Use Item" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnUseItem(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

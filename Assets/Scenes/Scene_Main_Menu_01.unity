@@ -4406,6 +4406,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1157473947351186740, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1200746819239487732, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4734,6 +4738,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4631609032171056404, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4706374423531340397, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
@@ -4798,6 +4806,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player UI Manager
       objectReference: {fileID: 0}
+    - target: {fileID: 5842787735960939606, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5884745016409649547, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -4828,6 +4840,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6151881244214484151, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6238577465942060717, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6691519574583143746, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
@@ -4900,6 +4916,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7208893389015042863, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7218957040123173826, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7367858148809377935, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
@@ -5889,7 +5909,7 @@ GameObject:
   - component: {fileID: 6760786566728159175}
   - component: {fileID: 8595181129625747681}
   m_Layer: 5
-  m_Name: Title Screen Canvas
+  m_Name: Title Screen UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
