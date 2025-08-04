@@ -37,12 +37,12 @@ public enum WeaponModelType
 
 public enum EquipmentType
 {
-    RightWeapon01,
-    RightWeapon02,
-    RightWeapon03,
-    LeftWeapon01,
-    LeftWeapon02,
-    LeftWeapon03,
+    RightWeapon01, //0
+    RightWeapon02, //1
+    RightWeapon03, //2
+    LeftWeapon01,  //3
+    LeftWeapon02,  //4
+    LeftWeapon03,  //5
 }
 
 public enum AttackType

@@ -2143,6 +2143,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8832953455970826290}
   - component: {fileID: 2549647954091356849}
+  - component: {fileID: 1106184044618367669}
   - component: {fileID: 781631890181224446}
   m_Layer: 0
   m_Name: Menu
@@ -2184,6 +2185,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5279e5b6c0e86ea4c8d17c780116333c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1106184044618367669
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3404785652635614281}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 80f94ef983d057b4a970eb7b0cb85462, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  unequipItemInput: 0
 --- !u!114 &781631890181224446
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6295,6 +6309,46 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2949401434244212412}
     m_Modifications:
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[2].eventID
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5536519322534930356}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 7818229351771677233}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: UI_EquipmentInventorySlot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[2].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5854068977922797282, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
       propertyPath: m_Name
       value: Right Hand Weapon (0)
@@ -6407,6 +6461,22 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
+    - target: {fileID: 7915908883920033302, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Color.a
+      value: 0.9490196
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915908883920033302, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Color.b
+      value: 0.12028304
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915908883920033302, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Color.g
+      value: 0.12028304
+      objectReference: {fileID: 0}
+    - target: {fileID: 7915908883920033302, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Color.r
+      value: 0.16037738
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6428,6 +6498,17 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 6556692945905925687, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
   m_PrefabInstance: {fileID: 1436482547900788183}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &7818229351771677233 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9191995720432783334, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+  m_PrefabInstance: {fileID: 1436482547900788183}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93ca9a4220c26c241a9ae3f10f1c3197, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &2459029656535159212
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6538,9 +6619,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4345996089330095462}
     m_Modifications:
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5536519322534930356}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectEquipmentSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 5854068977922797282, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
       propertyPath: m_Name
-      value: Right Hand Weapon (2)
+      value: Left Hand Weapon (2)
       objectReference: {fileID: 0}
     - target: {fileID: 6556692945905925687, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
       propertyPath: m_Pivot.x
@@ -6679,6 +6772,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2949401434244212412}
     m_Modifications:
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5536519322534930356}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectEquipmentSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 5854068977922797282, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
       propertyPath: m_Name
       value: Right Hand Weapon (2)
@@ -6820,6 +6929,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 2949401434244212412}
     m_Modifications:
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5536519322534930356}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectEquipmentSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5854068977922797282, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
       propertyPath: m_Name
       value: Right Hand Weapon (1)
@@ -7074,9 +7195,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4345996089330095462}
     m_Modifications:
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5536519322534930356}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectEquipmentSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 5854068977922797282, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
       propertyPath: m_Name
-      value: Right Hand Weapon (0)
+      value: Left Hand Weapon (0)
       objectReference: {fileID: 0}
     - target: {fileID: 6556692945905925687, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
       propertyPath: m_Pivot.x
@@ -7215,9 +7348,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 4345996089330095462}
     m_Modifications:
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5536519322534930356}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SelectEquipmentSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 1337870928515573399, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
+      propertyPath: m_Delegates.Array.data[0].callback.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 5854068977922797282, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
       propertyPath: m_Name
-      value: Right Hand Weapon (1)
+      value: Left Hand Weapon (1)
       objectReference: {fileID: 0}
     - target: {fileID: 6556692945905925687, guid: 874fdc60aae62f240b5960d29105d9d4, type: 3}
       propertyPath: m_Pivot.x

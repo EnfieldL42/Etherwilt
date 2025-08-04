@@ -732,6 +732,15 @@
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": false
+                },
+                {
+                    "name": "Use Item",
+                    "type": "Button",
+                    "id": "1d7111a0-5acb-4e7c-96ba-1e280dc0e3fe",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [
@@ -776,6 +785,28 @@
                     "processors": "",
                     "groups": ";Keyboard Controls",
                     "action": "Close Character Menu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "96c7a665-d72e-4257-b628-df9719528726",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad Controls",
+                    "action": "Use Item",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a2b1659b-2fc9-4102-ad7c-4a9091bac868",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "Use Item",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
