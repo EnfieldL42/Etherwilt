@@ -4,14 +4,16 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
 {
     PlayerManager player;
 
+    [Header("Weapon Model Instantiation Slot")]
     public WeaponModelInstantiationSlot rightHandWeaponSlot;
     public WeaponModelInstantiationSlot leftHandWeaponSlot;
     public WeaponModelInstantiationSlot leftHandShieldSlot;
 
-    [SerializeField] WeaponManager rightWeaponManager;
-    [SerializeField] WeaponManager leftWeaponManager;
+    [Header("Weapon Managers")]
+    public WeaponManager rightWeaponManager;
+    public WeaponManager leftWeaponManager;
 
-
+    [Header("Weapon Models")]
     public GameObject rightHandWeaponModel;
     public GameObject leftHandWeaponModel;
 

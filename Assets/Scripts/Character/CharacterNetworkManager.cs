@@ -33,7 +33,8 @@ public class CharacterNetworkManager : NetworkBehaviour
     public NetworkVariable<bool> isChargingAttack = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> isBlocking = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<bool> isAttacking = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public NetworkVariable<bool> isRepostable = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> isRipostable = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> isBeingCriticallyDamaged = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Resources")]
     public NetworkVariable<float> currentStamina = new NetworkVariable<float> (0,NetworkVariableReadPermission.Everyone,NetworkVariableWritePermission.Owner);
@@ -65,6 +66,11 @@ public class CharacterNetworkManager : NetworkBehaviour
                 currentHealth.Value = maxHealth.Value;
             }
         }
+    }
+
+    public virtual void OnIsDeadChanged(bool oldStatus, bool newStatus)
+    {
+        character.animator.SetBool("isDead", character.isDead.Value);
     }
 
     public void OnLockOnTargetIDChange(ulong oldID, ulong newID)
@@ -250,5 +256,82 @@ public class CharacterNetworkManager : NetworkBehaviour
         damageEffect.characterCausingDamage = characterCausingDamage;
 
         damagedCharacter.characterEffectsManager.ProcessInstantEffect(damageEffect);
+    }
+
+    //Critical Attack
+    [ServerRpc(RequireOwnership = false)]
+    public void NotifyServerOfRiposteServerRpc(
+        ulong damagedCharacterID,
+        ulong characterCausingDamageID,
+        string criticalDamageAnimation,
+        int weaponID,
+        float physicalDamage, 
+        float magicDamage, 
+        float poiseDamage)
+    {
+        if (IsServer)
+        {
+            NotifyTheServerOfRiposteClientRpc(
+                damagedCharacterID, 
+                characterCausingDamageID, 
+                criticalDamageAnimation,
+                weaponID,
+                physicalDamage, 
+                magicDamage, 
+                poiseDamage);
+        }
+    }
+
+
+    [ClientRpc(RequireOwnership = false)]
+    public void NotifyTheServerOfRiposteClientRpc(
+        ulong damagedCharacterID,
+        ulong characterCausingDamageID,
+        string criticalDamageAnimation,
+        int weaponID,
+        float physicalDamage,
+        float magicDamage,
+        float poiseDamage)
+    {
+        ProcessRiposteFromServer(
+                damagedCharacterID,
+                characterCausingDamageID,
+                criticalDamageAnimation,
+                weaponID,
+                physicalDamage,
+                magicDamage,
+                poiseDamage); 
+    }
+
+    public void ProcessRiposteFromServer(
+        ulong damagedCharacterID,
+        ulong characterCausingDamageID,
+        string criticalDamageAnimation,
+        int weaponID,
+        float physicalDamage,
+        float magicDamage,
+        float poiseDamage)
+    {
+        CharacterManager damagedCharacter = NetworkManager.Singleton.SpawnManager.SpawnedObjects[damagedCharacterID].gameObject.GetComponent<CharacterManager>();
+        CharacterManager characterCausingDamage = NetworkManager.Singleton.SpawnManager.SpawnedObjects[characterCausingDamageID].gameObject.GetComponent<CharacterManager>();
+        WeaponItem weapon = WorldItemDatabase.instance.GetWeaponByID(weaponID);
+        TakeCriticalDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeCriticalDamageEffect);
+
+        if (damagedCharacter.IsOwner)
+        {
+            damagedCharacter.characterNetworkManager.isBeingCriticallyDamaged.Value = true;
+        }
+
+        damageEffect.physicalDamage = physicalDamage;
+        damageEffect.magicDamage = magicDamage;
+        damageEffect.poiseDamage = poiseDamage;
+        damageEffect.characterCausingDamage = characterCausingDamage;
+
+        damagedCharacter.characterEffectsManager.ProcessInstantEffect(damageEffect);
+        damagedCharacter.characterAnimatorManager.PlayTargetActionAnimationInstantly(criticalDamageAnimation, true);
+
+        //move enemy to proper riposte postion
+        StartCoroutine(damagedCharacter.characterCombatManager.ForceMoveEnemyCharacterToRipostePosition
+            (characterCausingDamage, WorldUtilityManager.instance.GetRipostingPositionBasedOnWeaponClass(weapon.weaponModelType)));
     }
 }

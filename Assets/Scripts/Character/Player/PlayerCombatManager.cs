@@ -33,6 +33,58 @@ public class PlayerCombatManager : CharacterCombatManager
 
     }
 
+    public override void AttemptRiposte(RaycastHit hit)
+    {
+        CharacterManager targetCharacter = hit.transform.gameObject.GetComponent<CharacterManager>();
+
+        if (targetCharacter == null)
+        {
+            return;
+        }
+
+        if (!targetCharacter.characterNetworkManager.isRipostable.Value)
+        {
+            return;
+        }
+
+        if (targetCharacter.characterNetworkManager.isBeingCriticallyDamaged.Value)
+        {
+            return;
+        }
+
+        MeleeWeaponItem riposteWeapon;
+        MeleeWeaponDamageCollider riposteCollider;
+
+        riposteWeapon = player.playerInventoryManager.currentRightHandWeapon as MeleeWeaponItem;
+        riposteCollider = player.playerEquipmentManager.rightWeaponManager.meleeWeaponDamageCollider;
+
+        character.characterAnimatorManager.PlayTargetActionAnimationInstantly("Riposte_01", true);
+
+        if(character.IsOwner)
+        {
+            character.characterNetworkManager.isInvulnerable.Value = true;
+        }
+
+        TakeCriticalDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeCriticalDamageEffect);
+
+        damageEffect.physicalDamage = riposteCollider.physicalDamage;
+        damageEffect.magicDamage = riposteCollider.magicDamage;
+        damageEffect.poiseDamage = riposteCollider.poiseDamage;
+
+        damageEffect.physicalDamage *= riposteWeapon.riposteAttackModifer01;
+        damageEffect.magicDamage *= riposteWeapon.riposteAttackModifer01;
+        damageEffect.poiseDamage *= riposteWeapon.riposteAttackModifer01;
+
+        targetCharacter.characterNetworkManager.NotifyServerOfRiposteServerRpc(
+            targetCharacter.NetworkObjectId,
+            character.NetworkObjectId,
+            "Riposted_01",
+            riposteWeapon.itemID,
+            damageEffect.physicalDamage,
+            damageEffect.magicDamage,
+            damageEffect.poiseDamage);
+    }
+
     public virtual void DrainStaminaBasedOnAttack()
     {
         if(!player.IsOwner)

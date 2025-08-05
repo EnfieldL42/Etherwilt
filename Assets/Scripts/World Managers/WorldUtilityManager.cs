@@ -75,4 +75,21 @@ public class WorldUtilityManager : MonoBehaviour
 
         return damageIntensity;
     }
+
+    public Vector3 GetRipostingPositionBasedOnWeaponClass(WeaponModelType weaponClass)
+    {
+        Vector3 position = new Vector3(0.11f, 0, 0.7f);
+
+        switch (weaponClass)
+        {
+            case WeaponModelType.Weapon:
+                break;
+            case WeaponModelType.Shield:
+                break;
+            default:
+                break;
+        }
+
+        return position;
+    }
 }

@@ -8,10 +8,12 @@ public class WorldCharacterEffectsManager : MonoBehaviour
 
     [Header("VFX")]
     public GameObject bloodSplatterVFX;
+    public GameObject criticalBloodSplatterVFX;
 
     [Header("Damage")]
     public TakeDamageEffect takeDamageEffect;
     public TakeBlockedDamage takeBlockedDamageEffect;
+    public TakeCriticalDamageEffect takeCriticalDamageEffect;
 
     [SerializeField] List<InstantCharacterEffect> instantEffects; 
 

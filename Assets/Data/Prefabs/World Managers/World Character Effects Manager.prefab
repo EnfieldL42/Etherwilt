@@ -44,10 +44,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e300724ee03dbbf459db031f1a4427ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bloodSplatterVFX: {fileID: 0}
+  bloodSplatterVFX: {fileID: 100004, guid: 4f92edaf819c3a840afb16152608df14, type: 3}
   takeDamageEffect: {fileID: 11400000, guid: 8a330069be3789b43a242bfdd57e3ce5, type: 2}
   takeBlockedDamageEffect: {fileID: 11400000, guid: 4602d6009e46422478cdd3ef9e2b5aa2, type: 2}
+  takeCriticalDamageEffect: {fileID: 11400000, guid: 69f58bf220016904390db15780eb77a4, type: 2}
   instantEffects:
   - {fileID: 11400000, guid: b2f0b63ca671f8745ba8f451a86931fb, type: 2}
   - {fileID: 11400000, guid: 8a330069be3789b43a242bfdd57e3ce5, type: 2}
   - {fileID: 11400000, guid: 4602d6009e46422478cdd3ef9e2b5aa2, type: 2}
+  - {fileID: 11400000, guid: 69f58bf220016904390db15780eb77a4, type: 2}

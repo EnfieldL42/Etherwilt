@@ -40,10 +40,11 @@ public class WeaponItem : Item
     public float chargedAttackModifer02 = 2.2f;
     public float chargedAttackModifer03 = 2.4f;
 
-    public float runningAttackModifer = 1.2f;
-    public float rollingAttackModifer = 1.1f;
-    public float backstepAttackModifer = 1.1f;
-    //critial damage modifier
+    public float runningAttackModifer01 = 1.2f;
+    public float rollingAttackModifer01 = 1.1f;
+    public float backstepAttackModifer01 = 1.1f;
+
+    public float riposteAttackModifer01 = 3.3f;
 
     [Header("Stamina Costs Modifiers")]
     public int baseStaminaCost = 20;

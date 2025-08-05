@@ -12,6 +12,7 @@ public class CharacterEffectsManager : MonoBehaviour
 
     [Header("VFX")]
     [SerializeField] GameObject bloodSplatterVFX;
+    [SerializeField] GameObject criticalBloodSplatterVFX;
 
     protected virtual void Awake()
     {
@@ -23,6 +24,21 @@ public class CharacterEffectsManager : MonoBehaviour
         effect.ProcessEffect(character);
     }
 
+    public void PlayCriticalBloodSplatterVFX(Vector3 contactPoint)
+    {
+        if(bloodSplatterVFX != null)//if we manually have placed a blood splatter on this model, play this version (this is used so if we have dfferent enemies dont have blood you can put somethng different)
+        {
+            GameObject bloodSplatter = Instantiate(criticalBloodSplatterVFX, contactPoint, Quaternion.identity);
+
+
+
+        }
+        else //use the default/generic version
+        {
+            GameObject bloodSplatter = Instantiate(WorldCharacterEffectsManager.instance.criticalBloodSplatterVFX, contactPoint, Quaternion.identity);
+
+        }
+    }
     public void PlayBloodSplatterVFX(Vector3 contactPoint)
     {
         if(bloodSplatterVFX != null)//if we manually have placed a blood splatter on this model, play this version (this is used so if we have dfferent enemies dont have blood you can put somethng different)

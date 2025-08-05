@@ -29,8 +29,8 @@ public class WeaponManager : MonoBehaviour
         meleeWeaponDamageCollider.charged_Attack_01_Modifier = weapon.chargedAttackModifer02;
         meleeWeaponDamageCollider.charged_Attack_01_Modifier = weapon.chargedAttackModifer03;
 
-        meleeWeaponDamageCollider.running_Attack_01_Modifier = weapon.runningAttackModifer;
-        meleeWeaponDamageCollider.rolling_Attack_01_Modifier = weapon.rollingAttackModifer;
-        meleeWeaponDamageCollider.backstep_Attack_01_Modifier = weapon.backstepAttackModifer;
+        meleeWeaponDamageCollider.running_Attack_01_Modifier = weapon.runningAttackModifer01;
+        meleeWeaponDamageCollider.rolling_Attack_01_Modifier = weapon.rollingAttackModifer01;
+        meleeWeaponDamageCollider.backstep_Attack_01_Modifier = weapon.backstepAttackModifer01;
     }
 }

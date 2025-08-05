@@ -9,7 +9,9 @@ public class TakeDamageEffect : InstantCharacterEffect
     [Header("Damage")]
     public float physicalDamage = 0; //usually split into standard, strike, slash and piece
     public float magicDamage = 0;
-    private int finalDamageDealt = 0;
+
+    [Header("Final Damage")]
+    protected int finalDamageDealt = 0;
 
     [Header("Poise")]
     public float poiseDamage = 0;
@@ -61,7 +63,7 @@ public class TakeDamageEffect : InstantCharacterEffect
 
     }
 
-    private void CalculateDamage(CharacterManager character)
+    protected virtual void CalculateDamage(CharacterManager character)
     {
         if (!character.IsOwner)
         {
@@ -103,7 +105,7 @@ public class TakeDamageEffect : InstantCharacterEffect
         character.characterStatsManager.poiseResetTimer = character.characterStatsManager.defaultPoiseResetTime;
     }
 
-    private void CalculateStanceDamage(CharacterManager character)
+    protected void CalculateStanceDamage(CharacterManager character)
     {
         AICharacterManager aiCharacter = character as AICharacterManager;
 
@@ -115,12 +117,12 @@ public class TakeDamageEffect : InstantCharacterEffect
         }
     }
 
-    private void PlayDamageVFX(CharacterManager character)
+    protected void PlayDamageVFX(CharacterManager character)
     {
         character.characterEffectsManager.PlayBloodSplatterVFX(contactPoint);
     }
 
-    private void PlayDamageSFX(CharacterManager character)
+    protected void PlayDamageSFX(CharacterManager character)
     {
         AudioClip physicalDamageSFX = WorldSoundFXManager.instance.ChooseRandomSFXFromArray(WorldSoundFXManager.instance.physicalDamageSFX);
 
@@ -130,7 +132,7 @@ public class TakeDamageEffect : InstantCharacterEffect
 
     }
 
-    private void PlayDirectonalBasedDamageAnimation(CharacterManager character, bool isPerformingAction = true)
+    protected void PlayDirectonalBasedDamageAnimation(CharacterManager character, bool isPerformingAction = true)
     {
         if (!character.IsOwner)
         {

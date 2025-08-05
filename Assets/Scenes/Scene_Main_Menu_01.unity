@@ -3143,6 +3143,10 @@ PrefabInstance:
       propertyPath: bloodSplatterVFX
       value: 
       objectReference: {fileID: 100004, guid: 4f92edaf819c3a840afb16152608df14, type: 3}
+    - target: {fileID: 5869553322556348185, guid: 7d9d2040788e3a84b8989099a34278dc, type: 3}
+      propertyPath: criticalBloodSplatterVFX
+      value: 
+      objectReference: {fileID: 100004, guid: 4f92edaf819c3a840afb16152608df14, type: 3}
     - target: {fileID: 7724378818613424216, guid: 7d9d2040788e3a84b8989099a34278dc, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5292,6 +5296,10 @@ PrefabInstance:
       propertyPath: stanceBreakSFX
       value: 
       objectReference: {fileID: 8300000, guid: 39f78d9eed63cb346b47f2fa87dd94e6, type: 3}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: criticalStikeSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: d0ea12c5856862a429259aaec56ccc59, type: 3}
     - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: physicalDamageSFX.Array.size
       value: 1

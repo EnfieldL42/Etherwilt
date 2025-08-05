@@ -59,6 +59,8 @@ public class LightAttackWeaponItemAction : WeaponItemAction
             return;
         }
 
+        playerPerformingAction.characterCombatManager.AttemptCriticalAttack();
+
         PerformLightAttack(playerPerformingAction, weaponPerformingAction);
     }
 
