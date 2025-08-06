@@ -71,7 +71,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             horizontalMovement = player.characterNetworkManager.horizontalMovement.Value;
             moveAmount = player.characterNetworkManager.moveAmount.Value;
 
-            if (!player.playerNetworkManager.isLockedOn.Value || player.playerNetworkManager.isSprinting.Value)
+            if (!player.playerNetworkManager.isLockedOn.Value && player.playerNetworkManager.isSprinting.Value)
             {
                 player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerNetworkManager.isSprinting.Value);
 
@@ -355,7 +355,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             return;
         }
 
-        if (moveAmount >= 0.5)
+        if (moveAmount >= 0.5 && player.canSprint)
         {
             player.playerNetworkManager.isSprinting.Value = true;
         }

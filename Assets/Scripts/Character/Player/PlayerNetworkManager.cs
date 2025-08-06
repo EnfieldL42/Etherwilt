@@ -6,15 +6,21 @@ public class PlayerNetworkManager : CharacterNetworkManager
 {
     PlayerManager player;
 
+    [Header("Flasks")]
+    public NetworkVariable<int> remainingHealthFlasks = new NetworkVariable<int>(3, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
     [Header("Character Name")]
     public NetworkVariable<FixedString64Bytes> characterName = new NetworkVariable<FixedString64Bytes>("Character", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+
+    [Header("Actions")]
+    public NetworkVariable<bool> isUsingRightHand = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> isUsingLeftHand = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Equipment")]
     public NetworkVariable<int> currentWeaponBeingUsed = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> currentRightHandWeaponID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
     public NetworkVariable<int> currentLeftHandWeaponID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public NetworkVariable<bool> isUsingRightHand = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
-    public NetworkVariable<bool> isUsingLeftHand = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<int> currentQuickSlotItemID = new NetworkVariable<int>(0, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     protected override void Awake()
     {
@@ -91,6 +97,26 @@ public class PlayerNetworkManager : CharacterNetworkManager
         }
     }
 
+    public void OnCurrentQuickSlotItemIDChange(int oldID, int newID)
+    {
+        QuickSlotItem newQuickSlotItem = null;
+
+        if(WorldItemDatabase.instance.GetQuickSlotItemByID(newID))
+        {
+            newQuickSlotItem = Instantiate(WorldItemDatabase.instance.GetQuickSlotItemByID(newID));
+        }
+
+        if(newQuickSlotItem != null)
+        {
+            player.playerInventoryManager.currentQuickSlotItem = newQuickSlotItem;
+
+            if(player.IsOwner)
+            {
+                PlayerUIManager.instance.playerUIHudManager.SetQuickSlotItemQuickSlotIcon(newID);
+            }
+        }
+    }
+
     public override void OnIsBlockingOnChanged(bool oldStatus, bool newStatus)
     {
         base.OnIsBlockingOnChanged(oldStatus, newStatus);
@@ -111,7 +137,6 @@ public class PlayerNetworkManager : CharacterNetworkManager
             NofifyTheServerOfWeaponActionClientRpc(clientID, actionID, weaponID);
         }
     }
-
 
     [ClientRpc]
     public void NofifyTheServerOfWeaponActionClientRpc(ulong clientID, int actionID, int weaponID)
@@ -135,6 +160,46 @@ public class PlayerNetworkManager : CharacterNetworkManager
         else
         {
             Debug.Log("ACTION IS NULL, CANNOT BE PERFORMED");
+        }
+    }
+
+    [ServerRpc]
+    public void HideWeaponServerRpc()
+    {
+        if(IsServer)
+        {
+            HideWeaponClientRpc();
+        }
+    }
+
+    [ClientRpc]
+    private void HideWeaponClientRpc()
+    {
+        if(player.playerEquipmentManager.rightHandWeaponSlot != null)
+        {
+            player.playerEquipmentManager.rightHandWeaponModel.SetActive(false);
+        }
+
+        if (player.playerEquipmentManager.leftHandWeaponModel != null)
+        {
+            player.playerEquipmentManager.leftHandWeaponModel.SetActive(false);
+        }
+
+    }
+
+    [ServerRpc]
+    public void NotifyServerOfQuickSlotItemActionServerRpc(ulong clientID, int quickSlotItemID)
+    {
+        NotifyServerOfQuickSlotItemActionClientRpc(clientID, quickSlotItemID);
+    }
+
+    [ClientRpc]
+    private void NotifyServerOfQuickSlotItemActionClientRpc(ulong clientID, int quickSlotItemID)
+    {
+        if(clientID != NetworkManager.Singleton.LocalClientId)
+        {
+            QuickSlotItem item = WorldItemDatabase.instance.GetQuickSlotItemByID(quickSlotItemID);
+            item.AttemptToUseItem(player);
         }
     }
 }

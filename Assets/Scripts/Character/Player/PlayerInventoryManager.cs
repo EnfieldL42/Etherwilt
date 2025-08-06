@@ -13,6 +13,7 @@ public class PlayerInventoryManager : CharacterInventoryManager
     public int rightHandWeaponIndex = 0;
     public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[3];
     public int leftHandWeaponIndex = 0;
+    public QuickSlotItem currentQuickSlotItem;
 
     [Header("Inventory")]
     public List<Item> itemsInInventory;

@@ -1,4 +1,5 @@
 ﻿using System;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -32,6 +33,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool leftArrowInput = false;
     [SerializeField] bool reviveInput = false;
     [SerializeField] bool interactionInput = false;
+    [SerializeField] bool useItemInput = false;
 
     [Header("Queued Inputs")]
     [SerializeField] bool inputQueueIsActive = false;
@@ -107,6 +109,10 @@ public class PlayerInputManager : MonoBehaviour
             //sprint
             playerControls.PlayerActions.Sprint.performed += i => sprintInput = true;
             playerControls.PlayerActions.Sprint.canceled += i => sprintInput = false;
+
+            //use item
+            playerControls.PlayerActions.QuickSlot.performed += i => useItemInput = true;
+
 
             //Attacking
             playerControls.PlayerActions.RB.performed += i => RBInput = true;
@@ -221,6 +227,7 @@ public class PlayerInputManager : MonoBehaviour
     {
         HandleCameraMovementInput();
         HandlePlayerMovementInput();
+        HandleUseItemInput();
         HandleDodgeInput();
         HandleSprintInput();
         HandleJumpInput();
@@ -283,7 +290,7 @@ public class PlayerInputManager : MonoBehaviour
         }
 
 
-        if (!player.playerNetworkManager.isLockedOn.Value || player.playerNetworkManager.isSprinting.Value)
+        if (!player.playerNetworkManager.isLockedOn.Value && player.playerNetworkManager.isSprinting.Value)
         {
             player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerNetworkManager.isSprinting.Value);
 
@@ -301,6 +308,25 @@ public class PlayerInputManager : MonoBehaviour
         cameraVerticalInput = cameraInput.y;
         cameraHorizontalInput = cameraInput.x;
 
+    }
+
+    private void HandleUseItemInput()
+    {
+        if (useItemInput)
+        {
+            useItemInput = false;
+
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+            if (player.playerInventoryManager.currentQuickSlotItem != null)
+            {
+                player.playerInventoryManager.currentQuickSlotItem.AttemptToUseItem(player);
+
+                player.playerNetworkManager.NotifyServerOfQuickSlotItemActionServerRpc(NetworkManager.Singleton.LocalClientId, player.playerInventoryManager.currentQuickSlotItem.itemID);
+            }
+        }
     }
 
     private void HandleDodgeInput()

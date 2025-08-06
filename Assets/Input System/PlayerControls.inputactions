@@ -214,6 +214,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Quick Slot",
+                    "type": "Button",
+                    "id": "823b29f9-c443-4225-991c-f17186be1e67",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "RT",
                     "type": "Button",
                     "id": "c722d13f-8458-49cc-987d-d33bb7a1c2af",
@@ -460,6 +469,28 @@
                     "processors": "",
                     "groups": ";Keyboard Controls",
                     "action": "Interact",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f40f5bfb-3ce2-4a67-9fe8-972d00110010",
+                    "path": "<Gamepad>/buttonWest",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad Controls",
+                    "action": "Quick Slot",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "827d6288-f302-4d2d-9b79-7139c71efba7",
+                    "path": "<Keyboard>/q",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "Quick Slot",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

@@ -28,7 +28,7 @@ public class CharacterStatsManager : MonoBehaviour
 
     protected virtual void Update()
     {
-
+        HandlePoiseResetTimer();
     }
     protected virtual void Awake()
     {
@@ -36,7 +36,7 @@ public class CharacterStatsManager : MonoBehaviour
     }
     protected virtual void Start()
     {
-        HandlePoiseResetTimer();
+ 
     }
 
 
