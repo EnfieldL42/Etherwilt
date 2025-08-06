@@ -19,6 +19,7 @@ public class WorldSoundFXManager : MonoBehaviour
     public AudioClip pickUpItemSFX;
     public AudioClip stanceBreakSFX;
     public AudioClip criticalStikeSFX;
+    public AudioClip healingFlaskSFX;
 
     private void Awake()
     {

@@ -4053,6 +4053,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: World Item Database
       objectReference: {fileID: 0}
+    - target: {fileID: 3654242208117362343, guid: 4a00c095fe2746b4ca501840bd03890b, type: 3}
+      propertyPath: quickSlotItems.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3654242208117362343, guid: 4a00c095fe2746b4ca501840bd03890b, type: 3}
+      propertyPath: 'quickSlotItems.Array.data[0]'
+      value: 
+      objectReference: {fileID: 11400000, guid: fac5f02eb4349a94b865a0c92c6a79c6, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

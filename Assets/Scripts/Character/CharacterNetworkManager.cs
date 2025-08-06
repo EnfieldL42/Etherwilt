@@ -112,6 +112,24 @@ public class CharacterNetworkManager : NetworkBehaviour
          character.animator.SetBool("isBlocking", isBlocking.Value);
     }
 
+    //used to cancel FX when poise if broken
+    [ServerRpc]
+    public void DestroyAllCurrentActionFXServerRpc()
+    {
+        if(IsServer)
+        {
+            DestroyAllCurrentActionFXClientRpc();
+        }
+    }
+
+    [ClientRpc]
+    public void DestroyAllCurrentActionFXClientRpc()
+    {
+        if (character.characterEffectsManager.activeQuickSlotItemFX != null)
+        {
+            Destroy(character.characterEffectsManager.activeQuickSlotItemFX);
+        }
+    }
 
     [ServerRpc]//function called from a client to the server/host
     public void NotifyTheServerOfActionAnimationServerRpc(ulong clientID, string animationID, bool applyRootMotion)

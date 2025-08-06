@@ -179,4 +179,12 @@ public class PlayerCombatManager : CharacterCombatManager
 
     }
 
+    //QUICK SLOT
+    public void SuccessfullyUseQuickSlotItem()
+    {
+        if(player.playerInventoryManager.currentQuickSlotItem != null)
+        {
+            player.playerInventoryManager.currentQuickSlotItem.SuccessfullyUseItem(player);
+        }
+    }
 }

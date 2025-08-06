@@ -96,7 +96,7 @@ public class CharacterCombatManager : NetworkBehaviour
 
                 if(targetCharacter.characterNetworkManager.isRipostable.Value)
                 {
-                    if(targetViewableAngle >= -60 && targetViewableAngle <= 60)
+                    if(targetViewableAngle >= -80 && targetViewableAngle <= 80)
                     {
                         AttemptRiposte(hit);
                         return;

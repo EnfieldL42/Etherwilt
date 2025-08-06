@@ -2387,6 +2387,10 @@ MonoBehaviour:
     m_InternalValue: 0
   isAttacking:
     m_InternalValue: 0
+  isRipostable:
+    m_InternalValue: 0
+  isBeingCriticallyDamaged:
+    m_InternalValue: 0
   currentStamina:
     m_InternalValue: 0
   maxStamina:
@@ -2468,15 +2472,17 @@ MonoBehaviour:
         byte0059: 0
         byte0060: 0
         byte0061: 0
+  isUsingRightHand:
+    m_InternalValue: 0
+  isUsingLeftHand:
+    m_InternalValue: 0
   currentWeaponBeingUsed:
     m_InternalValue: 0
   currentRightHandWeaponID:
     m_InternalValue: 0
   currentLeftHandWeaponID:
     m_InternalValue: 0
-  isUsingRightHand:
-    m_InternalValue: 0
-  isUsingLeftHand:
+  currentQuickSlotItemID:
     m_InternalValue: 0
 --- !u!114 &5602889298933114635
 MonoBehaviour:
@@ -2510,6 +2516,7 @@ MonoBehaviour:
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
+  canSprint: 1
   actionTimer: 0
   canTakeDmgAnimation: 1
   hasMultipleColliders: 0
@@ -2522,6 +2529,7 @@ MonoBehaviour:
   playerEquipmentManager: {fileID: 0}
   playerCombatManager: {fileID: 0}
   playerInteractionManager: {fileID: 0}
+  playerEffectsManager: {fileID: 0}
 --- !u!114 &8853657290969883488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2536,6 +2544,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   lastAttackAnimationPerformed: 
+  previousPoiseDamageTaken: 0
   currentTarget: {fileID: 0}
   hasChangedTarget:
     m_InternalValue: 0
@@ -2544,6 +2553,8 @@ MonoBehaviour:
   canPerformRollingAttack: 0
   canPerformBackstepAttack: 0
   canBlock: 1
+  criticalAttackDistanceCheck: 0.7
+  pendingCriticalDamage: 0
   currentWeaponBeingUsed: {fileID: 0}
   canComboWithMainHandWeapon: 0
 --- !u!114 &4131731659789441024
@@ -2609,6 +2620,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   leftHandWeaponIndex: -1
+  currentQuickSlotItem: {fileID: 0}
   itemsInInventory: []
 --- !u!114 &5740999402678442274
 MonoBehaviour:
@@ -2649,7 +2661,7 @@ MonoBehaviour:
   blockingStability: 0
   totalPoiseDamanage: 0
   offensivePoiseBonus: 0
-  basePoiseDefense: 0
+  basePoiseDefense: 30
   defaultPoiseResetTime: 8
   poiseResetTimer: 0
 --- !u!114 &2685033740488950709
@@ -2704,7 +2716,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3ade79b7a457fe42b4c7845e7bc849d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeQuickSlotItemFX: {fileID: 0}
   bloodSplatterVFX: {fileID: 0}
+  criticalBloodSplatterVFX: {fileID: 0}
   effectToTest: {fileID: 0}
   processEffect: 0
 --- !u!114 &7845466611480596997

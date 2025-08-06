@@ -328,4 +328,18 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             leftWeaponManager.meleeWeaponDamageCollider.DisableDamageCollider();
         }
     }
+
+    //unhide weapons
+    public void UnhideWeapons()
+    {
+        if (player.playerEquipmentManager.rightHandWeaponSlot != null)
+        {
+            player.playerEquipmentManager.rightHandWeaponModel.SetActive(true);
+        }
+
+        if (player.playerEquipmentManager.leftHandWeaponModel != null)
+        {
+            player.playerEquipmentManager.leftHandWeaponModel.SetActive(true);
+        }
+    }
 }

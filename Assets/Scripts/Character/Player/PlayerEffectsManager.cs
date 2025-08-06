@@ -6,6 +6,8 @@ public class PlayerEffectsManager : CharacterEffectsManager
     [SerializeField] InstantCharacterEffect effectToTest;
     [SerializeField] bool processEffect = false;
 
+    
+
     private void Update()
     {
         if(processEffect)

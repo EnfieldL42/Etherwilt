@@ -131,6 +131,7 @@ public class TakeBlockedDamage : InstantCharacterEffect
 
             character.characterAnimatorManager.PlayTargetActionAnimation("guard_Break_01", true);
             character.characterNetworkManager.isBlocking.Value = false;
+            character.characterNetworkManager.DestroyAllCurrentActionFXServerRpc();
   
         }
     }
