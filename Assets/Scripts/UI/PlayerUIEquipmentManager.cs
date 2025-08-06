@@ -25,6 +25,9 @@ public class PlayerUIEquipmentManager : MonoBehaviour
     [SerializeField] Transform equipmentInventoryContentWindow;
     [SerializeField] Item currentSelectedItem;
 
+    [Header("Equipment Slots Buttons")]
+    [SerializeField] Button[] equipmentSlotButtons;
+
 
     public void OpenEquipmentManagerMenu()
     {
@@ -37,8 +40,11 @@ public class PlayerUIEquipmentManager : MonoBehaviour
 
     public void RefreshMenu()
     {
+        EnableEquipmentButtons();
         ClearEquipmentInventory();
         RefreshEquipmentSlotIcons();
+        equipmentInventoryWindow.SetActive(false);
+
     }
 
     public void SelectLastSelectedEquipmentSlot()
@@ -211,6 +217,8 @@ public class PlayerUIEquipmentManager : MonoBehaviour
 
     private void LoadWeaponInventory()
     {
+        DisableEquipmentButtons();
+
         List<WeaponItem> weaponsInInventory = new List<WeaponItem>();
 
         PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
@@ -228,6 +236,7 @@ public class PlayerUIEquipmentManager : MonoBehaviour
         if(weaponsInInventory.Count <= 0)
         {
             RefreshMenu();
+            PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
             return;
         }
 
@@ -385,5 +394,22 @@ public class PlayerUIEquipmentManager : MonoBehaviour
         //refreshes screen
         RefreshMenu();
     }
+
+    public void EnableEquipmentButtons()
+    {
+        foreach (Button button in equipmentSlotButtons)
+        {
+            button.interactable = true;
+        }
+    }
+
+    public void DisableEquipmentButtons()
+    {
+        foreach (Button button in equipmentSlotButtons)
+        {
+            button.interactable = false;
+        }
+    }
+
 
 }
