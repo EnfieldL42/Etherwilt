@@ -233,11 +233,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentCombatManager: {fileID: 2945296929994410322}
+  character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 7470819526314529298}
   physicalDamage: 0
   magicDamage: 0
-  parentCombatManager: {fileID: 2945296929994410322}
-  character: {fileID: -3136992118666280910}
+  poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
 --- !u!136 &7470819526314529298
 CapsuleCollider:
@@ -433,11 +434,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentCombatManager: {fileID: 2945296929994410322}
+  character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 5659251269248910269}
   physicalDamage: 0
   magicDamage: 0
-  parentCombatManager: {fileID: 2945296929994410322}
-  character: {fileID: -3136992118666280910}
+  poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
 --- !u!136 &5659251269248910269
 CapsuleCollider:
@@ -1643,7 +1645,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6478536213147159724, guid: f4f3d6f556be86f40ad0566d8e9b95a0, type: 3}
+  - {fileID: 2100000, guid: a83c94d2aa4bff748aa62eb94fd323bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1860,7 +1862,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: a83c94d2aa4bff748aa62eb94fd323bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2045,11 +2047,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentCombatManager: {fileID: 2945296929994410322}
+  character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 5798311736174783766}
   physicalDamage: 0
   magicDamage: 0
-  parentCombatManager: {fileID: 2945296929994410322}
-  character: {fileID: -3136992118666280910}
+  poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
 --- !u!136 &5798311736174783766
 CapsuleCollider:
@@ -2611,6 +2614,12 @@ MonoBehaviour:
     m_InternalValue: 0
   isBlocking:
     m_InternalValue: 0
+  isAttacking:
+    m_InternalValue: 0
+  isRipostable:
+    m_InternalValue: 0
+  isBeingCriticallyDamaged:
+    m_InternalValue: 0
   currentStamina:
     m_InternalValue: 0
   maxStamina:
@@ -2648,6 +2657,7 @@ MonoBehaviour:
   characterLocomotionManager: {fileID: 0}
   characterUIManager: {fileID: 0}
   footIK: {fileID: 0}
+  characterStatsManager: {fileID: 0}
   characterGroup: 1
   isPerformingAction: 0
   isGrounded: 1
@@ -2703,6 +2713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
   lastAttackAnimationPerformed: 
+  previousPoiseDamageTaken: 0
   currentTarget: {fileID: 0}
   hasChangedTarget:
     m_InternalValue: 0
@@ -2710,6 +2721,9 @@ MonoBehaviour:
   lockOnTransform: {fileID: 6053254177834945684}
   canPerformRollingAttack: 0
   canPerformBackstepAttack: 0
+  canBlock: 1
+  criticalAttackDistanceCheck: 0.7
+  pendingCriticalDamage: 0
   actionRecoveryTimer: 0
   distanceFromTarget: 0
   viewableAngle: 0
@@ -2718,6 +2732,12 @@ MonoBehaviour:
   minimumFOV: -35
   maximumFOV: 35
   attackRotationSpeed: 25
+  maxStance: 150
+  currentStance: 0
+  stanceRegeneratedPerSecond: 15
+  ignoreStanceBreak: 0
+  stanceRegenerationTimer: 0
+  defaultTimeUntilStanceRegenerationBegins: 15
   secondBody: {fileID: 0}
   bitedamageCollider: {fileID: 566420309689054706}
   slamdamageCollider:
@@ -2739,6 +2759,7 @@ MonoBehaviour:
   - {fileID: 8937571651991269412}
   - {fileID: 6172496260642868039}
   baseDamage: 5
+  basePoiseDamage: 25
   attackBiteDamageModifier: 1
   attackSlamDamageModifier: 1.3
   attackSwipeDamageModifier: 1.6
@@ -2794,7 +2815,6 @@ MonoBehaviour:
   groundedYVelocity: -20
   fallStartYVelocity: -5
   isRolling: 0
-  yOffset: 2
 --- !u!114 &1602255938879834053
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2807,6 +2827,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f21d525f3840ba4d84b485abd54e99f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastDamageAnimationPlayer: 
+  forward_Ping_Damage: forward_Ping_Damage
+  backward_Ping_Damage: backward_Ping_Damage
+  left_Ping_Damage: left_Ping_Damage
+  right_Ping_Damage: right_Ping_Damage
   hit_Forward_Medium_01: hit_Forward_Medium_01
   hit_Backward_Medium_01: hit_Backward_Medium_01
   hit_Left_Medium_01: hit_Left_Medium_01
@@ -2826,6 +2851,14 @@ MonoBehaviour:
   staminaRegenerationAmount: 2
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
+  blockingPhyicalAbsorption: 0
+  blockingMagicAbsorption: 0
+  blockingStability: 0
+  totalPoiseDamanage: 0
+  offensivePoiseBonus: 0
+  basePoiseDefense: 0
+  defaultPoiseResetTime: 8
+  poiseResetTimer: 0
 --- !u!114 &6451187813055123171
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2839,6 +2872,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   bloodSplatterVFX: {fileID: 0}
+  criticalBloodSplatterVFX: {fileID: 0}
 --- !u!114 &7022329275977067824
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3127,7 +3161,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: a83c94d2aa4bff748aa62eb94fd323bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -3425,11 +3459,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentCombatManager: {fileID: 2945296929994410322}
+  character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 5431659065337675263}
   physicalDamage: 0
   magicDamage: 0
-  parentCombatManager: {fileID: 2945296929994410322}
-  character: {fileID: -3136992118666280910}
+  poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
 --- !u!135 &5431659065337675263
 SphereCollider:
@@ -3833,11 +3868,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentCombatManager: {fileID: 2945296929994410322}
+  character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 202318712775586030}
   physicalDamage: 0
   magicDamage: 0
-  parentCombatManager: {fileID: 2945296929994410322}
-  character: {fileID: -3136992118666280910}
+  poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
 --- !u!136 &202318712775586030
 CapsuleCollider:
@@ -4067,11 +4103,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentCombatManager: {fileID: 2945296929994410322}
+  character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 4999604739185590626}
   physicalDamage: 0
   magicDamage: 0
-  parentCombatManager: {fileID: 2945296929994410322}
-  character: {fileID: -3136992118666280910}
+  poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
 --- !u!136 &4999604739185590626
 CapsuleCollider:
@@ -4284,11 +4321,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentCombatManager: {fileID: 2945296929994410322}
+  character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 6403971963337668474}
   physicalDamage: 0
   magicDamage: 0
-  parentCombatManager: {fileID: 2945296929994410322}
-  character: {fileID: -3136992118666280910}
+  poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
 --- !u!136 &6403971963337668474
 CapsuleCollider:
@@ -4610,7 +4648,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -876546973899608171, guid: f4f3d6f556be86f40ad0566d8e9b95a0, type: 3}
+  - {fileID: 2100000, guid: a83c94d2aa4bff748aa62eb94fd323bc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
