@@ -44,4 +44,164 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2ffa35356cbde642a8969118b2a57e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 5602889298933114635, guid: b3627b78068a1dc46ba7f3ac81773a43, type: 3}
+  saveGame: 0
+  loadGame: 0
   worldSceneIndex: 1
+  currentCharacterSlotBeingUsed: 0
+  currentCharacterData:
+    sceneIndex: 0
+    characterName: Character
+    secondsPlayed: 0
+    xPosition: 0
+    yPosition: 0
+    zPosition: 0
+    currentHealth: 0
+    currentStamina: 0
+    vitality: 0
+    endurance: 0
+    bonfires:
+      keys: 
+      values: 
+    bossesAwakened:
+      keys: 
+      values: 
+    bossesDefeated:
+      keys: 
+      values: 
+    worldItemsLooted:
+      keys: 
+      values: 
+    weaponsInRightHandSlots: []
+    weaponsInLeftHandSlots: []
+    itemsInInventory: []
+  characterSlot01:
+    sceneIndex: 0
+    characterName: Character
+    secondsPlayed: 0
+    xPosition: 0
+    yPosition: 0
+    zPosition: 0
+    currentHealth: 0
+    currentStamina: 0
+    vitality: 0
+    endurance: 0
+    bonfires:
+      keys: 
+      values: 
+    bossesAwakened:
+      keys: 
+      values: 
+    bossesDefeated:
+      keys: 
+      values: 
+    worldItemsLooted:
+      keys: 
+      values: 
+    weaponsInRightHandSlots: []
+    weaponsInLeftHandSlots: []
+    itemsInInventory: []
+  characterSlot02:
+    sceneIndex: 0
+    characterName: Character
+    secondsPlayed: 0
+    xPosition: 0
+    yPosition: 0
+    zPosition: 0
+    currentHealth: 0
+    currentStamina: 0
+    vitality: 0
+    endurance: 0
+    bonfires:
+      keys: 
+      values: 
+    bossesAwakened:
+      keys: 
+      values: 
+    bossesDefeated:
+      keys: 
+      values: 
+    worldItemsLooted:
+      keys: 
+      values: 
+    weaponsInRightHandSlots: []
+    weaponsInLeftHandSlots: []
+    itemsInInventory: []
+  characterSlot03:
+    sceneIndex: 0
+    characterName: Character
+    secondsPlayed: 0
+    xPosition: 0
+    yPosition: 0
+    zPosition: 0
+    currentHealth: 0
+    currentStamina: 0
+    vitality: 0
+    endurance: 0
+    bonfires:
+      keys: 
+      values: 
+    bossesAwakened:
+      keys: 
+      values: 
+    bossesDefeated:
+      keys: 
+      values: 
+    worldItemsLooted:
+      keys: 
+      values: 
+    weaponsInRightHandSlots: []
+    weaponsInLeftHandSlots: []
+    itemsInInventory: []
+  characterSlot04:
+    sceneIndex: 0
+    characterName: Character
+    secondsPlayed: 0
+    xPosition: 0
+    yPosition: 0
+    zPosition: 0
+    currentHealth: 0
+    currentStamina: 0
+    vitality: 0
+    endurance: 0
+    bonfires:
+      keys: 
+      values: 
+    bossesAwakened:
+      keys: 
+      values: 
+    bossesDefeated:
+      keys: 
+      values: 
+    worldItemsLooted:
+      keys: 
+      values: 
+    weaponsInRightHandSlots: []
+    weaponsInLeftHandSlots: []
+    itemsInInventory: []
+  characterSlot05:
+    sceneIndex: 0
+    characterName: Character
+    secondsPlayed: 0
+    xPosition: 0
+    yPosition: 0
+    zPosition: 0
+    currentHealth: 0
+    currentStamina: 0
+    vitality: 0
+    endurance: 0
+    bonfires:
+      keys: 
+      values: 
+    bossesAwakened:
+      keys: 
+      values: 
+    bossesDefeated:
+      keys: 
+      values: 
+    worldItemsLooted:
+      keys: 
+      values: 
+    weaponsInRightHandSlots: []
+    weaponsInLeftHandSlots: []
+    itemsInInventory: []

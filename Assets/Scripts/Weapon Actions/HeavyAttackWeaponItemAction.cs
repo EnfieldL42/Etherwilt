@@ -27,6 +27,10 @@ public class HeavyAttackWeaponItemAction : WeaponItemAction
         {
             playerPerformingAction.playerNetworkManager.isAttacking.Value = true;
         }
+        if (playerPerformingAction.playerCombatManager.isUsingItem)
+        {
+            return;
+        }
 
         PerformHeavyAttack(playerPerformingAction, weaponPerformingAction);
     }

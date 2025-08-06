@@ -44,11 +44,36 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 03859e31536a4634b8aea90888d6a540, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: -49776619714399350, guid: dc1434bcdd9be4944ac46f7688d0c16f, type: 3}
+  player: {fileID: 5602889298933114635, guid: b3627b78068a1dc46ba7f3ac81773a43, type: 3}
+  cameraInput: {x: 0, y: 0}
+  cameraVerticalInput: 0
+  cameraHorizontalInput: 0
   movementInput: {x: 0, y: 0}
   verticalInput: 0
   horizontalInput: 0
   moveAmount: 0
-  cameraInput: {x: 0, y: 0}
-  cameraVerticalInput: 0
-  cameraHorizontalInput: 0
+  dodgeInput: 0
+  sprintInput: 0
+  jumpInput: 0
+  rightArrowInput: 0
+  leftArrowInput: 0
+  reviveInput: 0
+  interactionInput: 0
+  useItemInput: 0
+  inputQueueIsActive: 0
+  defaultQueuedInputTime: 0.35
+  queuedInputTimer: 0
+  queuedRBInput: 0
+  queuedRTInput: 0
+  RBInput: 0
+  LBInput: 0
+  RTInput: 0
+  holdRTInput: 0
+  lockOnInput: 0
+  lockOnLeftInput: 0
+  lockOnRightInput: 0
+  lockOnMouseInput: {x: 0, y: 0}
+  mouseDeltaThreshold: 40
+  inputActions: {fileID: -944628639613478452, guid: 0122592f713a83a49970335e35d33246, type: 3}
+  closeMenuInput: 0
+  openCharacterMenu: 0

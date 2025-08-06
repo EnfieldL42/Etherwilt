@@ -50,3 +50,5 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dac5ff37e5d2e8741acff698b080aca3, type: 2}
   - {fileID: 11400000, guid: 5c1c6d3df86f0ec4b882c89122b1d41e, type: 2}
   items: []
+  quickSlotItems:
+  - {fileID: 11400000, guid: fac5f02eb4349a94b865a0c92c6a79c6, type: 2}

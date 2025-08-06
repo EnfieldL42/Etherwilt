@@ -29,6 +29,7 @@ public class ResetActionFlag : StateMachineBehaviour
         character.applyRootMotion = false;
         character.canRotate = true;
         character.canMove = true;
+        character.canRoll = true;
         character.characterLocomotionManager.isRolling = false;
         character.characterCombatManager.DisableCanDoCombo();
         character.characterCombatManager.DisableCanDoRollingAttack();
@@ -45,11 +46,6 @@ public class ResetActionFlag : StateMachineBehaviour
             footIK.enableBodyPositioning = true;
         }
 
-        if (character.characterEffectsManager.activeQuickSlotItemFX != null)
-        {
-            Destroy(character.characterEffectsManager.activeQuickSlotItemFX);
-        }
-
         if (character.IsOwner)
         {
             character.characterNetworkManager.isJumping.Value = false;
@@ -57,7 +53,7 @@ public class ResetActionFlag : StateMachineBehaviour
             character.characterNetworkManager.isAttacking.Value = false;
             character.characterNetworkManager.isRipostable.Value = false;
             character.characterNetworkManager.isBeingCriticallyDamaged.Value = false;
-            character.canSprint = true;
+            character.canRun = true;
 
         }
 

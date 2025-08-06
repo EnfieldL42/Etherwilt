@@ -10,6 +10,7 @@ public class PlayerCombatManager : CharacterCombatManager
     [Header("Flags")]
     public bool canComboWithMainHandWeapon = false;
     //public bool canComboWithOffHandWeapon = false;
+    public bool isUsingItem = false;
 
     protected override void Awake()
     {

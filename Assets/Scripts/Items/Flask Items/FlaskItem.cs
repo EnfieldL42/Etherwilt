@@ -4,22 +4,23 @@ using UnityEngine;
 public class FlaskItem : QuickSlotItem
 {
     [Header("Flask Type")]
-    [SerializeField] bool healthFlask = true;
+    public bool healthFlask = true;
 
     [Header("Restoration Value")]
     [SerializeField] int flaskRestoration = 50;
 
     [Header("Empty Item")]
-    [SerializeField] GameObject emptyFlaskItem;
+    public GameObject emptyFlaskItem;
+    public string emptyFlaskAnimation;
 
     public override bool CanIUseThisItem(PlayerManager player)
     {
-
-        if(healthFlask && player.playerNetworkManager.remainingHealthFlasks.Value <= 0)
+        if(!player.playerCombatManager.isUsingItem && player.isPerformingAction)
         {
-            return false; 
+            return false;
         }
-        if (!healthFlask && player.playerNetworkManager.remainingHealthFlasks.Value <= 0)
+
+        if(player.playerNetworkManager.isAttacking.Value)
         {
             return false;
         }
@@ -34,16 +35,55 @@ public class FlaskItem : QuickSlotItem
             return;
         }
 
-        player.playerEffectsManager.activeQuickSlotItemFX = Instantiate(itemModel, player.playerEquipmentManager.rightHandWeaponSlot.transform);
 
-
-        if(player.IsOwner)
+        if (healthFlask && player.playerNetworkManager.remainingHealthFlasks.Value <= 0)
         {
-            player.playerAnimatorManager.PlayTargetActionAnimation(useItemAnimation, true, false, true, true, false);
-            player.playerNetworkManager.HideWeaponServerRpc();
+
+
+            if (player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
+
+
+
+            player.playerCombatManager.isUsingItem = true;
+
+
+            if (player.IsOwner)
+            {
+                player.playerAnimatorManager.PlayTargetActionAnimation(emptyFlaskAnimation, false, false, true, true, false);
+                player.playerNetworkManager.HideWeaponServerRpc();
+            }
+
+            Destroy(player.playerEffectsManager.activeQuickSlotItemFX);
+            GameObject emptyFlask = Instantiate(emptyFlaskItem, player.playerEquipmentManager.rightHandWeaponSlot.transform);
+            player.playerEffectsManager.activeQuickSlotItemFX = emptyFlask;
+            return;
         }
 
 
+        //check for chugging
+
+        if(player.playerCombatManager.isUsingItem)
+        {
+            if (player.IsOwner)
+            {
+                player.playerNetworkManager.isChugging.Value = true;
+
+                return;
+            }
+        }
+
+        player.playerCombatManager.isUsingItem = true;
+        player.playerEffectsManager.activeQuickSlotItemFX = Instantiate(itemModel, player.playerEquipmentManager.rightHandWeaponSlot.transform);
+
+
+        if (player.IsOwner)
+        {
+            player.playerAnimatorManager.PlayTargetActionAnimation(useItemAnimation, false, false, true, true, false);
+            player.playerNetworkManager.HideWeaponServerRpc();
+        }
     }
 
     public override void SuccessfullyUseItem(PlayerManager player)

@@ -14,7 +14,12 @@ public class OffHandMeleeAction : WeaponItemAction
             return;
         }
 
-        if(playerPerformingAction.playerNetworkManager.isAttacking.Value)
+        if (playerPerformingAction.playerCombatManager.isUsingItem)
+        {
+            return;
+        }
+
+        if (playerPerformingAction.playerNetworkManager.isAttacking.Value)
         {
             //DISABLE blocking when using a short/medium spear block attack is allowed with light attacks
             if(playerPerformingAction.IsOwner)

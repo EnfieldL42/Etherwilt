@@ -1,8 +1,5 @@
-using UnityEngine;
 using Unity.Netcode;
-using static UnityEngine.Rendering.DebugUI;
-using System;
-using Unity.VisualScripting;
+using UnityEngine;
 
 public class CharacterAnimatorManager : MonoBehaviour
 {
@@ -98,31 +95,33 @@ public class CharacterAnimatorManager : MonoBehaviour
         character.animator.SetFloat(vertical, snappedVerticalAmount, 0.1f, Time.deltaTime);
     }
 
-    public virtual void PlayTargetActionAnimation(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false, bool canSprint = true)
+    public virtual void PlayTargetActionAnimation(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false, bool canRun = true, bool canRoll = false)
     {
         character.applyRootMotion = applyRootMotion;
         character.animator.CrossFade(targetAnimation, 0.2f);
         character.isPerformingAction = isPerformingAction;//can be used to stop characters from attempting a new action, flags will turn true if you are stunned
         character.canRotate = canRotate;
         character.canMove = canMove;
-        character.canSprint = canSprint;
+        character.canRun = canRun;
+        character.canRoll = canRoll;
 
         character.characterNetworkManager.NotifyTheServerOfActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
     }
     
-    public virtual void PlayTargetActionAnimationInstantly(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false, bool canSprint = true)
+    public virtual void PlayTargetActionAnimationInstantly(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false, bool canRun = true, bool canRoll = false)
     {
         character.applyRootMotion = applyRootMotion;
         character.animator.Play(targetAnimation);
         character.isPerformingAction = isPerformingAction;//can be used to stop characters from attempting a new action, flags will turn true if you are stunned
         character.canRotate = canRotate;
         character.canMove = canMove;
-        character.canSprint = canSprint;
+        character.canRun = canRun;
+        character.canRoll= canRoll;
 
         character.characterNetworkManager.NotifyTheServerOfInstantActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);
     }
 
-    public virtual void PlayTargetAttackActionAnimation(WeaponItem weapon, AttackType attackType, string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false)
+    public virtual void PlayTargetAttackActionAnimation(WeaponItem weapon, AttackType attackType, string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false, bool canRoll = false)
     {
 
         //keep track of last attack performed (for combos)
@@ -139,6 +138,7 @@ public class CharacterAnimatorManager : MonoBehaviour
         character.isPerformingAction = isPerformingAction;
         character.canRotate = canRotate;
         character.canMove = canMove;
+        character.canRoll = canRoll;
 
 
         character.characterNetworkManager.NotifyTheServerOfAttackActionAnimationServerRpc(NetworkManager.Singleton.LocalClientId, targetAnimation, applyRootMotion);

@@ -46,10 +46,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraObject: {fileID: 5421695813434193564}
-  player: {fileID: 0}
+  player: {fileID: 5602889298933114635, guid: b3627b78068a1dc46ba7f3ac81773a43, type: 3}
   cameraPivotTransform: {fileID: 3134860851819277495}
+  cameraSmoothSpeed: 0.1
   upAndDownRotationSpeed: 220
   leftAndRightRotationSpeed: 220
+  gamepadUDSensitivity: 220
+  gamepadLRSensitivity: 220
+  mouseUDSensitivity: 20
+  mouseLRSensitivity: 20
   minimumPivot: -30
   maximumPivot: 60
   cameraCollisionRadius: 0.5
@@ -58,6 +63,16 @@ MonoBehaviour:
     m_Bits: 1
   leftAndRightLookAngle: 0
   upAndDownLookAngle: 0
+  lockOnRadius: 20
+  minimumViewableAngle: -50
+  maximumViewableAngle: 50
+  lockOnTargetFollowSpeed: 0.2
+  setCameraHeightSpeed: 0.05
+  unlockedCamereHeight: 0.9
+  lockedCameraHeight: 1.8
+  nearestLockOnTarget: {fileID: 0}
+  leftLockOnTarget: {fileID: 0}
+  rightLockOnTarget: {fileID: 0}
 --- !u!1 &2722597091950856716
 GameObject:
   m_ObjectHideFlags: 0
@@ -220,7 +235,7 @@ Transform:
   m_GameObject: {fileID: 6202298490959634950}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 0}
+  m_LocalPosition: {x: 0, y: 0.9, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

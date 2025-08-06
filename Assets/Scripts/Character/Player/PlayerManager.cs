@@ -119,6 +119,7 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.currentWeaponBeingUsed.OnValueChanged += playerNetworkManager.OnCurrentWeaponBeingUsedIDChange;
         playerNetworkManager.isBlocking.OnValueChanged += playerNetworkManager.OnIsBlockingOnChanged;
         playerNetworkManager.currentQuickSlotItemID.OnValueChanged += playerNetworkManager.OnCurrentQuickSlotItemIDChange;
+        playerNetworkManager.isChugging.OnValueChanged += playerNetworkManager.OnIsChuggingChanged;
         int weaponID = playerNetworkManager.currentWeaponBeingUsed.Value;
         playerNetworkManager.OnCurrentWeaponBeingUsedIDChange(weaponID, weaponID);
 
@@ -172,6 +173,7 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.currentLeftHandWeaponID.OnValueChanged -= playerNetworkManager.OnCurrentLeftHandWeaponIDChange;
         playerNetworkManager.currentWeaponBeingUsed.OnValueChanged -= playerNetworkManager.OnCurrentWeaponBeingUsedIDChange;
         playerNetworkManager.currentQuickSlotItemID.OnValueChanged -= playerNetworkManager.OnCurrentQuickSlotItemIDChange;
+        playerNetworkManager.isChugging.OnValueChanged -= playerNetworkManager.OnIsChuggingChanged;
         playerNetworkManager.isBlocking.OnValueChanged -= playerNetworkManager.OnIsBlockingOnChanged;
 
         //FLAGS

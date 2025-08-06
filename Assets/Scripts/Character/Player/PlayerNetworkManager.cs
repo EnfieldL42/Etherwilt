@@ -8,6 +8,7 @@ public class PlayerNetworkManager : CharacterNetworkManager
 
     [Header("Flasks")]
     public NetworkVariable<int> remainingHealthFlasks = new NetworkVariable<int>(3, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
+    public NetworkVariable<bool> isChugging = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
 
     [Header("Character Name")]
     public NetworkVariable<FixedString64Bytes> characterName = new NetworkVariable<FixedString64Bytes>("Character", NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Owner);
@@ -127,6 +128,11 @@ public class PlayerNetworkManager : CharacterNetworkManager
             player.playerStatsManager.blockingMagicAbsorption = player.playerCombatManager.currentWeaponBeingUsed.magiclBaseDamageAbsorption;
             player.playerStatsManager.blockingStability = player.playerCombatManager.currentWeaponBeingUsed.stability;
         }
+    }
+
+    public void OnIsChuggingChanged(bool oldStatus, bool newStatus)
+    {
+        player.animator.SetBool("isChuggingFlask", isChugging.Value);
     }
 
     [ServerRpc]

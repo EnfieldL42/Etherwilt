@@ -121,7 +121,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         moveDirection.Normalize();
         moveDirection.y = 0;
 
-        if (player.playerNetworkManager.isSprinting.Value)
+        if (player.playerNetworkManager.isSprinting.Value && player.canRun)
         {
             player.characterController.Move(moveDirection * sprintSpeed * Time.deltaTime);
 
@@ -167,6 +167,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
         }
     }
+
     private void HandleRotation()
     {
         if(player.isDead.Value)
@@ -237,7 +238,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     public void AttemptToPerformDodge()
     {
-        if (player.isPerformingAction)
+        if (!player.canRoll)
         {
             return;
         }
@@ -355,7 +356,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             return;
         }
 
-        if (moveAmount >= 0.5 && player.canSprint)
+        if (moveAmount >= 0.5)
         {
             player.playerNetworkManager.isSprinting.Value = true;
         }

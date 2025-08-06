@@ -18,4 +18,7 @@ MonoBehaviour:
   itemID: 3
   itemModel: {fileID: 2813550535045113683, guid: a17015b11d30b7c4fa75fcd94200dd99, type: 3}
   useItemAnimation: Item_Flask_Drink_Start_01
-  emptyFlashItem: {fileID: 9070157740231201412, guid: d6a36f84496e8d94893fec8c0b691c18, type: 3}
+  healthFlask: 1
+  flaskRestoration: 50
+  emptyFlaskItem: {fileID: 9070157740231201412, guid: d6a36f84496e8d94893fec8c0b691c18, type: 3}
+  emptyFlaskAnimation: Item_Flask_Empty_01

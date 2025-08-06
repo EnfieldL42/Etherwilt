@@ -19,6 +19,26 @@ public class ResetUpperbodyAction : StateMachineBehaviour
         {
             Destroy(player.playerEffectsManager.activeQuickSlotItemFX);
         }
+
+        player.canRun = true;
+        player.playerEquipmentManager.UnhideWeapons();
+
+        if(player.playerEffectsManager.activeQuickSlotItemFX != null)
+        {
+            Destroy(player.playerEffectsManager.activeQuickSlotItemFX.gameObject);
+        }
+
+        //check if player is using item
+        if(player.playerCombatManager.isUsingItem)
+        {
+            player.playerCombatManager.isUsingItem = false;
+
+            //once player is not interaction, we can roll
+            if(!player.isPerformingAction)
+            {
+                player.canRoll = true;
+            }
+        }
     }
 
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks

@@ -33,7 +33,8 @@ public class CharacterManager : NetworkBehaviour
     public bool applyRootMotion = false;
     public bool canRotate = true;
     public bool canMove = true;
-    public bool canSprint = true;
+    public bool canRun = true;
+    public bool canRoll = true;
 
     [Header("Anti Spamming")]
     [HideInInspector] public float actionTimer = 0f;
