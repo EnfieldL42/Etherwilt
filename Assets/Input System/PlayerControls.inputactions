@@ -160,6 +160,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Down Arrow",
+                    "type": "Button",
+                    "id": "d7acc206-27f6-44ee-868b-474cd864cc7e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "Tap",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "ReviveInput",
                     "type": "Button",
                     "id": "f558f69e-723c-4c98-989d-862267f19e10",
@@ -381,6 +390,28 @@
                     "processors": "",
                     "groups": ";Keyboard Controls",
                     "action": "LeftArrow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "59409f19-793e-4d6a-b68b-2fdac38b2058",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad Controls",
+                    "action": "Down Arrow",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "92b78f7e-1f7e-44fb-b9db-4abdf942f2ba",
+                    "path": "<Keyboard>/downArrow",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard Controls",
+                    "action": "Down Arrow",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

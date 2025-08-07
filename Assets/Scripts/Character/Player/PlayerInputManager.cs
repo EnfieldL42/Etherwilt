@@ -31,6 +31,7 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool jumpInput = false;
     [SerializeField] bool rightArrowInput = false;
     [SerializeField] bool leftArrowInput = false;
+    [SerializeField] bool downArrowInput = false;
     [SerializeField] bool reviveInput = false;
     [SerializeField] bool interactionInput = false;
     [SerializeField] bool useItemInput = false;
@@ -134,6 +135,7 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.PlayerActions.RightArrow.performed += i => rightArrowInput = true;
             playerControls.PlayerActions.LeftArrow.performed += i => leftArrowInput = true;
             playerControls.PlayerActions.ReviveInput.performed += i => reviveInput = true;
+            playerControls.PlayerActions.DownArrow.performed += i => downArrowInput = true;
 
             //Queued Inputs
             playerControls.PlayerActions.QueuedRB.performed += i => QueuedInput(ref queuedRBInput);
@@ -244,6 +246,7 @@ public class PlayerInputManager : MonoBehaviour
 
         HandleRightWeaponSwitch();
         HandleLeftWeaponSwitch();
+        HandleQuickSlotSwitch();
         HandleRevive();
 
         HandleInteractionInput();
@@ -320,6 +323,14 @@ public class PlayerInputManager : MonoBehaviour
             {
                 return;
             }
+            if (player.isPerformingAction)
+            {
+                return;
+            }
+            if (player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
             if (player.playerInventoryManager.currentQuickSlotItem != null)
             {
                 player.playerInventoryManager.currentQuickSlotItem.AttemptToUseItem(player);
@@ -335,6 +346,15 @@ public class PlayerInputManager : MonoBehaviour
         {
             dodgeInput = false;
 
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+            if (player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
+
             player.playerLocomotionManager.AttemptToPerformDodge();
 
         }
@@ -344,6 +364,10 @@ public class PlayerInputManager : MonoBehaviour
     {
         if (sprintInput)
         {
+            if (player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
             player.playerLocomotionManager.HandleSprinting();
         }
         else
@@ -354,12 +378,20 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleJumpInput()
     {
-        if(jumpInput)
+        if (jumpInput)
         {
             jumpInput = false;
 
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+            if (player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
             //if ui window open, return without doing anything
-            if(PlayerUIManager.instance.menuWindowIsOpen)
+            if (PlayerUIManager.instance.menuWindowIsOpen)
             {
                 return;
             }
@@ -372,9 +404,18 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleRBInput()
     {
-        if(RBInput)
+        if (RBInput)
         {
             RBInput = false;
+
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+            if (player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
 
             //TODO: if we have UI window, return and do nothing
 
@@ -392,6 +433,15 @@ public class PlayerInputManager : MonoBehaviour
         {
             LBInput = false;
 
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+            if (player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
+
             //TODO: if we have UI window, return and do nothing
 
             player.playerNetworkManager.SetCharacterActionHand(false);
@@ -408,6 +458,14 @@ public class PlayerInputManager : MonoBehaviour
         {
             RTInput = false;
 
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+            if (player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
             //TODO: if we have UI window, return and do nothing
 
             player.playerNetworkManager.SetCharacterActionHand(true);
@@ -429,13 +487,41 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
+    private void HandleQuickSlotSwitch()
+    {
+        if (downArrowInput)
+        {
+            downArrowInput = false;
+
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+            if (player.isPerformingAction)
+            {
+                return;
+            }
+            if(player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
+
+            player.playerEquipmentManager.SwitchQuickSlotItem();
+
+        }
+    }
+
     private void HandleRightWeaponSwitch()
     {
         if(rightArrowInput)
         {
             rightArrowInput = false;
 
-            if(PlayerUIManager.instance.menuWindowIsOpen)
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+            if (player.playerCombatManager.isUsingItem)
             {
                 return;
             }
@@ -454,6 +540,10 @@ public class PlayerInputManager : MonoBehaviour
             {
                 return;
             }
+            if (player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
             player.playerEquipmentManager.SwitchLeftWeapon();
         }
     }
@@ -463,6 +553,19 @@ public class PlayerInputManager : MonoBehaviour
         if (interactionInput)
         {
             interactionInput = false;
+
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+            if (player.isPerformingAction)
+            {
+                return;
+            }
+            if (player.playerCombatManager.isUsingItem)
+            {
+                return;
+            }
 
             player.playerInteractionManager.Interact();
         }
@@ -509,6 +612,10 @@ public class PlayerInputManager : MonoBehaviour
         if(lockOnInput && player.playerNetworkManager.isLockedOn.Value)
         {
             lockOnInput = false;
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
             PlayerCamera.instance.ClearLockOnTargets();
             player.playerNetworkManager.isLockedOn.Value = false;
 
@@ -520,6 +627,10 @@ public class PlayerInputManager : MonoBehaviour
         {
             lockOnInput = false;
             //if we are aiming with ranged then return
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
 
             PlayerCamera.instance.HandleLocatingLockOnTarget();
 
@@ -538,6 +649,11 @@ public class PlayerInputManager : MonoBehaviour
         {
             lockOnLeftInput = false;
 
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+
             if (player.playerNetworkManager.isLockedOn.Value)
             {
                 PlayerCamera.instance.HandleLocatingLockOnTarget();
@@ -554,6 +670,11 @@ public class PlayerInputManager : MonoBehaviour
         {
             lockOnRightInput = false;
 
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+
             if (player.playerNetworkManager.isLockedOn.Value)
             {
                 PlayerCamera.instance.HandleLocatingLockOnTarget();
@@ -569,6 +690,11 @@ public class PlayerInputManager : MonoBehaviour
         // Mouse delta input
         if (player.playerNetworkManager.isLockedOn.Value && mouseSwitchTimer <= 0)
         {
+            if (PlayerUIManager.instance.menuWindowIsOpen)
+            {
+                return;
+            }
+
             if (lockOnMouseInput.x > mouseDeltaThreshold)
             {
                 PlayerCamera.instance.HandleLocatingLockOnTarget();
@@ -619,7 +745,11 @@ public class PlayerInputManager : MonoBehaviour
         {
             return;
         }
-        if(queuedRBInput)
+        if (PlayerUIManager.instance.menuWindowIsOpen)
+        {
+            return;
+        }
+        if (queuedRBInput)
         {
             RBInput= true;
         }

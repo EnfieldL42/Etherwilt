@@ -246,6 +246,15 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Down Arrow"",
+                    ""type"": ""Button"",
+                    ""id"": ""d7acc206-27f6-44ee-868b-474cd864cc7e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": ""Tap"",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""ReviveInput"",
                     ""type"": ""Button"",
                     ""id"": ""f558f69e-723c-4c98-989d-862267f19e10"",
@@ -467,6 +476,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard Controls"",
                     ""action"": ""LeftArrow"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""59409f19-793e-4d6a-b68b-2fdac38b2058"",
+                    ""path"": ""<Gamepad>/dpad/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad Controls"",
+                    ""action"": ""Down Arrow"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92b78f7e-1f7e-44fb-b9db-4abdf942f2ba"",
+                    ""path"": ""<Keyboard>/downArrow"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard Controls"",
+                    ""action"": ""Down Arrow"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -1007,6 +1038,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_Dodge = m_PlayerActions.FindAction("Dodge", throwIfNotFound: true);
         m_PlayerActions_RightArrow = m_PlayerActions.FindAction("RightArrow", throwIfNotFound: true);
         m_PlayerActions_LeftArrow = m_PlayerActions.FindAction("LeftArrow", throwIfNotFound: true);
+        m_PlayerActions_DownArrow = m_PlayerActions.FindAction("Down Arrow", throwIfNotFound: true);
         m_PlayerActions_ReviveInput = m_PlayerActions.FindAction("ReviveInput", throwIfNotFound: true);
         m_PlayerActions_Jump = m_PlayerActions.FindAction("Jump", throwIfNotFound: true);
         m_PlayerActions_RB = m_PlayerActions.FindAction("RB", throwIfNotFound: true);
@@ -1217,6 +1249,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_Dodge;
     private readonly InputAction m_PlayerActions_RightArrow;
     private readonly InputAction m_PlayerActions_LeftArrow;
+    private readonly InputAction m_PlayerActions_DownArrow;
     private readonly InputAction m_PlayerActions_ReviveInput;
     private readonly InputAction m_PlayerActions_Jump;
     private readonly InputAction m_PlayerActions_RB;
@@ -1255,6 +1288,10 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "PlayerActions/LeftArrow".
         /// </summary>
         public InputAction @LeftArrow => m_Wrapper.m_PlayerActions_LeftArrow;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/DownArrow".
+        /// </summary>
+        public InputAction @DownArrow => m_Wrapper.m_PlayerActions_DownArrow;
         /// <summary>
         /// Provides access to the underlying input action "PlayerActions/ReviveInput".
         /// </summary>
@@ -1350,6 +1387,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LeftArrow.started += instance.OnLeftArrow;
             @LeftArrow.performed += instance.OnLeftArrow;
             @LeftArrow.canceled += instance.OnLeftArrow;
+            @DownArrow.started += instance.OnDownArrow;
+            @DownArrow.performed += instance.OnDownArrow;
+            @DownArrow.canceled += instance.OnDownArrow;
             @ReviveInput.started += instance.OnReviveInput;
             @ReviveInput.performed += instance.OnReviveInput;
             @ReviveInput.canceled += instance.OnReviveInput;
@@ -1415,6 +1455,9 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LeftArrow.started -= instance.OnLeftArrow;
             @LeftArrow.performed -= instance.OnLeftArrow;
             @LeftArrow.canceled -= instance.OnLeftArrow;
+            @DownArrow.started -= instance.OnDownArrow;
+            @DownArrow.performed -= instance.OnDownArrow;
+            @DownArrow.canceled -= instance.OnDownArrow;
             @ReviveInput.started -= instance.OnReviveInput;
             @ReviveInput.performed -= instance.OnReviveInput;
             @ReviveInput.canceled -= instance.OnReviveInput;
@@ -1883,6 +1926,13 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLeftArrow(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Down Arrow" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnDownArrow(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "ReviveInput" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

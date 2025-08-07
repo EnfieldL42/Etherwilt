@@ -1,5 +1,7 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Netcode;
 
 public class PlayerUIHudManager : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class PlayerUIHudManager : MonoBehaviour
     [SerializeField] Image rightWeaponQuickSlotIcon;
     [SerializeField] Image leftWeaponQuickSlotIcon;
     [SerializeField] Image quickSlotItemQuickSlotIcon;
+    [SerializeField] TextMeshProUGUI quickSlotItemCount;
 
     [Header("Boss Health Bar")]
     public Transform bossHealthBarParent;
@@ -121,8 +124,10 @@ public class PlayerUIHudManager : MonoBehaviour
 
         if (quickSlotItem == null)
         {
+            Debug.Log("got here");
             quickSlotItemQuickSlotIcon.enabled = false;
-            quickSlotItemQuickSlotIcon = null;
+            quickSlotItemQuickSlotIcon.sprite = null;
+            quickSlotItemCount.enabled = false;
             return;
         }
 
@@ -131,12 +136,24 @@ public class PlayerUIHudManager : MonoBehaviour
             Debug.Log("Item has no icon");
             quickSlotItemQuickSlotIcon.enabled = false;
             quickSlotItemQuickSlotIcon.sprite = null;
+            quickSlotItemCount.enabled = false;
             return;
         }
 
 
         quickSlotItemQuickSlotIcon.sprite = quickSlotItem.itemIcon;
         quickSlotItemQuickSlotIcon.enabled = true;
+
+        if (quickSlotItem.isConsumable)
+        {
+            PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
+            quickSlotItemCount.text = quickSlotItem.GetCurrentAmount(player).ToString();
+            quickSlotItemCount.enabled = true;
+        }
+        else
+        {
+            quickSlotItemCount.enabled = false;
+        }
 
     }
 

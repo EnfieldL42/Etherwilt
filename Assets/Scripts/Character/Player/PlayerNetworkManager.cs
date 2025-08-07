@@ -110,11 +110,15 @@ public class PlayerNetworkManager : CharacterNetworkManager
         if(newQuickSlotItem != null)
         {
             player.playerInventoryManager.currentQuickSlotItem = newQuickSlotItem;
+        }
+        else
+        {
+            player.playerInventoryManager.currentQuickSlotItem = null;
+        }
 
-            if(player.IsOwner)
-            {
-                PlayerUIManager.instance.playerUIHudManager.SetQuickSlotItemQuickSlotIcon(newID);
-            }
+        if (player.IsOwner)
+        {
+            PlayerUIManager.instance.playerUIHudManager.SetQuickSlotItemQuickSlotIcon(newID);
         }
     }
 

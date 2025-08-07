@@ -60,8 +60,91 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         LoadRightWeapon();
     }
 
-    //RIGHT HAND SCRIPTS
 
+    //QUICK SLOTS
+    public void SwitchQuickSlotItem()
+    {
+        if (!player.IsOwner)
+        {
+            return;
+        }
+
+        if (player.isPerformingAction)
+        {
+            return;
+        }
+
+        if (player.isDead.Value)
+        {
+            return;
+        }
+
+
+        QuickSlotItem selectedItem = null;
+
+        //add one to index to switch to next potential weapon
+        player.playerInventoryManager.quickSlotItemIndex += 1;
+
+        //if index is out of bounds we reset it back to 0
+        if (player.playerInventoryManager.quickSlotItemIndex < 0 || player.playerInventoryManager.quickSlotItemIndex > 2)
+        {
+            player.playerInventoryManager.quickSlotItemIndex = 0;
+
+            //check if we are holding more than one weapon
+            float itemCount = 0;
+            QuickSlotItem firstItem = null;
+            int firstItemPosition = 0;
+
+            for (int i = 0; i < player.playerInventoryManager.quickSlotItemsInQuickSlots.Length; i++)
+            {
+                if (player.playerInventoryManager.quickSlotItemsInQuickSlots[i] != null)
+                {
+                    itemCount++;
+
+                    if (firstItem == null)
+                    {
+                        firstItem = player.playerInventoryManager.quickSlotItemsInQuickSlots[i];
+                        firstItemPosition = i;
+                    }
+
+                }
+            }
+
+            if (itemCount <= 1)
+            {
+                player.playerInventoryManager.quickSlotItemIndex = -1;
+                selectedItem = null;
+                player.playerNetworkManager.currentQuickSlotItemID.Value = -1;
+            }
+            else
+            {
+                player.playerInventoryManager.quickSlotItemIndex = firstItemPosition;
+                player.playerNetworkManager.currentQuickSlotItemID.Value = firstItem.itemID;
+            }
+
+            return;
+        }
+
+        if (player.playerInventoryManager.quickSlotItemsInQuickSlots[player.playerInventoryManager.quickSlotItemIndex] != null)
+        {
+            selectedItem = player.playerInventoryManager.quickSlotItemsInQuickSlots[player.playerInventoryManager.quickSlotItemIndex];
+            //assign network weapon ID
+
+            player.playerNetworkManager.currentQuickSlotItemID.Value = player.playerInventoryManager.quickSlotItemsInQuickSlots[player.playerInventoryManager.quickSlotItemIndex].itemID;
+        }
+        else
+        {
+            player.playerNetworkManager.currentQuickSlotItemID.Value = -1;
+        }
+
+        if(selectedItem == null && player.playerInventoryManager.quickSlotItemIndex <= 2)
+        {
+            SwitchQuickSlotItem();
+        }
+    }
+
+
+    //RIGHT HAND 
     public void SwitchRightWeapon()
     {
         if(!player.IsOwner)
@@ -152,6 +235,7 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         }
 
     }
+
     public void LoadRightWeapon()
     {
         if(player.playerInventoryManager.currentRightHandWeapon != null)
@@ -167,7 +251,8 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         }
     }
 
-    //LEFT HAND SCRIPTS
+
+    //LEFT HAND
     public void SwitchLeftWeapon()
     {
         if (!player.IsOwner)
@@ -257,6 +342,7 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             SwitchLeftWeapon();
         }
     }
+
     public void LoadLeftWeapon()
     {
         if (player.playerInventoryManager.currentLeftHandWeapon != null)
@@ -294,8 +380,7 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
     }
 
 
-    //Damage Colliders
-
+    //Damage
     public void OpenDamageCollider()
     {
 
@@ -329,7 +414,8 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
         }
     }
 
-    //unhide weapons
+
+    //UNHIDE WEAPONS
     public void UnhideWeapons()
     {
         if (player.playerEquipmentManager.rightHandWeaponSlot != null)

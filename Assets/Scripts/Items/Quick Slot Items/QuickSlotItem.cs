@@ -8,6 +8,10 @@ public class QuickSlotItem : Item
     [Header("Animation")]
     [SerializeField] protected string useItemAnimation;
 
+    //not all quick slot items are consumables
+    [Header("Consumable")]
+    public bool isConsumable = true;
+
     public virtual void AttemptToUseItem(PlayerManager player)
     {
         if (!CanIUseThisItem(player))
@@ -27,5 +31,10 @@ public class QuickSlotItem : Item
     public virtual bool CanIUseThisItem(PlayerManager player)
     {
         return true;
+    }
+
+    public virtual int GetCurrentAmount(PlayerManager player)
+    {
+        return 0;
     }
 }

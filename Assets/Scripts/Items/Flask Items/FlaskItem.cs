@@ -107,13 +107,25 @@ public class FlaskItem : QuickSlotItem
             player.playerEffectsManager.activeQuickSlotItemFX = emptyFlask;
         }
 
-        PlayeHealingFX(player);
+        PlayHealingFX(player);
     }
 
-    private void PlayeHealingFX(PlayerManager player)
+    private void PlayHealingFX(PlayerManager player)
     {
         Instantiate(WorldCharacterEffectsManager.instance.healingFlaskVFX, player.transform);
         player.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.healingFlaskSFX);
             
+    }
+
+    public override int GetCurrentAmount(PlayerManager player)
+    {
+        int currentAmount = 0;
+
+        if(healthFlask)
+        {
+            currentAmount = player.playerNetworkManager.remainingHealthFlasks.Value;
+        }
+
+        return currentAmount;
     }
 }

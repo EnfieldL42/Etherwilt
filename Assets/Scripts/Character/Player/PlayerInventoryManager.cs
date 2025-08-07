@@ -4,16 +4,20 @@ using UnityEngine;
 
 public class PlayerInventoryManager : CharacterInventoryManager
 {
-    [Header("Weapons")]
+    [Header("Current Selected Quick Slot Item")]
     public WeaponItem currentRightHandWeapon;
     public WeaponItem currentLeftHandWeapon;
+    public QuickSlotItem currentQuickSlotItem;
 
     [Header("Quick Slots")]
     public WeaponItem[] weaponsInRightHandSlots = new WeaponItem[3];
     public int rightHandWeaponIndex = 0;
     public WeaponItem[] weaponsInLeftHandSlots = new WeaponItem[3];
     public int leftHandWeaponIndex = 0;
-    public QuickSlotItem currentQuickSlotItem;
+    public QuickSlotItem[] quickSlotItemsInQuickSlots = new QuickSlotItem[3];
+    public int quickSlotItemIndex = 0;
+
+
 
     [Header("Inventory")]
     public List<Item> itemsInInventory;

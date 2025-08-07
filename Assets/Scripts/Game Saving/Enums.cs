@@ -43,6 +43,9 @@ public enum EquipmentType
     LeftWeapon01,  //3
     LeftWeapon02,  //4
     LeftWeapon03,  //5
+    QuickSlot01,   //6
+    QuickSlot02,   //7
+    QuickSlot03,   //8
 }
 
 public enum AttackType

@@ -177,10 +177,73 @@ public class UI_EquipmentInventorySlot : MonoBehaviour
                 PlayerUIManager.instance.playerUIEquipmentManager.RefreshMenu();
 
                 break;
+            case EquipmentType.QuickSlot01:
+
+                equippedItem = player.playerInventoryManager.quickSlotItemsInQuickSlots[0];
+
+                if (equippedItem != null)
+                {
+                    player.playerInventoryManager.AddItemToInventory(equippedItem);
+                }
+
+                player.playerInventoryManager.quickSlotItemsInQuickSlots[0] = currentItem as QuickSlotItem;
+                player.playerInventoryManager.RemoveItemFromInventory(currentItem);
+
+                if(player.playerInventoryManager.quickSlotItemIndex == 0)
+                {
+                    player.playerNetworkManager.currentQuickSlotItemID.Value = currentItem.itemID;
+                }
+
+                //refreshes the equipment menu
+                PlayerUIManager.instance.playerUIEquipmentManager.RefreshMenu();
+
+                break;
+            case EquipmentType.QuickSlot02:
+
+                equippedItem = player.playerInventoryManager.quickSlotItemsInQuickSlots[1];
+
+                if (equippedItem != null)
+                {
+                    player.playerInventoryManager.AddItemToInventory(equippedItem);
+                }
+
+                player.playerInventoryManager.quickSlotItemsInQuickSlots[1] = currentItem as QuickSlotItem;
+                player.playerInventoryManager.RemoveItemFromInventory(currentItem);
+
+                if (player.playerInventoryManager.quickSlotItemIndex == 1)
+                {
+                    player.playerNetworkManager.currentQuickSlotItemID.Value = currentItem.itemID;
+                }
+
+                //refreshes the equipment menu
+                PlayerUIManager.instance.playerUIEquipmentManager.RefreshMenu();
+
+                break;
+            case EquipmentType.QuickSlot03:
+
+                equippedItem = player.playerInventoryManager.quickSlotItemsInQuickSlots[2];
+
+                if (equippedItem != null)
+                {
+                    player.playerInventoryManager.AddItemToInventory(equippedItem);
+                }
+
+                player.playerInventoryManager.quickSlotItemsInQuickSlots[2] = currentItem as QuickSlotItem;
+                player.playerInventoryManager.RemoveItemFromInventory(currentItem);
+
+                if (player.playerInventoryManager.quickSlotItemIndex == 2)
+                {
+                    player.playerNetworkManager.currentQuickSlotItemID.Value = currentItem.itemID;
+                }
+
+                //refreshes the equipment menu
+                PlayerUIManager.instance.playerUIEquipmentManager.RefreshMenu();
+
+                break;
             default:
                 break;
         }
 
-        PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
+        //PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
     }    
 }
