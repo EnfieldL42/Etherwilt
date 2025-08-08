@@ -15,6 +15,7 @@ public class PlayerUIManager : MonoBehaviour
     [HideInInspector] public PlayerUIEquipmentManager playerUIEquipmentManager;
     [HideInInspector] public PlayerUIBonfireManager playerUIBonfireManager;
     [HideInInspector] public PlayerUITeleportLocationManager playerUITeleportLocationManager;
+    [HideInInspector] public PlayerUILoadingScreenManager playerUILoadingScreenManager;
 
     [Header("UI Flags")]
     public bool menuWindowIsOpen = false;
@@ -38,6 +39,7 @@ public class PlayerUIManager : MonoBehaviour
         playerUIEquipmentManager = GetComponentInChildren<PlayerUIEquipmentManager>();
         playerUIBonfireManager = GetComponentInChildren<PlayerUIBonfireManager>();
         playerUITeleportLocationManager = GetComponentInChildren<PlayerUITeleportLocationManager>();
+        playerUILoadingScreenManager = GetComponentInChildren<PlayerUILoadingScreenManager>();
     }
 
     private void Start()

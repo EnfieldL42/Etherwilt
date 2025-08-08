@@ -144,7 +144,12 @@ public class BonefireInteractable : Interactable
     {
         PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
 
+        PlayerUIManager.instance.playerUILoadingScreenManager.ActivateLoadingScreen();
+
         player.transform.position = teleportTransform.position;
+
+        PlayerUIManager.instance.playerUILoadingScreenManager.DeactivateLoadingScreen();
+
     }
 }
 

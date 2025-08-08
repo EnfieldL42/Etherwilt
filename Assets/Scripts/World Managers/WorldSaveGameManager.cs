@@ -276,6 +276,7 @@ public class WorldSaveGameManager : MonoBehaviour
 
     public void LoadWorldScene(int buildIndex)
     {
+        PlayerUIManager.instance.playerUILoadingScreenManager.ActivateLoadingScreen();
         Time.timeScale = 0f; // Freeze the game
 
         string worldScene = SceneUtility.GetScenePathByBuildIndex(buildIndex);

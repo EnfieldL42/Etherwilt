@@ -10,10 +10,10 @@ public class UI_Character_HP_Bar : UI_StatBar
     [SerializeField] bool displayCharacterNameOnDamage = false;
     [SerializeField] float defaultTimeBeforeBarHides = 5f;
     [SerializeField] float hideTimer = 0;
-    [SerializeField] int currentDamageTaken = 0;
     [SerializeField] TextMeshProUGUI characterName;
     [SerializeField] TextMeshProUGUI characterDamage;
     [HideInInspector] public int oldHealthValue = 0;
+    public int currentDamageTaken = 0;
 
     protected override void Awake()
     {
