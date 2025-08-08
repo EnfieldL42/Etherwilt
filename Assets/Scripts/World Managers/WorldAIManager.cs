@@ -65,6 +65,7 @@ public class WorldAIManager : MonoBehaviour
         return spawnedInBosses.FirstOrDefault(boss => boss.bossID == ID);
     }
 
+    //if we have more than 25 enemies per area, this function will stutter the game -> instead reset their stats/animations
     public void ResetAllCharacters()
     {
         DespawnAllCharacters();

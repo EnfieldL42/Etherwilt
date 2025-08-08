@@ -807,9 +807,15 @@ public class PlayerInputManager : MonoBehaviour
         if (openCharacterMenu)
         {
             openCharacterMenu = false;
+
+            if(PlayerUIManager.instance.bonfireWindowIsOpen)
+            {
+                return;
+            }
             PlayerUIManager.instance.playerUIPopUpManager.CloseAllPopUpWindows();
             PlayerUIManager.instance.CloseAllMenuWindows();
             PlayerUIManager.instance.playerUICharacterMenuManager.OpenCharacterMenu();
+
         }
     }
 
@@ -826,7 +832,6 @@ public class PlayerInputManager : MonoBehaviour
             }
         }
     }
-
 
     private void OnDeviceChanged(InputControl control, InputEventPtr eventPtr)
     {

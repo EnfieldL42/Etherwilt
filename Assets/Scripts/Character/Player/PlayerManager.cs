@@ -236,7 +236,7 @@ public class PlayerManager : CharacterManager
 
         currentCharacterData.characterName = playerNetworkManager.characterName.Value.ToString();
         currentCharacterData.xPosition = transform.position.x;
-        currentCharacterData.yPosition = transform.position.y + 5;
+        currentCharacterData.yPosition = transform.position.y;
         currentCharacterData.zPosition = transform.position.z;
 
         currentCharacterData.currentHealth = playerNetworkManager.currentHealth.Value;

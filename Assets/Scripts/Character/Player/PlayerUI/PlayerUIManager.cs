@@ -13,10 +13,13 @@ public class PlayerUIManager : MonoBehaviour
     [HideInInspector] public PlayerUIPopUpManager playerUIPopUpManager;
     [HideInInspector] public PlayerUICharacterMenuManager playerUICharacterMenuManager;
     [HideInInspector] public PlayerUIEquipmentManager playerUIEquipmentManager;
+    [HideInInspector] public PlayerUIBonfireManager playerUIBonfireManager;
+    [HideInInspector] public PlayerUITeleportLocationManager playerUITeleportLocationManager;
 
     [Header("UI Flags")]
     public bool menuWindowIsOpen = false;
     public bool popUpWindowIsOpen = false;
+    public bool bonfireWindowIsOpen = false;
 
     private void Awake()
     {
@@ -33,6 +36,8 @@ public class PlayerUIManager : MonoBehaviour
         playerUIPopUpManager = GetComponentInChildren<PlayerUIPopUpManager>();
         playerUICharacterMenuManager = GetComponentInChildren<PlayerUICharacterMenuManager>();
         playerUIEquipmentManager = GetComponentInChildren<PlayerUIEquipmentManager>();
+        playerUIBonfireManager = GetComponentInChildren<PlayerUIBonfireManager>();
+        playerUITeleportLocationManager = GetComponentInChildren<PlayerUITeleportLocationManager>();
     }
 
     private void Start()
@@ -66,6 +71,13 @@ public class PlayerUIManager : MonoBehaviour
     {
         playerUICharacterMenuManager.CloseCharacterMenu();
         playerUIEquipmentManager.CloseEquipmentManagerMenu();
+        CloseBonfireWindows();
+    }
+
+    public void CloseBonfireWindows()
+    {
+        playerUIBonfireManager.CloseBonfireManagerMenu();
+        playerUITeleportLocationManager.CloseTeleportLocationManagerMenu();
     }
 
 }

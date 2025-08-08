@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
 
@@ -12,6 +13,9 @@ public class WorldObjectManager : MonoBehaviour
 
     [Header("Fog Walls")]
     public List<FogWallInteractable> fogWalls;
+
+    [Header("Bonfires")]
+    public List<BonefireInteractable> bonfires;
 
     private void Awake()
     {
@@ -42,6 +46,7 @@ public class WorldObjectManager : MonoBehaviour
             fogWalls.Add(fogWall);
         }
     }
+
     public void RemoveFogWallToList(FogWallInteractable fogWall)
     {
         if (fogWalls.Contains(fogWall))
@@ -49,5 +54,22 @@ public class WorldObjectManager : MonoBehaviour
             fogWalls.Remove(fogWall);
         }
     }
+
+    public void AddBonfireToList(BonefireInteractable bonfire)
+    {
+        if (!bonfires.Contains(bonfire))
+        {
+            bonfires.Add(bonfire);
+        }
+    }
+
+    public void RemoveBonfireToList(BonefireInteractable bonfire)
+    {
+        if (bonfires.Contains(bonfire))
+        {
+            bonfires.Remove(bonfire);
+        }
+    }
+
 
 }

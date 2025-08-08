@@ -5,8 +5,8 @@ using UnityEngine;
 public class BonefireInteractable : Interactable
 {
     [Header("Bonefire Info")]
-    [SerializeField] int bonefireID;
-    public NetworkVariable<bool>  isActivated = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
+    public int bonefireID;
+    public NetworkVariable<bool> isActivated = new NetworkVariable<bool>(false, NetworkVariableReadPermission.Everyone, NetworkVariableWritePermission.Server);
 
     [Header("VFX")]
     [SerializeField] GameObject activatedParticles;
@@ -15,6 +15,9 @@ public class BonefireInteractable : Interactable
     [SerializeField] string unactivatedInteractionText = "Restore the Bonfire";
     [SerializeField] string activatedInteractionText = "Rest";
     [SerializeField] string interactionText = "BONFIRE RESTORED";
+
+    [Header("Teleport Transform")]
+    [SerializeField] Transform teleportTransform;
 
     protected override void Start()
     {
@@ -54,12 +57,21 @@ public class BonefireInteractable : Interactable
             OnIsActivatedChanged(false, isActivated.Value);
         }
         isActivated.OnValueChanged += OnIsActivatedChanged;
+
+        WorldObjectManager.instance.AddBonfireToList(this);
     }
 
     public override void OnNetworkDespawn()
     {
         base.OnNetworkDespawn();
         isActivated.OnValueChanged -= OnIsActivatedChanged;
+    }
+
+    public override void OnTriggerExit(Collider other)
+    {
+        base.OnTriggerExit(other);
+
+        PlayerUIManager.instance.CloseBonfireWindows();
     }
 
     private void RestoreBonfire(PlayerManager player)
@@ -85,7 +97,8 @@ public class BonefireInteractable : Interactable
 
     private void RestAtBonfire(PlayerManager player)
     {
-        Debug.Log("Resting at bonfire...");
+        PlayerUIManager.instance.playerUIBonfireManager.OpenBonfireManagerMenu();
+
         interactableCollider.enabled = true;//temporary so we can keep interacting with the bonfire for the meantime
         player.playerNetworkManager.currentHealth.Value = player.playerNetworkManager.maxHealth.Value; //temp code
         player.playerNetworkManager.currentStamina.Value = player.playerNetworkManager.maxStamina.Value; //temp code
@@ -125,6 +138,13 @@ public class BonefireInteractable : Interactable
 
             interactionText = unactivatedInteractionText;
         }
+    }
+
+    public void TeleportToBonfire()
+    {
+        PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
+
+        player.transform.position = teleportTransform.position;
     }
 }
 

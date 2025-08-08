@@ -76,6 +76,12 @@ public class PlayerUIEquipmentManager : MonoBehaviour
         RefreshEquipmentSlotIcons();
     }
 
+    public void CloseEquipmentManagerMenu()
+    {
+        PlayerUIManager.instance.menuWindowIsOpen = false;
+        menu.SetActive(false);
+    }
+
     private void TurnOffHighlightedIcons()
     {
         foreach (Image icon in highlightedIcons)
@@ -152,12 +158,6 @@ public class PlayerUIEquipmentManager : MonoBehaviour
         }
 
         equipmentInventoryWindow.SetActive(false);
-    }
-
-    public void CloseEquipmentManagerMenu()
-    {
-        PlayerUIManager.instance.menuWindowIsOpen = false;
-        menu.SetActive(false);
     }
 
     private void RefreshEquipmentSlotIcons()
