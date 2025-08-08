@@ -830,17 +830,6 @@
                 },
                 {
                     "name": "",
-                    "id": "7616dae9-f225-4ece-a869-7088f9387927",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": ";Gamepad Controls",
-                    "action": "Close Character Menu",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "7cb18d8a-f854-4509-acc0-6c5e60c6f8a6",
                     "path": "<Keyboard>/escape",
                     "interactions": "",

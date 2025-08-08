@@ -31,4 +31,5 @@ public class PlayerUICharacterMenuManager : MonoBehaviour
         menu.SetActive(false);
     }
 
+
 }

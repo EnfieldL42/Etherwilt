@@ -30,7 +30,7 @@ public class PlayerUIEquipmentManager : MonoBehaviour
     [SerializeField] GameObject equipmentInventoryWindow;
     [SerializeField] GameObject equipmentInventorySlotPrefab;
     [SerializeField] Transform equipmentInventoryContentWindow;
-    [SerializeField] Item currentSelectedItem;
+    //[SerializeField] Item currentSelectedItem;
 
     [Header("Quick Slots")]
     [SerializeField] Image quickSlot01EquipmentSlot;
@@ -45,9 +45,8 @@ public class PlayerUIEquipmentManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI quickSlot03Count;
     private Button quickSlot03Button;
 
-
-    [Header("Equipment Slots Buttons")]
-    [SerializeField] Button[] equipmentSlotButtons;
+    [Header("Item Icons On Select Highlight")]
+    [SerializeField] Image[] highlightedIcons;
 
 
     private void Awake()
@@ -68,6 +67,8 @@ public class PlayerUIEquipmentManager : MonoBehaviour
     public void OpenEquipmentManagerMenu()
     {
         PlayerUIManager.instance.menuWindowIsOpen = true;
+        TurnOffHighlightedIcons();
+        ResetEquipmentSlot();
         ToggleEquipmentButtons(true);
         menu.SetActive(true);
         equipmentInventoryWindow.SetActive(false);
@@ -75,12 +76,19 @@ public class PlayerUIEquipmentManager : MonoBehaviour
         RefreshEquipmentSlotIcons();
     }
 
+    private void TurnOffHighlightedIcons()
+    {
+        foreach (Image icon in highlightedIcons)
+        {
+            icon.enabled = false;
+        }
+    }
+
     public void RefreshMenu()
     {
-        //EnableEquipmentButtons();
         ClearEquipmentInventory();
         RefreshEquipmentSlotIcons();
-        PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
+        //PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
     }
 
     private void ToggleEquipmentButtons(bool isEnabled)
@@ -389,7 +397,7 @@ public class PlayerUIEquipmentManager : MonoBehaviour
             equipmentInventoryWindow.SetActive(false);
             ToggleEquipmentButtons(true);
             RefreshMenu();
-            //PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
+            PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
             return;
         }
 
@@ -418,8 +426,6 @@ public class PlayerUIEquipmentManager : MonoBehaviour
         //DisableEquipmentButtons();
         ToggleEquipmentButtons(false);
 
-        Debug.Log("got here");
-
         List<WeaponItem> weaponsInInventory = new List<WeaponItem>();
 
         PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
@@ -439,7 +445,7 @@ public class PlayerUIEquipmentManager : MonoBehaviour
             equipmentInventoryWindow.SetActive(false);
             ToggleEquipmentButtons(true);
             RefreshMenu();
-            //PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
+            PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
             return;
         }
 
@@ -466,7 +472,11 @@ public class PlayerUIEquipmentManager : MonoBehaviour
     public void SelectEquipmentSlot(int equipmentSlot)
     {
         currentSelectedEquipmentSlot = (EquipmentType)equipmentSlot;
+    }
 
+    public void ResetEquipmentSlot()
+    {
+        currentSelectedEquipmentSlot = 0;
     }
 
     public void UnequipSelectedEquip()
@@ -660,22 +670,6 @@ public class PlayerUIEquipmentManager : MonoBehaviour
 
         //refreshes screen
         RefreshMenu();
-    }
-
-    public void EnableEquipmentButtons()
-    {
-        foreach (Button button in equipmentSlotButtons)
-        {
-            button.interactable = true;
-        }
-    }
-
-    public void DisableEquipmentButtons()
-    {
-        foreach (Button button in equipmentSlotButtons)
-        {
-            button.interactable = false;
-        }
     }
 
 

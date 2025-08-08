@@ -2403,6 +2403,10 @@ MonoBehaviour:
     m_InternalValue: 1
   endurance:
     m_InternalValue: 1
+  remainingHealthFlasks:
+    m_InternalValue: 3
+  isChugging:
+    m_InternalValue: 0
   characterName:
     m_InternalValue:
       utf8LengthInBytes: 9
@@ -2516,7 +2520,8 @@ MonoBehaviour:
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
-  canSprint: 1
+  canRun: 1
+  canRoll: 1
   actionTimer: 0
   canTakeDmgAnimation: 1
   hasMultipleColliders: 0
@@ -2557,6 +2562,7 @@ MonoBehaviour:
   pendingCriticalDamage: 0
   currentWeaponBeingUsed: {fileID: 0}
   canComboWithMainHandWeapon: 0
+  isUsingItem: 0
 --- !u!114 &4131731659789441024
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2610,8 +2616,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentRightHandWeapon: {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   currentLeftHandWeapon: {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
+  currentQuickSlotItem: {fileID: 0}
   weaponsInRightHandSlots:
-  - {fileID: 11400000, guid: dac5ff37e5d2e8741acff698b080aca3, type: 2}
+  - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   rightHandWeaponIndex: -1
@@ -2620,8 +2627,15 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   leftHandWeaponIndex: -1
-  currentQuickSlotItem: {fileID: 0}
-  itemsInInventory: []
+  quickSlotItemsInQuickSlots:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  quickSlotItemIndex: 0
+  itemsInInventory:
+  - {fileID: 11400000, guid: dac5ff37e5d2e8741acff698b080aca3, type: 2}
+  - {fileID: 11400000, guid: 5c1c6d3df86f0ec4b882c89122b1d41e, type: 2}
+  - {fileID: 11400000, guid: fac5f02eb4349a94b865a0c92c6a79c6, type: 2}
 --- !u!114 &5740999402678442274
 MonoBehaviour:
   m_ObjectHideFlags: 0

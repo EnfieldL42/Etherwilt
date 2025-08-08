@@ -1,7 +1,8 @@
 using TMPro;
+using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.UI;
-using Unity.Netcode;
+using static UnityEditor.Progress;
 
 public class PlayerUIHudManager : MonoBehaviour
 {
@@ -155,6 +156,17 @@ public class PlayerUIHudManager : MonoBehaviour
             quickSlotItemCount.enabled = false;
         }
 
+    }
+
+    public void UpdateQuickSlotItemQuickSlotIcon()
+    {
+        PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
+        QuickSlotItem quickSlotItem = player.playerInventoryManager.currentQuickSlotItem;
+
+        if (quickSlotItem.isConsumable)
+        {
+            quickSlotItemCount.text = quickSlotItem.GetCurrentAmount(player).ToString();
+        }
     }
 
 }

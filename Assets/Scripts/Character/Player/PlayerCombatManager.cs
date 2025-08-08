@@ -5,6 +5,7 @@ using Unity.Netcode;
 public class PlayerCombatManager : CharacterCombatManager
 {
     PlayerManager player;
+    PlayerUIHudManager playerUIHudManager;
     public WeaponItem currentWeaponBeingUsed;
 
     [Header("Flags")]
@@ -186,6 +187,7 @@ public class PlayerCombatManager : CharacterCombatManager
         if(player.playerInventoryManager.currentQuickSlotItem != null)
         {
             player.playerInventoryManager.currentQuickSlotItem.SuccessfullyUseItem(player);
+            PlayerUIManager.instance.playerUIHudManager.UpdateQuickSlotItemQuickSlotIcon();
         }
     }
 }

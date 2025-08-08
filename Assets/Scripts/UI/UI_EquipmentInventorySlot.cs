@@ -244,6 +244,6 @@ public class UI_EquipmentInventorySlot : MonoBehaviour
                 break;
         }
 
-        //PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
+        PlayerUIManager.instance.playerUIEquipmentManager.SelectLastSelectedEquipmentSlot();
     }    
 }

@@ -30,6 +30,7 @@ public class ResetActionFlag : StateMachineBehaviour
         character.canRotate = true;
         character.canMove = true;
         character.canRoll = true;
+        character.canRun = true;
         character.characterLocomotionManager.isRolling = false;
         character.characterCombatManager.DisableCanDoCombo();
         character.characterCombatManager.DisableCanDoRollingAttack();
@@ -53,7 +54,6 @@ public class ResetActionFlag : StateMachineBehaviour
             character.characterNetworkManager.isAttacking.Value = false;
             character.characterNetworkManager.isRipostable.Value = false;
             character.characterNetworkManager.isBeingCriticallyDamaged.Value = false;
-            character.canRun = true;
 
         }
 

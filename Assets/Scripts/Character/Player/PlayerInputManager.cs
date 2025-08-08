@@ -1,10 +1,12 @@
 ﻿using System;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
+
 
 public class PlayerInputManager : MonoBehaviour
 {
@@ -146,6 +148,7 @@ public class PlayerInputManager : MonoBehaviour
 
             //UI inputs
             playerControls.PlayerMenu.CloseCharacterMenu.performed += i => closeMenuInput = true;
+            playerControls.PlayerActions.Dodge.performed += i => closeMenuInput = true;
             playerControls.PlayerMenu.OpenCharacterMenu.performed += i => openCharacterMenu = true;
         }
 
@@ -188,6 +191,7 @@ public class PlayerInputManager : MonoBehaviour
 
     }
 
+
     private void OnApplicationFocus(bool focus)//cant move player if tabbed out of the game
     {
         if (enabled)
@@ -224,7 +228,6 @@ public class PlayerInputManager : MonoBehaviour
 
 
 
-
     private void HandleAllInputs()
     {
         HandleCameraMovementInput();
@@ -252,7 +255,7 @@ public class PlayerInputManager : MonoBehaviour
         HandleInteractionInput();
 
         HandleOpenCharacterMenuInput();
-        HandeCloseUIInput();
+        HandleCloseUIInput();
     }
 
     private void HandlePlayerMovementInput()
@@ -290,6 +293,26 @@ public class PlayerInputManager : MonoBehaviour
         {
             player.playerNetworkManager.isMoving.Value = false;
 
+        }
+
+        if(!player.canRun)
+        {
+            if(moveAmount > 0.5)
+            {
+                moveAmount = 0.5f;
+            }
+            if(verticalInput > 0.5f)
+            {
+                verticalInput = 0.5f;
+            }
+            if (verticalInput < -0.5f)
+            {
+                verticalInput = -0.5f;
+            }
+            if (horizontalInput < -0.5f)
+            {
+                horizontalInput = -0.5f;
+            }
         }
 
 
@@ -390,11 +413,9 @@ public class PlayerInputManager : MonoBehaviour
             {
                 return;
             }
+
             //if ui window open, return without doing anything
-            if (PlayerUIManager.instance.menuWindowIsOpen)
-            {
-                return;
-            }
+
 
             //attempt to perform jump
             player.playerLocomotionManager.AttemptToPerformJump();
@@ -783,7 +804,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandleOpenCharacterMenuInput()
     {
-        if(openCharacterMenu)
+        if (openCharacterMenu)
         {
             openCharacterMenu = false;
             PlayerUIManager.instance.playerUIPopUpManager.CloseAllPopUpWindows();
@@ -792,19 +813,20 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-    private void HandeCloseUIInput()
+    private void HandleCloseUIInput()
     {
-        if(closeMenuInput)
+
+        if (closeMenuInput)
         {
             closeMenuInput = false;
 
-            if(PlayerUIManager.instance.menuWindowIsOpen)
+            if (PlayerUIManager.instance.menuWindowIsOpen)
             {
                 PlayerUIManager.instance.CloseAllMenuWindows();
             }
         }
-
     }
+
 
     private void OnDeviceChanged(InputControl control, InputEventPtr eventPtr)
     {

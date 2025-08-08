@@ -121,7 +121,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         moveDirection.Normalize();
         moveDirection.y = 0;
 
-        if (player.playerNetworkManager.isSprinting.Value && player.canRun)
+        if (player.playerNetworkManager.isSprinting.Value)
         {
             player.characterController.Move(moveDirection * sprintSpeed * Time.deltaTime);
 
@@ -134,12 +134,14 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
                 player.characterController.Move(moveDirection * runningSpeed * Time.deltaTime);
 
             }
-            else if (PlayerInputManager.instance.moveAmount <= 0.5f)
+            else /*if (PlayerInputManager.instance.moveAmount <= 0.5f)*/
             {
                 //move at walking speed
                 player.characterController.Move(moveDirection * walkingSpeed * Time.deltaTime);
 
             }
+
+
         }
 
 

@@ -2549,7 +2549,7 @@ AnimatorStateTransition:
     m_EventTreshold: 0
   - m_ConditionMode: 3
     m_ConditionEvent: InAirTimer
-    m_EventTreshold: 0.15
+    m_EventTreshold: 0.2
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7534198669126251439}
   m_Solo: 0
