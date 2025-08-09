@@ -60,6 +60,9 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
             FadeRigWeight(1f);
             secondBody.FadeRigWeight(1f);
         }
+
+        SyncBodyHealth();
+
     }
 
     // Set Damage Values
@@ -220,6 +223,19 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
         }
     }
 
+    public void SyncBodyHealth()
+    {
+        Unity.Netcode.NetworkVariable<int> thisBodyHP = GetComponentInParent<AIBossCharacterNetworkManager>().currentHealth;
+        Unity.Netcode.NetworkVariable<int> secondBodyHP = secondBody.GetComponentInParent<AIBossCharacterNetworkManager>().currentHealth;
 
+        if (thisBodyHP.Value > secondBodyHP.Value)
+        {
+            thisBodyHP.Value = secondBodyHP.Value;
+        }
+        else
+        {
+            return;
+        }
+    }
 
 }

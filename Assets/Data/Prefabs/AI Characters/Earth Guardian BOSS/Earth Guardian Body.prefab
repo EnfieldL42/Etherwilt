@@ -2664,6 +2664,8 @@ MonoBehaviour:
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
+  canRun: 1
+  canRoll: 1
   actionTimer: 0
   canTakeDmgAnimation: 1
   hasMultipleColliders: 1
@@ -2733,7 +2735,7 @@ MonoBehaviour:
   maximumFOV: 35
   attackRotationSpeed: 25
   maxStance: 150
-  currentStance: 0
+  currentStance: 150
   stanceRegeneratedPerSecond: 15
   ignoreStanceBreak: 0
   stanceRegenerationTimer: 0
@@ -2871,6 +2873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea83efdd6b614c443bed4e504b38225b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeQuickSlotItemFX: {fileID: 0}
   bloodSplatterVFX: {fileID: 0}
   criticalBloodSplatterVFX: {fileID: 0}
 --- !u!114 &7022329275977067824

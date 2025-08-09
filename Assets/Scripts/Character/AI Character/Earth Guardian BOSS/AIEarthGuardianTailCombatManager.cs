@@ -78,7 +78,8 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
         {
             FadeRigWeight(1f);
         }
-
+        SyncBodyHealth();
+        
     }
 
 
@@ -312,4 +313,20 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
         }
     }
 
+    public void SyncBodyHealth()
+    {
+        Unity.Netcode.NetworkVariable<int> thisBodyHP = GetComponentInParent<AIBossCharacterNetworkManager>().currentHealth;
+        Unity.Netcode.NetworkVariable<int> secondBodyHP = secondBody.GetComponentInParent<AIBossCharacterNetworkManager>().currentHealth;
+
+        if(thisBodyHP.Value > secondBodyHP.Value)
+        {
+            thisBodyHP.Value = secondBodyHP.Value;
+        }
+        else
+        {
+            return;
+        }
+    }
+
 }
+
