@@ -91,7 +91,7 @@ public class RenderTerrainMap : MonoBehaviour
         camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
         Shader.SetGlobalFloat("_OrthographicCamSizeTerrain", camToDrawWith.orthographicSize);
         Shader.SetGlobalVector("_OrthographicCamPosTerrain", camToDrawWith.transform.position);
-        camToDrawWith.Render();
+        camToDrawWith.Render(); //This is causing an error
         Shader.SetGlobalTexture(target, tempTex);
         camToDrawWith.enabled = false;
     }

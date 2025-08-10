@@ -226,7 +226,7 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
                 selectedWeapon = player.playerInventoryManager.weaponsInRightHandSlots[player.playerInventoryManager.rightHandWeaponIndex];
                 //assign network weapon ID
                 player.playerInventoryManager.currentRightHandWeapon = selectedWeapon;
-                player.playerNetworkManager.currentLeftHandWeaponID.Value = selectedWeapon.itemID;
+                player.playerNetworkManager.currentRightHandWeaponID.Value = selectedWeapon.itemID;
                 return;
             }
         }
