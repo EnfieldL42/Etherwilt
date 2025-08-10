@@ -1,7 +1,7 @@
 void MainLight_float(in float3 clipSpacePos, in float3 worldPos, out float intensity, out float3 color, out float3 shadows)
 {
     #ifdef SHADERGRAPH_PREVIEW
-        intensity = float3(0.5, 0.5, 0.5);
+        intensity = float(0.5);
         color = float3(0.5,0.5,0);
         shadows = float3(0.5,0.5,0);
     #else
