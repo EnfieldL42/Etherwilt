@@ -71,6 +71,7 @@ MonoBehaviour:
   damageCollider: {fileID: 3876909113641242767}
   physicalDamage: 0
   magicDamage: 0
+  poiseDamage: 0
   characterCausingDamage: {fileID: 0}
   light_Attack_01_Modifier: 0
   light_Attack_02_Modifier: 0
@@ -168,7 +169,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3510664957887934088}
-  m_Mesh: {fileID: -7071715105069546642, guid: 08aecb816b6b4194a9c2897afa4f9148, type: 3}
+  m_Mesh: {fileID: -7071715105069546642, guid: 4156d40017d3dbd43a37bcf0421bf120, type: 3}
 --- !u!23 &5673772178734002803
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -192,7 +193,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8350505722130589247, guid: 08aecb816b6b4194a9c2897afa4f9148, type: 3}
+  - {fileID: 2100000, guid: 7a606715b9e00ff47900b3608bb7d4e5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

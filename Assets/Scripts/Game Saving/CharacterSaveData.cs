@@ -43,11 +43,21 @@ public class CharacterSaveData
     //current weapons
     //public WeaponItem currentRightHandWeapon;
     //public WeaponItem currentLeftHandWeapon;
+
     //quicklots
-    public WeaponItem[] weaponsInRightHandSlots;
-    public WeaponItem[] weaponsInLeftHandSlots;
-    //public int rightHandWeaponIndex = 0;
-    //public int leftHandWeaponIndex = 0;
+    //public WeaponItem[] weaponsInRightHandSlots;
+    //public WeaponItem[] weaponsInLeftHandSlots;
+
+    public int rightHandWeaponIndex;
+    public SerializableWeapon rightWeapon01;
+    public SerializableWeapon rightWeapon02;
+    public SerializableWeapon rightWeapon03;
+
+    public int leftHandWeaponIndex;
+    public SerializableWeapon leftWeapon01;
+    public SerializableWeapon leftWeapon02;
+    public SerializableWeapon leftWeapon03;
+
     //inventory
     public List<Item> itemsInInventory;
 

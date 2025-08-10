@@ -21,6 +21,7 @@ public class ResetUpperbodyAction : StateMachineBehaviour
         }
 
         player.canRun = true;
+        player.canRoll = true;
         player.playerEquipmentManager.UnhideWeapons();
 
         if(player.playerEffectsManager.activeQuickSlotItemFX != null)

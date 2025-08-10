@@ -299,6 +299,15 @@ public class WorldSaveGameManager : MonoBehaviour
     {
         return worldSceneIndex;
     }
+    public SerializableWeapon GetSerializableWeaponFromWeaponItem(WeaponItem weapon)
+    {
+        SerializableWeapon serializedWeapon = new SerializableWeapon();
+
+        serializedWeapon.itemID = weapon.itemID;
+
+        return serializedWeapon;
+
+    }
 
 
 }

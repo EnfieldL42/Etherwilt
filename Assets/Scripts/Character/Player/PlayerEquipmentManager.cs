@@ -162,7 +162,7 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             return;
         }
 
-        if(!player.isGrounded)
+        if (!player.isGrounded)
         {
             return;
         }
@@ -205,11 +205,13 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             {
                 player.playerInventoryManager.rightHandWeaponIndex = -1;
                 selectedWeapon = WorldItemDatabase.instance.unarmedWeapon;
+                player.playerInventoryManager.currentRightHandWeapon = selectedWeapon;
                 player.playerNetworkManager.currentRightHandWeaponID.Value = selectedWeapon.itemID;
             }
             else
             {
                 player.playerInventoryManager.rightHandWeaponIndex = firstWeaponPosition;
+                player.playerInventoryManager.currentRightHandWeapon = selectedWeapon;
                 player.playerNetworkManager.currentRightHandWeaponID.Value = firstWeapon.itemID;
             }
 
@@ -223,8 +225,8 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             {
                 selectedWeapon = player.playerInventoryManager.weaponsInRightHandSlots[player.playerInventoryManager.rightHandWeaponIndex];
                 //assign network weapon ID
-
-                player.playerNetworkManager.currentRightHandWeaponID.Value = player.playerInventoryManager.weaponsInRightHandSlots[player.playerInventoryManager.rightHandWeaponIndex].itemID;
+                player.playerInventoryManager.currentRightHandWeapon = selectedWeapon;
+                player.playerNetworkManager.currentLeftHandWeaponID.Value = selectedWeapon.itemID;
                 return;
             }
         }
@@ -313,11 +315,13 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             {
                 player.playerInventoryManager.leftHandWeaponIndex = -1;
                 selectedWeapon = WorldItemDatabase.instance.unarmedWeapon;
+                player.playerInventoryManager.currentLeftHandWeapon = selectedWeapon;
                 player.playerNetworkManager.currentLeftHandWeaponID.Value = selectedWeapon.itemID;
             }
             else
             {
                 player.playerInventoryManager.leftHandWeaponIndex = firstWeaponPosition;
+                player.playerInventoryManager.currentLeftHandWeapon = selectedWeapon;
                 player.playerNetworkManager.currentLeftHandWeaponID.Value = firstWeapon.itemID;
             }
 
@@ -331,8 +335,8 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             {
                 selectedWeapon = player.playerInventoryManager.weaponsInLeftHandSlots[player.playerInventoryManager.leftHandWeaponIndex];
                 //assign network weapon ID
-
-                player.playerNetworkManager.currentLeftHandWeaponID.Value = player.playerInventoryManager.weaponsInLeftHandSlots[player.playerInventoryManager.leftHandWeaponIndex].itemID;
+                player.playerInventoryManager.currentLeftHandWeapon = selectedWeapon;
+                player.playerNetworkManager.currentLeftHandWeaponID.Value = selectedWeapon.itemID;
                 return;
             }
         }

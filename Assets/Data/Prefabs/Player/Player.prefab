@@ -2273,8 +2273,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4974591816155263218}
   - component: {fileID: 6801475419672444159}
-  - component: {fileID: 653157109798938807}
   - component: {fileID: 5602889298933114635}
+  - component: {fileID: -6316177190865085157}
   - component: {fileID: 8853657290969883488}
   - component: {fileID: 4131731659789441024}
   - component: {fileID: 1017866198720386970}
@@ -2341,7 +2341,54 @@ MonoBehaviour:
   AutoObjectParentSync: 1
   SyncOwnerTransformWhenParented: 1
   AllowOwnerToParent: 0
---- !u!114 &653157109798938807
+--- !u!114 &5602889298933114635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6996593062366450161}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e67ba73ab38f4f5438c3db182a6cdf54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShowTopMostFoldoutHeaderGroup: 1
+  isDead:
+    m_InternalValue: 0
+  characterController: {fileID: 0}
+  characterNetworkManager: {fileID: 0}
+  animator: {fileID: 0}
+  characterEffectsManager: {fileID: 0}
+  characterAnimatorManager: {fileID: 0}
+  characterCombatManager: {fileID: 0}
+  characterSoundFXManager: {fileID: 0}
+  characterLocomotionManager: {fileID: 0}
+  characterUIManager: {fileID: 0}
+  footIK: {fileID: 0}
+  characterStatsManager: {fileID: 0}
+  characterGroup: 0
+  isPerformingAction: 0
+  isGrounded: 1
+  applyRootMotion: 0
+  canRotate: 1
+  canMove: 1
+  canRun: 1
+  canRoll: 1
+  actionTimer: 0
+  canTakeDmgAnimation: 1
+  hasMultipleColliders: 0
+  respawnCharacter: 0
+  playerLocomotionManager: {fileID: 0}
+  playerAnimatorManager: {fileID: 0}
+  playerStatsManager: {fileID: 0}
+  playerNetworkManager: {fileID: 0}
+  playerInventoryManager: {fileID: 0}
+  playerEquipmentManager: {fileID: 0}
+  playerCombatManager: {fileID: 0}
+  playerInteractionManager: {fileID: 0}
+  playerEffectsManager: {fileID: 0}
+--- !u!114 &-6316177190865085157
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2488,53 +2535,6 @@ MonoBehaviour:
     m_InternalValue: 0
   currentQuickSlotItemID:
     m_InternalValue: 0
---- !u!114 &5602889298933114635
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6996593062366450161}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e67ba73ab38f4f5438c3db182a6cdf54, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ShowTopMostFoldoutHeaderGroup: 1
-  isDead:
-    m_InternalValue: 0
-  characterController: {fileID: 0}
-  characterNetworkManager: {fileID: 0}
-  animator: {fileID: 0}
-  characterEffectsManager: {fileID: 0}
-  characterAnimatorManager: {fileID: 0}
-  characterCombatManager: {fileID: 0}
-  characterSoundFXManager: {fileID: 0}
-  characterLocomotionManager: {fileID: 0}
-  characterUIManager: {fileID: 0}
-  footIK: {fileID: 0}
-  characterStatsManager: {fileID: 0}
-  characterGroup: 0
-  isPerformingAction: 0
-  isGrounded: 1
-  applyRootMotion: 0
-  canRotate: 1
-  canMove: 1
-  canRun: 1
-  canRoll: 1
-  actionTimer: 0
-  canTakeDmgAnimation: 1
-  hasMultipleColliders: 0
-  respawnCharacter: 0
-  playerLocomotionManager: {fileID: 0}
-  playerAnimatorManager: {fileID: 0}
-  playerStatsManager: {fileID: 0}
-  playerNetworkManager: {fileID: 0}
-  playerInventoryManager: {fileID: 0}
-  playerEquipmentManager: {fileID: 0}
-  playerCombatManager: {fileID: 0}
-  playerInteractionManager: {fileID: 0}
-  playerEffectsManager: {fileID: 0}
 --- !u!114 &8853657290969883488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2621,12 +2621,12 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
-  rightHandWeaponIndex: -1
+  rightHandWeaponIndex: 0
   weaponsInLeftHandSlots:
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
   - {fileID: 11400000, guid: 9b67209ef735ce744bb19c7e50c3f7b6, type: 2}
-  leftHandWeaponIndex: -1
+  leftHandWeaponIndex: 0
   quickSlotItemsInQuickSlots:
   - {fileID: 0}
   - {fileID: 0}
