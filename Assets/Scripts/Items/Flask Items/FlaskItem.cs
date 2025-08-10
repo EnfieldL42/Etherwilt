@@ -97,8 +97,9 @@ public class FlaskItem : QuickSlotItem
                 player.playerNetworkManager.currentHealth.Value += flaskRestoration;
                 player.playerNetworkManager.remainingHealthFlasks.Value -= 1;
             }
-
         }
+
+        PlayerUIManager.instance.playerUIHudManager.SetQuickSlotItemQuickSlotIcon(player.playerInventoryManager.currentQuickSlotItem);
 
         if (healthFlask && player.playerNetworkManager.currentHealth.Value <= 0)
         {

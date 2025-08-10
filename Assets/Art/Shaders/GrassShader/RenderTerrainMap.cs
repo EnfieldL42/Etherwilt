@@ -53,7 +53,8 @@ public class RenderTerrainMap : MonoBehaviour
         tempTex = new RenderTexture(resolution, resolution, 24);
         GetBounds();
         SetUpCam();
-        DrawDiffuseMap();
+
+        StartCoroutine(DelayedDraw());
     }
 
 
@@ -71,6 +72,12 @@ public class RenderTerrainMap : MonoBehaviour
             return;
         }
         UpdateTex();
+    }
+
+    IEnumerator DelayedDraw()
+    {
+        yield return null; // wait one frame
+        DrawDiffuseMap();
     }
 
     void UpdateTex()
@@ -95,6 +102,7 @@ public class RenderTerrainMap : MonoBehaviour
         Shader.SetGlobalTexture(target, tempTex);
         camToDrawWith.enabled = false;
     }
+
 
     void SetUpCam()
     {

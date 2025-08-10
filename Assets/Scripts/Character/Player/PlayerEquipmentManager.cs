@@ -432,4 +432,27 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             player.playerEquipmentManager.leftHandWeaponModel.SetActive(true);
         }
     }
+
+    //QUICK SLOT
+    public void LoadQuickSlotEquipment(QuickSlotItem equipment)
+    {
+        if (equipment == null)
+        {
+            if (player.IsOwner)
+            {
+                player.playerNetworkManager.currentQuickSlotItemID.Value = -1;
+            }
+
+            player.playerInventoryManager.currentQuickSlotItem = null;
+            return;
+        }
+
+        player.playerInventoryManager.currentQuickSlotItem = equipment;
+
+        if (player.IsOwner)
+        {
+            player.playerNetworkManager.currentQuickSlotItemID.Value = equipment.itemID;
+        }
+    }
+
 }

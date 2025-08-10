@@ -86,7 +86,34 @@ public class WorldItemDatabase : MonoBehaviour
         }
 
         return weapon;
+    }
+
+    public FlaskItem GetFlaskFromSerializedData(FlaskItem serializableFlask)
+    {
+        FlaskItem flask = null;
+
+        if (GetQuickSlotItemByID(serializableFlask.itemID))
+        {
+            flask = Instantiate(GetQuickSlotItemByID(serializableFlask.itemID)) as FlaskItem;
+        }
+
+        return flask;
+    }
+
+    public QuickSlotItem GetQuickSlotItemFromSerializedData(SerializableQuickSlotItem serializableQuickSlotItem)
+    {
+        QuickSlotItem quickSlotItem = null;
+
+        if(GetQuickSlotItemByID(serializableQuickSlotItem.itemID))
+        {
+            quickSlotItem = Instantiate(GetQuickSlotItemByID(serializableQuickSlotItem.itemID));
+            quickSlotItem.itemAmount = serializableQuickSlotItem.itemAmount;
+        }
+
+        return quickSlotItem;
 
     }
+
+
 
 }

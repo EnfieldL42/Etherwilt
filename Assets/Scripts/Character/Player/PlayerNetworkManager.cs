@@ -125,7 +125,7 @@ public class PlayerNetworkManager : CharacterNetworkManager
 
         if (player.IsOwner)
         {
-            PlayerUIManager.instance.playerUIHudManager.SetQuickSlotItemQuickSlotIcon(newID);
+            PlayerUIManager.instance.playerUIHudManager.SetQuickSlotItemQuickSlotIcon(player.playerInventoryManager.currentQuickSlotItem);
         }
     }
 

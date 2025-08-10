@@ -299,6 +299,8 @@ public class WorldSaveGameManager : MonoBehaviour
     {
         return worldSceneIndex;
     }
+
+
     public SerializableWeapon GetSerializableWeaponFromWeaponItem(WeaponItem weapon)
     {
         SerializableWeapon serializedWeapon = new SerializableWeapon();
@@ -306,6 +308,34 @@ public class WorldSaveGameManager : MonoBehaviour
         serializedWeapon.itemID = weapon.itemID;
 
         return serializedWeapon;
+
+    }
+
+    //public FlaskItem GetSerializableFlaskFromFlaskItem(FlaskItem flask)
+    //{
+    //    serializableFlask serializedWeapon = new SerializableWeapon();
+
+    //    serializedWeapon.itemID = weapon.itemID;
+
+    //    return serializedWeapon;
+
+    //}
+
+    public SerializableQuickSlotItem GetSerializableQuickSlotItemFromQuickSlotItem(QuickSlotItem quickSlotItem)
+    {
+        SerializableQuickSlotItem serializedQuickSlotItem = new SerializableQuickSlotItem();
+
+        if (quickSlotItem != null)
+        {
+            serializedQuickSlotItem.itemID = quickSlotItem.itemID;
+            serializedQuickSlotItem.itemAmount = quickSlotItem.itemAmount;
+        }
+        else
+        {
+            serializedQuickSlotItem.itemID = -1;
+        }
+
+        return serializedQuickSlotItem;
 
     }
 
