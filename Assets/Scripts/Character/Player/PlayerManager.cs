@@ -332,7 +332,7 @@ public class PlayerManager : CharacterManager
         playerInventoryManager.quickSlotItemIndex = currentCharacterData.quickSlotIndex; 
         playerInventoryManager.quickSlotItemsInQuickSlots[0] = currentCharacterData.quickSlotItem01.GetQuickSlotItem();
         playerInventoryManager.quickSlotItemsInQuickSlots[1] = currentCharacterData.quickSlotItem02.GetQuickSlotItem();
-        playerInventoryManager.quickSlotItemsInQuickSlots[2] = currentCharacterData.quickSlotItem02.GetQuickSlotItem();
+        playerInventoryManager.quickSlotItemsInQuickSlots[2] = currentCharacterData.quickSlotItem03.GetQuickSlotItem();
         playerEquipmentManager.LoadQuickSlotEquipment(playerInventoryManager.quickSlotItemsInQuickSlots[playerInventoryManager.quickSlotItemIndex]); //refreshes the hud
 
 
