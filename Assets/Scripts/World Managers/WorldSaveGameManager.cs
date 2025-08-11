@@ -69,6 +69,52 @@ public class WorldSaveGameManager : MonoBehaviour
         }
     }
 
+    public bool HasFreeCharacterSlot()
+    {
+        saveFileDataWriter = new SaveFileDataWriter();
+        saveFileDataWriter.saveDataDataDirectoryPath = Application.persistentDataPath;
+
+
+        //check if we can create a new save file
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_01);
+
+        if (!saveFileDataWriter.CheckToSeeIfFileExists())
+        {
+            return true;
+        }
+
+        //check if we can create a new save file
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_02);
+
+        if (!saveFileDataWriter.CheckToSeeIfFileExists())
+        {
+            return true;
+        }
+
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_03);
+
+        if (!saveFileDataWriter.CheckToSeeIfFileExists())
+        {
+            return true;
+        }
+
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_04);
+
+        if (!saveFileDataWriter.CheckToSeeIfFileExists())
+        {
+            return true;
+        }
+
+        saveFileDataWriter.saveFileName = DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot.CharacterSlot_05);
+
+        if (!saveFileDataWriter.CheckToSeeIfFileExists())
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     public string DecideCharacterFileNameBasedOnCharacterSlotBeingUsed(CharacterSlot characterSlot)
     {
         string fileName = "";
