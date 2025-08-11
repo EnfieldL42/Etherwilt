@@ -3,12 +3,14 @@ using Unity.Netcode;
 using UnityEngine.UI;
 using JetBrains.Annotations;
 using System.Xml.Serialization;
+using TMPro;
+
 public class TitleScreenManager : MonoBehaviour
 {
     public static TitleScreenManager instance;
 
     [Header("Main Menu Menus")]
-    [SerializeField] GameObject titleScreenMainMeu;
+    [SerializeField] GameObject titleScreenMainMenu;
     [SerializeField] GameObject titleScreenLoadMeu;
     [SerializeField] GameObject titleScreenCharacterCreationMenu;
 
@@ -31,13 +33,18 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] Button characterNameButton;
     [SerializeField] Button characterClassButton;
     [SerializeField] Button startGameButton;
+    [SerializeField] TextMeshProUGUI characterNameText;
+    [SerializeField] TextMeshProUGUI characterClassText;
+
 
     [Header("Character Creation Class Panel Buttons")]
     [SerializeField] Button[] characterClassButtons;
 
 
-    [Header("Character Creation Secondary Panel Buttons")]
+    [Header("Character Creation Secondary Panel Menus")]
     [SerializeField] GameObject characterClassMenu;
+    [SerializeField] GameObject characterNameMenu;
+    [SerializeField] TMP_InputField characterNameInputField;
 
 
     [Header("Classes")]
@@ -80,7 +87,7 @@ public class TitleScreenManager : MonoBehaviour
 
     public void OpenLoadGameMenu()
     {
-        titleScreenMainMeu.SetActive(false);//cloase main
+        titleScreenMainMenu.SetActive(false);//cloase main
 
         titleScreenLoadMeu.SetActive(true);//open load
 
@@ -92,20 +99,32 @@ public class TitleScreenManager : MonoBehaviour
 
         titleScreenLoadMeu.SetActive(false);//open load
 
-        titleScreenMainMeu.SetActive(true);//cloase main
+        titleScreenMainMenu.SetActive(true);//cloase main
 
 
         mainMenuLoadGameButton.Select();//select the load button
     }
 
+    public void OpenTitleScreenMainMenu()
+    {
+        titleScreenMainMenu.SetActive(true);
+    }
+
+    public void CloseTitleScreenMainMenu()
+    {
+        titleScreenMainMenu.SetActive(false);
+    }
+
     public void OpenCharacterCreationMenu()
     {
+        CloseTitleScreenMainMenu();
         titleScreenCharacterCreationMenu.SetActive(true);
     }
 
     public void CloseCharacterCreationMenu()
     {
         titleScreenCharacterCreationMenu.SetActive(false);
+        OpenTitleScreenMainMenu();
     }
 
     public void OpenChooseCharacterClassSubMenu()
@@ -131,6 +150,31 @@ public class TitleScreenManager : MonoBehaviour
         characterClassMenu.SetActive(false);
         characterClassButton.Select();
         characterClassButton.OnSelect(null);
+    }
+
+    public void OpenChooseCharacterNameSubMenu()
+    {
+        PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
+        ToggleCharacterCreationScreenMainMenuButtons(false);
+
+        characterNameButton.gameObject.SetActive(false);
+        characterNameMenu.SetActive(true);
+        characterNameInputField.Select();
+    }
+
+    public void CloseChooseCharacterNameSubMenu()
+    {
+        PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
+        ToggleCharacterCreationScreenMainMenuButtons(true);
+
+
+        characterNameButton.gameObject.SetActive(true);
+        characterNameMenu.SetActive(false);
+
+        characterNameButton.Select();
+
+        player.playerNetworkManager.characterName.Value = characterNameInputField.text;
+        characterNameText.text = characterNameInputField.text;
     }
 
     private void ToggleCharacterCreationScreenMainMenuButtons(bool status)
@@ -203,6 +247,7 @@ public class TitleScreenManager : MonoBehaviour
         }
 
         startingClasses[classID].SetClass(player);
+        characterClassText.text = startingClasses[classID].className.ToString();
         CloseChooseCharacterClassSubMenu();
     }
 
