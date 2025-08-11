@@ -335,6 +335,8 @@ public class PlayerManager : CharacterManager
         playerInventoryManager.quickSlotItemsInQuickSlots[2] = currentCharacterData.quickSlotItem03.GetQuickSlotItem();
         playerEquipmentManager.LoadQuickSlotEquipment(playerInventoryManager.quickSlotItemsInQuickSlots[playerInventoryManager.quickSlotItemIndex]); //refreshes the hud
 
+        playerInventoryManager.itemsInInventory.Clear();
+
 
         if (currentCharacterData.rightHandWeaponIndex >= 0)
         {
