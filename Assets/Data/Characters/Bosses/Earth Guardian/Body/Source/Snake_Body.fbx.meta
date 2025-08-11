@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: d29efa50f51c10048a29b1f6ef606913
+guid: 4831d22f45529a847a8facb11d20fd9a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -8,7 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material
-    second: {fileID: 2100000, guid: a83c94d2aa4bff748aa62eb94fd323bc, type: 2}
+    second: {fileID: 2100000, guid: dd3db1ecb3af7874e8ccf7fee11126d5, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.001
+    second: {fileID: 2100000, guid: dd3db1ecb3af7874e8ccf7fee11126d5, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -51,7 +56,7 @@ ModelImporter:
       loopBlend: 0
       loopBlendOrientation: 0
       loopBlendPositionY: 1
-      loopBlendPositionXZ: 0
+      loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 1
       keepOriginalPositionXZ: 0
@@ -65,94 +70,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|02 - STAB_LIGHT
-      takeName: Armature|02 - STAB_LIGHT
-      internalID: 24139127588753115
-      firstFrame: 0
-      lastFrame: 158
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 0
-        functionName: EnableCanRotate
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
-        functionName: FadeRigWeight
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
-        functionName: SetAttackStabDamage
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.3846154
-        functionName: DisableCanRotate
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.40149286
-        functionName: OpenStabDamageColliders
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.4969325
-        functionName: CloseStabDamageColliders
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.67743105
-        functionName: FadeRigWeight
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 1
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
-        functionName: ResetAttackHashSet
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature|03 - STAB_HEAVY
-      takeName: Armature|03 - STAB_HEAVY
-      internalID: -6208301997504334944
+      name: Armature|02 - BITE_L
+      takeName: Armature|02 - BITE_L
+      internalID: 2200059816912744371
       firstFrame: 0
       lastFrame: 298
       wrapMode: 0
@@ -175,7 +95,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: SetAttackStabHeavyDamage
+        functionName: SetBiteDamage
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -202,35 +122,28 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.37846154
+      - time: 0.31692308
         functionName: DisableCanRotate
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.44507083
-        functionName: OpenStabDamageColliders
+      - time: 0.3632353
+        functionName: OpenBiteDamageCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.4648224
-        functionName: CloseStabDamageColliders
+      - time: 0.43392208
+        functionName: CloseBiteDamageCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.6861538
-        functionName: ActivateAOEEffect
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.72129434
+      - time: 0.82122856
         functionName: FadeRigWeight
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -242,11 +155,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|04 - SWING_R
-      takeName: Armature|04 - SWING_R
-      internalID: -4526810812874963929
+      name: Armature|03 - BITE_R
+      takeName: Armature|03 - BITE_R
+      internalID: 9050361685778455270
       firstFrame: 0
-      lastFrame: 238
+      lastFrame: 298
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -267,14 +180,14 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: SetAttackSwingDamage
+        functionName: FadeRigWeight
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0
-        functionName: FadeRigWeight
+        functionName: SetBiteDamage
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -284,24 +197,38 @@ ModelImporter:
         functionName: ResetAttackHashSet
         data: 
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 1
+        floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.27198362
-        functionName: OpenSlamDamageColliders
+      - time: 0
+        functionName: EnableCanRotate
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.396728
-        functionName: CloseSlamDamageColliders
+      - time: 0.31692308
+        functionName: DisableCanRotate
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.79368114
+      - time: 0.3632353
+        functionName: OpenBiteDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.43392208
+        functionName: CloseBiteDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.80448216
         functionName: FadeRigWeight
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -313,11 +240,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|05 - SWING_L
-      takeName: Armature|05 - SWING_L
-      internalID: 2813586348985253049
+      name: Armature|04 - SWIPE_L
+      takeName: Armature|04 - SWIPE_L
+      internalID: -6964233202982678699
       firstFrame: 0
-      lastFrame: 238
+      lastFrame: 298
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -338,19 +265,76 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: SetAttackSwingDamage
+        functionName: ResetAttackHashSet
         data: 
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
+        floatParameter: 1
         intParameter: 0
         messageOptions: 0
       - time: 0
-        functionName: FadeRigWeight
+        functionName: SetSwipeDamage
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.43970585
+        functionName: OpenSlamSwipeDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.43970585
+        functionName: TurnOnCollidersOnTriggers
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5838235
+        functionName: CloseSlamSwipeDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.82983875
+        functionName: FadeRigWeight
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
+        intParameter: 0
+        messageOptions: 0
+      transformMask: []
+      maskType: 3
+      maskSource: {instanceID: 0}
+      additiveReferencePoseFrame: 0
+    - serializedVersion: 16
+      name: Armature|05 - SWIPE_R
+      takeName: Armature|05 - SWIPE_R
+      internalID: -1584574811020290730
+      firstFrame: 0
+      lastFrame: 298
+      wrapMode: 0
+      orientationOffsetY: 0
+      level: 0
+      cycleOffset: 0
+      loop: 0
+      hasAdditiveReferencePose: 0
+      loopTime: 0
+      loopBlend: 0
+      loopBlendOrientation: 0
+      loopBlendPositionY: 0
+      loopBlendPositionXZ: 0
+      keepOriginalOrientation: 0
+      keepOriginalPositionY: 1
+      keepOriginalPositionXZ: 0
+      heightFromFeet: 0
+      mirror: 0
+      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
+      curves: []
+      events:
       - time: 0
         functionName: ResetAttackHashSet
         data: 
@@ -358,21 +342,35 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.27198362
-        functionName: OpenSlamDamageColliders
+      - time: 0
+        functionName: SetSwipeDamage
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.396728
-        functionName: CloseSlamDamageColliders
+      - time: 0.43970585
+        functionName: OpenSlamSwipeDamageCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.8295663
+      - time: 0.43970585
+        functionName: TurnOnCollidersOnTriggers
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.5838235
+        functionName: CloseSlamSwipeDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8154847
         functionName: FadeRigWeight
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -388,7 +386,7 @@ ModelImporter:
       takeName: Armature|06 - SLAM
       internalID: 926154679768348053
       firstFrame: 0
-      lastFrame: 278
+      lastFrame: 209
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -409,7 +407,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: SetAttackSlamDamage
+        functionName: SetSlamDamage
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -417,27 +415,6 @@ ModelImporter:
         messageOptions: 0
       - time: 0
         functionName: FadeRigWeight
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.398773
-        functionName: OpenSlamDamageColliders
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.49284256
-        functionName: CloseSlamDamageColliders
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.49284256
-        functionName: TurnOffCollidersOnTriggers
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -450,13 +427,34 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.37538463
+      - time: 0.58773464
         functionName: DisableCanRotate
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.73088235
+        functionName: OpenSlamSwipeDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.73088235
+        functionName: TurnOffCollidersOnTriggers
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.8132353
+        functionName: CloseSlamSwipeDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0
         functionName: ResetAttackHashSet
         data: 
@@ -469,153 +467,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|07 - SWIPE_R
-      takeName: Armature|07 - SWIPE_R
-      internalID: 1976525682528551409
+      name: Armature|07 - BURROW
+      takeName: Armature|07 - BURROW
+      internalID: 598807024584710277
       firstFrame: 0
-      lastFrame: 198
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 0
-        functionName: ResetAttackHashSet
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
-        functionName: SetAttackSwipeDamage
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.21063395
-        functionName: TurnOnCollidersOnTriggers
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.21063395
-        functionName: OpenSlamDamageColliders
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.46830264
-        functionName: CloseSlamDamageColliders
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.7463845
-        functionName: FadeRigWeight
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 1
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature|08 - SWIPE_L
-      takeName: Armature|08 - SWIPE_L
-      internalID: -7168931527409736379
-      firstFrame: 0
-      lastFrame: 198
-      wrapMode: 0
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events:
-      - time: 0
-        functionName: ResetAttackHashSet
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0
-        functionName: SetAttackSwipeDamage
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.21063395
-        functionName: TurnOnCollidersOnTriggers
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.21063395
-        functionName: OpenSlamDamageColliders
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.46830264
-        functionName: CloseSlamDamageColliders
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.6792325
-        functionName: FadeRigWeight
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 1
-        intParameter: 0
-        messageOptions: 0
-      transformMask: []
-      maskType: 3
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
-    - serializedVersion: 16
-      name: Armature|09 - RETURN
-      takeName: Armature|09 - RETURN
-      internalID: -4872400218792442864
-      firstFrame: 0
-      lastFrame: 178
+      lastFrame: 239
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -647,11 +503,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|10 - EMERGE
-      takeName: Armature|10 - EMERGE
-      internalID: -7099545047508116551
+      name: Armature|08 - EMERGE
+      takeName: Armature|08 - EMERGE
+      internalID: -5229124880761166240
       firstFrame: 0
-      lastFrame: 178
+      lastFrame: 239
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -671,7 +527,7 @@ ModelImporter:
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
       events:
-      - time: 0.9521531
+      - time: 0.91626793
         functionName: FadeRigWeight
         data: 
         objectReferenceParameter: {instanceID: 0}
@@ -683,9 +539,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|11 - MOVE
-      takeName: Armature|11 - MOVE
-      internalID: -2997251237625275877
+      name: Armature|09 - MOVE
+      takeName: Armature|09 - MOVE
+      internalID: -2873016031078020798
       firstFrame: 0
       lastFrame: 239
       wrapMode: 0
@@ -712,11 +568,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|12 - POISE_BREAK
-      takeName: Armature|12 - POISE_BREAK
-      internalID: 241997220914401560
+      name: Armature|10 - POISE_BREAK
+      takeName: Armature|10 - POISE_BREAK
+      internalID: -8034848262914834118
       firstFrame: 0
-      lastFrame: 174
+      lastFrame: 149
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -741,11 +597,11 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|12 - POISE_BREAK_IDLE
-      takeName: Armature|12 - POISE_BREAK_IDLE
-      internalID: 2216884567338409968
+      name: Armature|11- POISE_BREAK_IDLE
+      takeName: Armature|11- POISE_BREAK_IDLE
+      internalID: 2873576111120203719
       firstFrame: 0
-      lastFrame: 119
+      lastFrame: 79
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -770,9 +626,9 @@ ModelImporter:
       maskSource: {instanceID: 0}
       additiveReferencePoseFrame: 0
     - serializedVersion: 16
-      name: Armature|13 - DEATH
-      takeName: Armature|13 - DEATH
-      internalID: 7319082470892697431
+      name: Armature|12 - DEATH
+      takeName: Armature|12 - DEATH
+      internalID: -2941229691848360590
       firstFrame: 0
       lastFrame: 299
       wrapMode: 0
@@ -857,7 +713,7 @@ ModelImporter:
     legStretch: 0.05
     feetSpacing: 0
     globalScale: 1
-    rootMotionBoneName: Root
+    rootMotionBoneName: root
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1

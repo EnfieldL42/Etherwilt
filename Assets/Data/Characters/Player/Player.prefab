@@ -2450,6 +2450,10 @@ MonoBehaviour:
     m_InternalValue: 1
   endurance:
     m_InternalValue: 1
+  strength:
+    m_InternalValue: 1
+  dexterity:
+    m_InternalValue: 1
   remainingHealthFlasks:
     m_InternalValue: 3
   isChugging:

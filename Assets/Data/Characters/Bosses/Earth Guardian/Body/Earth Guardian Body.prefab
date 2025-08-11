@@ -1862,7 +1862,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a83c94d2aa4bff748aa62eb94fd323bc, type: 2}
+  - {fileID: 2100000, guid: dd3db1ecb3af7874e8ccf7fee11126d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2632,6 +2632,10 @@ MonoBehaviour:
     m_InternalValue: 1
   endurance:
     m_InternalValue: 1
+  strength:
+    m_InternalValue: 1
+  dexterity:
+    m_InternalValue: 1
 --- !u!114 &-3136992118666280910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3164,7 +3168,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a83c94d2aa4bff748aa62eb94fd323bc, type: 2}
+  - {fileID: 2100000, guid: dd3db1ecb3af7874e8ccf7fee11126d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4651,7 +4655,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a83c94d2aa4bff748aa62eb94fd323bc, type: 2}
+  - {fileID: 2100000, guid: dd3db1ecb3af7874e8ccf7fee11126d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
