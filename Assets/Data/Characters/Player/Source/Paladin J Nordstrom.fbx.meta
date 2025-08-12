@@ -8,7 +8,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Paladin_MAT
-    second: {fileID: 2100000, guid: 970269e872619e04e83b3570df464568, type: 2}
+    second: {fileID: 2100000, guid: e5823b2c23186d14f83118f2f7777ff4, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
