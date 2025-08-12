@@ -89,6 +89,7 @@ public class PlayerManager : CharacterManager
             PlayerInputManager.instance.player = this;
             PlayerCamera.instance.player = this;
             WorldSaveGameManager.instance.player = this;
+            PlayerUIManager.instance.localPlayer = this;
 
             //update health and stamina when vitality/endurance stats changes
             playerNetworkManager.vitality.OnValueChanged += playerNetworkManager.SetNewMaxHealthValue;

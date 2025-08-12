@@ -87,6 +87,7 @@ public class BonefireInteractable : Interactable
         WorldSaveGameManager.instance.currentCharacterData.bonfires.Add(bonefireID, true);
 
         player.playerAnimatorManager.PlayTargetActionAnimation("Activate_Bonfire_01", true);
+        player.playerNetworkManager.HideWeaponServerRpc();
 
         //hide weapon models
 

@@ -6,6 +6,8 @@ public class CharacterStatsManager : MonoBehaviour
 {
     CharacterManager character;
 
+    [Header("Ether")]
+    public int etherDroppedOnDeath = 50;
 
     [Header("StaminaRegenation")]
     [SerializeField] float staminaRegenerationAmount = 2;

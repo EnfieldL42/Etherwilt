@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using Unity.Netcode;
 using UnityEngine;
@@ -11,6 +12,13 @@ public class PlayerUIHudManager : MonoBehaviour
     [Header("Stat Bars")]
     [SerializeField] UI_StatBar healthBar;
     [SerializeField] UI_StatBar staminaBar;
+
+    [Header("Ether")]
+    [SerializeField] float etherUpdateCountDelayTimer = 2.5f;
+    private int pendingEtherToAdd;
+    private Coroutine waitThenAddEtherCoroutines;
+    [SerializeField] TextMeshProUGUI etherToAddText;
+    [SerializeField] TextMeshProUGUI etherCountText;
 
     [Header("Quick Slots")]
     [SerializeField] Image rightWeaponQuickSlotIcon;
@@ -47,6 +55,49 @@ public class PlayerUIHudManager : MonoBehaviour
         healthBar.gameObject.SetActive(true);
         staminaBar.gameObject.SetActive(false);
         staminaBar.gameObject.SetActive(true);
+    }
+
+    public void SetEtherCount(int etherToAdd)
+    {
+        pendingEtherToAdd += etherToAdd; 
+
+        //wait for potentially more ether then add them all
+        if (waitThenAddEtherCoroutines != null)
+        {
+            StopCoroutine(waitThenAddEtherCoroutines);
+        }
+
+        waitThenAddEtherCoroutines = StartCoroutine(WaitThenUpdateEtherCount());
+    }
+
+    public IEnumerator WaitThenUpdateEtherCount()
+    {
+        //wait for timer in case more ether are queued up
+        float timer = etherUpdateCountDelayTimer;
+        int etherToAdd = pendingEtherToAdd;
+        etherToAddText.text = "+ " + etherToAdd.ToString();
+        etherToAddText.enabled = true;
+
+        while (timer > 0)
+        {
+            timer -= Time.deltaTime;
+
+            //if more ether are queued up, re update total new ether count
+            if (etherToAdd != pendingEtherToAdd)
+            {
+                etherToAdd = pendingEtherToAdd;
+                etherToAddText.text = etherToAdd.ToString();
+            }
+
+            yield return null;
+        }
+
+        //update ether count, reset pending ether and hide pending ether
+        etherToAddText.enabled = false;
+        pendingEtherToAdd = 0;
+        etherCountText.text = PlayerUIManager.instance.localPlayer.playerStatsManager.ether.ToString();
+
+        yield return null;
     }
 
     public void SetNewHealthValue(int oldValue, int newValue)
@@ -145,8 +196,7 @@ public class PlayerUIHudManager : MonoBehaviour
 
         if (quickSlotItem.isConsumable)
         {
-            PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
-            quickSlotItemCount.text = quickSlotItem.GetCurrentAmount(player).ToString();
+            quickSlotItemCount.text = quickSlotItem.GetCurrentAmount(PlayerUIManager.instance.localPlayer).ToString();
             quickSlotItemCount.enabled = true;
         }
         else

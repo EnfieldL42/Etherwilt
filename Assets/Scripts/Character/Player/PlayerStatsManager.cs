@@ -4,6 +4,9 @@ public class PlayerStatsManager : CharacterStatsManager
 {
     PlayerManager player;
 
+    [Header("Runes")]
+    public int ether = 0;
+
     protected override void Awake()
     {
         base.Awake();
@@ -19,5 +22,11 @@ public class PlayerStatsManager : CharacterStatsManager
         CalculateHealthBasedOnLevel(player.playerNetworkManager.vitality.Value);
         CalculateStaminaBasedOnLevel(player.playerNetworkManager.endurance.Value);
 
+    }
+
+    public void AddEther(int etherToAdd)
+    {
+        ether += etherToAdd;
+        PlayerUIManager.instance.playerUIHudManager.SetEtherCount(etherToAdd);
     }
 }

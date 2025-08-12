@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Netcode;
 
 public class AICharacterCombatManager : CharacterCombatManager
 {
@@ -47,6 +48,16 @@ public class AICharacterCombatManager : CharacterCombatManager
     private void FixedUpdate()
     {
         HandleStanceBreak();
+    }
+
+    public void AwardEtherOnDeath(PlayerManager player)
+    {
+        if (player.characterGroup == CharacterGroup.Team02)
+        {
+            return;
+        }
+
+        player.playerStatsManager.AddEther(aiCharacter.characterStatsManager.etherDroppedOnDeath);
     }
 
     private void HandleStanceBreak()

@@ -559,7 +559,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""5829a684-2bdb-4d8e-bbdf-b3c7d09b393d"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard Controls"",
@@ -603,7 +603,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""827d6288-f302-4d2d-9b79-7139c71efba7"",
-                    ""path"": ""<Keyboard>/q"",
+                    ""path"": ""<Keyboard>/r"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard Controls"",
