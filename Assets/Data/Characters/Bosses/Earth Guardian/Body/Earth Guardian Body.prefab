@@ -2724,7 +2724,8 @@ MonoBehaviour:
   hasChangedTarget:
     m_InternalValue: 0
   currentAttackType: 0
-  lockOnTransform: {fileID: 6053254177834945684}
+  lockOnTransform:
+  - {fileID: 6053254177834945684}
   canPerformRollingAttack: 0
   canPerformBackstepAttack: 0
   canBlock: 1
@@ -2854,6 +2855,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72108ae89361afc42a5856dc54c9a134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  etherDroppedOnDeath: 50
   staminaRegenerationAmount: 2
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2

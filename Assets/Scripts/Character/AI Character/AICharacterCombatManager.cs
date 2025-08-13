@@ -41,8 +41,9 @@ public class AICharacterCombatManager : CharacterCombatManager
     {  
         base.Awake();
 
-        aiCharacter = GetComponent<AICharacterManager>();      
+        aiCharacter = GetComponent<AICharacterManager>();
         lockOnTransform = GetComponentInChildren<LockOnTrasform>().transform;
+
     }
 
     private void FixedUpdate()

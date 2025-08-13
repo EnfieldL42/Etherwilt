@@ -1,29 +1,34 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PlayerUITeleportLocationManager : MonoBehaviour
+public class PlayerUITeleportLocationManager : PlayerUIMenu
 {
-    [Header("Menu")]
-    [SerializeField] GameObject menu;
-
+    [Header("Teleport Locations")]
     [SerializeField] GameObject[] teleportLocations;
 
-    public void OpenTeleportLocationManagerMenu()
+    public override void OpenMenu()
     {
-        PlayerUIManager.instance.menuWindowIsOpen = true;
-        PlayerUIManager.instance.bonfireWindowIsOpen = true;
-
-        menu.SetActive(true);
+        base.OpenMenu();
 
         CheckForUnlockedTeleports();
     }
 
-    public void CloseTeleportLocationManagerMenu()
-    {
-        PlayerUIManager.instance.menuWindowIsOpen = false;
-        PlayerUIManager.instance.bonfireWindowIsOpen = false;
-        menu.SetActive(false);
-    }
+    //public void OpenTeleportLocationManagerMenu()
+    //{
+    //    PlayerUIManager.instance.menuWindowIsOpen = true;
+    //    PlayerUIManager.instance.bonfireWindowIsOpen = true;
+
+    //    menu.SetActive(true);
+
+    //    CheckForUnlockedTeleports();
+    //}
+
+    //public void CloseTeleportLocationManagerMenu()
+    //{
+    //    PlayerUIManager.instance.menuWindowIsOpen = false;
+    //    PlayerUIManager.instance.bonfireWindowIsOpen = false;
+    //    menu.SetActive(false);
+    //}
 
     public void CheckForUnlockedTeleports()
     {

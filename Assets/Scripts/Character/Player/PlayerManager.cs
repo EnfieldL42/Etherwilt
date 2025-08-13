@@ -92,7 +92,7 @@ public class PlayerManager : CharacterManager
             PlayerUIManager.instance.localPlayer = this;
 
             //update health and stamina when vitality/endurance stats changes
-            playerNetworkManager.vitality.OnValueChanged += playerNetworkManager.SetNewMaxHealthValue;
+            playerNetworkManager.health.OnValueChanged += playerNetworkManager.SetNewMaxHealthValue;
             playerNetworkManager.endurance.OnValueChanged += playerNetworkManager.SetNewMaxStaminaValue;
 
 
@@ -147,7 +147,7 @@ public class PlayerManager : CharacterManager
         if (IsOwner)
         {
             //update health and stamina when vitality/endurance stats changes
-            playerNetworkManager.vitality.OnValueChanged -= playerNetworkManager.SetNewMaxHealthValue;
+            playerNetworkManager.health.OnValueChanged -= playerNetworkManager.SetNewMaxHealthValue;
             playerNetworkManager.endurance.OnValueChanged -= playerNetworkManager.SetNewMaxStaminaValue;
 
 
@@ -248,8 +248,10 @@ public class PlayerManager : CharacterManager
         currentCharacterData.currentStamina = playerNetworkManager.currentStamina.Value;
 
         //Stats
-        currentCharacterData.vitality = playerNetworkManager.vitality.Value;
+        currentCharacterData.vitality = playerNetworkManager.health.Value;
         currentCharacterData.endurance = playerNetworkManager.endurance.Value;
+        currentCharacterData.strength = playerNetworkManager.strength.Value;
+        currentCharacterData.dexterity = playerNetworkManager.dexterity.Value;
 
         //Flasks
         currentCharacterData.remainingHealthFlasks = playerNetworkManager.remainingHealthFlasks.Value;
@@ -309,10 +311,12 @@ public class PlayerManager : CharacterManager
         Vector3 myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
         transform.position = myPosition;
 
-        playerNetworkManager.vitality.Value = currentCharacterData.vitality;
+        playerNetworkManager.health.Value = currentCharacterData.vitality;
         playerNetworkManager.endurance.Value = currentCharacterData.endurance;
+        playerNetworkManager.strength.Value = currentCharacterData.strength;
+        playerNetworkManager.dexterity.Value = currentCharacterData.dexterity;
 
-        playerNetworkManager.maxHealth.Value = playerStatsManager.CalculateHealthBasedOnLevel(playerNetworkManager.vitality.Value);
+        playerNetworkManager.maxHealth.Value = playerStatsManager.CalculateHealthBasedOnLevel(playerNetworkManager.health.Value);
         playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
         playerNetworkManager.currentHealth.Value = currentCharacterData.currentHealth;
         playerNetworkManager.currentStamina.Value = currentCharacterData.currentStamina;

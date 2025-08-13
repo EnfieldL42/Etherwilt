@@ -17,6 +17,7 @@ public class PlayerUIManager : MonoBehaviour
     [HideInInspector] public PlayerUIBonfireManager playerUIBonfireManager;
     [HideInInspector] public PlayerUITeleportLocationManager playerUITeleportLocationManager;
     [HideInInspector] public PlayerUILoadingScreenManager playerUILoadingScreenManager;
+    [HideInInspector] public PlayerUILevelUpManager playerUILevelUpManager;
 
     [Header("UI Flags")]
     public bool menuWindowIsOpen = false;
@@ -41,6 +42,7 @@ public class PlayerUIManager : MonoBehaviour
         playerUIBonfireManager = GetComponentInChildren<PlayerUIBonfireManager>();
         playerUITeleportLocationManager = GetComponentInChildren<PlayerUITeleportLocationManager>();
         playerUILoadingScreenManager = GetComponentInChildren<PlayerUILoadingScreenManager>();
+        playerUILevelUpManager = GetComponentInChildren<PlayerUILevelUpManager>();
     }
 
     private void Start()
@@ -72,15 +74,16 @@ public class PlayerUIManager : MonoBehaviour
 
     public void CloseAllMenuWindows()
     {
-        playerUICharacterMenuManager.CloseCharacterMenu();
-        playerUIEquipmentManager.CloseEquipmentManagerMenu();
+        playerUICharacterMenuManager.CloseMenuAfterFixedUpdate();
+        playerUIEquipmentManager.CloseMenuAfterFixedUpdate();
         CloseBonfireWindows();
     }
 
     public void CloseBonfireWindows()
     {
-        playerUIBonfireManager.CloseBonfireManagerMenu();
-        playerUITeleportLocationManager.CloseTeleportLocationManagerMenu();
+        playerUIBonfireManager.CloseMenuAfterFixedUpdate();
+        playerUITeleportLocationManager.CloseMenuAfterFixedUpdate();
+        playerUILevelUpManager.CloseMenuAfterFixedUpdate();
     }
 
 }

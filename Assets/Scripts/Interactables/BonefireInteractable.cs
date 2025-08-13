@@ -98,7 +98,7 @@ public class BonefireInteractable : Interactable
 
     private void RestAtBonfire(PlayerManager player)
     {
-        PlayerUIManager.instance.playerUIBonfireManager.OpenBonfireManagerMenu();
+        PlayerUIManager.instance.playerUIBonfireManager.OpenMenu();
 
         interactableCollider.enabled = true;//temporary so we can keep interacting with the bonfire for the meantime
         player.playerNetworkManager.currentHealth.Value = player.playerNetworkManager.maxHealth.Value; //temp code

@@ -295,6 +295,24 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Lock On Seek Up Target",
+                    "type": "Button",
+                    "id": "8362bd9b-66ec-4374-b529-d7a0873bf08a",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Lock On Seek Down Target",
+                    "type": "Button",
+                    "id": "df0cda08-9a9a-4926-a654-9f1d7edb308c",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Lock On Seek Target Mouse",
                     "type": "Value",
                     "id": "05f96936-ba8e-4142-9a54-834977936b68",
@@ -676,6 +694,28 @@
                     "processors": "",
                     "groups": ";Gamepad Controls",
                     "action": "Lock On Seek Right Target",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2909a343-9175-4cbf-aa5b-80f6efb62f6c",
+                    "path": "<Gamepad>/rightStick/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad Controls",
+                    "action": "Lock On Seek Up Target",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d0639b37-ecc2-4075-a446-78a36a64f450",
+                    "path": "<Gamepad>/rightStick/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Gamepad Controls",
+                    "action": "Lock On Seek Down Target",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

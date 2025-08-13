@@ -28,6 +28,8 @@ public class CharacterSaveData
     [Header("Stats")]
     public int vitality;
     public int endurance;
+    public int strength;
+    public int dexterity;
 
     [Header("Bonfires")]
     public SerializableDictionary<int, bool> bonfires; //int is the id of the bonfire, bool is whether it is activated or not

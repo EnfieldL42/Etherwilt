@@ -267,7 +267,7 @@ public class TitleScreenManager : MonoBehaviour
         WeaponItem[] mainHandWeapons, WeaponItem[] offHandWeapons, QuickSlotItem[] quickSlotItems)
     {
         //set stats
-        player.playerNetworkManager.vitality.Value = vitality;
+        player.playerNetworkManager.health.Value = vitality;
         player.playerNetworkManager.endurance.Value = endurance;
         player.playerNetworkManager.strength.Value = strength;
         player.playerNetworkManager.dexterity.Value = dexterity;

@@ -1,28 +1,30 @@
 using UnityEngine;
 
-public class PlayerUIBonfireManager : MonoBehaviour
+public class PlayerUIBonfireManager : PlayerUIMenu
 {
-    [Header("Menu")]
-    [SerializeField] GameObject menu;
+    //public override void OpenMenu()
+    //{
+    //    base.OpenMenu();
+    //    PlayerUIManager.instance.bonfireWindowIsOpen = true;
 
-    public void OpenBonfireManagerMenu()
-    {
-        PlayerUIManager.instance.menuWindowIsOpen = true;
-        PlayerUIManager.instance.bonfireWindowIsOpen = true;
+    //}
 
-        menu.SetActive(true);
-    }
+    //public override void CloseMenu()
+    //{
+    //    base.CloseMenu();
+    //    PlayerUIManager.instance.bonfireWindowIsOpen = false;
 
-    public void CloseBonfireManagerMenu()
-    {
-        PlayerUIManager.instance.menuWindowIsOpen = false;
-        PlayerUIManager.instance.bonfireWindowIsOpen = false;
-        menu.SetActive(false);
-    }
+    //}
 
     public void OpenTeleportLocationMenu()
     {
-        CloseBonfireManagerMenu();
-        PlayerUIManager.instance.playerUITeleportLocationManager.OpenTeleportLocationManagerMenu();
+        CloseMenu();
+        PlayerUIManager.instance.playerUITeleportLocationManager.OpenMenu();
+    }
+
+    public void OpenLevelUpMenu()
+    {
+        CloseMenu();
+        PlayerUIManager.instance.playerUILevelUpManager.OpenMenu();
     }
 }

@@ -16,6 +16,14 @@ public enum CharacterSlot
     NO_SLOT,
 }
 
+public enum CharacterAttribute
+{
+    Health,
+    Endurance,
+    Strength,
+    Dexterity,
+}
+
 public enum CharacterGroup
 {
     Team01,

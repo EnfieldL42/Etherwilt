@@ -381,6 +381,24 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
+                    ""name"": ""Lock On Seek Up Target"",
+                    ""type"": ""Button"",
+                    ""id"": ""8362bd9b-66ec-4374-b529-d7a0873bf08a"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Lock On Seek Down Target"",
+                    ""type"": ""Button"",
+                    ""id"": ""df0cda08-9a9a-4926-a654-9f1d7edb308c"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
                     ""name"": ""Lock On Seek Target Mouse"",
                     ""type"": ""Value"",
                     ""id"": ""05f96936-ba8e-4142-9a54-834977936b68"",
@@ -764,6 +782,28 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""action"": ""Lock On Seek Right Target"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""2909a343-9175-4cbf-aa5b-80f6efb62f6c"",
+                    ""path"": ""<Gamepad>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad Controls"",
+                    ""action"": ""Lock On Seek Up Target"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""d0639b37-ecc2-4075-a446-78a36a64f450"",
+                    ""path"": ""<Gamepad>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Gamepad Controls"",
+                    ""action"": ""Lock On Seek Down Target"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -1042,6 +1082,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         m_PlayerActions_LockOn = m_PlayerActions.FindAction("Lock On", throwIfNotFound: true);
         m_PlayerActions_LockOnSeekLeftTarget = m_PlayerActions.FindAction("Lock On Seek Left Target", throwIfNotFound: true);
         m_PlayerActions_LockOnSeekRightTarget = m_PlayerActions.FindAction("Lock On Seek Right Target", throwIfNotFound: true);
+        m_PlayerActions_LockOnSeekUpTarget = m_PlayerActions.FindAction("Lock On Seek Up Target", throwIfNotFound: true);
+        m_PlayerActions_LockOnSeekDownTarget = m_PlayerActions.FindAction("Lock On Seek Down Target", throwIfNotFound: true);
         m_PlayerActions_LockOnSeekTargetMouse = m_PlayerActions.FindAction("Lock On Seek Target Mouse", throwIfNotFound: true);
         // Player Camera
         m_PlayerCamera = asset.FindActionMap("Player Camera", throwIfNotFound: true);
@@ -1253,6 +1295,8 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_PlayerActions_LockOn;
     private readonly InputAction m_PlayerActions_LockOnSeekLeftTarget;
     private readonly InputAction m_PlayerActions_LockOnSeekRightTarget;
+    private readonly InputAction m_PlayerActions_LockOnSeekUpTarget;
+    private readonly InputAction m_PlayerActions_LockOnSeekDownTarget;
     private readonly InputAction m_PlayerActions_LockOnSeekTargetMouse;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player Actions".
@@ -1338,6 +1382,14 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @LockOnSeekRightTarget => m_Wrapper.m_PlayerActions_LockOnSeekRightTarget;
         /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/LockOnSeekUpTarget".
+        /// </summary>
+        public InputAction @LockOnSeekUpTarget => m_Wrapper.m_PlayerActions_LockOnSeekUpTarget;
+        /// <summary>
+        /// Provides access to the underlying input action "PlayerActions/LockOnSeekDownTarget".
+        /// </summary>
+        public InputAction @LockOnSeekDownTarget => m_Wrapper.m_PlayerActions_LockOnSeekDownTarget;
+        /// <summary>
         /// Provides access to the underlying input action "PlayerActions/LockOnSeekTargetMouse".
         /// </summary>
         public InputAction @LockOnSeekTargetMouse => m_Wrapper.m_PlayerActions_LockOnSeekTargetMouse;
@@ -1421,6 +1473,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LockOnSeekRightTarget.started += instance.OnLockOnSeekRightTarget;
             @LockOnSeekRightTarget.performed += instance.OnLockOnSeekRightTarget;
             @LockOnSeekRightTarget.canceled += instance.OnLockOnSeekRightTarget;
+            @LockOnSeekUpTarget.started += instance.OnLockOnSeekUpTarget;
+            @LockOnSeekUpTarget.performed += instance.OnLockOnSeekUpTarget;
+            @LockOnSeekUpTarget.canceled += instance.OnLockOnSeekUpTarget;
+            @LockOnSeekDownTarget.started += instance.OnLockOnSeekDownTarget;
+            @LockOnSeekDownTarget.performed += instance.OnLockOnSeekDownTarget;
+            @LockOnSeekDownTarget.canceled += instance.OnLockOnSeekDownTarget;
             @LockOnSeekTargetMouse.started += instance.OnLockOnSeekTargetMouse;
             @LockOnSeekTargetMouse.performed += instance.OnLockOnSeekTargetMouse;
             @LockOnSeekTargetMouse.canceled += instance.OnLockOnSeekTargetMouse;
@@ -1489,6 +1547,12 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
             @LockOnSeekRightTarget.started -= instance.OnLockOnSeekRightTarget;
             @LockOnSeekRightTarget.performed -= instance.OnLockOnSeekRightTarget;
             @LockOnSeekRightTarget.canceled -= instance.OnLockOnSeekRightTarget;
+            @LockOnSeekUpTarget.started -= instance.OnLockOnSeekUpTarget;
+            @LockOnSeekUpTarget.performed -= instance.OnLockOnSeekUpTarget;
+            @LockOnSeekUpTarget.canceled -= instance.OnLockOnSeekUpTarget;
+            @LockOnSeekDownTarget.started -= instance.OnLockOnSeekDownTarget;
+            @LockOnSeekDownTarget.performed -= instance.OnLockOnSeekDownTarget;
+            @LockOnSeekDownTarget.canceled -= instance.OnLockOnSeekDownTarget;
             @LockOnSeekTargetMouse.started -= instance.OnLockOnSeekTargetMouse;
             @LockOnSeekTargetMouse.performed -= instance.OnLockOnSeekTargetMouse;
             @LockOnSeekTargetMouse.canceled -= instance.OnLockOnSeekTargetMouse;
@@ -2020,6 +2084,20 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnLockOnSeekRightTarget(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Lock On Seek Up Target" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLockOnSeekUpTarget(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Lock On Seek Down Target" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnLockOnSeekDownTarget(InputAction.CallbackContext context);
         /// <summary>
         /// Method invoked when associated input action "Lock On Seek Target Mouse" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>

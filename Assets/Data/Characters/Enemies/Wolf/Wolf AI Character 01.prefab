@@ -1253,6 +1253,10 @@ MonoBehaviour:
     m_InternalValue: 1
   endurance:
     m_InternalValue: 1
+  strength:
+    m_InternalValue: 1
+  dexterity:
+    m_InternalValue: 1
 --- !u!114 &1861652093911731947
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1285,6 +1289,8 @@ MonoBehaviour:
   applyRootMotion: 0
   canRotate: 1
   canMove: 1
+  canRun: 1
+  canRoll: 1
   actionTimer: 0
   canTakeDmgAnimation: 1
   hasMultipleColliders: 0
@@ -1318,7 +1324,8 @@ MonoBehaviour:
   hasChangedTarget:
     m_InternalValue: 0
   currentAttackType: 0
-  lockOnTransform: {fileID: 0}
+  lockOnTransform:
+  - {fileID: 34898050088564692}
   canPerformRollingAttack: 0
   canPerformBackstepAttack: 0
   canBlock: 1
@@ -1421,6 +1428,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72108ae89361afc42a5856dc54c9a134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  etherDroppedOnDeath: 50
   staminaRegenerationAmount: 5
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
@@ -1461,6 +1469,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea83efdd6b614c443bed4e504b38225b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  activeQuickSlotItemFX: {fileID: 0}
   bloodSplatterVFX: {fileID: 0}
   criticalBloodSplatterVFX: {fileID: 0}
 --- !u!114 &3691101289250790691

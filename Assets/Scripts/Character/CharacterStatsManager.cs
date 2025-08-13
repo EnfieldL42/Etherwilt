@@ -52,7 +52,6 @@ public class CharacterStatsManager : MonoBehaviour
         return health;
     }
 
-
     public float CalculateStaminaBasedOnLevel(int endurance)
     {
         float stamina = 10;
@@ -61,6 +60,24 @@ public class CharacterStatsManager : MonoBehaviour
         stamina = endurance * 10;
 
         return stamina;
+    }
+
+    public float CalculateCharacterLevelBasedOnAttributes()
+    {
+        int totalAttrbutes = 
+            character.characterNetworkManager.health.Value +
+            character.characterNetworkManager.endurance.Value +
+            character.characterNetworkManager.strength.Value +
+            character.characterNetworkManager.dexterity.Value;
+
+        int characterLevel = totalAttrbutes - 40 + 1;
+
+        if(characterLevel < 1)
+        {
+            characterLevel = 1;
+        }
+
+        return characterLevel;
     }
 
     public virtual void RegenerateStamina()

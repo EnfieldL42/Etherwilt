@@ -15,6 +15,7 @@ MonoBehaviour:
   sceneDatas_byGuid:
     keys:
     - 99c9720ab356a0642a771bea13969a05
+    - d0e89fcc539b8144a82bf2e448dbea41
     values:
     - goDatas_byGlobalId:
         keys:
@@ -74,6 +75,9 @@ MonoBehaviour:
           iconNameOrGuid: LightProbes Icon
           isIconRecursive: 0
           isColorRecursive: 0
+    - goDatas_byGlobalId:
+        keys: []
+        values: []
   bookmarks: []
   bookmarkedScenePaths:
   - Assets/Scenes/Scene_Main_Menu_01.unity

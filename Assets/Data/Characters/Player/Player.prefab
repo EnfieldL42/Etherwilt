@@ -2668,6 +2668,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd8def1fb776404da765cc04908c8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  etherDroppedOnDeath: 50
   staminaRegenerationAmount: 5
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
@@ -2679,6 +2680,7 @@ MonoBehaviour:
   basePoiseDefense: 30
   defaultPoiseResetTime: 8
   poiseResetTimer: 0
+  ether: 0
 --- !u!114 &2685033740488950709
 MonoBehaviour:
   m_ObjectHideFlags: 0

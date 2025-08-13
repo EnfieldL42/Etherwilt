@@ -19,7 +19,7 @@ public class PlayerStatsManager : CharacterStatsManager
         base.Start();
 
         //we calculate here as on character creation, depending on class this will be calculated
-        CalculateHealthBasedOnLevel(player.playerNetworkManager.vitality.Value);
+        CalculateHealthBasedOnLevel(player.playerNetworkManager.health.Value);
         CalculateStaminaBasedOnLevel(player.playerNetworkManager.endurance.Value);
 
     }

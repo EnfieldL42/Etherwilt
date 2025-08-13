@@ -708,6 +708,7 @@ public class PlayerInputManager : MonoBehaviour
             }
         }
 
+
         // Mouse delta input
         if (player.playerNetworkManager.isLockedOn.Value && mouseSwitchTimer <= 0)
         {
@@ -814,7 +815,7 @@ public class PlayerInputManager : MonoBehaviour
             }
             PlayerUIManager.instance.playerUIPopUpManager.CloseAllPopUpWindows();
             PlayerUIManager.instance.CloseAllMenuWindows();
-            PlayerUIManager.instance.playerUICharacterMenuManager.OpenCharacterMenu();
+            PlayerUIManager.instance.playerUICharacterMenuManager.OpenMenu();
 
         }
     }
