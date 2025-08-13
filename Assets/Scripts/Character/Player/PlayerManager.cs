@@ -253,6 +253,9 @@ public class PlayerManager : CharacterManager
         currentCharacterData.strength = playerNetworkManager.strength.Value;
         currentCharacterData.dexterity = playerNetworkManager.dexterity.Value;
 
+        //Ether
+        currentCharacterData.ether = playerStatsManager.ether;
+
         //Flasks
         currentCharacterData.remainingHealthFlasks = playerNetworkManager.remainingHealthFlasks.Value;
 
@@ -305,35 +308,45 @@ public class PlayerManager : CharacterManager
 
     public void LoadGameDataFromCurrentCharacterData(ref CharacterSaveData currentCharacterData)
     {
+        //Name and Position
         playerNetworkManager.characterName.Value = currentCharacterData.characterName;
-
-
         Vector3 myPosition = new Vector3(currentCharacterData.xPosition, currentCharacterData.yPosition, currentCharacterData.zPosition);
         transform.position = myPosition;
 
+        //Stats
         playerNetworkManager.health.Value = currentCharacterData.vitality;
         playerNetworkManager.endurance.Value = currentCharacterData.endurance;
         playerNetworkManager.strength.Value = currentCharacterData.strength;
         playerNetworkManager.dexterity.Value = currentCharacterData.dexterity;
 
+        //Health and Stamina Calculation
         playerNetworkManager.maxHealth.Value = playerStatsManager.CalculateHealthBasedOnLevel(playerNetworkManager.health.Value);
         playerNetworkManager.maxStamina.Value = playerStatsManager.CalculateStaminaBasedOnLevel(playerNetworkManager.endurance.Value);
         playerNetworkManager.currentHealth.Value = currentCharacterData.currentHealth;
         playerNetworkManager.currentStamina.Value = currentCharacterData.currentStamina;
         //PlayerUIManager.instance.playerUIHudManager.SetMaxHealthValue(playerNetworkManager.maxHealth.Value);
 
+        //Ether
+        //playerStatsManager.ether = currentCharacterData.ether;
+        //PlayerUIManager.instance.playerUIHudManager.SetEtherCount(currentCharacterData.ether);
+        playerStatsManager.AddEther(currentCharacterData.ether);
+
+        //Flasks
         playerNetworkManager.remainingHealthFlasks.Value = currentCharacterData.remainingHealthFlasks;
 
+        //Right Hand
         playerInventoryManager.rightHandWeaponIndex = currentCharacterData.rightHandWeaponIndex;
         playerInventoryManager.weaponsInRightHandSlots[0] = currentCharacterData.rightWeapon01.GetWeapon();
         playerInventoryManager.weaponsInRightHandSlots[1] = currentCharacterData.rightWeapon02.GetWeapon();
         playerInventoryManager.weaponsInRightHandSlots[2] = currentCharacterData.rightWeapon03.GetWeapon();
 
+        //Left Hand
         playerInventoryManager.leftHandWeaponIndex = currentCharacterData.leftHandWeaponIndex;
         playerInventoryManager.weaponsInLeftHandSlots[0] = currentCharacterData.leftWeapon01.GetWeapon();
         playerInventoryManager.weaponsInLeftHandSlots[1] = currentCharacterData.leftWeapon02.GetWeapon();
         playerInventoryManager.weaponsInLeftHandSlots[2] = currentCharacterData.leftWeapon03.GetWeapon();
 
+        //Quick Slots
         playerInventoryManager.quickSlotItemIndex = currentCharacterData.quickSlotIndex; 
         playerInventoryManager.quickSlotItemsInQuickSlots[0] = currentCharacterData.quickSlotItem01.GetQuickSlotItem();
         playerInventoryManager.quickSlotItemsInQuickSlots[1] = currentCharacterData.quickSlotItem02.GetQuickSlotItem();

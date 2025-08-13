@@ -62,8 +62,27 @@ public class CharacterStatsManager : MonoBehaviour
         return stamina;
     }
 
-    public float CalculateCharacterLevelBasedOnAttributes()
+    public float CalculateCharacterLevelBasedOnAttributes(bool calculateProjectedLevel = false)
     {
+
+        if (calculateProjectedLevel)
+        {
+            int totalProjectedAttrbutes =
+            Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.healthSlider.value) +
+            Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.enduranceSlider.value) +
+            Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.strengthSlider.value) +
+            Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.dexteritySlider.value);
+
+            int characterProjectedLevel = totalProjectedAttrbutes - 40 + 1;
+
+            if (characterProjectedLevel < 1)
+            {
+                characterProjectedLevel = 1;
+            }
+
+            return characterProjectedLevel;
+        }
+
         int totalAttrbutes = 
             character.characterNetworkManager.health.Value +
             character.characterNetworkManager.endurance.Value +

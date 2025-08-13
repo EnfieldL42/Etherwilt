@@ -30,12 +30,15 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-2292572094905799688-4006314288930604811
         - globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-4466100878440636262-5732233350342737931
         - globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-4353007020998884748-863839165522231036
+        - globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-981425848-0
+        - globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-2030105933-0
+        - globalObjectIdString: GlobalObjectId_V1-2-99c9720ab356a0642a771bea13969a05-734411397-0
         values:
         - colorIndex: 0
           iconNameOrGuid: Camera Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 4
+        - colorIndex: 0
           iconNameOrGuid: Canvas Icon
           isIconRecursive: 0
           isColorRecursive: 0
@@ -55,7 +58,7 @@ MonoBehaviour:
           iconNameOrGuid: AudioSource Icon
           isIconRecursive: 0
           isColorRecursive: 0
-        - colorIndex: 6
+        - colorIndex: 0
           iconNameOrGuid: AvatarMask On Icon
           isIconRecursive: 0
           isColorRecursive: 0
@@ -73,6 +76,18 @@ MonoBehaviour:
           isColorRecursive: 0
         - colorIndex: 0
           iconNameOrGuid: LightProbes Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 8
+          iconNameOrGuid: MeshCollider Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 8
+          iconNameOrGuid: MeshCollider Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 8
+          iconNameOrGuid: MeshCollider Icon
           isIconRecursive: 0
           isColorRecursive: 0
     - goDatas_byGlobalId:
