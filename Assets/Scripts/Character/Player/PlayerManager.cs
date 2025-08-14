@@ -203,13 +203,13 @@ public class PlayerManager : CharacterManager
         if(IsOwner)
         {
             PlayerUIManager.instance.playerUIPopUpManager.SendYouDiePopUp();    
-        }    
+        }
 
         //check for players that are alive, if 0 then respawn
 
+        WorldGameSessionManager.instance.WaitThenReviveHost();
 
         return base.ProcessDeathEvent(manuallySelectDeathAnimation);
-
 
 
     }

@@ -10,6 +10,7 @@ public class WorldCharacterEffectsManager : MonoBehaviour
     public GameObject bloodSplatterVFX;
     public GameObject criticalBloodSplatterVFX;
     public GameObject healingFlaskVFX;
+    public GameObject deadSpotVFX;
 
     [Header("Damage")]
     public TakeDamageEffect takeDamageEffect;

@@ -75,6 +75,16 @@ public class PlayerUIHudManager : MonoBehaviour
         //wait for timer in case more ether are queued up
         float timer = etherUpdateCountDelayTimer;
         int etherToAdd = pendingEtherToAdd;
+
+        if (etherToAdd >= 0)
+        {
+            etherToAddText.text = "+ " + etherToAdd.ToString();
+        }
+        else
+        {
+            etherToAddText.text = "- " + Mathf.Abs(etherToAdd).ToString();
+        }
+
         etherToAddText.text = "+ " + etherToAdd.ToString();
         etherToAddText.enabled = true;
 

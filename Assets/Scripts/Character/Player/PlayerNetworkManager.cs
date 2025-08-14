@@ -146,6 +146,31 @@ public class PlayerNetworkManager : CharacterNetworkManager
         player.animator.SetBool("isChuggingFlask", isChugging.Value);
     }
 
+    public override void OnIsDeadChanged(bool oldStatus, bool newStatus)
+    {
+        base.OnIsDeadChanged(oldStatus, newStatus);
+
+        if (player.isDead.Value)
+        {
+            player.playerCombatManager.CreateDeadSpot(player.transform.position, player.playerStatsManager.ether);
+
+        }
+    }
+
+    private void PerformWeaponBasedAction(int actionID, int weaponID)
+    {
+        WeaponItemAction weaponAction = WorldActionManager.instance.GetWeaponItemActionByID(actionID);
+
+        if (weaponAction != null)
+        {
+            weaponAction.AttemptToPerformAction(player, WorldItemDatabase.instance.GetWeaponByID(weaponID));
+        }
+        else
+        {
+            Debug.Log("ACTION IS NULL, CANNOT BE PERFORMED");
+        }
+    }
+
     [ServerRpc]
     public void NotifyTheServerOfWeaponActionServerRpc(ulong clientID, int actionID, int weaponID)
     {
@@ -163,20 +188,6 @@ public class PlayerNetworkManager : CharacterNetworkManager
         if (clientID != NetworkManager.Singleton.LocalClientId)
         {
             PerformWeaponBasedAction(actionID, weaponID);
-        }
-    }
-
-    private void PerformWeaponBasedAction(int actionID, int weaponID)
-    {
-        WeaponItemAction weaponAction = WorldActionManager.instance.GetWeaponItemActionByID(actionID);
-
-        if(weaponAction != null)
-        {
-            weaponAction.AttemptToPerformAction(player, WorldItemDatabase.instance.GetWeaponByID(weaponID));
-        }
-        else
-        {
-            Debug.Log("ACTION IS NULL, CANNOT BE PERFORMED");
         }
     }
 

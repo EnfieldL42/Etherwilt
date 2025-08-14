@@ -6434,6 +6434,10 @@ PrefabInstance:
       value: World Character Effects Manager
       objectReference: {fileID: 0}
     - target: {fileID: 5869553322556348185, guid: 7d9d2040788e3a84b8989099a34278dc, type: 3}
+      propertyPath: deadSpotVFX
+      value: 
+      objectReference: {fileID: 100000, guid: 49b4f82423f2212489afa23692e4ef58, type: 3}
+    - target: {fileID: 5869553322556348185, guid: 7d9d2040788e3a84b8989099a34278dc, type: 3}
       propertyPath: healingFlaskVFX
       value: 
       objectReference: {fileID: 100000, guid: be5912b8efa97f745a577d20ecc27fc1, type: 3}

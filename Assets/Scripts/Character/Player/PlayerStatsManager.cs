@@ -29,4 +29,5 @@ public class PlayerStatsManager : CharacterStatsManager
         ether += etherToAdd;
         PlayerUIManager.instance.playerUIHudManager.SetEtherCount(etherToAdd);
     }
+
 }

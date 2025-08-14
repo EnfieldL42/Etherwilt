@@ -31,10 +31,18 @@ public class CharacterSaveData
     public int strength;
     public int dexterity;
 
+    [Header("Dead Spot")]
+    public bool hasDeadSpot;
+    public float deadSpotPositionX;
+    public float deadSpotPositionY;
+    public float deadSpotPositionZ;
+    public int deadSpotEtherCount;
+
     [Header("Ether")]
     public int ether;
 
     [Header("Bonfires")]
+    public int lastBonfireRestedAt = 0;
     public SerializableDictionary<int, bool> bonfires; //int is the id of the bonfire, bool is whether it is activated or not
 
     [Header("Bosses")]

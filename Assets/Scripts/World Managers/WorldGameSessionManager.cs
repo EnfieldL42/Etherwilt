@@ -2,6 +2,7 @@ using NUnit.Framework;
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using System.Collections;
 
 public class WorldGameSessionManager : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class WorldGameSessionManager : MonoBehaviour
 
     [Header("Active Players In Session")]
     public List<PlayerManager> players = new List<PlayerManager>();
+
+    private Coroutine revivalCoroutine;
 
 
     private void Awake()
@@ -23,6 +26,35 @@ public class WorldGameSessionManager : MonoBehaviour
         }
     }
 
+    public void WaitThenReviveHost()
+    {
+        if(revivalCoroutine != null)
+        {
+            StopCoroutine(revivalCoroutine);
+        }
+
+        revivalCoroutine = StartCoroutine(ReviveHostCoroutine(5f));
+    }
+
+    private IEnumerator ReviveHostCoroutine(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        PlayerUIManager.instance.playerUILoadingScreenManager.ActivateLoadingScreen();
+
+        PlayerUIManager.instance.localPlayer.ReviveCharacter();
+
+        for (int i = 0; i < WorldObjectManager.instance.bonfires.Count; i++)
+        {
+            if (WorldObjectManager.instance.bonfires[i].bonefireID == WorldSaveGameManager.instance.currentCharacterData.lastBonfireRestedAt)
+            {
+                WorldObjectManager.instance.bonfires[i].TeleportToBonfire();
+                break;
+            }
+        }
+
+        WorldObjectManager.instance.bonfires[0].TeleportToBonfire();
+    }
 
     public void AddPlayerToActivePlayerList(PlayerManager player)
     {

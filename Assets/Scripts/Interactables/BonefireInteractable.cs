@@ -117,6 +117,17 @@ public class BonefireInteractable : Interactable
     {
         base.Interact(player);
 
+        if (player.isPerformingAction)
+        {
+            return;
+        }
+        if (player.playerCombatManager.isUsingItem)
+        {
+            return;
+        }
+
+        WorldSaveGameManager.instance.currentCharacterData.lastBonfireRestedAt = bonefireID;
+
         if (!isActivated.Value)
         {
             RestoreBonfire(player);

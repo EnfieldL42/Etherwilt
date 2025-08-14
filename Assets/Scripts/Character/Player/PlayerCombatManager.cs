@@ -1,5 +1,6 @@
-using UnityEngine;
 using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class PlayerCombatManager : CharacterCombatManager
@@ -18,6 +19,58 @@ public class PlayerCombatManager : CharacterCombatManager
         base.Awake();
 
         player = GetComponent<PlayerManager>();
+    }
+
+    private void Start()
+    {
+        SceneManager.activeSceneChanged += OnSceneChanged; ;
+    }
+
+    public override void OnDestroy()
+    {
+        base.OnDestroy();
+
+        SceneManager.activeSceneChanged -= OnSceneChanged; ;
+    }
+
+    private void OnSceneChanged(Scene arg0, Scene arg1)
+    {
+        //DEAD SPOT
+        if (WorldSaveGameManager.instance.currentCharacterData.hasDeadSpot)
+        {
+            Vector3 deadSpotPosition = new Vector3(WorldSaveGameManager.instance.currentCharacterData.deadSpotPositionX, WorldSaveGameManager.instance.currentCharacterData.deadSpotPositionY, WorldSaveGameManager.instance.currentCharacterData.deadSpotPositionZ);
+
+            //we dont remove the players runes because if you are loading the save they were already removed when the player died
+            CreateDeadSpot(deadSpotPosition, WorldSaveGameManager.instance.currentCharacterData.deadSpotEtherCount, false);
+        }
+    }
+
+    public void CreateDeadSpot(Vector3 position, int etherCount, bool removePlayersRunes = true)
+    {
+        if (!player.IsHost)
+        {
+            return;
+        }
+
+        GameObject deadSpotFX = Instantiate(WorldCharacterEffectsManager.instance.deadSpotVFX);
+        deadSpotFX.GetComponent<NetworkObject>().Spawn();
+
+        deadSpotFX.transform.position = position;
+
+        PickUpEtherInteractable pickUpEther = deadSpotFX.GetComponent<PickUpEtherInteractable>();
+        pickUpEther.etherCount = etherCount;
+
+        if (removePlayersRunes)
+        {
+            player.playerStatsManager.AddEther(-player.playerStatsManager.ether);
+        }
+
+        WorldSaveGameManager.instance.currentCharacterData.hasDeadSpot = true;
+        WorldSaveGameManager.instance.currentCharacterData.deadSpotEtherCount = pickUpEther.etherCount;
+        WorldSaveGameManager.instance.currentCharacterData.deadSpotPositionX = position.x;
+        WorldSaveGameManager.instance.currentCharacterData.deadSpotPositionY = position.y;
+        WorldSaveGameManager.instance.currentCharacterData.deadSpotPositionZ = position.z;
+
     }
 
     public void PerformWeaponBasedAction(WeaponItemAction weaponAction, WeaponItem weaponPerformingAction)
