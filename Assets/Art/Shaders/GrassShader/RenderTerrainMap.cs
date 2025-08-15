@@ -1,11 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 [ExecuteInEditMode]
 public class RenderTerrainMap : MonoBehaviour
 {
     public Camera camToDrawWith;
+    public UniversalAdditionalCameraData additionalCameraData;
     // layer to render
     [SerializeField]
     LayerMask layer;
@@ -20,9 +22,10 @@ public class RenderTerrainMap : MonoBehaviour
 
     // padding the total size
     public float adjustScaling = 2.5f;
-    [SerializeField]
-    bool RealTimeDiffuse;
-    RenderTexture tempTex;
+
+    RenderTexture diffuseTex;
+    RenderTexture normalTex;
+    RenderTexture heightTex;
 
     private Bounds bounds;
 
@@ -50,28 +53,13 @@ public class RenderTerrainMap : MonoBehaviour
 
     void OnEnable()
     {
-        tempTex = new RenderTexture(resolution, resolution, 24);
+        diffuseTex = new RenderTexture(resolution, resolution, 24);
+        normalTex = new RenderTexture(resolution, resolution, 24);
+        heightTex = new RenderTexture(resolution, resolution, 24);
         GetBounds();
         SetUpCam();
 
         StartCoroutine(DelayedDraw());
-    }
-
-
-    void Start()
-    {
-        GetBounds();
-        SetUpCam();
-        DrawDiffuseMap();
-    }
-
-    void OnRenderObject()
-    {
-        if (!RealTimeDiffuse)
-        {
-            return;
-        }
-        UpdateTex();
     }
 
     IEnumerator DelayedDraw()
@@ -79,29 +67,58 @@ public class RenderTerrainMap : MonoBehaviour
         yield return null; // wait one frame
         DrawDiffuseMap();
     }
-
-    void UpdateTex()
-    {
-        camToDrawWith.enabled = true;
-        camToDrawWith.targetTexture = tempTex;
-        Shader.SetGlobalTexture("_TerrainDiffuse", tempTex);
-    }
     public void DrawDiffuseMap()
     {
-        DrawToMap("_TerrainDiffuse");
-    }
-
-    void DrawToMap(string target)
-    {
         camToDrawWith.enabled = true;
-        camToDrawWith.targetTexture = tempTex;
+        additionalCameraData.SetRenderer(0);
+        camToDrawWith.targetTexture = diffuseTex;
         camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
         Shader.SetGlobalFloat("_OrthographicCamSizeTerrain", camToDrawWith.orthographicSize);
         Shader.SetGlobalVector("_OrthographicCamPosTerrain", camToDrawWith.transform.position);
         camToDrawWith.Render(); //This is causing an error
-        Shader.SetGlobalTexture(target, tempTex);
-        camToDrawWith.enabled = false;
+        Shader.SetGlobalTexture("_TerrainDiffuse", diffuseTex);
+        Debug.Log("DiffuseMap Rendered");
+        DrawNormalMap();
     }
+
+    public void DrawNormalMap()
+    {
+            camToDrawWith.enabled = true;
+            additionalCameraData.SetRenderer(1);
+            camToDrawWith.targetTexture = normalTex;
+            camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
+            Shader.SetGlobalFloat("_OrthographicCamSizeTerrain", camToDrawWith.orthographicSize);
+            Shader.SetGlobalVector("_OrthographicCamPosTerrain", camToDrawWith.transform.position);
+            camToDrawWith.Render(); //This is causing an error
+            Shader.SetGlobalTexture("_TerrainNormal", normalTex);
+            Debug.Log("NormalMap Rendered");
+            DrawHeightMap();
+    }
+
+    public void DrawHeightMap()
+    {
+            camToDrawWith.enabled = true;
+            additionalCameraData.SetRenderer(2);
+            camToDrawWith.targetTexture = heightTex;
+            camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
+            Shader.SetGlobalFloat("_OrthographicCamSizeTerrain", camToDrawWith.orthographicSize);
+            Shader.SetGlobalVector("_OrthographicCamPosTerrain", camToDrawWith.transform.position);
+            camToDrawWith.Render(); //This is causing an error
+            Shader.SetGlobalTexture("_TerrainHeight", heightTex);
+            Debug.Log("HeightMap Rendered");
+            camToDrawWith.enabled = false;
+    }
+
+    /*void DrawToMap()
+    {
+        camToDrawWith.enabled = true;
+        camToDrawWith.targetTexture = diffuseTex;
+        camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
+        Shader.SetGlobalFloat("_OrthographicCamSizeTerrain", camToDrawWith.orthographicSize);
+        Shader.SetGlobalVector("_OrthographicCamPosTerrain", camToDrawWith.transform.position);
+        camToDrawWith.Render(); //This is causing an error
+        Shader.SetGlobalTexture("_TerrainDiffuse", diffuseTex);
+    }*/
 
 
     void SetUpCam()
