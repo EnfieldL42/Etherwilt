@@ -8,6 +8,10 @@ public class AICharacterSpawner : MonoBehaviour
     [SerializeField] GameObject instantiatedGameObject;
     private AICharacterManager aiCharacter;
 
+    [Header("Patrol")]
+    [SerializeField] bool hasPatrolPath = false;
+    [SerializeField] int patrolPathID = 0;
+
     private void Awake()
     {
 
@@ -31,10 +35,18 @@ public class AICharacterSpawner : MonoBehaviour
             aiCharacter = instantiatedGameObject.GetComponent<AICharacterManager>();
             WorldAIManager.instance.AddCharacterToSpawnCharacterList(instantiatedGameObject.GetComponent<AICharacterManager>());
 
-            if (aiCharacter != null)
+            if (aiCharacter == null)
             {
-                WorldAIManager.instance.AddCharacterToSpawnCharacterList(aiCharacter);
+                return;
             }
+
+            WorldAIManager.instance.AddCharacterToSpawnCharacterList(aiCharacter);
+
+            if (hasPatrolPath)
+            {
+                aiCharacter.idle.aiPatrolPath = WorldAIManager.instance.GetAIPatrolPathByID(patrolPathID);
+            }
+
 
         }
     }

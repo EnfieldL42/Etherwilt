@@ -21,26 +21,26 @@ public enum CharacterAttribute
     Health,
     Endurance,
     Strength,
-    Dexterity,
+    Dexterity
 }
 
 public enum CharacterGroup
 {
     Team01,
-    Team02,
+    Team02
 }
 
 public enum WeaponModelSlot
 {
     RightHandWeaponSlot,
     LeftHandWeaponSlot,
-    LeftHandShieldSlot,
+    LeftHandShieldSlot
 }
 
 public enum WeaponModelType
 {
     Weapon,
-    Shield,
+    Shield
 }
 
 public enum EquipmentType
@@ -53,7 +53,7 @@ public enum EquipmentType
     LeftWeapon03,  //5
     QuickSlot01,   //6
     QuickSlot02,   //7
-    QuickSlot03,   //8
+    QuickSlot03    //8
 }
 
 public enum AttackType
@@ -71,20 +71,25 @@ public enum AttackType
     ChargedAttack03,
     RunningAttack01,
     RollingAttack01,
-    BackstepAttack01,
+    BackstepAttack01
 }
 
 public enum DamageIntensity
 {
     Normal,
-    Colossal,
+    Colossal
 } //Damage animation intensity
 
 public enum ItemPickUpType
 {
     WorldSpawn,
-    CharacterDrop,
+    CharacterDrop
 }
 
+//AI STATES
 
-
+public enum IdleStateMode
+{
+    Idle,
+    Patrol
+}

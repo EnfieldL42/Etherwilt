@@ -1249,7 +1249,7 @@ MonoBehaviour:
     m_InternalValue: 0
   maxHealth:
     m_InternalValue: 0
-  vitality:
+  health:
     m_InternalValue: 1
   endurance:
     m_InternalValue: 1
@@ -1299,8 +1299,8 @@ MonoBehaviour:
   aICharacterNetworkManager: {fileID: 0}
   aICharacterLocomotionManager: {fileID: 0}
   navmeshAgent: {fileID: 8364343053465735496}
-  currentState: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
-  idle: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
+  currentState: {fileID: 11400000, guid: 91ba2d9ac331d7346bdb5dfad4bc5ede, type: 2}
+  idle: {fileID: 11400000, guid: 91ba2d9ac331d7346bdb5dfad4bc5ede, type: 2}
   pursueState: {fileID: 11400000, guid: aa37797012693564290d3d70049da9ab, type: 2}
   combatState: {fileID: 11400000, guid: e8820d1458273d444ad5826ff3bcd240, type: 2}
   attack: {fileID: 11400000, guid: 60bed3ac727b7f74c9d36e0dcf963d9d, type: 2}
@@ -1324,8 +1324,7 @@ MonoBehaviour:
   hasChangedTarget:
     m_InternalValue: 0
   currentAttackType: 0
-  lockOnTransform:
-  - {fileID: 34898050088564692}
+  lockOnTransform: {fileID: 0}
   canPerformRollingAttack: 0
   canPerformBackstepAttack: 0
   canBlock: 1

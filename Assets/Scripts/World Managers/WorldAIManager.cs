@@ -23,6 +23,9 @@ public class WorldAIManager : MonoBehaviour
     [Header("Bosses")]
     [SerializeField] List<AIBossCharacterManager> spawnedInBosses;
 
+    [Header("Patrol Paths")]
+    [SerializeField] List<AIPatrolPath> aIPatrolPaths = new List<AIPatrolPath>();
+
 
     private void Awake()
     {
@@ -165,6 +168,31 @@ public class WorldAIManager : MonoBehaviour
         //characters can be split into areas
     }
 
+    //PATROL PATHS
+    public void AddPatrolPathToList(AIPatrolPath patrolPath)
+    {
+        if (aIPatrolPaths.Contains(patrolPath))
+        {
+            return;
+        }
+
+        aIPatrolPaths.Add(patrolPath);
+    }
+
+    public AIPatrolPath GetAIPatrolPathByID(int patrolPathID)
+    {
+        AIPatrolPath patrolPath = null;
+
+        for (int i = 0; i < aIPatrolPaths.Count; i++)
+        {
+            if (aIPatrolPaths[i].patrolPathID == patrolPathID)
+            {
+                patrolPath = aIPatrolPaths[i];
+            }
+        }
+
+        return patrolPath;
+    }
 
 
 }

@@ -91,15 +91,36 @@ public class AICharacterManager : CharacterManager
     protected override void Start()
     {
         base.Start();
-        ResetNavmeshPostion();
+        //ResetNavmeshPostion();
     }
 
     protected override void Update()
     {
         base.Update();
 
-
         aICharacterCombatManager.HandleActionRecovery(this);
+
+        if (navmeshAgent == null)
+        {
+            return;
+        }
+
+        if (IsOwner)
+        {
+            ProcessStateMachine();
+        }
+
+        if (!navmeshAgent.enabled)
+        {
+            return;
+        }
+
+        Vector3 positionDifference = navmeshAgent.transform.position - transform.position;
+
+        if (positionDifference.magnitude > 0.2f)
+        {
+            navmeshAgent.transform.localPosition = Vector3.zero;
+        }
 
         //if (isPerformingAction)
         //{
@@ -109,16 +130,6 @@ public class AICharacterManager : CharacterManager
         //{
         //    isPerformingActionTimer = 0f;
         //}
-    }
-
-    protected override void FixedUpdate()
-    {
-        base.FixedUpdate();
-
-        if (IsOwner)
-        {
-            ProcessStateMachine();
-        }
     }
 
     private void ProcessStateMachine()

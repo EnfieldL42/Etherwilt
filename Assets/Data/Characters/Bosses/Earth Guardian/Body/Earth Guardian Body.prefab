@@ -1760,7 +1760,7 @@ NavMeshAgent:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3449887646660951074}
-  m_Enabled: 1
+  m_Enabled: 0
   m_AgentTypeID: 0
   m_Radius: 0.32
   m_Speed: 3.5
@@ -2628,7 +2628,7 @@ MonoBehaviour:
     m_InternalValue: 0
   maxHealth:
     m_InternalValue: 0
-  vitality:
+  health:
     m_InternalValue: 1
   endurance:
     m_InternalValue: 1
@@ -2724,8 +2724,7 @@ MonoBehaviour:
   hasChangedTarget:
     m_InternalValue: 0
   currentAttackType: 0
-  lockOnTransform:
-  - {fileID: 6053254177834945684}
+  lockOnTransform: {fileID: 0}
   canPerformRollingAttack: 0
   canPerformBackstepAttack: 0
   canBlock: 1
