@@ -1,20 +1,20 @@
 using UnityEngine;
 
-public class WolfMeleeDamageCollider : DamageCollider
+public class ManualDamageCollider : DamageCollider
 {
-    [SerializeField] public AICharacterManager wolfCharacter;
+    [SerializeField] public AICharacterManager aiCharacter;
 
     protected override void Awake()
     {
         base.Awake();
 
         damageCollider = GetComponent<Collider>();
-        wolfCharacter = GetComponentInParent<AICharacterManager>();
+        aiCharacter = GetComponentInParent<AICharacterManager>();
     }
 
     protected override void GetBlockedDotValues(CharacterManager damageTarget)
     {
-        directionFromAttackToDamageTarget = wolfCharacter.transform.position - damageTarget.transform.position;
+        directionFromAttackToDamageTarget = aiCharacter.transform.position - damageTarget.transform.position;
         dotValueFromAttackToDamageTarget = Vector3.Dot(directionFromAttackToDamageTarget, damageTarget.transform.forward);
     }
 
@@ -34,13 +34,13 @@ public class WolfMeleeDamageCollider : DamageCollider
         damageEffect.magicDamage = magicDamage;
         damageEffect.poiseDamage = poiseDamage;
         damageEffect.contactPoint = contactPoint;
-        damageEffect.angleHitFrom = Vector3.SignedAngle(wolfCharacter.transform.forward, damageTarget.transform.forward, Vector3.up);
+        damageEffect.angleHitFrom = Vector3.SignedAngle(aiCharacter.transform.forward, damageTarget.transform.forward, Vector3.up);
 
         if (damageTarget.IsOwner)
         {
             damageTarget.characterNetworkManager.NotifyTheServerOfCharacterDamageServerRpc(
                 damageTarget.NetworkObjectId,
-                wolfCharacter.NetworkObjectId,
+                aiCharacter.NetworkObjectId,
                 damageEffect.physicalDamage,
                 damageEffect.magicDamage,
                 damageEffect.poiseDamage,
@@ -50,5 +50,7 @@ public class WolfMeleeDamageCollider : DamageCollider
                 damageEffect.contactPoint.z);
         }
     }
+
+
 
 }

@@ -1,6 +1,7 @@
-using UnityEngine;
 using Unity.AI;
+using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.TextCore.Text;
 [CreateAssetMenu(menuName = "A.I/States/Pursue Target")]
 public class PursueTargetState : AIState
 {
@@ -12,11 +13,14 @@ public class PursueTargetState : AIState
         //check if we are performing an action
         if (aiCharacter.isPerformingAction)
         {
+            aiCharacter.characterAnimatorManager.UpdateAnimatorMovementParameters(0, 0);
             return this;
         }
 
+        aiCharacter.characterAnimatorManager.UpdateAnimatorMovementParameters(0, 1);
+
         //check if target is null, if we dont have a target, return to idle state
-        if(aiCharacter.aICharacterCombatManager.currentTarget == null)
+        if (aiCharacter.aICharacterCombatManager.currentTarget == null)
         {
             return SwitchState(aiCharacter, aiCharacter.idle);
         }

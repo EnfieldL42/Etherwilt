@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.TextCore.Text;
 
 [CreateAssetMenu(menuName = "A.I/States/Investigate Sound")]
 public class InvestigateSoundState : AIState
@@ -17,6 +18,8 @@ public class InvestigateSoundState : AIState
 
     public override AIState Tick(AICharacterManager aiCharacter)
     {
+        aiCharacter.characterAnimatorManager.UpdateAnimatorMovementParameters(0, 0.5f);
+
         if ((aiCharacter.isPerformingAction))
         {
             return this;

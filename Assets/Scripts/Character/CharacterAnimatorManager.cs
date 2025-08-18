@@ -38,7 +38,8 @@ public class CharacterAnimatorManager : MonoBehaviour
 
     }
 
-    public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement, bool isSprinting)
+    //This will always snap
+    public void UpdateAnimatorMovementParameters(float horizontalMovement, float verticalMovement, bool isSprinting = false)
     {
         float snappedHorizontalAmount;
         float snappedVerticalAmount;
@@ -93,6 +94,13 @@ public class CharacterAnimatorManager : MonoBehaviour
 
         character.animator.SetFloat(horizontal, snappedHorizontalAmount, 0.1f, Time.deltaTime);
         character.animator.SetFloat(vertical, snappedVerticalAmount, 0.1f, Time.deltaTime);
+    }
+
+    //this will just pass the raw numbers
+    public void SetAnimatorMovementParameters(float horizontalMovement, float verticalMovement)
+    {
+        character.animator.SetFloat(vertical, verticalMovement, 0.5f, Time.deltaTime);
+        character.animator.SetFloat(horizontal, horizontalMovement, 0.5f, Time.deltaTime);
     }
 
     public virtual void PlayTargetActionAnimation(string targetAnimation, bool isPerformingAction, bool applyRootMotion = true, bool canRotate = false, bool canMove = false, bool canRun = true, bool canRoll = false)

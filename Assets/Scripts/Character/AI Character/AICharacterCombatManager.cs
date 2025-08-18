@@ -6,6 +6,10 @@ public class AICharacterCombatManager : CharacterCombatManager
 {
     protected AICharacterManager aiCharacter;
 
+    [Header("Damage")]
+    [SerializeField] protected int baseDamage = 25;
+    [SerializeField] protected int basePoiseDamage = 25;
+
     [Header("Action Recovery")]
     public float actionRecoveryTimer = 0;
 
@@ -34,10 +38,6 @@ public class AICharacterCombatManager : CharacterCombatManager
     private float stanceTickTimer = 0;
     [SerializeField] float defaultTimeUntilStanceRegenerationBegins = 15;
 
-    [Header("DUBUG DELETE LATER")]
-    [SerializeField] bool investigateSound = false;
-    [SerializeField] Vector3 positionOfSound = Vector3.zero;
-
     public HashSet<CharacterManager> damagedCharactersThisAttack = new HashSet<CharacterManager>();
      
     protected override void Awake()
@@ -52,12 +52,6 @@ public class AICharacterCombatManager : CharacterCombatManager
     private void Update()
     {
         HandleStanceBreak();
-
-        if (investigateSound)
-        {
-            investigateSound = false;
-            AlertCharacterToSound(positionOfSound);
-        }
     }
 
     public void AwardEtherOnDeath(PlayerManager player)

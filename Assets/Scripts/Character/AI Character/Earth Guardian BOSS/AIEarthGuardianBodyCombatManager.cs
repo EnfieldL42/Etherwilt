@@ -14,15 +14,13 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
 
     //will have to add motible colliders depending on where the damage is comming fromt
     [Header("Damage Colliders")]
-    [SerializeField] EarthGuardianBodyDamageCollider bitedamageCollider;
-    [SerializeField] EarthGuardianBodyDamageCollider[] slamdamageCollider;
+    [SerializeField] EarthGuardianDamageCollider bitedamageCollider;
+    [SerializeField] EarthGuardianDamageCollider[] slamdamageCollider;
 
     [Header("Colliders")]
     [SerializeField] Collider[] bodyColliders;
 
-    [Header("Damage")]
-    [SerializeField] int baseDamage = 25;
-    [SerializeField] int basePoiseDamage = 25;
+    [Header("Damage Modifiers")]
     [SerializeField] float attackBiteDamageModifier = 1.0f;
     [SerializeField] float attackSlamDamageModifier = 1.3f; 
     [SerializeField] float attackSwipeDamageModifier = 1.6f;

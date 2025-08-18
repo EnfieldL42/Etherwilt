@@ -6,8 +6,7 @@ public class AIOgreCombatManager : AICharacterCombatManager
     [SerializeField] OgreMeleeDamageCollider rightHandDamageCollider;
     [SerializeField] OgreMeleeDamageCollider LeftHandDamageCollider;
 
-    [Header("Damage")]
-    [SerializeField] int baseDamage = 25;
+    [Header("Damage Modifierss")]
     [SerializeField] float attack01DamageModifier = 1.0f;
     [SerializeField] float attack02DamageModifier = 1.4f;
 

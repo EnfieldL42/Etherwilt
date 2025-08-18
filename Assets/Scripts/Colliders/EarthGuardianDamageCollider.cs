@@ -1,6 +1,7 @@
 using UnityEngine;
+using UnityEngine.TextCore.Text;
 
-public class EarthGuardianBodyDamageCollider : DamageCollider
+public class EarthGuardianDamageCollider : DamageCollider
 {
     [SerializeField] public AIBossCharacterManager bossCharacter;
 
@@ -10,6 +11,12 @@ public class EarthGuardianBodyDamageCollider : DamageCollider
 
         damageCollider = GetComponent<Collider>();
         bossCharacter = GetComponentInParent<AIBossCharacterManager>();
+    }
+
+    protected override void GetBlockedDotValues(CharacterManager damageTarget)
+    {
+        directionFromAttackToDamageTarget = bossCharacter.transform.position - damageTarget.transform.position;
+        dotValueFromAttackToDamageTarget = Vector3.Dot(directionFromAttackToDamageTarget, damageTarget.transform.forward);
     }
 
     protected override void DamageTarget(CharacterManager damageTarget)

@@ -27,6 +27,7 @@ public class IdleState : AIState
     public override AIState Tick(AICharacterManager aiCharacter)
     {
         aiCharacter.aICharacterCombatManager.FindTargetViaLineOfSight(aiCharacter);
+        aiCharacter.characterAnimatorManager.UpdateAnimatorMovementParameters(0, 0.5f);
 
 
         switch (idleState)

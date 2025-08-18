@@ -15,16 +15,14 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     //will have to add motible colliders depending on where the damage is comming fromt
     [Header("Damage Colliders")]
     [SerializeField] EarthGuardianAEODamageCollider aoeCollider;
-    [SerializeField] EarthGuardianBodyDamageCollider[] stabdamageCollider;
-    [SerializeField] EarthGuardianBodyDamageCollider[] slamdamageCollider;
+    [SerializeField] EarthGuardianDamageCollider[] stabdamageCollider;
+    [SerializeField] EarthGuardianDamageCollider[] slamdamageCollider;
     public float AEOEffectRadius = 1.5f;
 
     [Header("Colliders")]
     [SerializeField] Collider[] tailColliders;
 
-    [Header("Damage")]
-    [SerializeField] int baseDamage = 25;
-    [SerializeField] int basePoiseDamage = 25;
+    [Header("Damage Modifiers")]
     [SerializeField] float attackSlamDamageModifier = 1.6f;
     [SerializeField] float attackStabDamageModifier = 1.0f;
     [SerializeField] float attackStabHeavyDamageModifier = 2f;

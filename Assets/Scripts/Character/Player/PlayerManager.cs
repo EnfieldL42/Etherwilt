@@ -101,6 +101,8 @@ public class PlayerManager : CharacterManager
             playerNetworkManager.currentStamina.OnValueChanged += PlayerUIManager.instance.playerUIHudManager.SetNewStaminaValue;
             playerNetworkManager.currentStamina.OnValueChanged += playerStatsManager.ResetStaminaRegenTimer;
 
+            playerNetworkManager.SetNewMaxHealthValue(0, playerNetworkManager.health.Value);
+            playerNetworkManager.SetNewMaxStaminaValue(0, playerNetworkManager.endurance.Value);
         }
 
         if (!IsOwner)

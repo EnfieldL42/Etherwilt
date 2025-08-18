@@ -3,11 +3,9 @@ using UnityEngine;
 public class AIWolfCombatManager : AICharacterCombatManager
 {
     [Header("Damage Colliders")]
-    [SerializeField] WolfMeleeDamageCollider damageCollider;
+    [SerializeField] ManualDamageCollider damageCollider;
 
-    [Header("Damage")]
-    [SerializeField] int baseDamage = 25;
-    [SerializeField] int basePoiseDamage = 25;
+    [Header("Damage Modifiers")]
     [SerializeField] float attack01DamageModifier = 1.0f;
 
     public void SetAttack01Damage()

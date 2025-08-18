@@ -21,6 +21,13 @@ public class CombatStanceState : AIState
     [Header("Engagement Distance")]
     [SerializeField] public float maximumEngagementDistance = 10; //distance we have to be away from the target before we enter the pursue state
 
+    [Header("Strafing")]
+    [SerializeField] bool canStrafe = false; //if the character can strafe around the target
+    private bool hasChoosenStrafePath = false; //if we have already chosen a strafe path during this state
+    [SerializeField] float strafeMoveAmount = 0;
+    //private float maxStrafeTimer = 5f; //maximum time to strafe before we stop strafing
+    //private float strafeTimer = 0f; //timer for strafing
+
     public override AIState Tick(AICharacterManager aiCharacter)
     {
         if(aiCharacter.isPerformingAction)
@@ -52,6 +59,11 @@ public class CombatStanceState : AIState
         if (aiCharacter.aICharacterCombatManager.currentTarget == null)
         {
             return SwitchState(aiCharacter, aiCharacter.idle);
+        }
+
+        if (canStrafe)
+        {
+            SetStrafePath(aiCharacter);
         }
 
         if(!hasAttack)
@@ -159,13 +171,64 @@ public class CombatStanceState : AIState
         return outcomeWillBePerformed;
     }
 
+    protected virtual void SetStrafePath(AICharacterManager aICharacter)
+    {
+        int layersToCheck = WorldUtilityManager.instance.GetEnviroLayers() | WorldUtilityManager.instance.GetCharacterLayers();
+
+        Collider[] colliders = Physics.OverlapSphere(aICharacter.aICharacterCombatManager.lockOnTransform.position, aICharacter.characterController.radius + 0.25f, layersToCheck);
+
+        foreach (var collider in colliders)
+        {
+            if (collider.transform.root == aICharacter.transform.root)
+            {
+                continue;
+            }
+
+            aICharacter.characterAnimatorManager.SetAnimatorMovementParameters(0, Mathf.Abs(strafeMoveAmount));
+            return;
+        }
+
+        ////checks if there is a wall close to the character
+        //if (Physics.CheckSphere(aICharacter.aICharacterCombatManager.lockOnTransform.position, aICharacter.characterController.radius + 0.25f, WorldUtilityManager.instance.GetEnviroLayers()))
+        //{
+        //    //stop strafing, instead path towards the enemy
+        //    aICharacter.characterAnimatorManager.SetAnimatorMovementParameters(0, Mathf.Abs(strafeMoveAmount));
+        //    return;
+        //}
+
+        ////strafe
+        aICharacter.characterAnimatorManager.SetAnimatorMovementParameters(strafeMoveAmount, 0);
+
+        if (hasChoosenStrafePath)
+        {
+            return;
+        }
+
+        //strafe left or right?
+        hasChoosenStrafePath = true;
+
+        int leftOrRightIndex = Random.Range(0, 100);
+
+        if (leftOrRightIndex >= 50)
+        {
+            //strafe left
+            strafeMoveAmount = -0.5f;
+        }
+        else
+        {
+            //strafe right
+            strafeMoveAmount = 0.5f;
+        }
+    }
+
     protected override void ResetStateFlags(AICharacterManager aiCharacter)
     {
         base.ResetStateFlags(aiCharacter);
 
         hasRolledForComboChance = false;
         hasAttack = false;
+        //strafeTimer = 0f;
+        //strafeMoveAmount = 0;
     }
-
 
 }
