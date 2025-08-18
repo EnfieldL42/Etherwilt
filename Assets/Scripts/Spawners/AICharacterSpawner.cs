@@ -64,9 +64,12 @@ public class AICharacterSpawner : MonoBehaviour
         instantiatedGameObject.transform.position = transform.position;
         instantiatedGameObject.transform.rotation = transform.rotation;
         aiCharacter.aICharacterNetworkManager.currentHealth.Value = aiCharacter.aICharacterNetworkManager.maxHealth.Value;
+        aiCharacter.aICharacterCombatManager.currentTarget = null;
+        aiCharacter.characterNetworkManager.isMoving.Value = false;
 
         if (aiCharacter.isDead.Value)
         {
+            aiCharacter.characterNetworkManager.isActive.Value = true;
             aiCharacter.isDead.Value = false;
             aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Empty", false, false, true, true, true, true);
         }

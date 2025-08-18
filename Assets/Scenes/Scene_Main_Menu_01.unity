@@ -2150,6 +2150,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 925289681994029249, guid: ced5e974078caf340b8d69ce692522fc, type: 3}
+      propertyPath: enviroLayers.m_Bits
+      value: 16385
+      objectReference: {fileID: 0}
     - target: {fileID: 3261042927506282364, guid: ced5e974078caf340b8d69ce692522fc, type: 3}
       propertyPath: m_Name
       value: World Utility Manager

@@ -21,6 +21,9 @@ public class IdleState : AIState
     [SerializeField] float timeBetweenPatrol = 15; //time between patrol points
     [SerializeField] float restTimer = 0; //timer for time between patrol points
 
+    [Header("Sleep Options")]
+    public bool willInvestigateSound = false; //if true, the AI will investigate sounds
+
     public override AIState Tick(AICharacterManager aiCharacter)
     {
         aiCharacter.aICharacterCombatManager.FindTargetViaLineOfSight(aiCharacter);
@@ -47,6 +50,7 @@ public class IdleState : AIState
         }
         else
         {
+            aICharacter.navmeshAgent.enabled = false;
             //return this state,
             return this;
         }

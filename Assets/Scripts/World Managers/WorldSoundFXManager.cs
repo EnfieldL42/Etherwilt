@@ -1,5 +1,8 @@
 using System.Collections;
 using UnityEngine;
+using Unity.Netcode;
+using NUnit.Framework;
+using System.Collections.Generic;
 
 public class WorldSoundFXManager : MonoBehaviour
 {
@@ -88,5 +91,38 @@ public class WorldSoundFXManager : MonoBehaviour
     //    return null;
     //}
 
+
+    public void AlertNearbyCharactersToSound(Vector3 positionOfSound, float rangeOfSound)
+    {
+        if (!NetworkManager.Singleton.IsServer)
+        {
+            return;
+        }
+
+        Collider[] characterColliders = Physics.OverlapSphere(positionOfSound, rangeOfSound, WorldUtilityManager.instance.GetCharacterLayers());
+        List<AICharacterManager> charactersToAlert = new List<AICharacterManager>();
+
+        for (int i = 0; i < characterColliders.Length; i++)
+        {
+            AICharacterManager aiCharacter = characterColliders[i].GetComponent<AICharacterManager>();
+
+            if (aiCharacter == null)
+            {
+                continue;
+            }
+
+            if (charactersToAlert.Contains(aiCharacter))
+            {
+                continue;
+            }
+
+            charactersToAlert.Add(aiCharacter);
+        }
+
+        for (int i = 0; i < charactersToAlert.Count; i++)
+        {
+            charactersToAlert[i].aICharacterCombatManager.AlertCharacterToSound(positionOfSound);
+        }
+    }
 
 }

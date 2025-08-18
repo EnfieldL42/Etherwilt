@@ -15,13 +15,14 @@ public class AICharacterManager : CharacterManager
     public NavMeshAgent navmeshAgent;
 
     [Header("Curent State")]
-    [SerializeField] protected AIState currentState;
+    public AIState currentState;
 
     [Header("States")]
     public IdleState idle;
     public PursueTargetState pursueState;
     public CombatStanceState combatState;
     public AttackState attack;
+    public InvestigateSoundState investigateSoundState;
 
     //[SerializeField] private float isPerformingActionTimer = 0f;
     //private float isPerformingActionMaxTime = 10f;
@@ -52,6 +53,7 @@ public class AICharacterManager : CharacterManager
             pursueState = Instantiate(pursueState);
             combatState = Instantiate(combatState);
             attack = Instantiate(attack);
+            investigateSoundState = Instantiate(investigateSoundState);
             currentState = idle;
 
             aICharacterNetworkManager.currentHealth.Value = maxHealth;
@@ -217,8 +219,10 @@ public class AICharacterManager : CharacterManager
 
             //award players with runers
 
-            gameObject.SetActive(false);
-
+            if (isDead.Value == true)
+            {
+                aICharacterNetworkManager.isActive.Value = false;
+            }
         }
     }
 

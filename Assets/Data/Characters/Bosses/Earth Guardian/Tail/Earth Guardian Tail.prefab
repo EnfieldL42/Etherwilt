@@ -1250,6 +1250,7 @@ MonoBehaviour:
   pursueState: {fileID: 11400000, guid: e3455507a2f382948865da4f8b070f90, type: 2}
   combatState: {fileID: 11400000, guid: 0129d2d7686622b4395a6bb8e35eb2a7, type: 2}
   attack: {fileID: 11400000, guid: 7204fc5b93dba3d4f9d46bd803f194d9, type: 2}
+  investigateSoundState: {fileID: 11400000, guid: d535b505ce5574c4397c8a7dce7abef1, type: 2}
   maxHealth: 800
   bossID: 1
   bossIntroClip: {fileID: 0}
@@ -1311,6 +1312,8 @@ MonoBehaviour:
   ignoreStanceBreak: 0
   stanceRegenerationTimer: 0
   defaultTimeUntilStanceRegenerationBegins: 15
+  investigateSound: 0
+  positionOfSound: {x: 0, y: 0, z: 0}
   secondBody: {fileID: 0}
   aoeCollider: {fileID: 793722686032858324}
   stabdamageCollider:
@@ -1394,7 +1397,7 @@ MonoBehaviour:
   gravityForce: -30
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 16385
   groundCheckSphereRadius: 0.35
   groundCheckPlusOrMinusPosition: {x: 0, y: 0.15, z: 0}
   yVelocity: {x: 0, y: 0, z: 0}

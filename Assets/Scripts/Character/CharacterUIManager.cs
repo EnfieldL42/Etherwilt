@@ -18,7 +18,6 @@ public class CharacterUIManager : MonoBehaviour
         {
             return;
         }
-
         characterHPBar.currentDamageTaken = 0;
     }
 

@@ -34,6 +34,9 @@ public class AICharacterCombatManager : CharacterCombatManager
     private float stanceTickTimer = 0;
     [SerializeField] float defaultTimeUntilStanceRegenerationBegins = 15;
 
+    [Header("DUBUG DELETE LATER")]
+    [SerializeField] bool investigateSound = false;
+    [SerializeField] Vector3 positionOfSound = Vector3.zero;
 
     public HashSet<CharacterManager> damagedCharactersThisAttack = new HashSet<CharacterManager>();
      
@@ -46,9 +49,15 @@ public class AICharacterCombatManager : CharacterCombatManager
 
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         HandleStanceBreak();
+
+        if (investigateSound)
+        {
+            investigateSound = false;
+            AlertCharacterToSound(positionOfSound);
+        }
     }
 
     public void AwardEtherOnDeath(PlayerManager player)
@@ -125,6 +134,42 @@ public class AICharacterCombatManager : CharacterCombatManager
         stanceRegenerationTimer = defaultTimeUntilStanceRegenerationBegins;
 
         currentStance -= stanceDamage;
+    }
+
+    public virtual void AlertCharacterToSound(Vector3 positionOfSound)
+    {
+        if(!aiCharacter.IsOwner)
+        {
+            return;
+        }
+
+        if(aiCharacter.isDead.Value)
+        {
+            return;
+        }
+
+        if(aiCharacter.idle == null)
+        {
+            return;
+        }
+
+        if(aiCharacter.investigateSoundState == null)
+        {
+            return;
+        }
+
+        if (!aiCharacter.idle.willInvestigateSound)
+        {
+            return;
+        }
+
+        if(aiCharacter.characterCombatManager.currentTarget != null)
+        {
+            return;
+        }
+
+        aiCharacter.investigateSoundState.positionOfSound = positionOfSound;
+        aiCharacter.currentState = aiCharacter.currentState.SwitchState(aiCharacter, aiCharacter.investigateSoundState);
     }
 
     public void FindTargetViaLineOfSight(AICharacterManager aiCharacter)
@@ -204,6 +249,69 @@ public class AICharacterCombatManager : CharacterCombatManager
             return;
         }
 
+        //if (viewableAngle >= 20 && viewableAngle <= 60)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_45", true);
+        //}
+        //else if (viewableAngle <= -20 && viewableAngle >= -60)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_45", true);
+        //}
+        /*else */if (viewableAngle >= 61 && viewableAngle <= 110)
+        {
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_90", true);
+        }
+        else if (viewableAngle <= -61 && viewableAngle >= -110)
+        {
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_90", true);
+        }
+        else if (viewableAngle >= 111 && viewableAngle <= 145)
+        {
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_135", true);
+        }
+        else if (viewableAngle <= -111 && viewableAngle >= -145)
+        {
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_135", true);
+        }
+        else if (viewableAngle >= 146 && viewableAngle <= 180)
+        {
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_180", true);
+        }
+        else if (viewableAngle <= -146 && viewableAngle >= -180)
+        {
+            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_180", true);
+        }
+
+        //if (viewableAngle >= 20 && viewableAngle <= 110)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_90", true);
+        //}
+        //else if (viewableAngle <= -20 && viewableAngle >= -110)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_90", true);
+        //}
+        //else if (viewableAngle >= 111 && viewableAngle <= 180)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_180", true);
+        //}
+        //else if (viewableAngle <= -111 && viewableAngle >= -180)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_180", true);
+        //}
+
+    }
+
+    public virtual void PivotTowardPosition(AICharacterManager aiCharacter, Vector3 position)
+    {
+        //play a pivot animation depending on viwable angle of target
+        if (aiCharacter.isPerformingAction)
+        {
+            return;
+        }
+
+        Vector3 targetsDirection = position - aiCharacter.transform.position;
+        float viewableAngle = WorldUtilityManager.instance.GetAngleOfTarget(aiCharacter.transform, targetsDirection);
+
         if (viewableAngle >= 20 && viewableAngle <= 60)
         {
             aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_45", true);
@@ -237,22 +345,22 @@ public class AICharacterCombatManager : CharacterCombatManager
             aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_180", true);
         }
 
-        if (viewableAngle >= 20 && viewableAngle <= 110)
-        {
-            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_90", true);
-        }
-        else if (viewableAngle <= -20 && viewableAngle >= -110)
-        {
-            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_90", true);
-        }
-        else if (viewableAngle >= 111 && viewableAngle <= 180)
-        {
-            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_180", true);
-        }
-        else if (viewableAngle <= -111 && viewableAngle >= -180)
-        {
-            aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_180", true);
-        }
+        //if (viewableAngle >= 20 && viewableAngle <= 110)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_90", true);
+        //}
+        //else if (viewableAngle <= -20 && viewableAngle >= -110)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_90", true);
+        //}
+        //else if (viewableAngle >= 111 && viewableAngle <= 180)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Right_180", true);
+        //}
+        //else if (viewableAngle <= -111 && viewableAngle >= -180)
+        //{
+        //    aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Turn_Left_180", true);
+        //}
 
     }
 

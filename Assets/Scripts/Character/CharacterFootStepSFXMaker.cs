@@ -64,12 +64,6 @@ public class CharacterFootStepSFXMaker : MonoBehaviour
 
     private void PlayerFootStepSoundFX()
     {
-
-        //USES TAGS TO DETERMINE TYPE OF FOOTSTEP SFX
-        //audioSource.PlayOneShot(WorldSoundFXManager.instance.ChooseRandomFootStepSoundBasedOnGround(steppedOnObject, character));
-
-
-        //simple
         character.characterSoundFXManager.PlayFootStepSoundFX();
     }
 }

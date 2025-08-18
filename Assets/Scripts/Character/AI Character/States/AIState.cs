@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AIState : ScriptableObject
 {
@@ -13,7 +14,7 @@ public class AIState : ScriptableObject
         return this;
     }
 
-    protected virtual AIState SwitchState(AICharacterManager aiCharacter, AIState newState)
+    public virtual AIState SwitchState(AICharacterManager aiCharacter, AIState newState)
     {
         ResetStateFlags(aiCharacter);
 
@@ -23,5 +24,21 @@ public class AIState : ScriptableObject
     protected virtual void ResetStateFlags(AICharacterManager aiCharacter)
     {
         //reset any state flags here so when you return to the state, they are blank once again
+    }
+
+    public bool IsDestinationReachable(AICharacterManager aiCharacter, Vector3 destination)
+    {
+        aiCharacter.navmeshAgent.enabled = true;
+
+        NavMeshPath path = new NavMeshPath();
+
+        if (aiCharacter.navmeshAgent.CalculatePath(destination, path) && path.status == NavMeshPathStatus.PathComplete)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 }

@@ -61,6 +61,10 @@ public class CharacterSoundFXManager : MonoBehaviour
         {
             PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(footsteps));
         }
+
+        //OR
+        //USES TAGS TO DETERMINE TYPE OF FOOTSTEP SFX
+        //audioSource.PlayOneShot(WorldSoundFXManager.instance.ChooseRandomFootStepSoundBasedOnGround(steppedOnObject, character));
     }
     public virtual void PlayBlockSoundFX()
     {

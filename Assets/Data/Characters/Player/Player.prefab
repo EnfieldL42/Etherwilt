@@ -2446,7 +2446,7 @@ MonoBehaviour:
     m_InternalValue: 0
   maxHealth:
     m_InternalValue: 0
-  vitality:
+  health:
     m_InternalValue: 1
   endurance:
     m_InternalValue: 1
@@ -2582,7 +2582,7 @@ MonoBehaviour:
   gravityForce: -30
   groundLayer:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 16385
   groundCheckSphereRadius: 0.1
   groundCheckPlusOrMinusPosition: {x: 0, y: 0, z: 0}
   yVelocity: {x: 0, y: 0, z: 0}
@@ -3826,7 +3826,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.01
   m_Pitch: 1
   Loop: 0
   Mute: 0
