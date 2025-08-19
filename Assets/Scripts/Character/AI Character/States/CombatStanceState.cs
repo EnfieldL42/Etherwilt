@@ -15,7 +15,8 @@ public class CombatStanceState : AIState
 
     [Header("Combo")]
     [SerializeField] protected bool canPerformCombo = false; //if can perform combo attack, after the initial attack
-    [SerializeField] protected int chanceToPerformCombo = 25; //chance in percentage to perform a combo on next attack
+    [SerializeField] protected int percentageToPerformCombo = 25; //chance in percentage to perform a combo on next attack
+    public bool onlyPerformComboIfInitialAttackHits = true;
     protected bool hasRolledForComboChance = false; //if we have already rolled for the chance during this state
 
     [Header("Engagement Distance")]
@@ -66,7 +67,13 @@ public class CombatStanceState : AIState
             SetStrafePath(aiCharacter);
         }
 
-        if(!hasAttack)
+        if(canPerformCombo && !hasRolledForComboChance)
+        {
+            hasRolledForComboChance = true;
+            aiCharacter.attack.willPerformCombo = RollForOutcomeChance(percentageToPerformCombo);
+        }
+
+        if (!hasAttack)
         {
             GetNewAttack(aiCharacter);
         }
@@ -227,6 +234,7 @@ public class CombatStanceState : AIState
 
         hasRolledForComboChance = false;
         hasAttack = false;
+        //hasChoosenStrafePath = false;
         //strafeTimer = 0f;
         //strafeMoveAmount = 0;
     }

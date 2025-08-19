@@ -31,18 +31,13 @@ public class AttackState : AIState
 
         aiCharacter.characterAnimatorManager.UpdateAnimatorMovementParameters(0, 0, false);
 
-        //perform a combo
-        if(willPerformCombo && !hasPerformedAttack)
-        {
-            //if we combo
-            //hasPerformedAttack = true;
-            //currentAttack.comboAction.AttemptToPerformAction(aiCharacter);
-        }
+        PerformComboAttack(aiCharacter);
 
         if (aiCharacter.isPerformingAction)
         {
             return this;
         }
+
 
         if (!hasPerformedAttack)
         {
@@ -76,12 +71,53 @@ public class AttackState : AIState
 
     }
 
+
+    protected virtual void PerformComboAttack(AICharacterManager aiCharacter)
+    {
+        bool canPerformCombo = false;
+
+        if (!willPerformCombo)
+        {
+            return;
+        }
+
+        if (hasPerformedCombo)
+        {
+            return;
+        }
+
+        if(currentAttack.comboAction == null)
+        {
+            return;
+        }
+
+        //if we dont need to hit enemy before, perform combo attack
+        if (aiCharacter.aICharacterCombatManager.canPerformCombo && !aiCharacter.combatState.onlyPerformComboIfInitialAttackHits)
+        {
+            canPerformCombo = true;
+        }
+
+        //if we need to hit enemy before, check if we have hit the target during the initial attack
+        if (aiCharacter.aICharacterCombatManager.canPerformCombo && aiCharacter.combatState.onlyPerformComboIfInitialAttackHits && aiCharacter.aICharacterCombatManager.hasHitTargetDuringCombo)
+        {
+            canPerformCombo = true;
+        }
+
+        if (canPerformCombo)
+        {
+            hasPerformedCombo = true;
+            currentAttack.comboAction.AttemptToPerformAction(aiCharacter);
+        }
+
+    }
+
     protected override void ResetStateFlags(AICharacterManager aiCharacter)
     {
         base.ResetStateFlags(aiCharacter);
 
         hasPerformedAttack = false;
         hasPerformedCombo = false;
+        willPerformCombo = false;
     }
 
 }

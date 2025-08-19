@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Netcode;
+using UnityEngine.Rendering;
 
 public class AICharacterCombatManager : CharacterCombatManager
 {
@@ -12,6 +13,10 @@ public class AICharacterCombatManager : CharacterCombatManager
 
     [Header("Action Recovery")]
     public float actionRecoveryTimer = 0;
+
+    [Header("Combo")]
+    public bool canPerformCombo = false;
+    public bool hasHitTargetDuringCombo = false; //flag to determina if we hit the target with the last attack
 
     [Header("Target Information")]
     public float distanceFromTarget;
@@ -412,5 +417,16 @@ public class AICharacterCombatManager : CharacterCombatManager
     {
         damagedCharactersThisAttack.Clear();
         // Enable all relevant colliders here
+    }
+
+    public override void EnableCanDoCombo()
+    {
+        canPerformCombo = true;
+    }
+
+    public override void DisableCanDoCombo()
+    {
+        canPerformCombo = false;
+        hasHitTargetDuringCombo = false;
     }
 }

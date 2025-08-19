@@ -27,6 +27,8 @@ public class ManualDamageCollider : DamageCollider
             return;
         }
 
+        aiCharacter.aICharacterCombatManager.hasHitTargetDuringCombo = true;
+
         charactersDamaged.Add(damageTarget);
 
         TakeDamageEffect damageEffect = Instantiate(WorldCharacterEffectsManager.instance.takeDamageEffect);
