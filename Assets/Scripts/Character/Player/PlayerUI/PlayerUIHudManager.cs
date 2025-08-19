@@ -29,7 +29,7 @@ public class PlayerUIHudManager : MonoBehaviour
     [Header("Boss Health Bar")]
     public Transform bossHealthBarParent;
     public GameObject bossHealthBarObject;
-
+    [HideInInspector] public UI_Boss_HP_Bar currentBossHealthBar;
 
     public void ToggleHUD(bool status)
     {

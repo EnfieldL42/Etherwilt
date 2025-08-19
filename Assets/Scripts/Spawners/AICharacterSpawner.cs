@@ -64,17 +64,27 @@ public class AICharacterSpawner : MonoBehaviour
         instantiatedGameObject.transform.position = transform.position;
         instantiatedGameObject.transform.rotation = transform.rotation;
         aiCharacter.aICharacterNetworkManager.currentHealth.Value = aiCharacter.aICharacterNetworkManager.maxHealth.Value;
-        aiCharacter.aICharacterCombatManager.currentTarget = null;
-        aiCharacter.characterNetworkManager.isMoving.Value = false;
+        aiCharacter.aICharacterCombatManager.SetTarget(null);
+        //aiCharacter.characterNetworkManager.isMoving.Value = false;
 
         if (aiCharacter.isDead.Value)
         {
-            aiCharacter.characterNetworkManager.isActive.Value = true;
             aiCharacter.isDead.Value = false;
+            aiCharacter.characterNetworkManager.isActive.Value = true;
             aiCharacter.characterAnimatorManager.PlayTargetActionAnimation("Empty", false, false, true, true, true, true);
+            aiCharacter.currentState.SwitchState(aiCharacter, aiCharacter.idle);
         }
 
         aiCharacter.characterUIManager.ResetCharacterHPBar();
+
+        if (aiCharacter is AIBossCharacterManager)
+        {
+            AIBossCharacterManager boss = aiCharacter as AIBossCharacterManager;
+            //boss.aICharacterNetworkManager.isAwake.Value = false;
+            //boss.sleepState.hasBeenAwakened = boss.hasBeenAwakened.Value;
+            //boss.currentState = boss.currentState.SwitchState(boss, boss.sleepState);
+        }
+
     }
 
 }

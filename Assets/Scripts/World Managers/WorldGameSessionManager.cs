@@ -44,6 +44,8 @@ public class WorldGameSessionManager : MonoBehaviour
 
         PlayerUIManager.instance.localPlayer.ReviveCharacter();
 
+        WorldAIManager.instance.ResetAllCharacters();
+
         for (int i = 0; i < WorldObjectManager.instance.bonfires.Count; i++)
         {
             if (WorldObjectManager.instance.bonfires[i].bonefireID == WorldSaveGameManager.instance.currentCharacterData.lastBonfireRestedAt)
@@ -53,7 +55,9 @@ public class WorldGameSessionManager : MonoBehaviour
             }
         }
 
-        WorldObjectManager.instance.bonfires[0].TeleportToBonfire();
+        WorldObjectManager.instance.bonfires[0].TeleportToBonfire(); //CHANGE THIS TO SPAWN LOCATION VECTOR 3
+        WorldSaveGameManager.instance.SaveGame();
+
     }
 
     public void AddPlayerToActivePlayerList(PlayerManager player)

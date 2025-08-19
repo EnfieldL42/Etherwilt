@@ -29,7 +29,9 @@ public class AIBossCharacterManager : AICharacterManager
     [SerializeField] string phaseShiftAnimation = "Phase_Shift_01";
     [SerializeField] CombatStanceState phase02CombatStanceState;
 
+    [Header("Second Body Settings")]
     public int[] bossGroupIDs;
+    public bool isSecondBody = false;
 
     protected override void Awake()
     {
@@ -282,7 +284,7 @@ public class AIBossCharacterManager : AICharacterManager
 
     private void OnBossFightIsActiveChanged(bool oldStatus, bool newStatus)
     {
-        if(bossFightIsActive.Value)
+        if(bossFightIsActive.Value && !isSecondBody)
         {
             if(bossIntroClip != null && bossBattleLoopClip != null)
             {
@@ -292,7 +294,12 @@ public class AIBossCharacterManager : AICharacterManager
             GameObject bossHealthBar = Instantiate(PlayerUIManager.instance.playerUIHudManager.bossHealthBarObject, PlayerUIManager.instance.playerUIHudManager.bossHealthBarParent);
 
             UI_Boss_HP_Bar bossHPBar = bossHealthBar.GetComponentInChildren<UI_Boss_HP_Bar>();
+
+
             bossHPBar.EnableBossHPBar(this);
+            
+
+            PlayerUIManager.instance.playerUIHudManager.currentBossHealthBar = bossHPBar;
         }
         else
         {

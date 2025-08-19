@@ -153,7 +153,16 @@ public class PlayerNetworkManager : CharacterNetworkManager
         if (player.isDead.Value)
         {
             player.playerCombatManager.CreateDeadSpot(player.transform.position, player.playerStatsManager.ether);
+        }
 
+        if (player.isDead.Value && NetworkManager.Singleton.IsServer)
+        {
+            if (PlayerUIManager.instance.playerUIHudManager.currentBossHealthBar != null)
+            {
+                PlayerUIManager.instance.playerUIHudManager.currentBossHealthBar.RemoveHPBar(1f);
+            }
+            WorldAIManager.instance.DisableAllBossFights();
+            //optionally, kick all client players from the game
         }
     }
 

@@ -1270,6 +1270,7 @@ MonoBehaviour:
   phaseShiftAnimation: Phase_Shift_01
   phase02CombatStanceState: {fileID: 11400000, guid: 1ab59e47a0f18bb428fc8d368991b7d8, type: 2}
   bossGroupIDs: 0000000001000000
+  isSecondBody: 1
   earthGuardianSoundFXManager: {fileID: 0}
   tailCombatManager: {fileID: 0}
   bodyCombatManager: {fileID: 0}
@@ -1298,7 +1299,11 @@ MonoBehaviour:
   canBlock: 1
   criticalAttackDistanceCheck: 0.7
   pendingCriticalDamage: 0
+  baseDamage: 5
+  basePoiseDamage: 25
   actionRecoveryTimer: 0
+  canPerformCombo: 0
+  hasHitTargetDuringCombo: 0
   distanceFromTarget: 0
   viewableAngle: 0
   targetsDirection: {x: 0, y: 0, z: 0}
@@ -1312,8 +1317,6 @@ MonoBehaviour:
   ignoreStanceBreak: 0
   stanceRegenerationTimer: 0
   defaultTimeUntilStanceRegenerationBegins: 15
-  investigateSound: 0
-  positionOfSound: {x: 0, y: 0, z: 0}
   secondBody: {fileID: 0}
   aoeCollider: {fileID: 793722686032858324}
   stabdamageCollider:
@@ -1341,8 +1344,6 @@ MonoBehaviour:
   - {fileID: 5766423863629368183}
   - {fileID: 5824134766524628184}
   - {fileID: 669210699925118139}
-  baseDamage: 5
-  basePoiseDamage: 25
   attackSlamDamageModifier: 1.6
   attackStabDamageModifier: 1
   attackStabHeavyDamageModifier: 2

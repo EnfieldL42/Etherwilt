@@ -43,8 +43,6 @@ public class CharacterManager : NetworkBehaviour
 
     protected virtual void Awake()
     {
-        DontDestroyOnLoad(this);
-
         characterController = GetComponent<CharacterController>();//
         characterNetworkManager = GetComponent<CharacterNetworkManager>();//
         animator = GetComponent<Animator>();
@@ -133,12 +131,12 @@ public class CharacterManager : NetworkBehaviour
         {
             characterNetworkManager.currentHealth.Value = 0;
             isDead.Value = true;
-
+            characterNetworkManager.isLockedOn.Value = false; //unlock the character from any locked on target
             //reset any flags
 
             //if not grounded play falling death anim
 
-            if(!manuallySelectDeathAnimation)
+            if (!manuallySelectDeathAnimation)
             {
                 characterAnimatorManager.PlayTargetActionAnimation("Dead_01", true);
 

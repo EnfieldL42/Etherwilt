@@ -45,6 +45,8 @@ public class IdleState : AIState
 
     protected virtual AIState Idle(AICharacterManager aICharacter)
     {
+        aICharacter.navmeshAgent.enabled = false;
+
         if (aICharacter.characterCombatManager.currentTarget != null)
         {
             return SwitchState(aICharacter, aICharacter.pursueState);
