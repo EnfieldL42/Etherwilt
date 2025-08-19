@@ -1645,7 +1645,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: a83c94d2aa4bff748aa62eb94fd323bc, type: 2}
+  - {fileID: 2100000, guid: dd3db1ecb3af7874e8ccf7fee11126d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -2703,6 +2703,7 @@ MonoBehaviour:
   phaseShiftAnimation: Phase_Shift_01
   phase02CombatStanceState: {fileID: 11400000, guid: 55149ae3ad17d6b4d93f756c893cfa0a, type: 2}
   bossGroupIDs: 0000000001000000
+  isSecondBody: 0
   earthGuardianSoundFXManager: {fileID: 0}
   tailCombatManager: {fileID: 0}
   bodyCombatManager: {fileID: 0}
@@ -2731,7 +2732,11 @@ MonoBehaviour:
   canBlock: 1
   criticalAttackDistanceCheck: 0.7
   pendingCriticalDamage: 0
+  baseDamage: 5
+  basePoiseDamage: 25
   actionRecoveryTimer: 0
+  canPerformCombo: 0
+  hasHitTargetDuringCombo: 0
   distanceFromTarget: 0
   viewableAngle: 0
   targetsDirection: {x: 0, y: 0, z: 0}
@@ -2745,8 +2750,6 @@ MonoBehaviour:
   ignoreStanceBreak: 0
   stanceRegenerationTimer: 0
   defaultTimeUntilStanceRegenerationBegins: 15
-  investigateSound: 0
-  positionOfSound: {x: 0, y: 0, z: 0}
   secondBody: {fileID: 0}
   bitedamageCollider: {fileID: 566420309689054706}
   slamdamageCollider:
@@ -2767,8 +2770,6 @@ MonoBehaviour:
   - {fileID: 8347764995320011628}
   - {fileID: 8937571651991269412}
   - {fileID: 6172496260642868039}
-  baseDamage: 5
-  basePoiseDamage: 25
   attackBiteDamageModifier: 1
   attackSlamDamageModifier: 1.3
   attackSwipeDamageModifier: 1.6

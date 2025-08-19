@@ -25,7 +25,7 @@ public class RenderTerrainMap : MonoBehaviour
 
     RenderTexture diffuseTex;
     RenderTexture normalTex;
-    RenderTexture heightTex;
+    RenderTexture depthTex;
 
     private Bounds bounds;
 
@@ -55,7 +55,7 @@ public class RenderTerrainMap : MonoBehaviour
     {
         diffuseTex = new RenderTexture(resolution, resolution, 24);
         normalTex = new RenderTexture(resolution, resolution, 24);
-        heightTex = new RenderTexture(resolution, resolution, 24);
+        depthTex = new RenderTexture(resolution, resolution, 24);
         GetBounds();
         SetUpCam();
 
@@ -75,51 +75,35 @@ public class RenderTerrainMap : MonoBehaviour
         camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
         Shader.SetGlobalFloat("_OrthographicCamSizeTerrain", camToDrawWith.orthographicSize);
         Shader.SetGlobalVector("_OrthographicCamPosTerrain", camToDrawWith.transform.position);
-        camToDrawWith.Render(); //This is causing an error
+        camToDrawWith.Render(); 
         Shader.SetGlobalTexture("_TerrainDiffuse", diffuseTex);
-        Debug.Log("DiffuseMap Rendered");
+        //Debug.Log("DiffuseMap Rendered");
         DrawNormalMap();
     }
 
     public void DrawNormalMap()
     {
-            camToDrawWith.enabled = true;
-            additionalCameraData.SetRenderer(1);
-            camToDrawWith.targetTexture = normalTex;
-            camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
-            Shader.SetGlobalFloat("_OrthographicCamSizeTerrain", camToDrawWith.orthographicSize);
-            Shader.SetGlobalVector("_OrthographicCamPosTerrain", camToDrawWith.transform.position);
-            camToDrawWith.Render(); //This is causing an error
-            Shader.SetGlobalTexture("_TerrainNormal", normalTex);
-            Debug.Log("NormalMap Rendered");
-            DrawHeightMap();
+        camToDrawWith.enabled = true;
+        additionalCameraData.SetRenderer(1);
+        camToDrawWith.targetTexture = normalTex;
+        camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
+        camToDrawWith.Render(); 
+        Shader.SetGlobalTexture("_TerrainNormal", normalTex);
+        //Debug.Log("NormalMap Rendered");
+        DrawHeightMap();
     }
 
     public void DrawHeightMap()
     {
-            camToDrawWith.enabled = true;
-            additionalCameraData.SetRenderer(2);
-            camToDrawWith.targetTexture = heightTex;
-            camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
-            Shader.SetGlobalFloat("_OrthographicCamSizeTerrain", camToDrawWith.orthographicSize);
-            Shader.SetGlobalVector("_OrthographicCamPosTerrain", camToDrawWith.transform.position);
-            camToDrawWith.Render(); //This is causing an error
-            Shader.SetGlobalTexture("_TerrainHeight", heightTex);
-            Debug.Log("HeightMap Rendered");
-            camToDrawWith.enabled = false;
-    }
-
-    /*void DrawToMap()
-    {
         camToDrawWith.enabled = true;
-        camToDrawWith.targetTexture = diffuseTex;
+        additionalCameraData.SetRenderer(2);
+        camToDrawWith.targetTexture = depthTex;
         camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
-        Shader.SetGlobalFloat("_OrthographicCamSizeTerrain", camToDrawWith.orthographicSize);
-        Shader.SetGlobalVector("_OrthographicCamPosTerrain", camToDrawWith.transform.position);
-        camToDrawWith.Render(); //This is causing an error
-        Shader.SetGlobalTexture("_TerrainDiffuse", diffuseTex);
-    }*/
-
+        camToDrawWith.Render();
+        Shader.SetGlobalTexture("_TerrainDepth", depthTex);
+        //Debug.Log("DepthMap Rendered");
+        camToDrawWith.enabled = false;
+    }
 
     void SetUpCam()
     {
@@ -133,6 +117,7 @@ public class RenderTerrainMap : MonoBehaviour
         camToDrawWith.transform.parent = null;
         camToDrawWith.transform.position = bounds.center + new Vector3(0, bounds.extents.y + 500f, 0);
         camToDrawWith.transform.parent = gameObject.transform;
+        Shader.SetGlobalFloat("_TerrainCamHeight", camToDrawWith.transform.position.y);
     }
 
 }
