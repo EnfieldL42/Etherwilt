@@ -46,10 +46,8 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] GameObject characterNameMenu;
     [SerializeField] TMP_InputField characterNameInputField;
 
-
     [Header("Classes")]
     public CharacterClass[] startingClasses;
-
 
     private void Awake()
     {
@@ -263,7 +261,7 @@ public class TitleScreenManager : MonoBehaviour
         startingClasses[classID].SetClass(player);
     }
 
-    public void SetCharacterClass(PlayerManager player, int vitality, int endurance, int strength, int dexterity,
+    public void SetCharacterClass(PlayerManager player, int vitality, int endurance, int strength, int dexterity, int weaponMastery, int magicMastery, int breakerMastery, int tankMastery,
         WeaponItem[] mainHandWeapons, WeaponItem[] offHandWeapons, QuickSlotItem[] quickSlotItems)
     {
         //set stats
@@ -271,6 +269,10 @@ public class TitleScreenManager : MonoBehaviour
         player.playerNetworkManager.endurance.Value = endurance;
         player.playerNetworkManager.strength.Value = strength;
         player.playerNetworkManager.dexterity.Value = dexterity;
+        player.playerNetworkManager.weaponMastery.Value = weaponMastery;
+        player.playerNetworkManager.magicMastery.Value = magicMastery;
+        player.playerNetworkManager.breakerMastery.Value = breakerMastery;
+        player.playerNetworkManager.tankMastery.Value = tankMastery;
 
         //set weapons
         player.playerInventoryManager.weaponsInRightHandSlots[0] = Instantiate(mainHandWeapons[0]);

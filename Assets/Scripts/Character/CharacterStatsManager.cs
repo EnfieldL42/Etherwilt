@@ -71,9 +71,13 @@ public class CharacterStatsManager : MonoBehaviour
             Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.healthSlider.value) +
             Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.enduranceSlider.value) +
             Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.strengthSlider.value) +
-            Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.dexteritySlider.value);
+            Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.dexteritySlider.value) +
+            Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.weaponMasterySlider.value) +
+            Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.magicMasterySlider.value) +
+            Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.breakerMasterySlider.value) +
+            Mathf.RoundToInt(PlayerUIManager.instance.playerUILevelUpManager.tankMasterySlider.value);
 
-            int characterProjectedLevel = totalProjectedAttrbutes - 40 + 1;
+            int characterProjectedLevel = totalProjectedAttrbutes - 80 + 1;
 
             if (characterProjectedLevel < 1)
             {
@@ -87,9 +91,13 @@ public class CharacterStatsManager : MonoBehaviour
             character.characterNetworkManager.health.Value +
             character.characterNetworkManager.endurance.Value +
             character.characterNetworkManager.strength.Value +
-            character.characterNetworkManager.dexterity.Value;
+            character.characterNetworkManager.dexterity.Value +
+            character.characterNetworkManager.weaponMastery.Value +
+            character.characterNetworkManager.magicMastery.Value +
+            character.characterNetworkManager.breakerMastery.Value +
+            character.characterNetworkManager.tankMastery.Value;
 
-        int characterLevel = totalAttrbutes - 40 + 1;
+        int characterLevel = totalAttrbutes - 80 + 1;
 
         if(characterLevel < 1)
         {

@@ -90,7 +90,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
         HandleRotation();
         HandleJumpingMovement();
         HandeFreeFallMovement();
-        HandleWallSliding();
+        //HandleWallSliding();
     }
 
     private void GetMovementValues()

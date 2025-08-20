@@ -254,6 +254,10 @@ public class PlayerManager : CharacterManager
         currentCharacterData.endurance = playerNetworkManager.endurance.Value;
         currentCharacterData.strength = playerNetworkManager.strength.Value;
         currentCharacterData.dexterity = playerNetworkManager.dexterity.Value;
+        currentCharacterData.weaponMastery = playerNetworkManager.weaponMastery.Value;
+        currentCharacterData.magicMastery = playerNetworkManager.magicMastery.Value;
+        currentCharacterData.breakerMastery = playerNetworkManager.breakerMastery.Value;
+        currentCharacterData.tankMastery = playerNetworkManager.tankMastery.Value;
 
         //Ether
         currentCharacterData.ether = playerStatsManager.ether;
@@ -320,6 +324,10 @@ public class PlayerManager : CharacterManager
         playerNetworkManager.endurance.Value = currentCharacterData.endurance;
         playerNetworkManager.strength.Value = currentCharacterData.strength;
         playerNetworkManager.dexterity.Value = currentCharacterData.dexterity;
+        playerNetworkManager.weaponMastery.Value = currentCharacterData.weaponMastery;
+        playerNetworkManager.magicMastery.Value = currentCharacterData.magicMastery;
+        playerNetworkManager.breakerMastery.Value = currentCharacterData.breakerMastery;
+        playerNetworkManager.tankMastery.Value = currentCharacterData.tankMastery;
 
         //Health and Stamina Calculation
         playerNetworkManager.maxHealth.Value = playerStatsManager.CalculateHealthBasedOnLevel(playerNetworkManager.health.Value);

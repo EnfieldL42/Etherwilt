@@ -30,6 +30,10 @@ public class CharacterSaveData
     public int endurance;
     public int strength;
     public int dexterity;
+    public int weaponMastery;
+    public int magicMastery;
+    public int breakerMastery;
+    public int tankMastery;
 
     [Header("Dead Spot")]
     public bool hasDeadSpot;

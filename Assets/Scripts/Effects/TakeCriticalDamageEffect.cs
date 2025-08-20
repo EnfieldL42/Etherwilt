@@ -51,7 +51,12 @@ public class TakeCriticalDamageEffect : TakeDamageEffect
         character.characterStatsManager.totalPoiseDamanage -= poiseDamage;   //subtract poise damage from character total
         character.characterCombatManager.previousPoiseDamageTaken = poiseDamage; //store previous poise damage taken for other interactions
 
-        float remainingPoise = character.characterStatsManager.basePoiseDefense + character.characterStatsManager.offensivePoiseBonus + character.characterStatsManager.totalPoiseDamanage;
+        float mastery = Mathf.Clamp(character.characterNetworkManager.tankMastery.Value, 0, 99);
+        float tankModifier = 1f + (mastery / 99f) * 1f;
+
+        float remainingPoise = (character.characterStatsManager.basePoiseDefense * tankModifier)
+            + character.characterStatsManager.offensivePoiseBonus
+            + character.characterStatsManager.totalPoiseDamanage;
 
         if (remainingPoise <= 0)
         {

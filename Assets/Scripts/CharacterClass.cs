@@ -12,6 +12,10 @@ public class CharacterClass
     public int endurance = 10;
     public int strength = 10;
     public int dexterity = 10;
+    public int weaponMastery = 10;
+    public int magicMastery = 10;
+    public int breakerMastery = 10;
+    public int tankMastery = 10;
 
     [Header("Class Weapons")]
     public WeaponItem[] mainHandWeapons = new WeaponItem[3];
@@ -22,6 +26,6 @@ public class CharacterClass
 
     public void SetClass(PlayerManager player)
     {
-        TitleScreenManager.instance.SetCharacterClass(player, vitality, endurance, strength, dexterity, mainHandWeapons, offHandWeapons, quickSlotItems);
+        TitleScreenManager.instance.SetCharacterClass(player, vitality, endurance, strength, dexterity, weaponMastery, magicMastery, breakerMastery, tankMastery, mainHandWeapons, offHandWeapons, quickSlotItems);
     }
 }

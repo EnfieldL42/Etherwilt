@@ -2454,6 +2454,14 @@ MonoBehaviour:
     m_InternalValue: 1
   dexterity:
     m_InternalValue: 1
+  weaponMastery:
+    m_InternalValue: 1
+  magicMastery:
+    m_InternalValue: 1
+  breakerMastery:
+    m_InternalValue: 1
+  tankMastery:
+    m_InternalValue: 1
   remainingHealthFlasks:
     m_InternalValue: 3
   isChugging:
@@ -2582,13 +2590,18 @@ MonoBehaviour:
   gravityForce: -30
   groundLayer:
     serializedVersion: 2
-    m_Bits: 16385
+    m_Bits: 16393
   groundCheckSphereRadius: 0.1
   groundCheckPlusOrMinusPosition: {x: 0, y: 0, z: 0}
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
   fallStartYVelocity: -5
   isRolling: 0
+  slopeSlideStartPositionYOffset: 1
+  slopeSlideSphereCastMaxDistance: 2
+  slopeSlideSpeed: -11
+  slopeSlideSpeedMultiplier: 3
+  slipperySurfaceMaxAngle: 45
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0

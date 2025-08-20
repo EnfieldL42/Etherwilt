@@ -4,8 +4,14 @@ public class WorldUtilityManager : MonoBehaviour
 {
     public static WorldUtilityManager instance;
 
+    [Header("Layers")]
     [SerializeField] LayerMask characterLayers;
     [SerializeField] LayerMask enviroLayers;
+    [SerializeField] LayerMask slipperyEnviroLayers;
+
+    [Header("Forces")]
+    public float slopeSlideForce = -15f;
+
     private void Awake()
     {
         if (instance == null)
@@ -27,6 +33,11 @@ public class WorldUtilityManager : MonoBehaviour
     public LayerMask GetEnviroLayers()
     {
         return enviroLayers;
+    }
+
+    public LayerMask GetSlipperyEnviroLayers()
+    {
+        return slipperyEnviroLayers;
     }
 
     public bool CanIDamageThisTarget(CharacterGroup attackingCharacter, CharacterGroup targetCharacter)

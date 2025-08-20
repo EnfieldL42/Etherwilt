@@ -21,7 +21,11 @@ public enum CharacterAttribute
     Health,
     Endurance,
     Strength,
-    Dexterity
+    Dexterity,
+    WeaponMastery,
+    MagicMastery,
+    BreakerMastery,
+    TankMastery,
 }
 
 public enum CharacterGroup

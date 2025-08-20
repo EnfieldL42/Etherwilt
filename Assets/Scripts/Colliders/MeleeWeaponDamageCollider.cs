@@ -23,7 +23,6 @@ public class MeleeWeaponDamageCollider : DamageCollider
         if(damageCollider == null)
         {
             damageCollider = GetComponent<Collider>();
-        
         }
         damageCollider.enabled = false; //always be unabled and only let animation event allow collider to turn on
 
@@ -32,22 +31,20 @@ public class MeleeWeaponDamageCollider : DamageCollider
     protected override void OnTriggerEnter(Collider other)
     {
         CharacterManager damageTarget = other.GetComponentInParent<CharacterManager>();
-
+        //CharacterManager target = other.GetComponent<CharacterManager>();
 
         if (damageTarget != null)
         {
-            if (damageTarget == characterCausingDamage)//prevent damaging ourselves
-            {
-                return;
-            }
-
             contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
 
             //check for friendly fire
 
             //check if target is blocking
 
-            //check if target is invulnerable
+            if (damageTarget.characterGroup == character.characterGroup)
+            {
+                return;
+            }
 
             DamageTarget(damageTarget);
         }
@@ -140,13 +137,24 @@ public class MeleeWeaponDamageCollider : DamageCollider
         }
     }
 
-    private void ApplyAttackDamageModifiers(float modifier, TakeDamageEffect damage)
+    private void ApplyAttackDamageModifiers(float attackModifier, TakeDamageEffect damage)
     {
-        damage.physicalDamage *= modifier;
-        damage.magicDamage *= modifier;
-        damage.poiseDamage *= modifier;
+
+        float weaponMastery = Mathf.Clamp(characterCausingDamage.characterNetworkManager.weaponMastery.Value, 0, 99);
+        float magicMastery = Mathf.Clamp(characterCausingDamage.characterNetworkManager.magicMastery.Value, 0, 99);
+        float breakerMastery = Mathf.Clamp(characterCausingDamage.characterNetworkManager.breakerMastery.Value, 0, 99);
+
+        float weaponScale = 1f + (weaponMastery / 99f) * 1f;
+        float magicScale = 1f + (magicMastery / 99f) * 1f;
+        float breakerScale = 1f + (breakerMastery / 99f) * 1f;
+
+        // --- apply to damage ---
+        damage.physicalDamage = Mathf.RoundToInt(damage.physicalDamage * attackModifier * weaponScale);
+        damage.magicDamage = Mathf.RoundToInt(damage.magicDamage * attackModifier * magicScale);
+        damage.poiseDamage = Mathf.RoundToInt(damage.poiseDamage * attackModifier * breakerScale);
 
         Debug.Log("poise " + damage.poiseDamage);
+        Debug.Log("physical  " + damage.physicalDamage);
         //if attack is fullt charged heavy, multiply charge modifier after normal modifiers have been calculated
     }
 }

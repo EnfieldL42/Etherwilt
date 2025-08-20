@@ -19,6 +19,10 @@ public class PlayerUILevelUpManager : PlayerUIMenu
     [SerializeField] TextMeshProUGUI enduranceLevelText;
     [SerializeField] TextMeshProUGUI strengthLevelText;
     [SerializeField] TextMeshProUGUI dexterityLevelText;
+    [SerializeField] TextMeshProUGUI weaponMasteryLevelText;
+    [SerializeField] TextMeshProUGUI magicMasteryLevelText;
+    [SerializeField] TextMeshProUGUI breakerMasteryLevelText;
+    [SerializeField] TextMeshProUGUI tankMasteryLevelText;
 
     [Header("Project Character Stats")]
     [SerializeField] TextMeshProUGUI projectedCharacterLevelText;
@@ -27,6 +31,10 @@ public class PlayerUILevelUpManager : PlayerUIMenu
     [SerializeField] TextMeshProUGUI projectedEnduranceLevelText;
     [SerializeField] TextMeshProUGUI projectedStrengthLevelText;
     [SerializeField] TextMeshProUGUI projectedDexterityLevelText;
+    [SerializeField] TextMeshProUGUI projectedWeaponMasteryLevelText;
+    [SerializeField] TextMeshProUGUI projectedMagicMasteryLevelText;
+    [SerializeField] TextMeshProUGUI projectedBreakerMasteryLevelText;
+    [SerializeField] TextMeshProUGUI projectedTankMasteryLevelText;
 
     [Header("Sliders")]
     public CharacterAttribute currentSelectedAtribute;
@@ -34,6 +42,10 @@ public class PlayerUILevelUpManager : PlayerUIMenu
     public Slider enduranceSlider;
     public Slider strengthSlider;
     public Slider dexteritySlider;
+    public Slider weaponMasterySlider;
+    public Slider magicMasterySlider;
+    public Slider breakerMasterySlider;
+    public Slider tankMasterySlider;
 
     [Header("Buttons")]
     [SerializeField] Button confirmLevelsButton;
@@ -57,6 +69,10 @@ public class PlayerUILevelUpManager : PlayerUIMenu
         enduranceSlider.value = enduranceSlider.minValue;
         strengthSlider.value = strengthSlider.minValue;
         dexteritySlider.value = dexteritySlider.minValue;
+        weaponMasterySlider.value = weaponMasterySlider.minValue;
+        magicMasterySlider.value = magicMasterySlider.minValue;
+        breakerMasterySlider.value = breakerMasterySlider.minValue;
+        tankMasterySlider.value = tankMasterySlider.minValue;
 
         //character level
         characterLevelText.text = PlayerUIManager.instance.localPlayer.characterStatsManager.CalculateCharacterLevelBasedOnAttributes().ToString();
@@ -84,6 +100,23 @@ public class PlayerUILevelUpManager : PlayerUIMenu
         projectedDexterityLevelText.text = PlayerUIManager.instance.localPlayer.playerNetworkManager.dexterity.Value.ToString();
         dexteritySlider.minValue = PlayerUIManager.instance.localPlayer.playerNetworkManager.dexterity.Value;
 
+
+        weaponMasteryLevelText.text = PlayerUIManager.instance.localPlayer.playerNetworkManager.weaponMastery.Value.ToString();
+        projectedWeaponMasteryLevelText.text = PlayerUIManager.instance.localPlayer.playerNetworkManager.weaponMastery.Value.ToString();
+        weaponMasterySlider.minValue = PlayerUIManager.instance.localPlayer.playerNetworkManager.weaponMastery.Value;
+
+        magicMasteryLevelText.text = PlayerUIManager.instance.localPlayer.playerNetworkManager.magicMastery.Value.ToString();
+        projectedMagicMasteryLevelText.text = PlayerUIManager.instance.localPlayer.playerNetworkManager.magicMastery.Value.ToString();
+        magicMasterySlider.minValue = PlayerUIManager.instance.localPlayer.playerNetworkManager.magicMastery.Value;
+
+        breakerMasteryLevelText.text = PlayerUIManager.instance.localPlayer.playerNetworkManager.breakerMastery.Value.ToString();
+        projectedBreakerMasteryLevelText.text = PlayerUIManager.instance.localPlayer.playerNetworkManager.breakerMastery.Value.ToString();
+        breakerMasterySlider.minValue = PlayerUIManager.instance.localPlayer.playerNetworkManager.breakerMastery.Value;
+
+        tankMasteryLevelText.text = PlayerUIManager.instance.localPlayer.playerNetworkManager.tankMastery.Value.ToString();
+        projectedTankMasteryLevelText.text = PlayerUIManager.instance.localPlayer.playerNetworkManager.tankMastery.Value.ToString();
+        tankMasterySlider.minValue = PlayerUIManager.instance.localPlayer.playerNetworkManager.tankMastery.Value;
+
         healthSlider.Select();
         healthSlider.OnSelect(null);
 
@@ -106,6 +139,18 @@ public class PlayerUILevelUpManager : PlayerUIMenu
                 break;
             case CharacterAttribute.Dexterity:
                 projectedDexterityLevelText.text = dexteritySlider.value.ToString();
+                break;
+            case CharacterAttribute.WeaponMastery:
+                projectedWeaponMasteryLevelText.text = weaponMasterySlider.value.ToString();
+                break;
+            case CharacterAttribute.MagicMastery:
+                projectedMagicMasteryLevelText.text = magicMasterySlider.value.ToString();
+                break;
+            case CharacterAttribute.BreakerMastery:
+                projectedBreakerMasteryLevelText.text = breakerMasterySlider.value.ToString();
+                break;
+            case CharacterAttribute.TankMastery:
+                projectedTankMasteryLevelText.text = tankMasterySlider.value.ToString();
                 break;
             default:
                 break;
@@ -147,6 +192,10 @@ public class PlayerUILevelUpManager : PlayerUIMenu
         player.playerNetworkManager.endurance.Value = Mathf.RoundToInt(enduranceSlider.value);
         player.playerNetworkManager.strength.Value = Mathf.RoundToInt(strengthSlider.value);
         player.playerNetworkManager.dexterity.Value = Mathf.RoundToInt(dexteritySlider.value);
+        player.playerNetworkManager.weaponMastery.Value = Mathf.RoundToInt(weaponMasterySlider.value);
+        player.playerNetworkManager.magicMastery.Value = Mathf.RoundToInt(magicMasterySlider.value);
+        player.playerNetworkManager.breakerMastery.Value = Mathf.RoundToInt(breakerMasterySlider.value);
+        player.playerNetworkManager.tankMastery.Value = Mathf.RoundToInt(tankMasterySlider.value);
 
         SetCurrentStats();
         ChangeTextColorDependingOnCost();
@@ -205,11 +254,19 @@ public class PlayerUILevelUpManager : PlayerUIMenu
         int projectedEnduranceLevel = Mathf.RoundToInt(enduranceSlider.value);
         int projectedStrengthLevel = Mathf.RoundToInt(strengthSlider.value);
         int projectedDexterityLevel = Mathf.RoundToInt(dexteritySlider.value);
+        int projectedWeaponMasteryLevel = Mathf.RoundToInt(weaponMasterySlider.value);
+        int projectedMagicMasteryLevel = Mathf.RoundToInt(magicMasterySlider.value);
+        int projectedBreakerMasteryLevel = Mathf.RoundToInt(breakerMasterySlider.value);
+        int projectedTankMasteryLevel = Mathf.RoundToInt(tankMasterySlider.value);
 
         ChangeTextFieldToSpecificColorBasedOnStat(player, projectedHealthLevelText, player.playerNetworkManager.health.Value, projectedHealthLevel);
         ChangeTextFieldToSpecificColorBasedOnStat(player, projectedEnduranceLevelText, player.playerNetworkManager.endurance.Value, projectedEnduranceLevel);
         ChangeTextFieldToSpecificColorBasedOnStat(player, projectedStrengthLevelText, player.playerNetworkManager.strength.Value, projectedStrengthLevel);
         ChangeTextFieldToSpecificColorBasedOnStat(player, projectedDexterityLevelText, player.playerNetworkManager.dexterity.Value, projectedDexterityLevel);
+        ChangeTextFieldToSpecificColorBasedOnStat(player, projectedWeaponMasteryLevelText, player.playerNetworkManager.weaponMastery.Value, projectedWeaponMasteryLevel);
+        ChangeTextFieldToSpecificColorBasedOnStat(player, projectedMagicMasteryLevelText, player.playerNetworkManager.magicMastery.Value, projectedMagicMasteryLevel);
+        ChangeTextFieldToSpecificColorBasedOnStat(player, projectedBreakerMasteryLevelText, player.playerNetworkManager.breakerMastery.Value, projectedBreakerMasteryLevel);
+        ChangeTextFieldToSpecificColorBasedOnStat(player, projectedTankMasteryLevelText, player.playerNetworkManager.tankMastery.Value, projectedTankMasteryLevel);
 
         int projectedPlayerLevel = Mathf.RoundToInt(player.characterStatsManager.CalculateCharacterLevelBasedOnAttributes(true));
         int playerLevel = Mathf.RoundToInt(player.characterStatsManager.CalculateCharacterLevelBasedOnAttributes());
