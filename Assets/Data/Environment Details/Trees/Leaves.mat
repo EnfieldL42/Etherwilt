@@ -21,18 +21,16 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Leaves
-  m_Shader: {fileID: 4800000, guid: 933532a4fcc9baf4fa0491de14d08ed7, type: 3}
+  m_Shader: {fileID: -6465566751694194690, guid: b8c593ef9384c74448b37157a71918fd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords:
-  - _ALPHATEST_ON
+  m_ValidKeywords: []
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 1
-  m_CustomRenderQueue: 2450
-  stringTagMap:
-    RenderType: TransparentCutout
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
   m_LockedProperties: 
@@ -79,7 +77,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_70e4587124fc4314bcff43f00a36213b_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 164fdd4fa02523a4a96e74b4cb59da1c, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2D:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Texture2DAsset_aaa9bdb2987342ec86fc0d5b42dbf3f9_Out_0_Texture2D:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -121,11 +131,18 @@ Material:
     - _GlossyReflections: 0
     - _HeightBlend: 0
     - _Metallic: 0
+    - _NormalSSSInfluence: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 1
+    - _ReceiveShadows: 0
+    - _RimLightCutoff: 0.25
+    - _RimLightIntensity: 0.5
+    - _RimLightPower: 2
+    - _RimLightSmoothness: 0.5
+    - _SSSIntensity: 0.25
+    - _SSSPower: 1.7
     - _Scale: 1
     - _SineOffset: 1
     - _Smoothness: 0
@@ -146,9 +163,11 @@ Material:
     - _Color: {r: 0.48178464, g: 0.75471693, b: 0.49614948, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FarColour: {r: 0.14928201, g: 0.42767292, b: 0.30749276, a: 0}
+    - _LeafColour: {r: 0.5219335, g: 0.6603774, b: 0.52020293, a: 0}
     - _NearColour: {r: 0.65854, g: 1, b: 0.54402506, a: 0}
     - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
-    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0}
+    - _SSSColour: {r: 0.6540729, g: 0.6886792, b: 0.40606087, a: 1}
+    - _ShadowTint: {r: 0.3008188, g: 0.3773585, b: 0.37368873, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TerrainOffset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
