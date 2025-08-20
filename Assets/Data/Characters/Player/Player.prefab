@@ -2592,16 +2592,20 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 16393
   groundCheckSphereRadius: 0.1
-  groundCheckPlusOrMinusPosition: {x: 0, y: 0, z: 0}
+  groundCheckPlusOrMinusPosition: {x: 0, y: -0.06, z: 0}
   yVelocity: {x: 0, y: 0, z: 0}
   groundedYVelocity: -20
   fallStartYVelocity: -5
   isRolling: 0
   slopeSlideStartPositionYOffset: 1
-  slopeSlideSphereCastMaxDistance: 2
+  slopeSlideSphereCastMaxDistance: 6
   slopeSlideSpeed: -11
   slopeSlideSpeedMultiplier: 3
-  slipperySurfaceMaxAngle: 45
+  slipperySurfaceMaxAngle: 15
+  isTouchingWall: 0
+  wallSlideSpeed: 6
+  wallRepelForce: 1
+  canWallSlide: 1
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0
@@ -2615,10 +2619,6 @@ MonoBehaviour:
   jumpForwardSpeed: 5
   freeFallSpeed: 2
   dodgeStaminaCost: 20
-  isTouchingWall: 0
-  wallSlideSpeed: 6
-  wallRepelForce: 1
-  canWallSlide: 1
 --- !u!114 &1017866198720386970
 MonoBehaviour:
   m_ObjectHideFlags: 0

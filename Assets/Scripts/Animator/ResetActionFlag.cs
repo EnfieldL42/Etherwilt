@@ -36,10 +36,10 @@ public class ResetActionFlag : StateMachineBehaviour
         character.characterCombatManager.DisableCanDoRollingAttack();
         character.characterCombatManager.DisableCanDoBackstepAttack();
 
-        if(player != null)
-        {
-            player.playerLocomotionManager.canWallSlide = false;
-        }
+        //if(player != null)
+        //{
+        //    player.playerLocomotionManager.canWallSlide = false;
+        //}
 
 
         if (footIK != null)

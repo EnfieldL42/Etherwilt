@@ -22,6 +22,7 @@ public class WorldUtilityManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
         DontDestroyOnLoad(gameObject);
     }
 

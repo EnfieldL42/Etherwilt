@@ -36,15 +36,6 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
     [SerializeField] float dodgeStaminaCost = 25;
 
 
-    [Header("Wall Sliding")]
-    [SerializeField] bool isTouchingWall = false;
-    Vector3 wallNormal;
-    [SerializeField] float wallSlideSpeed = 2f;
-    [SerializeField] float wallRepelForce = 0.05f;
-    public bool canWallSlide = true;
-
-
-
 
     protected override void Awake()
     {
@@ -310,7 +301,7 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
             return;
         }
         //
-        canWallSlide = false;
+        //canWallSlide = false;
         //check if we play one handed animation or two handed animation
         player.playerAnimatorManager.PlayTargetActionAnimation("main_jump_start_01", false);
 
@@ -382,43 +373,9 @@ public class PlayerLocomotionManager : CharacterLocomotionManager
 
     }
 
-    private void HandleWallSliding()
-    {
-        if (isTouchingWall && !player.isGrounded && canWallSlide)
-        {
-
-            Vector3 repel = wallNormal * wallRepelForce;
-            Vector3 wallSlide = Vector3.down * wallSlideSpeed;
-            player.characterController.Move((repel + wallSlide) * Time.deltaTime);
-        }
-
-    }
-
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        LayerMask enviroLayers = WorldUtilityManager.instance.GetEnviroLayers();
-
-        // Check if the hit object's layer is in the environment layers
-        if (((1 << hit.gameObject.layer) & enviroLayers) != 0)
-        {
-            // Check angle to determine if it's a wall
-            if (Vector3.Angle(hit.normal, Vector3.up) > 65f)
-            {
-                isTouchingWall = true;
-                wallNormal = hit.normal;
-                Debug.Log("Hit Wall");
-            }
-            else
-            {
-                isTouchingWall = false;
-            }
-        }
-
-    }
-
-    public void EnableWallSlide()
-    {
-        canWallSlide = true;
-    }
+    //public void EnableWallSlide()
+    //{
+    //    canWallSlide = true;
+    //}
 
 }
