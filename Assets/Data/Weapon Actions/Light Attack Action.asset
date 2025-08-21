@@ -12,5 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 723a1fe2819698a4da8a009cbb9a1c78, type: 3}
   m_Name: Light Attack Action
   m_EditorClassIdentifier: 
-  actionID: 0
+  actionID: 1
   light_Attack_01: Main_Light_Attack_01
+  light_Attack_02: Main_Light_Attack_02
+  light_Attack_03: Main_Light_Attack_03
+  light_Attack_04: Main_Light_Attack_04
+  run_Attack_01: Main_Run_Attack_01
+  roll_Attack_01: Main_Roll_Attack_01
+  backstep_Attack_01: Main_Backstep_Attack_01

@@ -150,33 +150,35 @@ public class TakeDamageEffect : InstantCharacterEffect
 
         if (poiseIsBroken)
         {
-            damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
+            //damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
 
-            //if (angleHitFrom >= 145 && angleHitFrom <= 180)
-            //{
-            //    //play front anim
-            //    damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
-            //}
-            //else if (angleHitFrom <= -145 && angleHitFrom >= -180)
-            //{
-            //    //play front anim
-            //    damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
-            //}
-            //else if (angleHitFrom >= -45 && angleHitFrom <= 45)
-            //{
-            //    //play back anim
-            //    damageAnimation = character.characterAnimatorManager.hit_Backward_Medium_01;
-            //}
-            //else if (angleHitFrom >= -144 && angleHitFrom <= -45)
-            //{
-            //    //play left anim
-            //    damageAnimation = character.characterAnimatorManager.hit_Left_Medium_01;
-            //}
-            //else if (angleHitFrom >= 45 && angleHitFrom <= 144)
-            //{
-            //    //play right anim
-            //    damageAnimation = character.characterAnimatorManager.hit_Right_Medium_01;
-            //}
+            if (angleHitFrom >= 145 && angleHitFrom <= 180)
+            {
+                //play front anim
+                damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
+            }
+            else if (angleHitFrom <= -145 && angleHitFrom >= -180)
+            {
+                //play front anim
+                damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
+            }
+            else if (angleHitFrom >= -45 && angleHitFrom <= 45)
+            {
+                //play back anim
+                damageAnimation = character.characterAnimatorManager.hit_Backward_Medium_01;
+            }
+            else if (angleHitFrom >= -144 && angleHitFrom <= -45)
+            {
+                //play left anim
+                damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
+            }
+            else if (angleHitFrom >= 45 && angleHitFrom <= 144)
+            {
+                //play right anim
+                damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
+            }
+
+
         }
         else
         {

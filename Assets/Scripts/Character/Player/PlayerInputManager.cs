@@ -191,7 +191,6 @@ public class PlayerInputManager : MonoBehaviour
 
     }
 
-
     private void OnApplicationFocus(bool focus)//cant move player if tabbed out of the game
     {
         if (enabled)
@@ -208,6 +207,7 @@ public class PlayerInputManager : MonoBehaviour
             }
         }
     }
+
     private void OnSceneChange(Scene oldScene, Scene newScene)    //checks if the the scene is the main world scene, enables player input if it is/ disables if its not(main menu)
 
     {
@@ -225,8 +225,6 @@ public class PlayerInputManager : MonoBehaviour
             }
         }
     }
-
-
 
     private void HandleAllInputs()
     {
@@ -316,7 +314,7 @@ public class PlayerInputManager : MonoBehaviour
         }
 
 
-        if (!player.playerNetworkManager.isLockedOn.Value && player.playerNetworkManager.isSprinting.Value)
+        if (!player.playerNetworkManager.isLockedOn.Value/* && !player.playerNetworkManager.isSprinting.Value*/)
         {
             player.playerAnimatorManager.UpdateAnimatorMovementParameters(0, moveAmount, player.playerNetworkManager.isSprinting.Value);
 
