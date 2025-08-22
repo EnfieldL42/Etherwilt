@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Leaves
+  m_Name: Leaves 1
   m_Shader: {fileID: -6465566751694194690, guid: b8c593ef9384c74448b37157a71918fd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -134,10 +134,12 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HeightBlend: 0
+    - _HeightWeight: 1
     - _Max: 1
     - _Metallic: 0
     - _Min: 0.5
-    - _NormalSSSInfluence: 1
+    - _NoiseScale: 5
+    - _NormalSSSInfluence: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -147,8 +149,8 @@ Material:
     - _RimLightIntensity: 1
     - _RimLightPower: 1
     - _RimLightSmoothness: 1
-    - _SSSIntensity: 0.25
-    - _SSSPower: 2
+    - _SSSIntensity: 0.5
+    - _SSSPower: 4.96
     - _Scale: 1
     - _SineOffset: 1
     - _Smoothness: 0

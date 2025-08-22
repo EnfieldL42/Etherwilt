@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Leaves
+  m_Name: Leaves 2
   m_Shader: {fileID: -6465566751694194690, guid: b8c593ef9384c74448b37157a71918fd, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -33,7 +33,7 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: 
+  m_LockedProperties: _HeightWeight _WindIntensity _WindSpeed
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -134,21 +134,23 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HeightBlend: 0
+    - _HeightWeight: 4
     - _Max: 1
     - _Metallic: 0
-    - _Min: 0.5
-    - _NormalSSSInfluence: 1
+    - _Min: 0.75
+    - _NoiseScale: 5
+    - _NormalSSSInfluence: 10
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
-    - _RimLightCutoff: 0.5
+    - _RimLightCutoff: 0.25
     - _RimLightIntensity: 1
     - _RimLightPower: 1
     - _RimLightSmoothness: 1
-    - _SSSIntensity: 0.25
-    - _SSSPower: 2
+    - _SSSIntensity: 0.5
+    - _SSSPower: 10
     - _Scale: 1
     - _SineOffset: 1
     - _Smoothness: 0
@@ -158,7 +160,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _TerrainSize: 1000
-    - _WindIntensity: 0.1
+    - _WindIntensity: 0.3
     - _WindSpeed: 0.2
     - _WorkflowMode: 1
     - _ZWrite: 1
