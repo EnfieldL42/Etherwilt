@@ -33,7 +33,7 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: _HeightWeight _WindIntensity _WindSpeed
+  m_LockedProperties: _WindSpeed
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -134,12 +134,12 @@ Material:
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HeightBlend: 0
-    - _HeightWeight: 4
+    - _HeightWeight: 6
     - _Max: 1
     - _Metallic: 0
     - _Min: 0.75
     - _NoiseScale: 5
-    - _NormalSSSInfluence: 10
+    - _NormalSSSInfluence: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -149,8 +149,8 @@ Material:
     - _RimLightIntensity: 1
     - _RimLightPower: 1
     - _RimLightSmoothness: 1
-    - _SSSIntensity: 0.5
-    - _SSSPower: 10
+    - _SSSIntensity: 1
+    - _SSSPower: 4
     - _Scale: 1
     - _SineOffset: 1
     - _Smoothness: 0
@@ -160,7 +160,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _TerrainSize: 1000
-    - _WindIntensity: 0.3
+    - _WindIntensity: 0.75
     - _WindSpeed: 0.2
     - _WorkflowMode: 1
     - _ZWrite: 1
@@ -178,8 +178,8 @@ Material:
     - _LeafColour: {r: 0.5219335, g: 0.6603774, b: 0.52020293, a: 0}
     - _NearColour: {r: 0.65854, g: 1, b: 0.54402506, a: 0}
     - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
-    - _SSSColour: {r: 0.6540729, g: 0.6886792, b: 0.40606087, a: 1}
-    - _ShadowTint: {r: 0.3008188, g: 0.3773585, b: 0.37368873, a: 0}
+    - _SSSColour: {r: 0.9685534, g: 0.96399236, b: 0.3807206, a: 1}
+    - _ShadowTint: {r: 0.28622282, g: 0.42070678, b: 0.4528302, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TerrainOffset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
