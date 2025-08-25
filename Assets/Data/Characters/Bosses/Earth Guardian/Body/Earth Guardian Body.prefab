@@ -2636,6 +2636,14 @@ MonoBehaviour:
     m_InternalValue: 1
   dexterity:
     m_InternalValue: 1
+  weaponMastery:
+    m_InternalValue: 1
+  magicMastery:
+    m_InternalValue: 1
+  breakerMastery:
+    m_InternalValue: 1
+  tankMastery:
+    m_InternalValue: 1
 --- !u!114 &-3136992118666280910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2671,7 +2679,7 @@ MonoBehaviour:
   canRun: 1
   canRoll: 1
   actionTimer: 0
-  canTakeDmgAnimation: 1
+  canTakeDmgAnimation: 0
   hasMultipleColliders: 1
   characterName: Earth Guadian Body
   aICharacterCombatManager: {fileID: 0}
@@ -2707,6 +2715,7 @@ MonoBehaviour:
   earthGuardianSoundFXManager: {fileID: 0}
   tailCombatManager: {fileID: 0}
   bodyCombatManager: {fileID: 0}
+  burrowedCombatStanceState: {fileID: 11400000, guid: dfac79f3b49117345835f28ceecbe87e, type: 2}
 --- !u!114 &2945296929994410322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2825,6 +2834,13 @@ MonoBehaviour:
   groundedYVelocity: -20
   fallStartYVelocity: -5
   isRolling: 0
+  slopeSlideStartPositionYOffset: 1
+  slopeSlideSphereCastMaxDistance: 2
+  slopeSlideSpeed: -11
+  slopeSlideSpeedMultiplier: 3
+  slipperySurfaceMaxAngle: 15
+  characterSlideOffHeadCollisionMaxDistanceCheck: 5
+  characterCollisionCheckSphereMultiplier: 1.5
 --- !u!114 &1602255938879834053
 MonoBehaviour:
   m_ObjectHideFlags: 0

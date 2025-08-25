@@ -31,6 +31,8 @@ public class PursueTargetState : AIState
             aiCharacter.navmeshAgent.enabled = true;
         }
 
+        aiCharacter.navmeshAgent.stoppingDistance = aiCharacter.combatState.maximumEngagementDistance;
+
         if(canPivot)
         {
             if (aiCharacter.aICharacterCombatManager.viewableAngle < aiCharacter.aICharacterCombatManager.minimumFOV || aiCharacter.aICharacterCombatManager.viewableAngle > aiCharacter.aICharacterCombatManager.maximumFOV)

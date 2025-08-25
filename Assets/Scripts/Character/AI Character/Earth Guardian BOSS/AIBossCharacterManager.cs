@@ -26,8 +26,8 @@ public class AIBossCharacterManager : AICharacterManager
 
     [Header("Phase Shift")]
     public float minimumHealthPercentageForPhaseShift = 50;
-    [SerializeField] string phaseShiftAnimation = "Phase_Shift_01";
-    [SerializeField] CombatStanceState phase02CombatStanceState;
+    [SerializeField] protected string phaseShiftAnimation = "Phase_Shift_01";
+    [SerializeField] protected CombatStanceState phase02CombatStanceState;
 
     [Header("Second Body Settings")]
     public int[] bossGroupIDs;
@@ -307,7 +307,7 @@ public class AIBossCharacterManager : AICharacterManager
         }
     }
 
-    public void PhaseShift()
+    public virtual void PhaseShift()
     {
         characterAnimatorManager.PlayTargetActionAnimation(phaseShiftAnimation, true);
         combatState = Instantiate(phase02CombatStanceState);
