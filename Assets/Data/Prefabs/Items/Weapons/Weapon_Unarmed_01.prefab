@@ -155,11 +155,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99d160bcbab90f41b66701f498ea72d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  parentCombatManager: {fileID: 0}
+  character: {fileID: 0}
   damageCollider: {fileID: 6350881058402796211}
   physicalDamage: 0
   magicDamage: 0
+  poiseDamage: 0
   characterCausingDamage: {fileID: 0}
   light_Attack_01_Modifier: 0
+  light_Attack_02_Modifier: 0
+  light_Attack_03_Modifier: 0
+  light_Attack_04_Modifier: 0
+  heavy_Attack_01_Modifier: 0
+  charged_Attack_01_Modifier: 0
+  running_Attack_01_Modifier: 0
+  rolling_Attack_01_Modifier: 0
+  backstep_Attack_01_Modifier: 0
+  kickCollider: {fileID: 0}
 --- !u!135 &6350881058402796211
 SphereCollider:
   m_ObjectHideFlags: 0

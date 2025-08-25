@@ -3,9 +3,7 @@ using UnityEngine;
 
 public class DamageCollider : MonoBehaviour
 {
-
-    public AICharacterCombatManager parentCombatManager;
-    public CharacterManager character;
+    [SerializeField] protected CharacterManager character;
 
     [Header("Collider")]
     [SerializeField] protected Collider damageCollider;
@@ -29,13 +27,11 @@ public class DamageCollider : MonoBehaviour
 
     protected virtual void Awake()
     {
-
+        character = GetComponentInParent<CharacterManager>();
     }
 
     private void Start()
     {
-        parentCombatManager = GetComponentInParent<AICharacterCombatManager>();
-        character = GetComponentInParent<CharacterManager>();
     }
 
     protected virtual void OnTriggerEnter(Collider other)
@@ -51,23 +47,13 @@ public class DamageCollider : MonoBehaviour
 
             //check if target is blocking
 
-            if(character.hasMultipleColliders)
-            {
-                // Prevent multiple hits from different colliders in the same attack
-                if (parentCombatManager.damagedCharactersThisAttack.Contains(damageTarget))
-                    return;
-            }
-
-            if(damageTarget.characterGroup == character.characterGroup)
+            if (damageTarget.characterGroup == character.characterGroup)
             {
                 return;
             }
 
-            CheckForBlock(damageTarget);
             DamageTarget(damageTarget);
         }
-
-        charactersDamaged.Add(damageTarget);
     }
 
     protected virtual void CheckForBlock(CharacterManager damageTarget)

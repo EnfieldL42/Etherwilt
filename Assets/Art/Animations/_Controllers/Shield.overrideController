@@ -9,9 +9,9 @@ AnimatorOverrideController:
   m_Name: Shield
   m_Controller: {fileID: 9100000, guid: 341972be77398bf4ea27b5bba99308ad, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 7400000, guid: 706404034a11ae84bad32751f666787b, type: 3}
-    m_OverrideClip: {fileID: 7400000, guid: ac7483c52db430b4ea4c62a3b4519157, type: 3}
-  - m_OriginalClip: {fileID: 3812546017969097313, guid: 1e43a383ea886d746913b8b5e8ac27a7, type: 3}
-    m_OverrideClip: {fileID: 7400000, guid: 779d0165b9346cf40a03bc12985d447e, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 002d12ef6a6b3fa4b9e2bd06f08dc62f, type: 2}
+    m_OverrideClip: {fileID: -1889026274401214046, guid: 185f8a599728c2748b2ff50ffe7509bb, type: 3}
   - m_OriginalClip: {fileID: -8263657116796353058, guid: 78d68915d8bb34047b5702bdd98c0dc3, type: 3}
-    m_OverrideClip: {fileID: -4851710776019473215, guid: 9df25f6b8fb7d2445a45765e9478a2e3, type: 3}
+    m_OverrideClip: {fileID: -6457973698555974024, guid: 6a7d68dbbbcf14043b49bf1310959ae8, type: 3}
+  - m_OriginalClip: {fileID: -7827197647212710141, guid: 8695fccb15b0ce04dae895181d6e5045, type: 3}
+    m_OverrideClip: {fileID: 1827226128182048838, guid: ca09aa72a9a5a3645b46a6a2b60d16a7, type: 3}

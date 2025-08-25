@@ -2601,11 +2601,9 @@ MonoBehaviour:
   slopeSlideSphereCastMaxDistance: 6
   slopeSlideSpeed: -11
   slopeSlideSpeedMultiplier: 3
-  slipperySurfaceMaxAngle: 15
-  isTouchingWall: 0
-  wallSlideSpeed: 6
-  wallRepelForce: 1
-  canWallSlide: 1
+  slipperySurfaceMaxAngle: 45
+  characterSlideOffHeadCollisionMaxDistanceCheck: 5
+  characterCollisionCheckSphereMultiplier: 1.5
   verticalMovement: 0
   horizontalMovement: 0
   moveAmount: 0

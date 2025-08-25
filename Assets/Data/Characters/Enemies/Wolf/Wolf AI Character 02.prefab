@@ -99,13 +99,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3d3d679cb2038224d8349057f2fe01e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 2675325171514992833}
   character: {fileID: 1861652093911731947}
   damageCollider: {fileID: 8480859806004101012}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
-  aiCharacter: {fileID: 0}
+  aiCharacter: {fileID: 1861652093911731947}
+  parentCombatManager: {fileID: 2675325171514992833}
 --- !u!135 &8480859806004101012
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -1407,6 +1407,8 @@ MonoBehaviour:
   slopeSlideSpeed: -11
   slopeSlideSpeedMultiplier: 3
   slipperySurfaceMaxAngle: 15
+  characterSlideOffHeadCollisionMaxDistanceCheck: 5
+  characterCollisionCheckSphereMultiplier: 1.5
 --- !u!114 &1105910090718943158
 MonoBehaviour:
   m_ObjectHideFlags: 0
