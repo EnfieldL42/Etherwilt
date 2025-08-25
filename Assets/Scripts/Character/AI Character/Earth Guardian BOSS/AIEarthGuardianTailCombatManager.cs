@@ -6,7 +6,7 @@ using UnityEngine.TextCore.Text;
 
 public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
 {
-    AIEarthGuardianCharacterManager earthGuardianManager;
+    [HideInInspector] public AIEarthGuardianCharacterManager earthGuardianManager;
 
 
     [Header("Body")]

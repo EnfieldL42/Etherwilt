@@ -17,7 +17,7 @@ MonoBehaviour:
   potentialAttacks: []
   canPerformCombo: 0
   percentageToPerformCombo: 2
-  onlyPerformComboIfInitialAttackHits: 1
+  onlyPerformComboIfInitialAttackHits: 0
   maximumEngagementDistance: 1.5
   canStrafe: 0
   strafeMoveAmount: 0

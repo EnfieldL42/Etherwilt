@@ -7,7 +7,7 @@ using UnityEngine.TextCore.Text;
 
 public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
 {
-    AIEarthGuardianCharacterManager earthGuardianManager;
+    [HideInInspector] public AIEarthGuardianCharacterManager earthGuardianManager;
 
     [Header("Tail")]
     public AIEarthGuardianTailCombatManager secondBody;

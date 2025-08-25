@@ -22,10 +22,18 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
 
     public override void PhaseShift()
     {
+        if (canPhaseShift == false)
+        {
+            return;
+        }
+
+        canPhaseShift = false;
         animator.SetBool("isBurrowed", true);
         characterAnimatorManager.PlayTargetActionAnimation(phaseShiftAnimation, true);
         combatState = Instantiate(burrowedCombatStanceState);
         currentState = pursueState;
+
+        PhaseShift();
     }
 
     public void ShiftPhaseAfterBurrowAttack()
@@ -33,6 +41,11 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
         animator.SetBool("isBurrowed", false);
         combatState = Instantiate(phase02CombatStanceState);
         currentState = combatState;
+    }
+
+    public void ForceSecondBodyAttack()
+    {
+        //currentState = attackState;
     }
 
 }

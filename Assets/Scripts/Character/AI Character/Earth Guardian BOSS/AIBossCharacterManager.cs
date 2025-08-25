@@ -7,6 +7,7 @@ public class AIBossCharacterManager : AICharacterManager
 {
     public int bossID = 0;
 
+
     [Header("Music")]
     [SerializeField] AudioClip bossIntroClip;
     [SerializeField] AudioClip bossBattleLoopClip;
@@ -25,6 +26,7 @@ public class AIBossCharacterManager : AICharacterManager
     [SerializeField] string bossDefeatedMessage = "Ancient Conquered";
 
     [Header("Phase Shift")]
+    public bool canPhaseShift = true;
     public float minimumHealthPercentageForPhaseShift = 50;
     [SerializeField] protected string phaseShiftAnimation = "Phase_Shift_01";
     [SerializeField] protected CombatStanceState phase02CombatStanceState;
@@ -309,9 +311,13 @@ public class AIBossCharacterManager : AICharacterManager
 
     public virtual void PhaseShift()
     {
-        characterAnimatorManager.PlayTargetActionAnimation(phaseShiftAnimation, true);
-        combatState = Instantiate(phase02CombatStanceState);
-        currentState = combatState;
+        if(canPhaseShift == true)
+        {
+            canPhaseShift = false;
+            characterAnimatorManager.PlayTargetActionAnimation(phaseShiftAnimation, true);
+            combatState = Instantiate(phase02CombatStanceState);
+            currentState = combatState;
+        }
     }
 
 

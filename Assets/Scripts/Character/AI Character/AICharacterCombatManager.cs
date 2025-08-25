@@ -429,4 +429,5 @@ public class AICharacterCombatManager : CharacterCombatManager
         canPerformCombo = false;
         hasHitTargetDuringCombo = false;
     }
+
 }
