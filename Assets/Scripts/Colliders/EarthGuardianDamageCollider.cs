@@ -4,6 +4,7 @@ using UnityEngine.TextCore.Text;
 public class EarthGuardianDamageCollider : DamageCollider
 {
     [SerializeField] public AIBossCharacterManager bossCharacter;
+    [SerializeField] AICharacterCombatManager parentCombatManager;
 
     protected override void Awake()
     {
@@ -11,6 +12,7 @@ public class EarthGuardianDamageCollider : DamageCollider
 
         damageCollider = GetComponent<Collider>();
         bossCharacter = GetComponentInParent<AIBossCharacterManager>();
+        parentCombatManager = GetComponentInParent<AICharacterCombatManager>();
     }
 
     protected override void GetBlockedDotValues(CharacterManager damageTarget)

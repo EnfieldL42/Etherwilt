@@ -36,9 +36,10 @@ MonoBehaviour:
   chargedAttackModifer01: 2
   chargedAttackModifer02: 2.2
   chargedAttackModifer03: 2.4
-  runningAttackModifer: 1.2
-  rollingAttackModifer: 1.1
-  backstepAttackModifer: 1.1
+  runningAttackModifer01: 1.2
+  rollingAttackModifer01: 1.1
+  backstepAttackModifer01: 1.1
+  riposteAttackModifer01: 3.3
   baseStaminaCost: 20
   meleeAttackStaminaCostMultiplier: 0.9
   lightAttackStaminaCostMultiplier: 0.9
@@ -50,8 +51,8 @@ MonoBehaviour:
   physicalBaseDamageAbsorption: 100
   magiclBaseDamageAbsorption: 70
   stability: 1
-  oneHandedRBAction: {fileID: 11400000, guid: 43c55a3145376ed4ebd96677c614a174, type: 2}
-  oneHandedRTAction: {fileID: 11400000, guid: 58d4dfc3612d8f640968e8d1c4249546, type: 2}
+  oneHandedRBAction: {fileID: 11400000, guid: ea21577e73032c24fb589b640acfb3bf, type: 2}
+  oneHandedRTAction: {fileID: 11400000, guid: d900ad1df4ded274090d985ce6a6b490, type: 2}
   oneHandedLBAction: {fileID: 11400000, guid: be3953b830d58084b85c77f6c1bc7745, type: 2}
   whooshes:
   - {fileID: 8300000, guid: a65d792d6907f744490c9b15bb70edfe, type: 3}

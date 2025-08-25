@@ -400,8 +400,6 @@ public class PlayerEquipmentManager : CharacterEquipmentManager
             leftWeaponManager.meleeWeaponDamageCollider.EnableDamageCollider();
             player.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(player.playerInventoryManager.currentLeftHandWeapon.whooshes));
         }
-
-        //play sword/swoosh sound fx
     }
 
     public void CloseDamageCollider()

@@ -3,6 +3,7 @@ using UnityEngine;
 public class ManualDamageCollider : DamageCollider
 {
     [SerializeField] public AICharacterManager aiCharacter;
+    [SerializeField] AICharacterCombatManager parentCombatManager;
 
     protected override void Awake()
     {
@@ -10,6 +11,44 @@ public class ManualDamageCollider : DamageCollider
 
         damageCollider = GetComponent<Collider>();
         aiCharacter = GetComponentInParent<AICharacterManager>();
+        parentCombatManager = GetComponentInParent<AICharacterCombatManager>();
+    }
+
+    private void Start()
+    {
+        
+    }
+
+    protected override void OnTriggerEnter(Collider other)
+    {
+        CharacterManager damageTarget = other.GetComponentInParent<CharacterManager>();
+        //CharacterManager target = other.GetComponent<CharacterManager>();
+
+        if (damageTarget != null)
+        {
+            contactPoint = other.gameObject.GetComponent<Collider>().ClosestPointOnBounds(transform.position);
+
+            //check for friendly fire
+
+            //check if target is blocking
+
+            if (character.hasMultipleColliders)
+            {
+                // Prevent multiple hits from different colliders in the same attack
+                if (parentCombatManager.damagedCharactersThisAttack.Contains(damageTarget))
+                    return;
+            }
+
+            if (damageTarget.characterGroup == character.characterGroup)
+            {
+                return;
+            }
+
+            CheckForBlock(damageTarget);
+            DamageTarget(damageTarget);
+        }
+
+        charactersDamaged.Add(damageTarget);
     }
 
     protected override void GetBlockedDotValues(CharacterManager damageTarget)

@@ -5,6 +5,7 @@ public class MeleeWeaponDamageCollider : DamageCollider
     [Header("Attacking Character")]
     public CharacterManager characterCausingDamage;
 
+
     [Header("Weapon Attack Modifiers")]
     public float light_Attack_01_Modifier;
     public float light_Attack_02_Modifier;
@@ -41,7 +42,7 @@ public class MeleeWeaponDamageCollider : DamageCollider
 
             //check if target is blocking
 
-            if (damageTarget.characterGroup == character.characterGroup)
+            if (damageTarget.characterGroup == characterCausingDamage.characterGroup)
             {
                 return;
             }
@@ -157,4 +158,5 @@ public class MeleeWeaponDamageCollider : DamageCollider
         Debug.Log("physical  " + damage.physicalDamage);
         //if attack is fullt charged heavy, multiply charge modifier after normal modifiers have been calculated
     }
+
 }

@@ -19,7 +19,7 @@ MonoBehaviour:
     dulled\u2014until its master fell. Now, abandoned in a forgotten ruin, rust devours
     its brilliance, and the wind mourns the echoes of its former glory."
   itemID: 1
-  weaponAnimator: {fileID: 22100000, guid: e8bd68f2bf297f64e9c35ab3dab85316, type: 2}
+  weaponAnimator: {fileID: 22100000, guid: 08661e54d5c6fb747a32cd78b69ac4a8, type: 2}
   weaponModelType: 0
   weaponModel: {fileID: 850997595745854258, guid: af71384f30347534d99a41c76742a0d9, type: 3}
   strengthREQ: 1
