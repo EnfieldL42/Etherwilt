@@ -1457,7 +1457,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72108ae89361afc42a5856dc54c9a134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  etherDroppedOnDeath: 50
+  etherDroppedOnDeath: 10000
   staminaRegenerationAmount: 2
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
@@ -1466,7 +1466,7 @@ MonoBehaviour:
   blockingStability: 0
   totalPoiseDamanage: 0
   offensivePoiseBonus: 0
-  basePoiseDefense: 0
+  basePoiseDefense: 50
   defaultPoiseResetTime: 8
   poiseResetTimer: 0
 --- !u!114 &4750906219654916766

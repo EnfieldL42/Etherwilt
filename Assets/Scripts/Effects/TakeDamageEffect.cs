@@ -106,6 +106,8 @@ public class TakeDamageEffect : InstantCharacterEffect
             poiseIsBroken = true;
         }
 
+        Debug.Log("remaining poise " + remainingPoise);
+
         character.characterStatsManager.poiseResetTimer = character.characterStatsManager.defaultPoiseResetTime;
     }
 
@@ -148,7 +150,7 @@ public class TakeDamageEffect : InstantCharacterEffect
             return;
         }
 
-        if (poiseIsBroken)
+        if (poiseIsBroken && characterCausingDamage.canTakeDmgAnimation)
         {
             //damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
 
@@ -182,35 +184,35 @@ public class TakeDamageEffect : InstantCharacterEffect
         }
         else
         {
-            damageAnimation = character.characterAnimatorManager.forward_Ping_Damage;
+            //damageAnimation = character.characterAnimatorManager.forward_Ping_Damage;
 
-            //if (angleHitFrom >= 145 && angleHitFrom <= 180)
-            //{
-            //    //play front anim
-            //    damageAnimation = character.characterAnimatorManager.forward_Ping_Damage;
-            //}
-            //else if (angleHitFrom <= -145 && angleHitFrom >= -180)
-            //{
-            //    //play front anim
-            //    damageAnimation = character.characterAnimatorManager.forward_Ping_Damage;
-            //}
-            //else if (angleHitFrom >= -45 && angleHitFrom <= 45)
-            //{
-            //    //play back anim
-            //    damageAnimation = character.characterAnimatorManager.backward_Ping_Damage;
-            //}
-            //else if (angleHitFrom >= -144 && angleHitFrom <= -45)
-            //{
-            //    //play left anim
-            //    damageAnimation = character.characterAnimatorManager.left_Ping_Damage;
-            //}
-            //else if (angleHitFrom >= 45 && angleHitFrom <= 144)
-            //{
-            //    //play right anim
-            //    damageAnimation = character.characterAnimatorManager.right_Ping_Damage;
-            //}
+            if (angleHitFrom >= 145 && angleHitFrom <= 180)
+            {
+                //play front anim
+                damageAnimation = character.characterAnimatorManager.forward_Ping_Damage;
+            }
+            else if (angleHitFrom <= -145 && angleHitFrom >= -180)
+            {
+                //play front anim
+                damageAnimation = character.characterAnimatorManager.forward_Ping_Damage;
+            }
+            else if (angleHitFrom >= -45 && angleHitFrom <= 45)
+            {
+                //play back anim
+                damageAnimation = character.characterAnimatorManager.backward_Ping_Damage;
+            }
+            else if (angleHitFrom >= -144 && angleHitFrom <= -45)
+            {
+                //play left anim
+                damageAnimation = character.characterAnimatorManager.left_Ping_Damage;
+            }
+            else if (angleHitFrom >= 45 && angleHitFrom <= 144)
+            {
+                //play right anim
+                damageAnimation = character.characterAnimatorManager.right_Ping_Damage;
+            }
 
-          
+
         }
 
         character.characterAnimatorManager.lastDamageAnimationPlayer = damageAnimation;

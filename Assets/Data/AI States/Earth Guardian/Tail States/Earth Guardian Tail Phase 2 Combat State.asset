@@ -22,8 +22,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 7a96f652d896b7b4ca941ab5d40e7dd4, type: 2}
   - {fileID: 11400000, guid: dcd6ce1ba4483894c8c8ec39f08bb1eb, type: 2}
   potentialAttacks: []
-  canPerformCombo: 0
-  percentageToPerformCombo: 25
+  canPerformCombo: 1
+  percentageToPerformCombo: 50
   onlyPerformComboIfInitialAttackHits: 0
   maximumEngagementDistance: 10
   canStrafe: 0

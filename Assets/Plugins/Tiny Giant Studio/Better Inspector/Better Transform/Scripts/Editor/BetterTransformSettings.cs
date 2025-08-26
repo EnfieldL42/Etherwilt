@@ -1,335 +1,662 @@
 using System;
-using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace TinyGiantStudio.BetterInspector
 {
     [FilePath("ProjectSettings/BetterTransformSettings.asset", FilePathAttribute.Location.ProjectFolder)]
     public class BetterTransformSettings : ScriptableSingleton<BetterTransformSettings>
     {
+        [FormerlySerializedAs("_currentWorkSpace")] [SerializeField]
+        WorkSpace currentWorkSpace = WorkSpace.Local;
+
+        public WorkSpace CurrentWorkSpace
+        {
+            get => currentWorkSpace;
+            set
+            {
+                currentWorkSpace = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_showCopyPasteButtons")] [SerializeField]
+        bool showCopyPasteButtons = true;
+        public bool ShowCopyPasteButtons
+        {
+            get => showCopyPasteButtons;
+            set
+            {
+                showCopyPasteButtons = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_fieldRoundingAmount")] [SerializeField]
+        int fieldRoundingAmount = 5;
+        public int FieldRoundingAmount
+        {
+            get => fieldRoundingAmount;
+            set
+            {
+                fieldRoundingAmount = value;
+                Save(true);
+            }
+        }
+        public bool roundPositionField;
+        public bool roundRotationField;
+        public bool roundScaleField;
+
+        public bool animatedFoldout = true;
+
+        public bool pingSelfButton;
+
+        public bool showSiblingIndex;
+
+        [FormerlySerializedAs("showAssetGUID")]
+        public bool showAssetGuid;
+
+        public bool showWhySizeIsHiddenLabel = true;
+
+        [FormerlySerializedAs("_loadDefaultInspector")] [SerializeField]
+        bool loadDefaultInspector = true;
+        public bool LoadDefaultInspector
+        {
+            get => loadDefaultInspector;
+            set
+            {
+                loadDefaultInspector = value;
+                Save(true);
+            }
+        }
+
+        public bool logPerformance;
+        public bool logDetailedPerformance = true;
+
+
+
+
+  
+
+   
+        public void Reset()
+        {
+            loadDefaultInspector = true;
+
+            overrideFoldoutColor = false;
+            foldoutColor = new(0, 1, 0, 0.025f);
+            overrideInspectorColor = true;
+            inspectorColorInLocalSpace = new(1, 1, 1, 0);
+            inspectorColorInWorldSpace = new(0, 0, 1, 0.025f);
+
+            currentWorkSpace = WorkSpace.Local;
+            showCopyPasteButtons = true;
+
+            fieldRoundingAmount = 5;
+            //_lockScaleAspectRatio = false;
+
+            maxChildInspectors = 10;
+            includeChildBounds = true;
+            maxChildCountForSizeCalculation = 50;
+            currentSizeType = SizeType.Renderer;
+            lockSizeAspectRatio = false;
+
+            showSizeGizmo = true;
+            sizeGizmoOutlineThickness = 1f;
+            sizeGizmoOutlineColorX = Color.red;
+            sizeGizmoOutlineColorY = Color.green;
+            sizeGizmoOutlineColorZ = Color.blue;
+            showSizeLabelGizmo = true;
+            sizeGizmoLabelSize = 10;
+            sizeGizmoLabelColorX = Color.white;
+            sizeGizmoLabelColorY = Color.white;
+            sizeGizmoLabelColorZ = Color.white;
+            sizeGizmoLabelBackgroundColorX = new(0.65f, 0, 0);
+            sizeGizmoLabelBackgroundColorY = new(0.1008f, 0.4842f, 0);
+            sizeGizmoLabelBackgroundColorZ = new(0, 0.1890f, 0.5220f);
+
+            showSizeGizmoLabelOnBothSide = true;
+            showSizeGizmosLabelHandle = false;
+            minimumSizeForDoubleSidedLabel = 10;
+            gizmoMaximumDecimalPoints = 4;
+            constantSizeUpdate = false;
+
+            showSiblingIndex = false;
+            showAssetGuid = false;
+
+            logPerformance = false;
+            logDetailedPerformance = false;
+
+            Save(true);
+        }
+
+        public void ResetToMinimal()
+        {
+            showSizeInLine = true;
+            showSizeFoldout = false;
+            showParentChildTransform = false;
+
+            Reset();
+        }
+
+        public void ResetToDefault()
+        {
+            showSizeInLine = false;
+            showSizeFoldout = true;
+            showParentChildTransform = true;
+
+            Reset();
+        }
+
+        public void Save()
+        {
+            Save(true);
+        }
+
         #region Inspector Customization
 
-        [SerializeField] private bool _overrideInspectorColor = false;
+        [FormerlySerializedAs("_overrideInspectorColor")] [SerializeField]
+        bool overrideInspectorColor;
 
         public bool OverrideInspectorColor
         {
-            get { return _overrideInspectorColor; }
+            get => overrideInspectorColor;
             set
             {
-                _overrideInspectorColor = value;
+                overrideInspectorColor = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private Color _inspectorColor = new Color(0, 0, 1, 0.025f);
+        [FormerlySerializedAs("_inspectorColorInLocalSpace")] [SerializeField]
+        Color inspectorColorInLocalSpace = new(1, 1, 1, 0f);
 
-        public Color InspectorColor
+        public Color InspectorColorInLocalSpace
         {
-            get { return _inspectorColor; }
+            get => inspectorColorInLocalSpace;
             set
             {
-                _inspectorColor = value;
+                inspectorColorInLocalSpace = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private bool _overrideFoldoutColor = false;
+        [FormerlySerializedAs("_inspectorColorInWorldSpace")] [SerializeField]
+        Color inspectorColorInWorldSpace = new(0, 0, 1, 0.025f);
+
+        public Color InspectorColorInWorldSpace
+        {
+            get => inspectorColorInWorldSpace;
+            set
+            {
+                inspectorColorInWorldSpace = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_overrideFoldoutColor")] [SerializeField]
+        bool overrideFoldoutColor;
 
         public bool OverrideFoldoutColor
         {
-            get { return _overrideFoldoutColor; }
+            get => overrideFoldoutColor;
             set
             {
-                _overrideFoldoutColor = value;
+                overrideFoldoutColor = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private Color _foldoutColor = new Color(0, 1, 0, 0.025f);
+        [FormerlySerializedAs("_foldoutColor")] [SerializeField]
+        Color foldoutColor = new(0, 1, 0, 0.025f);
 
         public Color FoldoutColor
         {
-            get { return _foldoutColor; }
+            get => foldoutColor;
             set
             {
-                _foldoutColor = value;
+                foldoutColor = value;
                 Save(true);
             }
         }
 
         #endregion Inspector Customization
 
-        [SerializeField] private WorkSpace _currentWorkSpace = WorkSpace.Local;
-
-        public WorkSpace CurrentWorkSpace
-        {
-            get { return _currentWorkSpace; }
-            set
-            {
-                _currentWorkSpace = value;
-                Save(true);
-            }
-        }
-
-        [SerializeField] private bool _showCopyPasteButtons = true;
-
-        public bool ShowCopyPasteButtons
-        {
-            get { return _showCopyPasteButtons; }
-            set
-            {
-                _showCopyPasteButtons = value;
-                Save(true);
-            }
-        }
-
-        [SerializeField] private bool _showAllVariableCopyPasteButtons = false;
-
-        public bool ShowAllVariableCopyPasteButtons
-        {
-            get { return _showAllVariableCopyPasteButtons; }
-            set
-            {
-                _showAllVariableCopyPasteButtons = value;
-                Save(true);
-            }
-        }
-
-        [SerializeField] private int _fieldRoundingAmount = 5;
-
-        public int FieldRoundingAmount
-        {
-            get { return _fieldRoundingAmount; }
-            set
-            {
-                _fieldRoundingAmount = value;
-                Save(true);
-            }
-        }
-
-        public bool roundPositionField = false;
-        public bool roundRotationField = false;
-        public bool roundScaleField = false;
-
-        //[SerializeField] private bool _lockScaleAspectRatio = false;
-
-        //public bool LockScaleAspectRatio
-        //{
-        //    get { return _lockScaleAspectRatio; }
-        //    set
-        //    {
-        //        _lockScaleAspectRatio = value;
-        //        Save(true);
-        //    }
-        //}
 
         #region Size
 
-        [SerializeField] private bool _showSizeInLine = false;
+        [FormerlySerializedAs("_showSizeInLine")] [SerializeField]
+        bool showSizeInLine;
 
         public bool ShowSizeInLine
         {
-            get { return _showSizeInLine; }
+            get => showSizeInLine;
             set
             {
-                _showSizeInLine = value;
+                showSizeInLine = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private bool _showSizeFoldout = true;
+        [FormerlySerializedAs("_showSizeFoldout")] [SerializeField]
+        bool showSizeFoldout = true;
 
         public bool ShowSizeFoldout
         {
-            get { return _showSizeFoldout; }
+            get => showSizeFoldout;
             set
             {
-                _showSizeFoldout = value;
+                showSizeFoldout = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private bool _showSizeCenter = true;
+        [FormerlySerializedAs("_showSizeCenter")] [SerializeField]
+        bool showSizeCenter = true;
 
         public bool ShowSizeCenter
         {
-            get { return _showSizeCenter; }
+            get => showSizeCenter;
             set
             {
-                _showSizeCenter = value;
+                showSizeCenter = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private bool _includeChildBounds = true;
+        [FormerlySerializedAs("_includeChildBounds")] [SerializeField]
+        bool includeChildBounds = true;
 
         public bool IncludeChildBounds
         {
-            get { return _includeChildBounds; }
+            get => includeChildBounds;
             set
             {
-                _includeChildBounds = value;
+                includeChildBounds = value;
                 Save(true);
             }
         }
 
-        public bool ignoreParticleAndVFXInSizeCalculation = false;
+        public bool ignoreParticleAndVFXInSizeCalculation;
 
-        [SerializeField] private SizeType _currentSizeType = SizeType.Renderer;
+        [FormerlySerializedAs("_currentSizeType")] [SerializeField]
+        SizeType currentSizeType = SizeType.Renderer;
 
         public SizeType CurrentSizeType
         {
-            get { return _currentSizeType; }
+            get => currentSizeType;
             set
             {
-                _currentSizeType = value;
+                currentSizeType = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private bool _lockSizeAspectRatio = false;
+        [FormerlySerializedAs("_lockSizeAspectRatio")] [SerializeField]
+        bool lockSizeAspectRatio;
 
         public bool LockSizeAspectRatio
         {
-            get { return _lockSizeAspectRatio; }
+            get => lockSizeAspectRatio;
             set
             {
-                _lockSizeAspectRatio = value;
+                lockSizeAspectRatio = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private int _maxChildCountForSizeCalculation = 30;
+        [FormerlySerializedAs("_maxChildCountForSizeCalculation")] [SerializeField]
+        int maxChildCountForSizeCalculation = 30;
 
         public int MaxChildCountForSizeCalculation
         {
-            get { return _maxChildCountForSizeCalculation; }
+            get => maxChildCountForSizeCalculation;
             set
             {
-                _maxChildCountForSizeCalculation = value;
+                maxChildCountForSizeCalculation = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private int _maxChildInspectors = 10;
+        [FormerlySerializedAs("_maxChildInspectors")] [SerializeField]
+        int maxChildInspectors = 10;
 
         public int MaxChildInspector
         {
-            get { return _maxChildInspectors; }
+            get => maxChildInspectors;
             set
             {
-                _maxChildInspectors = value;
+                maxChildInspectors = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private bool _constantSizeUpdate = false;
+        [FormerlySerializedAs("_constantSizeUpdate")] [SerializeField]
+        bool constantSizeUpdate;
 
         public bool ConstantSizeUpdate
         {
-            get { return _constantSizeUpdate; }
+            get => constantSizeUpdate;
             set
             {
-                _constantSizeUpdate = value;
+                constantSizeUpdate = value;
                 Save(true);
             }
         }
+
+        public bool autoRefreshSize = true;
+        public bool autoRefreshSizeInLocalSpaceInPlaymode = false;
 
         #region Gizmos
 
-        [SerializeField] private bool _showSizeGizmo = true;
+        [FormerlySerializedAs("_showSizeGizmo")] [SerializeField]
+        bool showSizeGizmo = true;
 
-        public bool ShowSizeGizmo
+        public bool ShowSizeOutlineGizmo
         {
-            get { return _showSizeGizmo; }
+            get => showSizeGizmo;
             set
             {
-                _showSizeGizmo = value;
+                showSizeGizmo = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private bool _showSizeGizmoLabel = true;
+        /// <summary>
+        ///     This is used when MatchGizmoColorToAxis is false
+        /// </summary>
+        [FormerlySerializedAs("_sizeGizmo_outlineThickness")] [SerializeField]
+        float sizeGizmoOutlineThickness = 1;
 
-        public bool ShowSizeGizmoLabel
+        public float SizeGizmoOutlineThickness
         {
-            get { return _showSizeGizmoLabel; }
+            get => sizeGizmoOutlineThickness;
             set
             {
-                _showSizeGizmoLabel = value;
+                sizeGizmoOutlineThickness = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private int _sizeGizmoLabelSize = 10;
+        /// <summary>
+        ///     This is used when MatchGizmoColorToAxis is false
+        /// </summary>
+        [FormerlySerializedAs("_sizeGizmo_outlineColor_X")] [SerializeField]
+        Color sizeGizmoOutlineColorX = new(1, 0, 0, 0.75f);
+
+        public Color SizeGizmoOutlineColorX
+        {
+            get => sizeGizmoOutlineColorX;
+            set
+            {
+                sizeGizmoOutlineColorX = value;
+                Save(true);
+            }
+        }
+
+        /// <summary>
+        ///     This is used when MatchGizmoColorToAxis is false
+        /// </summary>
+        [FormerlySerializedAs("_sizeGizmo_outlineColor_Y")] [SerializeField]
+        Color sizeGizmoOutlineColorY = new(0, 1, 0, 0.75f);
+
+        public Color SizeGizmoOutlineColorY
+        {
+            get => sizeGizmoOutlineColorY;
+            set
+            {
+                sizeGizmoOutlineColorY = value;
+                Save(true);
+            }
+        }
+
+        /// <summary>
+        ///     This is used when MatchGizmoColorToAxis is false
+        /// </summary>
+        [FormerlySerializedAs("_sizeGizmo_outlineColor_Z")] [SerializeField]
+        Color sizeGizmoOutlineColorZ = new(0, 0, 1, 0.75f);
+
+        public Color SizeGizmoOutlineColorZ
+        {
+            get => sizeGizmoOutlineColorZ;
+            set
+            {
+                sizeGizmoOutlineColorZ = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_showSizeLabelGizmo")] [SerializeField]
+        bool showSizeLabelGizmo = true;
+
+        public bool ShowSizeLabelGizmo
+        {
+            get => showSizeLabelGizmo;
+            set
+            {
+                showSizeLabelGizmo = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_sizeGizmoLabelSize")] [SerializeField]
+        int sizeGizmoLabelSize = 10;
 
         public int SizeGizmoLabelSize
         {
-            get { return _sizeGizmoLabelSize; }
+            get => sizeGizmoLabelSize;
             set
             {
-                _sizeGizmoLabelSize = value;
+                sizeGizmoLabelSize = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private Color _sizeGizmoColor = new Color(1, 1, 1, 0.15f);
+        [FormerlySerializedAs("_sizeGizmo_labelColor_X")] [SerializeField]
+        Color sizeGizmoLabelColorX = Color.white;
 
-        public Color SizeGizmoColor
+        public Color SizeGizmoLabelColorX
         {
-            get { return _sizeGizmoColor; }
+            get => sizeGizmoLabelColorX;
             set
             {
-                _sizeGizmoColor = value;
+                sizeGizmoLabelColorX = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private bool _showSizeGizmoLabelOnBothSide = true;
+        [FormerlySerializedAs("_sizeGizmo_labelColor_Y")] [SerializeField]
+        Color sizeGizmoLabelColorY = Color.white;
+
+        public Color SizeGizmoLabelColorY
+        {
+            get => sizeGizmoLabelColorY;
+            set
+            {
+                sizeGizmoLabelColorY = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_sizeGizmo_labelColor_Z")] [SerializeField]
+        Color sizeGizmoLabelColorZ = Color.white;
+
+        public Color SizeGizmoLabelColorZ
+        {
+            get => sizeGizmoLabelColorZ;
+            set
+            {
+                sizeGizmoLabelColorZ = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_sizeGizmo_labelBackgroundColor_X")] [SerializeField]
+        Color sizeGizmoLabelBackgroundColorX = new(0.65f, 0, 0);
+
+        public Color SizeGizmoLabelBackgroundColorX
+        {
+            get => sizeGizmoLabelBackgroundColorX;
+            set
+            {
+                sizeGizmoLabelBackgroundColorX = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_sizeGizmo_labelBackgroundColor_Y")] [SerializeField]
+        Color sizeGizmoLabelBackgroundColorY = new(0.1008f, 0.4842f, 0);
+
+        public Color SizeGizmoLabelBackgroundColorY
+        {
+            get => sizeGizmoLabelBackgroundColorY;
+            set
+            {
+                sizeGizmoLabelBackgroundColorY = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_sizeGizmo_labelBackgroundColor_Z")] [SerializeField]
+        Color sizeGizmoLabelBackgroundColorZ = new(0, 0.1890f, 0.5220f);
+
+        public Color SizeGizmoLabelBackgroundColorZ
+        {
+            get => sizeGizmoLabelBackgroundColorZ;
+            set
+            {
+                sizeGizmoLabelBackgroundColorZ = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_showAxisOnLabel")] [SerializeField]
+        bool showAxisOnLabel = true;
+
+        public bool ShowAxisOnLabel
+        {
+            get => showAxisOnLabel;
+            set
+            {
+                showAxisOnLabel = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_showUnitOnLabel")] [SerializeField]
+        bool showUnitOnLabel = true;
+
+        public bool ShowUnitOnLabel
+        {
+            get => showUnitOnLabel;
+            set
+            {
+                showUnitOnLabel = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_positionLabelAtCenter")] [SerializeField]
+        bool positionLabelAtCenter;
+
+        public bool PositionLabelAtCenter
+        {
+            get => positionLabelAtCenter;
+            set
+            {
+                positionLabelAtCenter = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_positionLabelAtClosestAxis")] [SerializeField]
+        bool positionLabelAtClosestAxis = true;
+
+        public bool PositionLabelAtClosestAxis
+        {
+            get => positionLabelAtClosestAxis;
+            set
+            {
+                positionLabelAtClosestAxis = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_positionLabelAtCornerAxis")] [SerializeField]
+        bool positionLabelAtCornerAxis;
+
+        public bool PositionLabelAtCornerAxis
+        {
+            get => positionLabelAtCornerAxis;
+            set
+            {
+                positionLabelAtCornerAxis = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_labelOffset")] [SerializeField]
+        float labelOffset;
+
+        public float LabelOffset
+        {
+            get => labelOffset;
+            set
+            {
+                labelOffset = value;
+                Save(true);
+            }
+        }
+
+        [FormerlySerializedAs("_showSizeGizmoLabelOnBothSide")] [SerializeField]
+        bool showSizeGizmoLabelOnBothSide = true;
 
         public bool ShowSizeGizmoLabelOnBothSide
         {
-            get { return _showSizeGizmoLabelOnBothSide; }
+            get => showSizeGizmoLabelOnBothSide;
             set
             {
-                _showSizeGizmoLabelOnBothSide = value;
+                showSizeGizmoLabelOnBothSide = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private bool _showSizeGizmosLabelHandle = false;
+        [FormerlySerializedAs("_showSizeGizmosLabelHandle")] [SerializeField]
+        bool showSizeGizmosLabelHandle;
 
         public bool ShowSizeGizmosLabelHandle
         {
-            get { return _showSizeGizmosLabelHandle; }
+            get => showSizeGizmosLabelHandle;
             set
             {
-                _showSizeGizmosLabelHandle = value;
+                showSizeGizmosLabelHandle = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private int _minimumSizeForDoubleSidedLabel = 10;
+        [FormerlySerializedAs("_minimumSizeForDoubleSidedLabel")] [SerializeField]
+        int minimumSizeForDoubleSidedLabel = 10;
 
         public int MinimumSizeForDoubleSidedLabel
         {
-            get { return _minimumSizeForDoubleSidedLabel; }
+            get => minimumSizeForDoubleSidedLabel;
             set
             {
-                _minimumSizeForDoubleSidedLabel = value;
+                minimumSizeForDoubleSidedLabel = value;
                 Save(true);
             }
         }
 
-        [SerializeField] private int _gizmoMaximumDecimalPoints = 4;
+        [FormerlySerializedAs("_gizmoMaximumDecimalPoints")] [SerializeField]
+        int gizmoMaximumDecimalPoints = 4;
 
         public int GizmoMaximumDecimalPoints
         {
-            get { return _gizmoMaximumDecimalPoints; }
+            get => gizmoMaximumDecimalPoints;
             set
             {
-                _gizmoMaximumDecimalPoints = value;
+                gizmoMaximumDecimalPoints = value;
                 Save(true);
             }
         }
@@ -338,225 +665,30 @@ namespace TinyGiantStudio.BetterInspector
 
         #endregion Size
 
-        #region Notes
-
-        [SerializeField] private bool _showNotes = true;
-
-        public bool ShowNotes
-        {
-            get { return _showNotes; }
-            set
-            {
-                _showNotes = value;
-                Save(true);
-            }
-        }
-
-        [SerializeField] private bool _showNotesOnGizmo = true;
-
-        public bool ShowNotesOnGizmo
-        {
-            get { return _showNotesOnGizmo; }
-            set
-            {
-                _showNotesOnGizmo = value;
-                Save(true);
-            }
-        }
-        [SerializeField] private List<Note> notes = new List<Note>();
-
-        public string GetNote(string id)
-        {
-            for (int i = 0; i < notes.Count; i++)
-            {
-                if (notes[i].id == id)
-                    return notes[i].note;
-            }
-
-            return string.Empty;
-        }
-
-        public void SetNote(string id, string note, NoteType noteType, Color color)
-        {
-            for (int i = 0; i < notes.Count; i++)
-            {
-                if (notes[i].id == id)
-                {
-                    notes[i].note = note;
-                    notes[i].noteType = noteType;
-                    notes[i].color = color;
-                    Save(true);
-
-                    return;
-                }
-            }
-
-            notes.Add(new Note(id, note, noteType, color));
-            Save(true);
-        }
-
-        public void DeleteNote(string id)
-        {
-            Note noteToDelete = null;
-            for (int i = 0; i < notes.Count; i++)
-            {
-                if (notes[i].id == id)
-                {
-                    noteToDelete = notes[i];
-                }
-            }
-
-            if (noteToDelete != null)
-            {
-                notes.Remove(noteToDelete);
-                Save(true);
-            }
-        }
-
-        public int NoteCount() => notes.Count;
-
-        public void DebugLogAllNotes()
-        {
-            if (notes.Count == 0)
-                Debug.Log("No notes are found");
-
-            for (int i = 0; i < notes.Count; i++)
-                Debug.Log(notes[i].note + ", by GUID: " + notes[i].id);
-        }
-
-        public void DeleteAllNotes()
-        {
-            Undo.RecordObject(this, "Delete notes");
-            notes.Clear();
-        }
-
-        public void CleanupNotes(bool debugLog = false)
-        {
-            List<Note> notesToRemove = new List<Note>();
-            for (int i = 0; i < notes.Count; i++)
-            {
-                string path = AssetDatabase.GUIDToAssetPath(notes[i].id);
-                if (string.IsNullOrEmpty(path))
-                {
-                    if (debugLog)
-                        Debug.Log(notes[i].note + ", by GUID: " + notes[i].note);
-                    notesToRemove.Add(notes[i]);
-                }
-            }
-
-            if (notesToRemove.Count == 0)
-            {
-                Debug.Log("All notes have found corresponding assets. No cleanup required.");
-                return;
-            }
-
-            for (int i = 0; i < notesToRemove.Count; i++)
-            {
-                if (notes.Contains(notesToRemove[i])) //It should never be false. Never got error. Added because of paranoia
-                    notes.Remove(notesToRemove[i]);
-            }
-        }
-
-        #endregion Notes
 
         #region Parent Child Transform
 
-        [SerializeField] private bool _showParentChildTransform = true;
+        [FormerlySerializedAs("_showParentChildTransform")] [SerializeField]
+        bool showParentChildTransform = true;
 
         public bool ShowParentChildTransform
         {
-            get { return _showParentChildTransform; }
+            get => showParentChildTransform;
             set
             {
-                _showParentChildTransform = value;
+                showParentChildTransform = value;
                 Save(true);
             }
         }
 
         #endregion Parent Child Transform
 
-        public bool showSiblingIndex = false;
-        public bool showAssetGUID = false;
 
-        public bool showWhySizeIsHiddenLabel = true;
-
-        [SerializeField] private bool _loadDefaultInspector = true;
-
-        public bool LoadDefaultInspector
+        public enum SizeType
         {
-            get { return _loadDefaultInspector; }
-            set
-            {
-                _loadDefaultInspector = value;
-                Save(true);
-            }
+            Renderer,
+            Filter
         }
-
-        public bool logPerformance = false;
-        public bool logDetailedPerformance = true;
-
-        public void ResetToMinimal()
-        {
-            _showSizeInLine = true;
-            _showSizeFoldout = false;
-            _showParentChildTransform = false;
-
-            Reset();
-        }
-
-        public void ResetToDefault()
-        {
-            _showSizeInLine = false;
-            _showSizeFoldout = true;
-            _showParentChildTransform = true;
-
-            Reset();
-        }
-
-        public void Reset()
-        {
-            _loadDefaultInspector = true;
-
-            _overrideInspectorColor = false;
-            _inspectorColor = new Color(0, 0, 1, 0.025f);
-            _overrideFoldoutColor = false;
-            _foldoutColor = new Color(0, 1, 0, 0.025f);
-
-            _currentWorkSpace = WorkSpace.Local;
-            _showCopyPasteButtons = true;
-            _showAllVariableCopyPasteButtons = false;
-
-            _fieldRoundingAmount = 5;
-            //_lockScaleAspectRatio = false;
-
-            _maxChildInspectors = 10;
-            _includeChildBounds = true;
-            _maxChildCountForSizeCalculation = 50;
-            _currentSizeType = SizeType.Renderer;
-            _lockSizeAspectRatio = false;
-
-            _showSizeGizmo = true;
-            _showSizeGizmoLabel = true;
-            _sizeGizmoLabelSize = 10;
-            _sizeGizmoColor = new Color(1, 1, 1, 0.15f); ;
-            _showSizeGizmoLabelOnBothSide = true;
-            _showSizeGizmosLabelHandle = false;
-            _minimumSizeForDoubleSidedLabel = 10;
-            _gizmoMaximumDecimalPoints = 4;
-            _constantSizeUpdate = false;
-
-            _showNotes = true;
-
-            showSiblingIndex = false;
-            showAssetGUID = false;
-
-            logPerformance = false;
-            logDetailedPerformance = false;
-
-            Save(true);
-        }
-
-        public void Save() => Save(true);
 
         [Serializable]
         public enum WorkSpace
@@ -564,12 +696,6 @@ namespace TinyGiantStudio.BetterInspector
             Local,
             World,
             Both
-        }
-
-        public enum SizeType
-        {
-            Renderer,
-            Filter
         }
     }
 }

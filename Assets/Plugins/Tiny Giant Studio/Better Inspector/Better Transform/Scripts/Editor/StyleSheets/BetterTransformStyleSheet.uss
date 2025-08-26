@@ -49,3 +49,7 @@
     padding-top: 0;
     padding-bottom: 0;
 }
+
+.unity-composite-field__input .unity-composite-field__field {
+    margin-right: 0;
+}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Earth Guardian Body Phase 2 Slam Attack 01
   m_EditorClassIdentifier: 
   attackAnimation: Attack_03
-  comboAction: {fileID: 0}
+  comboAction: {fileID: 11400000, guid: 2dfc07bedd93be3429defff14f91fd97, type: 2}
   attackWeight: 50
   attackType: 0
   actionRecoveryTime: 0.75

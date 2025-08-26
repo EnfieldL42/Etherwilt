@@ -2741,7 +2741,7 @@ MonoBehaviour:
   lockOnTransform: {fileID: 0}
   canPerformRollingAttack: 0
   canPerformBackstepAttack: 0
-  canBlock: 1
+  canBlock: 0
   criticalAttackDistanceCheck: 0.7
   pendingCriticalDamage: 0
   baseDamage: 5
@@ -2878,7 +2878,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72108ae89361afc42a5856dc54c9a134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  etherDroppedOnDeath: 50
+  etherDroppedOnDeath: 10000
   staminaRegenerationAmount: 2
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
@@ -2887,7 +2887,7 @@ MonoBehaviour:
   blockingStability: 0
   totalPoiseDamanage: 0
   offensivePoiseBonus: 0
-  basePoiseDefense: 0
+  basePoiseDefense: 500
   defaultPoiseResetTime: 8
   poiseResetTimer: 0
 --- !u!114 &6451187813055123171

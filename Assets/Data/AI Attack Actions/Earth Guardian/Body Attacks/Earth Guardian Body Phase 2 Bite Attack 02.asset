@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 346e0630b6e0cf147be432e8dae9d42a, type: 3}
   m_Name: Earth Guardian Body Phase 2 Bite Attack 02
   m_EditorClassIdentifier: 
-  attackAnimation: Attack_02
-  comboAction: {fileID: 0}
+  attackAnimation: Attack_06
+  comboAction: {fileID: 11400000, guid: da291ac7645d1be4c92708fa077215de, type: 2}
   attackWeight: 50
   attackType: 0
   actionRecoveryTime: 0.75

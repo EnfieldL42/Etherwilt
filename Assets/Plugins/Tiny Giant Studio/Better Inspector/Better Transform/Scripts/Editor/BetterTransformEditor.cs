@@ -1,36 +1,32 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Globalization;
 using System.Linq;
 using UnityEditor;
 using UnityEditor.UIElements;
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.VFX;
+using static TinyGiantStudio.BetterInspector.BetterMath;
+using static UnityEngine.Mathf;
 using Debug = UnityEngine.Debug;
+
+// ReSharper disable ConvertIfStatementToConditionalTernaryExpression
+// ReSharper disable ForCanBeConvertedToForeach
 
 namespace TinyGiantStudio.BetterInspector
 {
     /// <summary>
-    /// Methods containing the word Update can be called multiple times to update to reflect changes.
-    /// Methods containing the word Setup are called once when the inspector is created.
-    ///
-    ///
-    /// Note to self:
-    /// KEEP ALL FOLDOUTS HIDDEN BY DEFAULT IN THE UXML FILE
-    /// 1. Maybe add texture icon instead of the handles for _showSizeGizmosLabelHandle
-    ///
-    /// Maybe:
-    /// 1. Swappable to IMGUI transform
-    /// 2. Randomize Rotation, Position and Scale
-    /// 4. Angles on Gizmo
-    ///
-    /// To-do
-    /// 1. Enable/disable width adapt
-    ///
+    ///     Methods containing the word Update can be called multiple times to update to reflect changes.
+    ///     Methods containing the word Setup are called once when the inspector is created.
+    ///     Note to self:
+    ///     KEEP ALL FOLDOUTS HIDDEN BY DEFAULT IN THE UXML FILE
+    ///     MAYBE:
+    ///     1. Randomize Rotation, Position, and Scale
+    ///     TODO
+    ///     1. Move size paste,reset to QuickActions.cs
+    ///     2. Default inspector for multi target
     /// </summary>
-
     [CanEditMultipleObjects]
     [CustomEditor(typeof(Transform))]
     public class BetterTransformEditor : Editor
@@ -39,392 +35,588 @@ namespace TinyGiantStudio.BetterInspector
 
         #region Referenced in the Inspector
 
-        /// <summary>
-        /// If reference is lost, retrieved from file location
-        /// </summary>
-        [SerializeField]
-        private VisualTreeAsset visualTreeAsset;
+        [SerializeField] VisualTreeAsset visualTreeAsset; // If reference is lost, retrieved from file location
 
-        private readonly string visualTreeAssetFileLocation = "Assets/Plugins/Tiny Giant Studio/Better Inspector/Better Transform/Scripts/Editor/BetterTransform.uxml";
+        const string VisualTreeAssetFileLocation =
+            "Assets/Plugins/Tiny Giant Studio/Better Inspector/Better Transform/Scripts/Editor/BetterTransform.uxml";
 
-        [SerializeField]
-        private VisualTreeAsset folderTemplate;
+        const string VisualTreeAssetGuid = "e8eee4a8330502c40b42313f6a99d0b6";
 
-        private readonly string folderTemplateFileLocation = "Assets/Plugins/Tiny Giant Studio/Better Inspector/Better Transform/Scripts/Editor/Templates/CustomFoldoutTemplate.uxml";
+        [SerializeField] VisualTreeAsset folderTemplate; // If reference is lost, retrieved from file location
+
+        const string FolderTemplateFileLocation =
+            "Assets/Plugins/Tiny Giant Studio/Better Inspector/Better Transform/Scripts/Editor/Templates/CustomFoldoutTemplate.uxml";
+
+        const string FolderTemplateGuid = "ce465cbac9f131241acfd8b7127846a4";
+
+        [SerializeField] VisualTreeAsset settingsTemplate;
+
+        const string SettingsTemplateFileLocation =
+            "Assets/Plugins/Tiny Giant Studio/Better Inspector/Better Transform/Scripts/Editor/Templates/Settings.uxml";
+
+        const string SettingsTemplateGuid = "892731edae4e3934aaddd13b03e5dd15";
+
+        [SerializeField] StyleSheet betterTransformStyleSheet1;
+        [SerializeField] StyleSheet betterTransformStyleSheet2;
+        [SerializeField] StyleSheet betterTransformStyleSheet3;
 
         #endregion Referenced in the Inspector
 
-        private VisualElement root;
+        const string AssetLink =
+            "https://assetstore.unity.com/packages/tools/utilities/better-transform-size-notes-global-local-workspace-parent-child--321300?aid=1011ljxWe";
 
-        private Transform transform;
-        private SerializedObject soTarget;
+        const string PublisherLink = "https://assetstore.unity.com/publishers/45848?aid=1011ljxWe";
+        const string DocumentationLink = "https://ferdowsur.gitbook.io/better-transform/";
 
-        private BetterTransformSettings editorSettings;
+        VisualElement _root;
 
-        private readonly string prefabOverrideLabel = "prefab_override_label";
+        public Transform transform;
+        SerializedObject _soTarget;
 
-        private Editor originalEditor;
-        private List<Editor> otherBetterTransformEditors = new List<Editor>();
+        BetterInspectorEditorSettings _inspectorEditorSettings;
+        BetterTransformSettings _betterTransformSettings;
 
-        private CustomFoldoutSetup customFoldoutSetup;
 
-        private GroupBox topGroupBox;
+        Editor _originalEditor;
+        readonly List<Editor> _otherBetterTransformEditors = new();
 
-        private GroupBox performanceLoggingGroupBox;
-        private Stopwatch stopwatch;
+        SizeCalculation _sizeCalculator;
+        QuickActions _quickActions;
+
+        GroupBox _topGroupBox;
+
+        Button _pingSelfButton;
+        Button _sizeOutlineGizmoOnButton;
+        Button _sizeOutlineGizmoOffButton;
+        Button _sizeLabelsGizmoOn;
+        Button _sizeLabelsGizmoOff;
+
+        Label _sizeFoldoutWarning;
+
+        /// <summary>
+        /// It's a small label with the text - "Showing World Space in Play Mode on fast-changing objects may reduce performance."
+        /// </summary>
+        Label _worldSpaceWarning;
+
+        GroupBox _performanceLoggingGroupBox;
+        Stopwatch _stopwatch;
+
+        const string PrefabOverrideLabelUSSClass = "prefab_override_label";
+
+        #region Performance Logging
+
+        float _time;
+        float _totalMS;
+        bool _logPerformance;
+        bool _logDetailedPerformance;
+
+        #endregion
+
+        #region WarningLabels
+
+        const string WarningStringShowingCustomFieldsInPlaymode =
+            "Use the Default Inspector for fast-updating objects in Play Mode to reduce performance impact. This option is available in the Main Settings foldout.";
+
+        const string WarningStringShowingWorldSpaceInPlaymode =
+            "Showing World Space in Play Mode on fast-changing objects may reduce performance.";
+
+        #endregion
 
         #endregion Variable Declaration
 
-        private float time;
-        private float totalMS = 0;
-        private bool logPerformance;
-        private bool logDetailedPerformance;
 
         #region Unity Stuff
 
-        private static bool domainReloaded = false;
+        static bool domainReloaded;
 
         [InitializeOnLoadMethod]
-        private static void MyInitializationMethod()
+        static void MyInitializationMethod()
         {
             domainReloaded = true;
         }
 
-        private void Awake()
+        void Awake()
         {
             //On domain reload
-            if (domainReloaded)
-            {
-                domainReloaded = false;
+            if (!domainReloaded) return;
 
-                sizeSetupDone = false;
-                settingsFieldSetupDone = false;
-                noteSetupCompleted = false;
-            }
+            domainReloaded = false;
+
+            _sizeSetupDone = false;
+            _settingsFieldSetupDone = false;
+            originalTransform = null;
         }
 
-        private void OnEnable()
+        void OnEnable()
         {
             //On domain reload
-            if (domainReloaded)
-            {
-                domainReloaded = false;
+            if (!domainReloaded) return;
 
-                sizeSetupDone = false;
-                settingsFieldSetupDone = false;
-                noteSetupCompleted = false;
-            }
+            domainReloaded = false;
+
+            _sizeSetupDone = false;
+            _settingsFieldSetupDone = false;
+            originalTransform = null;
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
-            for (int i = 0; i < otherBetterTransformEditors.Count; i++)
-                DestroyImmediate(otherBetterTransformEditors[i]);
+            for (int i = 0; i < _otherBetterTransformEditors.Count; i++)
+                DestroyImmediate(_otherBetterTransformEditors[i]);
 
-            if (originalEditor != null)
-                DestroyImmediate(originalEditor);
+            if (_originalEditor != null)
+                DestroyImmediate(_originalEditor);
         }
 
         /// <summary>
-        /// CreateInspectorGUI is called for UIToolkit inspectors.
-        /// OnInspectorGUI is called for IMGUI.
-        ///
-        /// Note: This is called each time something else is selected with this one locked.
+        ///     CreateInspectorGUI is called for UIToolkit inspectors.
+        ///     OnInspectorGUI is called for IMGUI.
+        ///     Note: This is called each time something else is selected with this one locked.
         /// </summary>
         /// <returns>What should be shown on the inspector</returns>
         public override VisualElement CreateInspectorGUI()
         {
-            root = new VisualElement();
+            _root = new();
 
             if (target == null)
-                return root;
+                return _root;
 
             ////These are to test different cultures where DecimalSeparator is different.
-            ////It is required for copy pasting
+            ////It is required for copy-pasting
             //Debug.Log(System.Globalization.CultureInfo.CurrentCulture);
             //System.Globalization.CultureInfo.CurrentCulture = new CultureInfo("fr-FR");
             //Debug.Log(System.Globalization.CultureInfo.CurrentCulture);
             //Debug.Log(System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencyDecimalSeparator);
 
-            editorSettings = BetterTransformSettings.instance;
-            logPerformance = editorSettings.logPerformance;
-            logDetailedPerformance = editorSettings.logDetailedPerformance;
+            _inspectorEditorSettings = BetterInspectorEditorSettings.instance;
+            _betterTransformSettings = BetterTransformSettings.instance;
+            _logPerformance = _betterTransformSettings.logPerformance;
+            _logDetailedPerformance = _betterTransformSettings.logDetailedPerformance;
 
-            if (logPerformance)
+            _sizeSetupDone = false;
+
+            if (_logPerformance)
             {
-                if (stopwatch != null) stopwatch.Reset();
-                else stopwatch = new Stopwatch();
+                if (_stopwatch != null) _stopwatch.Reset();
+                else _stopwatch = new();
 
-                stopwatch.Start();
+                _stopwatch.Start();
             }
 
-            if (logPerformance)
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                if (logDetailedPerformance)
-                    LogDelay("Start", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                if (_logDetailedPerformance)
+                    LogDelay("Start", _time);
             }
 
             domainReloaded = false;
 
             transform = target as Transform;
-            soTarget = new SerializedObject(target);
+            _soTarget = new(target);
 
-            if (logPerformance)
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                LogDelay("Serializing target time", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                LogDelay("Serializing target time", _time);
             }
 
-            //In-case reference to the asset is lost, retrieve it from file location
+            //In-case reference to the asset is lost, retrieve it from the file location
             if (visualTreeAsset == null)
             {
-                visualTreeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(visualTreeAssetFileLocation);
-
-                if (logPerformance)
+                visualTreeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(VisualTreeAssetFileLocation);
+                if (visualTreeAsset == null)
                 {
-                    time = stopwatch.ElapsedMilliseconds - totalMS;
-                    totalMS += time;
-                    LogDelay("Visual Tree Asset wasn't assigned, loading from asset database", time);
+                    string assetPath = AssetDatabase.GUIDToAssetPath(VisualTreeAssetGuid);
+                    if (!string.IsNullOrEmpty(assetPath))
+                        visualTreeAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(assetPath);
+                }
+
+                if (_logPerformance)
+                {
+                    _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                    _totalMS += _time;
+                    LogDelay("Visual Tree Asset wasn't assigned, loading from asset database", _time);
                 }
             }
-            //If can't find the Better Transform UXML,
-            //Show the default inspector
+
+            // If the Better Transform UXML can't be found,
+            // fall back to the default inspector.
             if (visualTreeAsset == null)
             {
-                LoadDefaultEditor(root);
+                LoadDefaultEditor(_root);
 
-                if (logPerformance)
-                {
-                    LogDelay("Total time spent", stopwatch.ElapsedMilliseconds);
-                    stopwatch.Stop();
-                }
-
-                return root;
+                if (!_logPerformance) return _root;
+                LogDelay("Total time spent", _stopwatch.ElapsedMilliseconds);
+                _stopwatch.Stop();
+                return _root;
             }
 
-            visualTreeAsset.CloneTree(root);
+            visualTreeAsset.CloneTree(_root);
 
-            if (logPerformance)
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                LogDelay("Cloning visual asset tree", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                LogDelay("Cloning visual asset tree", _time);
             }
 
             FirstTimeSetup();
 
-            if (logPerformance)
+            UpdateStyleSheets();
+
+            _pingSelfButton = _root.Q<Button>("PingSelfButton");
+            if (targets.Length == 1 && _betterTransformSettings.pingSelfButton && originalTransform == null)
             {
-                LogDelay("Total time spent", stopwatch.ElapsedMilliseconds);
-                stopwatch.Stop();
+                _pingSelfButton.style.display = DisplayStyle.Flex;
+                _pingSelfButton.clicked += () =>
+                {
+                    //Multi ping is commented out because PingObject only pings the last one.
+                    EditorGUIUtility.PingObject(transform);
+                };
             }
+            else
+            {
+                _pingSelfButton.style.display = DisplayStyle.None;
+            }
+
+            SetupGizmoToggles();
 
             StartSizeSchedule();
 
-            return root;
+
+            if (originalTransform == null)
+            {
+                _root.schedule.Execute(() =>
+                {
+                    _inspectorEditorSettings.selectedTransform = transform;
+                    _inspectorEditorSettings.SelectedBetterTransformEditorRoot = _root;
+                }).ExecuteLater(100);
+            }
+
+            //Finish code above this line------------------
+            if (!_logPerformance) return _root;
+            LogDelay("Total time spent", _stopwatch.ElapsedMilliseconds);
+            _stopwatch.Stop();
+            return _root;
         }
 
-        private VisualElement sizeUpdateScheduleHolder;
+        void UpdateStyleSheets()
+        {
+            StyleSheetsManager.UpdateStyleSheet(_root);
 
-        private void StartSizeSchedule()
+            switch (_inspectorEditorSettings.selectedFoldoutStyle)
+            {
+                case 1:
+                    _root.styleSheets.Add(betterTransformStyleSheet1);
+                    _root.styleSheets.Remove(betterTransformStyleSheet2);
+                    _root.styleSheets.Remove(betterTransformStyleSheet3);
+                    break;
+                case 2:
+                    _root.styleSheets.Remove(betterTransformStyleSheet1);
+                    _root.styleSheets.Add(betterTransformStyleSheet2);
+                    _root.styleSheets.Remove(betterTransformStyleSheet3);
+                    break;
+                case 3:
+                    _root.styleSheets.Remove(betterTransformStyleSheet1);
+                    _root.styleSheets.Remove(betterTransformStyleSheet2);
+                    _root.styleSheets.Add(betterTransformStyleSheet3);
+                    break;
+            }
+        }
+
+        void SetupGizmoToggles()
+        {
+            GroupBox gizmoTogglesGroupBox = _root.Q<GroupBox>("GizmoToggles");
+            if (_thisIsAnAsset || originalTransform != null)
+                gizmoTogglesGroupBox.style.display = DisplayStyle.None;
+
+            _sizeOutlineGizmoOnButton = _root.Q<Button>("GizmoOn");
+            _sizeOutlineGizmoOffButton = _root.Q<Button>("GizmoOff");
+            _sizeOutlineGizmoOnButton.clicked += () =>
+            {
+                _betterTransformSettings.ShowSizeOutlineGizmo = false;
+                UpdateGizmoButton_Outline();
+                SceneView.RepaintAll();
+            };
+            _sizeOutlineGizmoOffButton.clicked += () =>
+            {
+                _betterTransformSettings.ShowSizeOutlineGizmo = true;
+                UpdateGizmoButton_Outline();
+                SceneView.RepaintAll();
+            };
+            UpdateGizmoButton_Outline();
+
+            _sizeLabelsGizmoOn = gizmoTogglesGroupBox.Q<Button>("SizeLabelsGizmoOn");
+            _sizeLabelsGizmoOff = gizmoTogglesGroupBox.Q<Button>("SizeLabelsGizmoOff");
+            _sizeLabelsGizmoOn.clicked += () =>
+            {
+                _betterTransformSettings.ShowSizeLabelGizmo = false;
+                UpdateGizmoButton_sizeLabel();
+                SceneView.RepaintAll();
+            };
+            _sizeLabelsGizmoOff.clicked += () =>
+            {
+                _betterTransformSettings.ShowSizeLabelGizmo = true;
+                UpdateGizmoButton_sizeLabel();
+                SceneView.RepaintAll();
+            };
+            UpdateGizmoButton_sizeLabel();
+        }
+
+        void UpdateGizmoButton_Outline()
+        {
+            if (!_betterTransformSettings.ShowSizeFoldout && !_betterTransformSettings.ShowSizeInLine)
+            {
+                _sizeOutlineGizmoOnButton.style.display = DisplayStyle.None;
+                _sizeOutlineGizmoOffButton.style.display = DisplayStyle.None;
+                return;
+            }
+
+            if (_betterTransformSettings.ShowSizeOutlineGizmo)
+            {
+                _sizeOutlineGizmoOnButton.style.display = DisplayStyle.Flex;
+                _sizeOutlineGizmoOffButton.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                _sizeOutlineGizmoOnButton.style.display = DisplayStyle.None;
+                _sizeOutlineGizmoOffButton.style.display = DisplayStyle.Flex;
+            }
+        }
+
+        void UpdateGizmoButton_sizeLabel()
+        {
+            if (!_betterTransformSettings.ShowSizeFoldout && !_betterTransformSettings.ShowSizeInLine)
+            {
+                _sizeLabelsGizmoOn.style.display = DisplayStyle.None;
+                _sizeLabelsGizmoOff.style.display = DisplayStyle.None;
+                return;
+            }
+
+            if (_betterTransformSettings.ShowSizeLabelGizmo)
+            {
+                _sizeLabelsGizmoOn.style.display = DisplayStyle.Flex;
+                _sizeLabelsGizmoOff.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                _sizeLabelsGizmoOn.style.display = DisplayStyle.None;
+                _sizeLabelsGizmoOff.style.display = DisplayStyle.Flex;
+            }
+        }
+
+
+        VisualElement _sizeUpdateScheduleHolder;
+
+        void StartSizeSchedule()
         {
             RemoveSizeUpdateScheduler();
 
-            if (!editorSettings.ConstantSizeUpdate)
+            if (!_betterTransformSettings.ConstantSizeUpdate)
                 return;
 
-            sizeUpdateScheduleHolder = new VisualElement();
-            root.Add(sizeUpdateScheduleHolder);
+            _sizeUpdateScheduleHolder = new();
+            _root.Add(_sizeUpdateScheduleHolder);
 
-            sizeUpdateScheduleHolder.schedule.Execute(() => UpdateSize(true)).Every(3000).ExecuteLater(3000); //1000 ms = 1 s
+            _sizeUpdateScheduleHolder.schedule.Execute(() => UpdateSize(true)).Every(3000)
+                .ExecuteLater(3000); //1000 ms = 1 s
         }
 
-        private void RemoveSizeUpdateScheduler()
+        void RemoveSizeUpdateScheduler()
         {
-            if (sizeUpdateScheduleHolder == null)
-                return;
-
-            sizeUpdateScheduleHolder.RemoveFromHierarchy();
+            _sizeUpdateScheduleHolder?.RemoveFromHierarchy();
         }
 
-        private void FirstTimeSetup()
+        void FirstTimeSetup()
         {
-            if (root == null) return;
+            if (_root == null) return;
 
-            if (customFoldoutSetup == null)
-                customFoldoutSetup = new CustomFoldoutSetup();
+            _sizeCalculator ??= new(_betterTransformSettings);
+            _topGroupBox = _root.Q<GroupBox>("TopGroupBox");
+            _toolbarsGroupBox = _root.Q<GroupBox>("ToolbarsGroupBox");
 
-            topGroupBox = root.Q<GroupBox>("TopGroupBox");
+            _sizeFoldoutWarning = _root.Q<Label>("SizeUpdateWarning");
+            _worldSpaceWarning = _root.Q<Label>("WorldSpaceWarning");
 
             UpdatePerformanceLoggingGroupBox();
 
-            if (logPerformance)
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                if (logDetailedPerformance)
-                    LogDelay("Prerequisite", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                if (_logDetailedPerformance)
+                    LogDelay("Prerequisite", _time);
             }
 
             SetupSizeCommon();
 
             if (targets.Length == 1)
             {
-                SetupSettings();
-                if (logPerformance)
+                if (_logPerformance)
                 {
-                    time = stopwatch.ElapsedMilliseconds - totalMS;
-                    totalMS += time;
-                    LogDelay("Settings", time);
+                    _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                    _totalMS += _time;
+                    LogDelay("Settings", _time);
                 }
 
-                if (editorSettings.ShowSizeFoldout || editorSettings.ShowSizeInLine)
-                    SetupSize(customFoldoutSetup);
+                if (_betterTransformSettings.ShowSizeFoldout || _betterTransformSettings.ShowSizeInLine)
+                    SetupSize();
                 else
                     HideSize();
 
-                if (logPerformance)
+                if (_logPerformance)
                 {
-                    time = stopwatch.ElapsedMilliseconds - totalMS;
-                    totalMS += time;
-                    LogDelay("Size (Hidden or visible)", time);
+                    _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                    _totalMS += _time;
+                    LogDelay("Size (Hidden or visible)", _time);
                 }
             }
             else
             {
-                Button openSettingsButton = topGroupBox.Q<Button>("OpenSettingsButton");
-                openSettingsButton.style.display = DisplayStyle.None;
                 HideSize();
             }
 
             SetupMainControls();
             UpdateMainControls();
 
-            QuickActions quickActions = new();
-            quickActions.HookLocalTransform(targets, root.Q<GroupBox>("BothSpaceToolbarForLocalSpace"));
+            _quickActions = new(targets, _root, this);
 
-            if (logPerformance)
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                LogDelay("Position/Rotation/Size Fields", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                LogDelay("Position/Rotation/Size Fields", _time);
             }
 
-            UpdatePasteButtons();
-
-            if (logPerformance)
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                if (logDetailedPerformance)
-                    LogDelay("Paste Buttons", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                if (_logDetailedPerformance)
+                    LogDelay("Paste Buttons", _time);
             }
 
-            SetupNote();
-            if (logPerformance)
+            SetupGuid();
+
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                LogDelay("Notes", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                LogDelay("Notes", _time);
             }
 
-            SetupParentChild(root, customFoldoutSetup);
-            if (logPerformance)
+            SetupParentChild();
+
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                LogDelay("Parent & Child GameObject Informations", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                LogDelay("Parent & Child GameObject Information", _time);
             }
 
-            SetupAddFunctionality();
-            if (logPerformance)
+            SetupMenu();
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                if (logDetailedPerformance)
-                    LogDelay("Add Button", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                if (_logDetailedPerformance)
+                    LogDelay("Add Button", _time);
             }
+
             SetupAnimatorCompability();
-            if (logPerformance)
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                if (logDetailedPerformance)
-                    LogDelay("Animator Compatibility", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                if (_logDetailedPerformance)
+                    LogDelay("Animator Compatibility", _time);
             }
 
             SetupViewWidthAdaption();
-            if (logPerformance)
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
-                totalMS += time;
-                if (logDetailedPerformance)
-                    LogDelay("View Width Adaption", time);
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
+                _totalMS += _time;
+                if (_logDetailedPerformance)
+                    LogDelay("View Width Adaption", _time);
             }
+
             SetupInspectorColor();
-            if (logPerformance)
+            // ReSharper disable once InvertIf
+            if (_logPerformance)
             {
-                time = stopwatch.ElapsedMilliseconds - totalMS;
+                _time = _stopwatch.ElapsedMilliseconds - _totalMS;
                 //totalMS += time;
-                LogDelay("Inspector Color", time);
+                LogDelay("Inspector Color", _time);
             }
         }
 
-        private void LogDelay(string cause, float delay) => Debug.Log("<color=white>" + cause + "</color> : <color=yellow>" + delay + "ms</color>");
-
-        private void UpdatePerformanceLoggingGroupBox()
+        static void LogDelay(string cause, float delay)
         {
-            if (editorSettings.logPerformance)
+            Debug.Log("<color=white>" + cause + "</color> : <color=yellow>" + delay + "ms</color>");
+        }
+
+        void UpdatePerformanceLoggingGroupBox()
+        {
+            if (_betterTransformSettings.logPerformance)
                 TurnOnPerformanceLogging();
-            else if (performanceLoggingGroupBox != null)
+            else if (_performanceLoggingGroupBox != null)
                 TurnOffPerformanceLogging();
         }
 
-        private void TurnOnPerformanceLogging()
+        void TurnOnPerformanceLogging()
         {
             //In case of a domain reload, the element is not deleted but reference is lost.
-            if (performanceLoggingGroupBox == null)
-                performanceLoggingGroupBox = root.Q<GroupBox>("PerformanceLoggingGroup");
+            _performanceLoggingGroupBox ??= _root.Q<GroupBox>("PerformanceLoggingGroup");
 
             //If one doesn't exist, create it
-            if (performanceLoggingGroupBox == null)
+            if (_performanceLoggingGroupBox == null)
                 CreatePerformanceLoggingGroupBox();
 
-            performanceLoggingGroupBox.style.display = DisplayStyle.Flex;
+            // ReSharper disable once PossibleNullReferenceException
+            _performanceLoggingGroupBox.style.display = DisplayStyle.Flex;
         }
 
         /// <summary>
-        /// Unity 2023.2.18f1 seems to be slow at loading large UXML files, so, removing some less used stuff from UXML to C#
+        ///     Unity 2023.2.18f1 seems to be slow at loading large UXML files, so, removing some less used stuff from UXML to C#
         /// </summary>
-        private void CreatePerformanceLoggingGroupBox()
+        void CreatePerformanceLoggingGroupBox()
         {
-            performanceLoggingGroupBox = new GroupBox();
+            _performanceLoggingGroupBox = new();
 
-            Button button = new Button();
-            button.text = "Turn Off performance logging";
+            Button button = new()
+            {
+                text = "Turn Off performance logging"
+            };
             button.clicked += TurnOffPerformanceLogging;
-            performanceLoggingGroupBox.Add(button);
+            _performanceLoggingGroupBox.Add(button);
 
-            performanceLoggingGroupBox.Add(new HelpBox("Please note that console logs can negatively impact performance of the inspector. So, the delays you will see here will be higher than normal usage. However, these logs serve a crucial purpose�they assist in identifying resource-intensive features. Just remember to turn it off when not needed.", HelpBoxMessageType.Info));
+            _performanceLoggingGroupBox.Add(new HelpBox(
+                "Please note that console logs can negatively impact performance of the inspector. So, the delays you will see here will be higher than normal usage. However, these logs serve a crucial purpose—they assist in identifying resource-intensive features. Just remember to turn it off when not needed.",
+                HelpBoxMessageType.Info));
 
-            root.Add(performanceLoggingGroupBox);
+            _root.Add(_performanceLoggingGroupBox);
         }
 
-        private void TurnOffPerformanceLogging()
+        void TurnOffPerformanceLogging()
         {
-            editorSettings.logPerformance = false;
+            _betterTransformSettings.logPerformance = false;
 
-            performanceLoggingGroupBox.style.display = DisplayStyle.None;
-            editorSettings.Save();
-            Toggle performanceLoggingToggle = root.Q<Toggle>("PerformanceLoggingToggle");
-            performanceLoggingToggle.value = false;
+            _performanceLoggingGroupBox.style.display = DisplayStyle.None;
+            _betterTransformSettings.Save();
+            Toggle performanceLoggingToggle = _root.Q<Toggle>("PerformanceLoggingToggle");
+            if (performanceLoggingToggle != null) performanceLoggingToggle.value = false;
         }
 
+        /// <summary>
+        ///  This is assigned for secondary editors only. Secondary editors are parent/child editors that are drawn in foldouts. If this value is null, this editor is the original editor.
+        /// </summary>
         public Transform originalTransform;
 
+        // ReSharper disable once MemberCanBePrivate.Global
         public VisualElement CreateInspectorInsideAnother(Transform newOriginal)
         {
             originalTransform = newOriginal;
@@ -437,98 +629,91 @@ namespace TinyGiantStudio.BetterInspector
 
         #region Variables
 
-        private Button worldSpaceButton;
-        private Label worldSpaceLabel;
-        private Button localSpaceButton;
-        private Label localSpaceLabel;
+        Button _worldSpaceButton;
+        Label _worldSpaceLabel;
+        Button _localSpaceButton;
+        Label _localSpaceLabel;
 
-        private GroupBox defaultEditorGroupBox;
-        private GroupBox customEditorGroupBox;
-        private GroupBox toolbarGroupBox;
+        GroupBox _defaultEditorGroupBox;
+        GroupBox _customEditorGroupBox;
+        GroupBox _toolbarsGroupBox;
 
-        private readonly string positionProperty = "m_LocalPosition";
-        private GroupBox positionGroupBox;
-        private Label positionLabel;
-        private Vector3Field localPositionField;
-        private Vector3Field worldPositionField;
-        private Button copyPositionButton;
-        private Button pastePositionButton;
-        private Button resetPositionButton;
-        private VisualElement positionPrefabOverrideMark;
-        private VisualElement positionDefaultPrefabOverrideMark;
+        const string PositionProperty = "m_LocalPosition";
+        GroupBox _positionGroupBox;
+        Label _positionLabel;
+        Vector3Field _localPositionField;
+        Vector3Field _worldPositionField;
+        VisualElement _positionPrefabOverrideMark;
+        VisualElement _positionDefaultPrefabOverrideMark;
 
-        private readonly string rotationProperty = "m_LocalRotation";
-        private GroupBox rotationGroupBox;
-        private Label rotationLabel;
-        private Vector3Field localRotationField;
+        const string RotationProperty = "m_LocalRotation";
+        GroupBox _rotationGroupBox;
+        Label _rotationLabel;
+        Vector3Field _localRotationField;
 
         /// <summary>
-        /// transform.eulerAngles
+        ///     transform.eulerAngles
         /// </summary>
-        private Vector3Field worldRotationField;
+        Vector3Field _worldRotationField;
 
         /// <summary>
-        /// An internal editor only property that used to store the value you set in the local rotation field.
+        ///     An internal editor only property that used to store the value you set in the local rotation field.
         /// </summary>
-        private SerializedProperty serializedEulerHint;
+        SerializedProperty _serializedEulerHint;
 
-        private SerializedProperty rotationSerializedProperty;
-        private PropertyField quaternionRotationPropertyField;
-        private Button copyRotationButton;
-        private Button pasteRotationButton;
-        private Button resetRotationButton;
+        SerializedProperty _rotationSerializedProperty;
+        PropertyField _quaternionRotationPropertyField;
 
-        private VisualElement rotationPrefabOverrideMark;
-        private VisualElement rotationDefaultPrefabOverrideMark;
+        VisualElement _rotationPrefabOverrideMark;
+        VisualElement _rotationDefaultPrefabOverrideMark;
 
-        private readonly string scaleProperty = "m_LocalScale";
-        private GroupBox scaleGroupBox;
-        private GroupBox scaleLabelGroupbox;
-        private Label scaleLabel;
-        private Vector3Field boundLocalScaleField;
-        private Vector3Field localScaleField;
-        private Vector3Field worldScaleField;
+        const string ScaleProperty = "m_LocalScale";
+        GroupBox _scaleGroupBox;
+        GroupBox _scaleLabelGroupbox;
+        Label _scaleLabel;
+        Vector3Field _boundLocalScaleField;
+        Vector3Field _localScaleField;
+        Vector3Field _worldScaleField;
 
         //private SerializedProperty m_ConstrainProportionsScaleProperty; //doesn't work
 
-        private Button copyScaleButton;
-        private Button pasteScaleButton;
-        private Button resetScaleButton;
-        private VisualElement scalePrefabOverrideMark;
-        private Button scaleAspectRatioLocked;
-        private Button scaleAspectRatioUnlocked;
+        Button _copyScaleButton;
+        Button _pasteScaleButton;
+        Button _resetScaleButton;
+        VisualElement _scalePrefabOverrideMark;
+        Button _scaleAspectRatioLocked;
+        Button _scaleAspectRatioUnlocked;
 
-        private readonly string worldPositionReadOnlyTooltip = "World position is readonly if multiple object is selected.";
-        private readonly string worldRotationReadOnlyTooltip = "World rotation is readonly if multiple object is selected.";
-        private readonly string worldScaleReadOnlyTooltip = "World scale is readonly if multiple object is selected.";
+        const string WorldPositionReadOnlyTooltip = "World position is readonly if multiple object is selected.";
+        const string WorldRotationReadOnlyTooltip = "World rotation is readonly if multiple object is selected.";
+        const string WorldScaleReadOnlyTooltip = "World scale is readonly if multiple object is selected.";
 
         #endregion Variables
 
-        private IVisualElementScheduledItem scheduledItem;
+        IVisualElementScheduledItem _scheduledItem;
 
         //Called when the inspector window first shows up
-        private void SetupMainControls()
+        void SetupMainControls()
         {
             SetupWorkSpace();
 
-            scheduledItem = worldSpaceButton.schedule.Execute(UpdateWorldSpaceFields_WhenInWorldSpaceWorkspace).Every(1000).StartingIn(5000);
+            _scheduledItem = _worldSpaceButton.schedule.Execute(UpdateWorldSpaceFields_WhenInWorldSpaceWorkspace)
+                .Every(1000).StartingIn(5000);
 
-            toolbarGroupBox = root.Q<GroupBox>("NormalToolbar");
-            defaultEditorGroupBox = root.Q<GroupBox>("DefaultUnityInspector");
-            customEditorGroupBox = root.Q<GroupBox>("CustomEditorGroupBox");
+            _defaultEditorGroupBox = _root.Q<GroupBox>("DefaultUnityInspector");
+            _customEditorGroupBox = _root.Q<GroupBox>("CustomEditorGroupBox");
 
             if (targets.Length > 1)
-                LoadDefaultEditor(defaultEditorGroupBox);
+                LoadDefaultEditor(_defaultEditorGroupBox);
 
             SetupPosition();
             SetupRotation();
             SetupScale();
-
-            toolbarGroupBox.RegisterCallback<MouseOverEvent>(e => { UpdatePasteButtons(); });
+            UpdateToolbarVisibility();
         }
 
         //Called during various instances where the inspector window is updated
-        private void UpdateMainControls()
+        void UpdateMainControls()
         {
             UpdateWorkSpaceButtons();
 
@@ -538,257 +723,345 @@ namespace TinyGiantStudio.BetterInspector
 
             UpdateScale();
 
-            if (editorSettings.ShowCopyPasteButtons)
-            {
-                var toolbarGroupBox = root.Q<GroupBox>("ToolbarsGroupBox");
-                toolbarGroupBox.style.display = DisplayStyle.Flex;
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Both)
-                    toolbarGroupBox.Q<GroupBox>("BothSpaceToolbarForLocalSpace").style.display = DisplayStyle.Flex;
-                else
-                    toolbarGroupBox.Q<GroupBox>("BothSpaceToolbarForLocalSpace").style.display = DisplayStyle.None;
-            }
-            else
-                root.Q<GroupBox>("ToolbarsGroupBox").style.display = DisplayStyle.None;
 
-            if (editorSettings.ShowSizeInLine || editorSettings.ShowSizeFoldout)
+            if (_betterTransformSettings.ShowSizeInLine || _betterTransformSettings.ShowSizeFoldout)
                 UpdateSize(true);
 
-            if (editorSettings.LoadDefaultInspector || targets.Length > 1)
+            UpdateAutoRefreshButton();
+
+            if (_betterTransformSettings.LoadDefaultInspector || targets.Length > 1)
             {
-                switch (editorSettings.CurrentWorkSpace)
+                // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+                switch (_betterTransformSettings.CurrentWorkSpace)
                 {
                     case BetterTransformSettings.WorkSpace.Local:
-                        customEditorGroupBox.style.display = DisplayStyle.None;
-                        defaultEditorGroupBox.style.display = DisplayStyle.Flex;
-                        if (defaultEditorGroupBox.childCount == 0)
-                            LoadDefaultEditor(defaultEditorGroupBox);
+                        _customEditorGroupBox.style.display = DisplayStyle.None;
+                        _defaultEditorGroupBox.style.display = DisplayStyle.Flex;
 
-                        root.Q<Label>("LocalFieldLabel").style.display = DisplayStyle.None;
-                        root.Q<Label>("WorldFieldLabel").style.display = DisplayStyle.None;
+                        if (_defaultEditorGroupBox.childCount == 0) LoadDefaultEditor(_defaultEditorGroupBox);
+
+                        if (Application.isPlaying)
+                        {
+                            if (ShouldShowSize())
+                            {
+                                if (!_betterTransformSettings.ConstantSizeUpdate)
+                                {
+                                    if (_betterTransformSettings.autoRefreshSizeInLocalSpaceInPlaymode)
+                                    {
+                                        _sizeFoldoutWarning.style.display = DisplayStyle.Flex;
+                                        _sizeFoldoutWarning.text =
+                                            "Auto-refreshing size may impact performance in Play Mode.";
+                                        BindFields();
+                                    }
+                                    else
+                                    {
+                                        _sizeFoldoutWarning.style.display = DisplayStyle.None;
+                                        UnBindFields();
+                                    }
+                                }
+                                else
+                                {
+                                    UnBindFields();
+                                    _sizeFoldoutWarning.style.display = DisplayStyle.Flex;
+                                    _sizeFoldoutWarning.text =
+                                        "Size is being rechecked every few seconds.";
+                                    _sizeFoldoutWarning.tooltip =
+                                        "This is rarely necessary and can be turned off in the settings to improve performance.";
+                                }
+                            }
+                            else
+                            {
+                                UnBindFields();
+                            }
+                        }
+                        else
+                        {
+                            if (ShouldShowSize() && _betterTransformSettings.autoRefreshSize) BindFields();
+                            else UnBindFields();
+
+                            UpdateSizeFoldoutWarnings();
+                        }
+
+                        _root.Q<Label>("LocalFieldLabel").style.display = DisplayStyle.None;
+                        _root.Q<Label>("WorldFieldLabel").style.display = DisplayStyle.None;
+                        _worldSpaceWarning.style.display = DisplayStyle.None;
 
                         break;
 
                     case BetterTransformSettings.WorkSpace.World:
-                        customEditorGroupBox.style.display = DisplayStyle.Flex;
-                        defaultEditorGroupBox.style.display = DisplayStyle.None;
+                        _customEditorGroupBox.style.display = DisplayStyle.Flex;
+                        _defaultEditorGroupBox.style.display = DisplayStyle.None;
 
-                        root.Q<Label>("LocalFieldLabel").style.display = DisplayStyle.None;
-                        root.Q<Label>("WorldFieldLabel").style.display = DisplayStyle.None;
+                        if (_defaultEditorGroupBox.childCount != 0)
+                        {
+                            DestroyImmediate(_originalEditor);
+                            _defaultEditorGroupBox.Clear();
+                        }
+
+                        BindFields();
+                        UpdateSizeFoldoutWarnings();
+
+                        _root.Q<Label>("LocalFieldLabel").style.display = DisplayStyle.None;
+                        _root.Q<Label>("WorldFieldLabel").style.display = DisplayStyle.None;
+
+                        if (Application.isPlaying) _worldSpaceWarning.style.display = DisplayStyle.Flex;
+                        else _worldSpaceWarning.style.display = DisplayStyle.None;
 
                         break;
 
                     case BetterTransformSettings.WorkSpace.Both:
-                        customEditorGroupBox.style.display = DisplayStyle.Flex;
-                        defaultEditorGroupBox.style.display = DisplayStyle.Flex;
-                        if (defaultEditorGroupBox.childCount == 0)
-                            LoadDefaultEditor(defaultEditorGroupBox);
+                        _customEditorGroupBox.style.display = DisplayStyle.Flex;
+                        _defaultEditorGroupBox.style.display = DisplayStyle.Flex;
 
-                        root.Q<Label>("LocalFieldLabel").style.display = DisplayStyle.Flex;
-                        root.Q<Label>("WorldFieldLabel").style.display = DisplayStyle.Flex;
+                        if (_defaultEditorGroupBox.childCount == 0) LoadDefaultEditor(_defaultEditorGroupBox);
+
+                        BindFields();
+                        UpdateSizeFoldoutWarnings();
+
+                        _root.Q<Label>("LocalFieldLabel").style.display = DisplayStyle.Flex;
+                        _root.Q<Label>("WorldFieldLabel").style.display = DisplayStyle.Flex;
+
+                        if (Application.isPlaying) _worldSpaceWarning.style.display = DisplayStyle.Flex;
+                        else _worldSpaceWarning.style.display = DisplayStyle.None;
 
                         break;
                 }
             }
-            else
+            else //Not using default inspector and one target is selected
             {
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Both)
+                if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Both)
                 {
-                    customEditorGroupBox.style.display = DisplayStyle.Flex;
-                    defaultEditorGroupBox.style.display = DisplayStyle.Flex;
-                    if (defaultEditorGroupBox.childCount == 0)
-                        LoadDefaultEditor(defaultEditorGroupBox);
+                    _customEditorGroupBox.style.display = DisplayStyle.Flex;
+                    _defaultEditorGroupBox.style.display = DisplayStyle.Flex;
 
-                    root.Q<Label>("LocalFieldLabel").style.display = DisplayStyle.Flex;
-                    root.Q<Label>("WorldFieldLabel").style.display = DisplayStyle.Flex;
+                    if (_defaultEditorGroupBox.childCount == 0) LoadDefaultEditor(_defaultEditorGroupBox);
+
+                    BindFields();
+                    UpdateSizeFoldoutWarnings();
+
+                    _root.Q<Label>("LocalFieldLabel").style.display = DisplayStyle.Flex;
+                    _root.Q<Label>("WorldFieldLabel").style.display = DisplayStyle.Flex;
+
+                    if (Application.isPlaying)
+                    {
+                        _worldSpaceWarning.style.display = DisplayStyle.Flex;
+                        _worldSpaceWarning.text = WarningStringShowingCustomFieldsInPlaymode;
+                    }
+                    else _worldSpaceWarning.style.display = DisplayStyle.None;
                 }
                 else
                 {
-                    customEditorGroupBox.style.display = DisplayStyle.Flex;
-                    defaultEditorGroupBox.style.display = DisplayStyle.None;
+                    _customEditorGroupBox.style.display = DisplayStyle.Flex;
+                    _defaultEditorGroupBox.style.display = DisplayStyle.None;
 
-                    root.Q<Label>("LocalFieldLabel").style.display = DisplayStyle.None;
-                    root.Q<Label>("WorldFieldLabel").style.display = DisplayStyle.None;
+                    BindFields();
+                    UpdateSizeFoldoutWarnings();
+
+                    _root.Q<Label>("LocalFieldLabel").style.display = DisplayStyle.None;
+                    _root.Q<Label>("WorldFieldLabel").style.display = DisplayStyle.None;
+
+                    if (Application.isPlaying)
+                    {
+                        _worldSpaceWarning.style.display = DisplayStyle.Flex;
+                        if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
+                            _worldSpaceWarning.text = WarningStringShowingWorldSpaceInPlaymode;
+                        else //Local work space
+                            _worldSpaceWarning.text = WarningStringShowingCustomFieldsInPlaymode;
+                    }
+                    else _worldSpaceWarning.style.display = DisplayStyle.None;
                 }
             }
 
-            if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World || editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Both)
-                scheduledItem.Resume();
+            if (_betterTransformSettings.CurrentWorkSpace is BetterTransformSettings.WorkSpace.World
+                or BetterTransformSettings.WorkSpace.Both)
+                _scheduledItem.Resume();
             else
-                scheduledItem.Pause();
+                _scheduledItem.Pause();
         }
 
-        private void UpdatePasteButtons()
+        /// <summary>
+        /// Returns if this should show size or not
+        /// </summary>
+        /// <returns></returns>
+        bool ShouldShowSize()
         {
-            bool exists;
+            return (_betterTransformSettings.ShowSizeFoldout || _betterTransformSettings.ShowSizeInLine) &&
+                   targets.Length < 2;
+        }
 
-            if (targets.Length == 1)
+        /// <summary>
+        /// The copy, paste and rotate buttons
+        /// </summary>
+        //This used to be in UpdateMainControls. Moved to SetupMainControls. Watch out for bugs
+        void UpdateToolbarVisibility(float width = 1000)
+        {
+            if (_betterTransformSettings.ShowCopyPasteButtons && width > 220)
             {
-                GetVector3FromCopyBuffer(out exists, out float x, out float y, out float z);
+                _toolbarsGroupBox.style.display = DisplayStyle.Flex;
+                if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Both)
+                    _toolbarsGroupBox.Q<GroupBox>("BothSpaceToolbarForLocalSpace").style.display = DisplayStyle.Flex;
+                else
+                    _toolbarsGroupBox.Q<GroupBox>("BothSpaceToolbarForLocalSpace").style.display = DisplayStyle.None;
 
-                if (exists)
-                {
-                    pastePositionButton.SetEnabled(true);
-                    pasteRotationButton.SetEnabled(true);
-                    pasteScaleButton.SetEnabled(true);
 
-                    if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                    {
-                        pastePositionButton.tooltip = "Paste " + x + "," + y + "," + z + " to local position.";
-                        pasteRotationButton.tooltip = "Paste " + x + "," + y + "," + z + " to local rotation.";
-                        pasteScaleButton.tooltip = "Paste " + x + "," + y + "," + z + " to local scale.";
-                    }
-                    else
-                    {
-                        pastePositionButton.tooltip = "Paste " + x + "," + y + "," + z + " to world position.";
-                        pasteRotationButton.tooltip = "Paste " + x + "," + y + "," + z + " to world rotation.";
-                        pasteScaleButton.tooltip = "Paste " + x + "," + y + "," + z + " to world scale.";
-                    }
-                }
+                if (_sizeToolbar != null) _sizeToolbar.style.display = DisplayStyle.Flex;
+                if (_sizeCenterFoldoutGroup != null)
+                    _sizeCenterFoldoutGroup.Q<GroupBox>("SizeCenterToolbar").style.display = DisplayStyle.Flex;
             }
             else
             {
-                GetVector3ListFromCopyBuffer(out exists, out List<string> values);
-
-                if (exists)
-                {
-                    pastePositionButton.SetEnabled(true);
-                    pasteRotationButton.SetEnabled(true);
-                    pasteScaleButton.SetEnabled(true);
-
-                    var transforms = targets.Cast<Transform>().ToList();
-                    string valueString = "\n";
-
-                    for (int i = 0; i < transforms.Count; i++)
-                    {
-                        if (values.Count <= i)
-                            break;
-
-                        valueString += "\n" + transforms[i] + " " + values[i] + "\n";
-                    }
-
-                    valueString += "\n";
-
-                    pastePositionButton.tooltip = "Paste " + valueString + "to " + editorSettings.CurrentWorkSpace + " position.";
-                    pasteRotationButton.tooltip = "Paste " + valueString + "to " + editorSettings.CurrentWorkSpace + " rotation.";
-                    pasteScaleButton.tooltip = "Paste " + valueString + "to " + editorSettings.CurrentWorkSpace + " scale.";
-                }
+                _toolbarsGroupBox.style.display = DisplayStyle.None;
+                if (_sizeToolbar != null) _sizeToolbar.style.display = DisplayStyle.None;
+                if (_sizeCenterFoldoutGroup != null)
+                    _sizeCenterFoldoutGroup.Q<GroupBox>("SizeCenterToolbar").style.display = DisplayStyle.None;
             }
+        }
 
-            if (!exists)
+        void UpdateSizeFoldoutWarnings()
+        {
+            if ((_betterTransformSettings.ShowSizeFoldout || _betterTransformSettings.ShowSizeInLine) &&
+                _betterTransformSettings.ConstantSizeUpdate)
             {
-                pastePositionButton.SetEnabled(false);
-                pasteRotationButton.SetEnabled(false);
-                pasteScaleButton.SetEnabled(false);
-
-                pastePositionButton.tooltip = "A valid Value isn't copied";
-                pasteRotationButton.tooltip = "A valid Value isn't copied";
-                pasteScaleButton.tooltip = "A valid Value isn't copied";
+                _sizeFoldoutWarning.style.display = DisplayStyle.Flex;
+                _sizeFoldoutWarning.text =
+                    "Size is being rechecked every few seconds.";
+                _sizeFoldoutWarning.tooltip =
+                    "This is rarely necessary and can be turned off in the settings to improve performance.";
             }
+            else
+            {
+                _sizeFoldoutWarning.style.display = DisplayStyle.None;
+            }
+        }
+
+        void UnBindFields()
+        {
+            _localPositionField.Unbind();
+            _localPositionField.bindingPath = null;
+            _quaternionRotationPropertyField.Unbind();
+            _quaternionRotationPropertyField.bindingPath = null;
+            _boundLocalScaleField.Unbind();
+            _boundLocalScaleField.bindingPath = null;
+        }
+
+        void BindFields()
+        {
+            _localPositionField.bindingPath = PositionProperty;
+            _localPositionField.Bind(_soTarget);
+            _quaternionRotationPropertyField.bindingPath = RotationProperty;
+            _quaternionRotationPropertyField.Bind(_soTarget);
+            _boundLocalScaleField.bindingPath = ScaleProperty;
+            _boundLocalScaleField.Bind(_soTarget);
         }
 
         #region Workspace
 
-        private Toggle sizeFoldoutToggle;
+        Toggle _sizeFoldoutToggle;
 
-        private Label siblingIndexLabel;
+        Label _siblingIndexLabel;
+        Label _siblingIndex;
 
         /// <summary>
-        /// The local/global workspace button at the top of the transform
+        ///     These are the local/global workspace button at the top of the transform
         /// </summary>
-        /// <param name="root"></param>
-        private void SetupWorkSpace()
+        void SetupWorkSpace()
         {
-            worldSpaceButton = topGroupBox.Q<Button>("WorldSpaceButton");
-            localSpaceButton = topGroupBox.Q<Button>("LocalSpaceButton");
+            _worldSpaceButton = _topGroupBox.Q<Button>("WorldSpaceButton");
+            _localSpaceButton = _topGroupBox.Q<Button>("LocalSpaceButton");
 
-            localSpaceLabel = topGroupBox.Q<Label>("LocalSpaceLabel");
-            worldSpaceLabel = topGroupBox.Q<Label>("WorldSpaceLabel");
+            _localSpaceLabel = _topGroupBox.Q<Label>("LocalSpaceLabel");
+            _worldSpaceLabel = _topGroupBox.Q<Label>("WorldSpaceLabel");
 
             //worldSpaceButton.clickable = null; //Not needed since this is called only once and at the beginning
-            worldSpaceButton.clicked += () =>
+            _worldSpaceButton.clicked += () =>
             {
-                editorSettings.CurrentWorkSpace = BetterTransformSettings.WorkSpace.Local;
+                _betterTransformSettings.CurrentWorkSpace = BetterTransformSettings.WorkSpace.Local;
                 UpdateMainControls();
                 UpdateSize();
+                UpdateInspectorColor();
+
+                _quickActions.WorkspaceChanged();
             };
             //localSpaceButton.clickable = null; //Not needed since this is called only once and at the beginning
-            localSpaceButton.clicked += () =>
+            _localSpaceButton.clicked += () =>
             {
-                editorSettings.CurrentWorkSpace = BetterTransformSettings.WorkSpace.World;
+                _betterTransformSettings.CurrentWorkSpace = BetterTransformSettings.WorkSpace.World;
                 UpdateMainControls();
                 UpdateSize();
+                UpdateInspectorColor();
+
+                _quickActions.WorkspaceChanged();
             };
 
-            if (editorSettings.ShowSizeFoldout)
-            {
-                sizeFoldout ??= root.Q<GroupBox>("SizeFoldout");
+            _sizeFoldout ??= _root.Q<GroupBox>("SizeFoldout");
+            _sizeLabelGroupBox = _root.Q<GroupBox>("SizeLabelGroupBox");
+            _sizeToolbar = _sizeFoldout.Q<GroupBox>("SizeToolbar");
 
-                if (sizeFoldoutToggle == null)
+            if (_betterTransformSettings.ShowSizeFoldout)
+            {
+                if (_sizeFoldoutToggle == null)
                 {
-                    sizeFoldoutToggle = sizeFoldout.Q<Toggle>("FoldoutToggle");
-                    sizeFoldoutToggle.tooltip = "World size calculates the size of an object based off of world axis.\n\n" +
+                    _sizeFoldoutToggle = _sizeFoldout.Q<Toggle>("FoldoutToggle");
+                    _sizeFoldoutToggle.tooltip =
+                        "World size calculates the size of an object based off of world axis.\n\n" +
                         "Local size is the size of the object in 0 angle local rotation. \n" +
                         "This can be impacted by it's parent's rotation and scale.\n" +
                         "Only local size is shown when both world space and local space is shown.";
                 }
             }
 
-            siblingIndexLabel = topGroupBox.Q<Label>("SiblingIndexLabel");
+            _siblingIndexLabel = _topGroupBox.Q<Label>("SiblingIndexLabel");
+            _siblingIndex = _topGroupBox.Q<Label>("SiblingIndex");
 
-            if (editorSettings.showSiblingIndex && transform.parent)
-            {
-                UpdateSiblingIndex(transform, siblingIndexLabel);
-            }
+            if (_betterTransformSettings.showSiblingIndex && transform.parent)
+                UpdateSiblingIndex(transform, _siblingIndex);
             else
             {
-                siblingIndexLabel.style.display = DisplayStyle.None;
-                //Debug.Log("Hiding sibling index");
+                _siblingIndexLabel.style.display = DisplayStyle.None;
+                _siblingIndex.style.display = DisplayStyle.None;
             }
         }
 
-        private void UpdateWorkSpaceButtons()
+        void UpdateWorkSpaceButtons()
         {
-            switch (editorSettings.CurrentWorkSpace)
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch (_betterTransformSettings.CurrentWorkSpace)
             {
                 case BetterTransformSettings.WorkSpace.Local:
-                    worldSpaceButton.style.display = DisplayStyle.None;
-                    localSpaceButton.style.display = DisplayStyle.Flex;
+                    _worldSpaceButton.style.display = DisplayStyle.None;
+                    _localSpaceButton.style.display = DisplayStyle.Flex;
 
-                    if (sizeFoldoutToggle != null)
-                        sizeFoldoutToggle.text = "Local Size";
 
                     SceneView.RepaintAll();
                     break;
 
                 case BetterTransformSettings.WorkSpace.World:
-                    worldSpaceButton.style.display = DisplayStyle.Flex;
-                    localSpaceButton.style.display = DisplayStyle.None;
+                    _worldSpaceButton.style.display = DisplayStyle.Flex;
+                    _localSpaceButton.style.display = DisplayStyle.None;
 
-                    if (sizeFoldoutToggle != null)
-                        sizeFoldoutToggle.text = "World Size";
 
                     SceneView.RepaintAll();
                     break;
 
                 case BetterTransformSettings.WorkSpace.Both:
-                    localSpaceButton.style.display = DisplayStyle.None;
-                    worldSpaceButton.style.display = DisplayStyle.None;
-
-                    if (sizeFoldoutToggle != null)
-                        sizeFoldoutToggle.text = "Local Size";
+                    _localSpaceButton.style.display = DisplayStyle.None;
+                    _worldSpaceButton.style.display = DisplayStyle.None;
 
                     SceneView.RepaintAll();
                     break;
             }
+
+            if (_autoRefreshSizeButton != null) UpdateAutoRefreshButton();
         }
 
-        private void UpdateWorldSpaceFields_WhenInWorldSpaceWorkspace()
+
+        void UpdateWorldSpaceFields_WhenInWorldSpaceWorkspace()
         {
-            if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
+            if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
                 UpdateWorldSpaceFields();
         }
 
-        private void UpdateWorldSpaceFields()
+        void UpdateWorldSpaceFields()
         {
             //Not sure why, but a user reported they received a null reference error for target here
             //Due to version difference, couldn't confirm the line.
@@ -799,61 +1072,58 @@ namespace TinyGiantStudio.BetterInspector
             if (transform == null)
                 return;
 
-            if (editorSettings.roundPositionField)
-                worldPositionField.SetValueWithoutNotify(RoundedVector3v2(transform.position));
+            if (_betterTransformSettings.roundPositionField)
+                _worldPositionField.SetValueWithoutNotify(RoundedVector3(transform.position));
             else
-                worldPositionField.SetValueWithoutNotify(transform.position);
+                _worldPositionField.SetValueWithoutNotify(transform.position);
 
-            if (editorSettings.roundRotationField)
-                worldRotationField.SetValueWithoutNotify(RoundedVector3v2(transform.eulerAngles));
+            if (_betterTransformSettings.roundRotationField)
+                _worldRotationField.SetValueWithoutNotify(RoundedVector3(transform.eulerAngles));
             else
-                worldRotationField.SetValueWithoutNotify(RoundedVector3(transform.eulerAngles));
+                _worldRotationField.SetValueWithoutNotify(TrimVectorNoise(transform.eulerAngles));
 
-            if (editorSettings.roundScaleField)
-                worldScaleField.SetValueWithoutNotify(RoundedVector3v2(transform.lossyScale));
+            if (_betterTransformSettings.roundScaleField)
+                _worldScaleField.SetValueWithoutNotify(RoundedVector3(transform.lossyScale));
             else
-                worldScaleField.SetValueWithoutNotify(transform.lossyScale);
+                _worldScaleField.SetValueWithoutNotify(transform.lossyScale);
         }
 
         #endregion Workspace
 
         #region Position
 
-        private void SetupPosition()
+        void SetupPosition()
         {
-            positionGroupBox = customEditorGroupBox.Q<GroupBox>("Position");
+            _positionGroupBox = _customEditorGroupBox.Q<GroupBox>("Position");
 
-            positionLabel = positionGroupBox.Q<Label>("PositionLabel");
+            _positionLabel = _positionGroupBox.Q<Label>("PositionLabel");
 
             SetupPosition_fields();
-            SetupPosition_buttons();
 
-            positionPrefabOverrideMark = positionGroupBox.Q<VisualElement>("PrefabOverrideMark");
-            positionDefaultPrefabOverrideMark = positionGroupBox.Q<VisualElement>("DefaultPrefabOverrideMark");
+            _positionPrefabOverrideMark = _positionGroupBox.Q<VisualElement>("PrefabOverrideMark");
+            _positionDefaultPrefabOverrideMark = _positionGroupBox.Q<VisualElement>("DefaultPrefabOverrideMark");
         }
 
-        private void UpdatePosition()
+        void UpdatePosition()
         {
             UpdatePosition_label();
-
             UpdatePosition_fields();
-
-            UpdatePosition_buttons();
-
             UpdatePosition_prefabOverrideIndicator();
         }
 
-        private void UpdatePosition_label()
+        void UpdatePosition_label()
         {
-            if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                positionLabel.tooltip = "The local position of this GameObject relative to the parent.";
+            if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
+            {
+                _positionLabel.tooltip = "The local position of this GameObject relative to the parent.";
+            }
             else //If world space or both is chosen, the custom label will show world position
             {
-                positionLabel.tooltip = "The world position of this GameObject.";
+                _positionLabel.tooltip = "The world position of this GameObject.";
                 if (targets.Length > 1)
                 {
-                    positionLabel.tooltip += "\n" + worldPositionReadOnlyTooltip;
-                    positionLabel.SetEnabled(false);
+                    _positionLabel.tooltip += "\n" + WorldPositionReadOnlyTooltip;
+                    _positionLabel.SetEnabled(false);
                 }
             }
 
@@ -861,178 +1131,195 @@ namespace TinyGiantStudio.BetterInspector
         }
 
         /// <summary>
-        /// The right click menu on the position label.
+        ///     The right click menu on the position label.
         /// </summary>
-        private void UpdatePositionLabelContextMenu()
+        void UpdatePositionLabelContextMenu()
         {
             //Remove the old context menu
-            if (contextualMenuManipulatorForPositionLabel != null)
-                positionLabel.RemoveManipulator(contextualMenuManipulatorForPositionLabel);
+            if (_contextualMenuManipulatorForPositionLabel != null)
+                _positionLabel.RemoveManipulator(_contextualMenuManipulatorForPositionLabel);
 
             UpdateContextMenuForPosition();
 
-            positionLabel.AddManipulator(contextualMenuManipulatorForPositionLabel);
+            _positionLabel.AddManipulator(_contextualMenuManipulatorForPositionLabel);
+            return;
 
             void UpdateContextMenuForPosition()
             {
-                contextualMenuManipulatorForPositionLabel = new ContextualMenuManipulator((evt) =>
+                _contextualMenuManipulatorForPositionLabel = new(evt =>
                 {
-                    evt.menu.AppendAction("Position :", (x) => { }, DropdownMenuAction.AlwaysDisabled);
+                    evt.menu.AppendAction("Position :", _ => { }, DropdownMenuAction.AlwaysDisabled);
                     evt.menu.AppendSeparator();
 
-                    evt.menu.AppendAction("Copy property path", (x) => CopyPositionPropertyPath(), DropdownMenuAction.AlwaysEnabled);
+                    evt.menu.AppendAction("Copy property path",
+                        _ => { EditorGUIUtility.systemCopyBuffer = PositionProperty; },
+                        DropdownMenuAction.AlwaysEnabled);
 
-                    if (editorSettings.roundPositionField)
-                        evt.menu.AppendAction("Round out field values for the inspector", (x) => TogglePositionFieldRounding(), DropdownMenuAction.Status.Checked);
-                    else
-                        evt.menu.AppendAction("Round out field values for the inspector", (x) => TogglePositionFieldRounding(), DropdownMenuAction.Status.Normal);
+                    // if (_betterTransformSettings.roundPositionField)
+                    //     evt.menu.AppendAction("Round out field values for the inspector",
+                    //         _ => TogglePositionFieldRounding(), DropdownMenuAction.Status.Checked);
+                    // else
+                    //     evt.menu.AppendAction("Round out field values for the inspector",
+                    //         // ReSharper disable once RedundantArgumentDefaultValue
+                    //         _ => TogglePositionFieldRounding(), DropdownMenuAction.Status.Normal);
 
                     if (HasPrefabOverride_position())
                     {
                         evt.menu.AppendSeparator();
                         if (HasPrefabOverride_position(true))
-                            evt.menu.AppendAction("Apply to Prefab '" + PrefabUtility.GetCorrespondingObjectFromSource(transform.gameObject).name + "'", (x) => ApplyPositionChangeToPrefab(), DropdownMenuAction.AlwaysEnabled);
+                            evt.menu.AppendAction(
+                                "Apply to Prefab '" +
+                                PrefabUtility.GetCorrespondingObjectFromSource(transform.gameObject).name + "'",
+                                _ => ApplyPositionChangeToPrefab(), DropdownMenuAction.AlwaysEnabled);
                         else
-                            evt.menu.AppendAction("Apply to Prefab '" + PrefabUtility.GetCorrespondingObjectFromSource(transform.gameObject).name + "'", (x) => ApplyPositionChangeToPrefab(), DropdownMenuAction.AlwaysDisabled);
+                            evt.menu.AppendAction(
+                                "Apply to Prefab '" +
+                                PrefabUtility.GetCorrespondingObjectFromSource(transform.gameObject).name + "'",
+                                _ => ApplyPositionChangeToPrefab(), DropdownMenuAction.AlwaysDisabled);
 
-                        evt.menu.AppendAction("Revert", (x) => ResetPositionChangeToPrefab(), DropdownMenuAction.AlwaysEnabled);
+                        evt.menu.AppendAction("Revert", _ => RevertPositionChangeToPrefab(),
+                            DropdownMenuAction.AlwaysEnabled);
                     }
 
                     evt.menu.AppendSeparator();
 
-                    evt.menu.AppendAction("Copy", (x) => CopyPosition(), DropdownMenuAction.AlwaysEnabled);
-                    GetVector3FromCopyBuffer(out bool exists, out float x, out float y, out float z);
-                    if (exists)
-                        evt.menu.AppendAction("Paste", (x) => PastePosition(), DropdownMenuAction.AlwaysEnabled);
+                    evt.menu.AppendAction("Copy", _ => _quickActions.CopyPosition());
+                    if (_quickActions.HasVector3ValueToPaste())
+                        evt.menu.AppendAction("Paste", _ => _quickActions.PastePosition(),
+                            DropdownMenuAction.AlwaysEnabled);
                     else
-                        evt.menu.AppendAction("Paste", (x) => PastePosition(), DropdownMenuAction.AlwaysDisabled);
+                        evt.menu.AppendAction("Paste", _ => _quickActions.PastePosition(),
+                            DropdownMenuAction.AlwaysDisabled);
 
-                    evt.menu.AppendAction("Reset", (x) => ResetPosition(), DropdownMenuAction.AlwaysEnabled);
+                    evt.menu.AppendAction("Reset", _ => _quickActions.ResetPosition());
                 });
-            }
-
-            void CopyPositionPropertyPath()
-            {
-                EditorGUIUtility.systemCopyBuffer = positionProperty;
             }
 
             void ApplyPositionChangeToPrefab()
             {
-                if (soTarget.FindProperty(positionProperty).prefabOverride)
-                {
-                    PrefabUtility.ApplyPropertyOverride(soTarget.FindProperty(positionProperty), PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(transform), InteractionMode.UserAction);
-                }
+                if (_soTarget.FindProperty(PositionProperty).prefabOverride)
+                    PrefabUtility.ApplyPropertyOverride(_soTarget.FindProperty(PositionProperty),
+                        PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(transform), InteractionMode.UserAction);
             }
 
-            void ResetPositionChangeToPrefab()
+            void RevertPositionChangeToPrefab()
             {
-                if (soTarget.FindProperty("m_LocalPosition").prefabOverride)
-                {
-                    PrefabUtility.RevertPropertyOverride(soTarget.FindProperty(positionProperty), InteractionMode.UserAction);
-                }
+                if (_soTarget.FindProperty("m_LocalPosition").prefabOverride)
+                    PrefabUtility.RevertPropertyOverride(_soTarget.FindProperty(PositionProperty),
+                        InteractionMode.UserAction);
             }
         }
 
-        private void TogglePositionFieldRounding()
+        void TogglePositionFieldRounding()
         {
-            editorSettings.roundPositionField = !editorSettings.roundPositionField;
-            editorSettings.Save();
+            _betterTransformSettings.roundPositionField = !_betterTransformSettings.roundPositionField;
+            _betterTransformSettings.Save();
 
-            if (editorSettings.roundPositionField)
+            if (_betterTransformSettings.roundPositionField)
             {
-                localPositionField.SetValueWithoutNotify(RoundedVector3v2(transform.localPosition));
-                worldPositionField.SetValueWithoutNotify(RoundedVector3v2(transform.position));
+                _localPositionField.SetValueWithoutNotify(RoundedVector3(transform.localPosition));
+                _worldPositionField.SetValueWithoutNotify(RoundedVector3(transform.position));
             }
             else
             {
-                localPositionField.SetValueWithoutNotify(transform.localPosition);
-                worldPositionField.SetValueWithoutNotify(transform.position);
+                _localPositionField.SetValueWithoutNotify(transform.localPosition);
+                _worldPositionField.SetValueWithoutNotify(transform.position);
             }
 
             UpdatePositionLabelContextMenu();
 
-            if (roundPositionFieldToggle != null) roundPositionFieldToggle.SetValueWithoutNotify(editorSettings.roundPositionField);
+            _roundPositionFieldToggle?.SetValueWithoutNotify(_betterTransformSettings.roundPositionField);
         }
 
         /// <summary>
-        /// This is the right click menu on the label
+        ///     This is the right click menu on the label
         /// </summary>
-        private ContextualMenuManipulator contextualMenuManipulatorForPositionLabel;
+        ContextualMenuManipulator _contextualMenuManipulatorForPositionLabel;
 
-        private HelpBox bigNumberWarning;
-        private bool isPositionUpdatedByWorldField = false;
+        HelpBox _bigNumberWarning;
+        bool _isPositionUpdatedByWorldField;
 
-        private void SetupPosition_fields()
+        void SetupPosition_fields()
         {
-            localPositionField = positionGroupBox.Q<Vector3Field>("LocalPosition");
-            worldPositionField = positionGroupBox.Q<Vector3Field>("WorldPosition");
+            _localPositionField = _positionGroupBox.Q<Vector3Field>("LocalPosition");
+            _worldPositionField = _positionGroupBox.Q<Vector3Field>("WorldPosition");
 
             if (targets.Length > 1)
             {
-                worldPositionField.SetEnabled(false);
-                worldPositionField.tooltip = worldPositionReadOnlyTooltip;
+                _worldPositionField.SetEnabled(false);
+                _worldPositionField.tooltip = WorldPositionReadOnlyTooltip;
             }
 
             //Because the bound local position field updates this, the field needs to be re-rounded after a single frame to not be ignored when the binding updates this
             //that is done in the RegisterLocalPositionFieldValueChangedCallBack() method
-            if (editorSettings.roundPositionField)
-                localPositionField.SetValueWithoutNotify(RoundedVector3v2(transform.localPosition));
+            if (_betterTransformSettings.roundPositionField)
+                _localPositionField.SetValueWithoutNotify(RoundedVector3(transform.localPosition));
 
             //This makes sure the binding operation is done before the callback is registered to avoid it calling the change
-            localPositionField.schedule.Execute(() => RegisterLocalPositionFieldValueChangedCallBack());
+            _localPositionField.schedule.Execute(RegisterLocalPositionFieldValueChangedCallBack).ExecuteLater(100);
 
-            worldPositionField.RegisterValueChangedCallback(ev =>
+            _worldPositionField.schedule.Execute(() =>
             {
-                //This doesn't work with the recorder: //Undo isn't required here because the transform position update will record the Undo
-                Undo.RecordObject(transform, "Position change on " + transform.gameObject.name);
+                _worldPositionField.RegisterValueChangedCallback(ev =>
+                {
+                    //This doesn't work with the recorder: //Undo isn't required here because the transform position update will record the Undo
+                    Undo.RecordObject(transform, "Position change on " + transform.gameObject.name);
 
-                isPositionUpdatedByWorldField = true;
-                transform.position = ev.newValue;
+                    _isPositionUpdatedByWorldField = true;
+                    transform.position = ev.newValue;
 
-                if (editorSettings.roundPositionField)
-                    worldPositionField.SetValueWithoutNotify(RoundedVector3v2(ev.newValue));
-            });
+                    if (_betterTransformSettings.roundPositionField)
+                        _worldPositionField.SetValueWithoutNotify(RoundedVector3(ev.newValue));
+                });
+            }).ExecuteLater(0);
 
-            bigNumberWarning = root.Q<HelpBox>("BigNumberWarning");
+            _bigNumberWarning = _root.Q<HelpBox>("BigNumberWarning");
         }
 
-        private void RegisterLocalPositionFieldValueChangedCallBack()
+        void RegisterLocalPositionFieldValueChangedCallBack()
         {
             //This is also called by world position field update
-            localPositionField.RegisterValueChangedCallback(ev =>
+            _localPositionField.RegisterValueChangedCallback(ev =>
             {
-                if (!isPositionUpdatedByWorldField)
-                {
-                    UpdateWorldPositionField();
-                }
+                if (ev.newValue == ev.previousValue) return;
 
-                //Debug.Log(ev.newValue.ToString("F20"));
+                //A true "fromBinding" value means the change came from a script
+                bool fromBinding = ev.target == _localPositionField && ev.currentTarget == _localPositionField;
 
-                Undo.RecordObject(transform, "Position change on " + transform.gameObject.name);
+                if (!_isPositionUpdatedByWorldField) UpdateWorldPositionField();
 
-                soTarget.Update();
+                if (!Application.isPlaying)
+                    Undo.RecordObject(transform, "Position change on " + transform.gameObject.name);
+
+                if (!fromBinding)
+                    _soTarget.Update();
+
                 UpdatePosition_prefabOverrideIndicator();
                 UpdatePosition_label();
-                UpdateSize();
+
+                AutoUpdateSizeAfterValueChanged();
+                // UpdateSize();
+
                 UpdateWarningIfRequired();
 
-                if (editorSettings.roundPositionField)
-                    localPositionField.SetValueWithoutNotify(RoundedVector3v2(ev.newValue));
+                if (_betterTransformSettings.roundPositionField)
+                    _localPositionField.SetValueWithoutNotify(RoundedVector3(ev.newValue));
 
-                localPositionField.schedule.Execute(() => UpdateAnimatorState_PositionFields()).ExecuteLater(100); //1000 ms = 1 s
+                _localPositionField.schedule.Execute(UpdateAnimatorState_PositionFields)
+                    .ExecuteLater(100); //1000 ms = 1 s
             });
 
             //Because the bound local position field updates this, the field needs to be rounded after a single frame to not be ignored when the binding updates this
-            if (editorSettings.roundPositionField)
-                localPositionField.SetValueWithoutNotify(RoundedVector3v2(transform.localPosition));
+            if (_betterTransformSettings.roundPositionField)
+                _localPositionField.SetValueWithoutNotify(RoundedVector3(transform.localPosition));
         }
 
-        private void UpdateWorldPositionField()
+        void UpdateWorldPositionField()
         {
-            if (editorSettings.roundPositionField)
-                worldPositionField.SetValueWithoutNotify(RoundedVector3v2(transform.position));
+            if (_betterTransformSettings.roundPositionField)
+                _worldPositionField.SetValueWithoutNotify(RoundedVector3(transform.position));
             else
-                worldPositionField.SetValueWithoutNotify(transform.position);
+                _worldPositionField.SetValueWithoutNotify(transform.position);
 
             if (targets.Length == 1)
                 return;
@@ -1047,647 +1334,449 @@ namespace TinyGiantStudio.BetterInspector
             foreach (Transform t in targets.Cast<Transform>())
             {
                 if (isCommonX)
-                    if (t.position.x != commonX)
+                    if (!Approximately(t.position.x, commonX))
                         isCommonX = false;
 
                 if (isCommonY)
-                    if (t.position.y != commonY)
+                    if (!Approximately(t.position.y, commonY))
                         isCommonY = false;
 
                 if (isCommonZ)
-                    if (t.position.z != commonZ)
+                    if (!Approximately(t.position.z, commonZ))
                         isCommonZ = false;
 
                 if (!isCommonX && !isCommonY && !isCommonZ)
                     break;
             }
 
-            var xField = worldPositionField.Q<FloatField>("unity-x-input");
+            FloatField xField = _worldPositionField.Q<FloatField>("unity-x-input");
             if (!isCommonX)
                 xField.showMixedValue = true;
             else
-            {
                 xField.showMixedValue = false;
-                //xField.RemoveFromClassList(mixedValueLabelClass);
-            }
-
-            var yField = worldPositionField.Q<FloatField>("unity-y-input");
+            //xField.RemoveFromClassList(mixedValueLabelClass);
+            FloatField yField = _worldPositionField.Q<FloatField>("unity-y-input");
             if (!isCommonY)
                 yField.showMixedValue = true;
             else
-            {
                 yField.showMixedValue = false;
-                //yField.RemoveFromClassList(mixedValueLabelClass);
-                //yField.value = transform.position.y;
-            }
-
-            var zField = worldPositionField.Q<FloatField>("unity-z-input");
+            //yField.RemoveFromClassList(mixedValueLabelClass);
+            //yField.value = transform.position.y;
+            FloatField zField = _worldPositionField.Q<FloatField>("unity-z-input");
             if (!isCommonZ)
                 zField.showMixedValue = true;
             else
                 zField.showMixedValue = false;
         }
 
-        private void UpdatePosition_fields()
+        void UpdatePosition_fields()
         {
             UpdateWorldPositionField();
             //worldPositionField.SetValueWithoutNotify(transform.position);
 
             //Don't need to set local position field because it is a bound field created in the UIBuilder
 
-            switch (editorSettings.CurrentWorkSpace)
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch (_betterTransformSettings.CurrentWorkSpace)
             {
                 case BetterTransformSettings.WorkSpace.Local:
-                    localPositionField.style.display = DisplayStyle.Flex;
-                    worldPositionField.style.display = DisplayStyle.None;
+                    _localPositionField.style.display = DisplayStyle.Flex;
+                    _worldPositionField.style.display = DisplayStyle.None;
                     break;
 
                 case BetterTransformSettings.WorkSpace.World:
-                    localPositionField.style.display = DisplayStyle.None;
-                    worldPositionField.style.display = DisplayStyle.Flex;
+                    _localPositionField.style.display = DisplayStyle.None;
+                    _worldPositionField.style.display = DisplayStyle.Flex;
                     break;
 
                 case BetterTransformSettings.WorkSpace.Both:
-                    localPositionField.style.display = DisplayStyle.None; //The default inspector will be used to show local fields
-                    worldPositionField.style.display = DisplayStyle.Flex;
+                    _localPositionField.style.display =
+                        DisplayStyle.None; //The default inspector will be used to show local fields
+                    _worldPositionField.style.display = DisplayStyle.Flex;
                     break;
             }
 
             UpdateWarningIfRequired();
         }
 
-        private void UpdateWarningIfRequired()
+        void UpdateWarningIfRequired()
         {
-            if (Mathf.Abs(transform.position.x) > 100000 || Mathf.Abs(transform.position.y) > 100000 || Mathf.Abs(transform.position.z) > 100000)
+            if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local &&
+                _betterTransformSettings.LoadDefaultInspector)
             {
-                if (bigNumberWarning != null)
-                    bigNumberWarning.style.display = DisplayStyle.Flex;
+                if (_bigNumberWarning == null) return;
+                _bigNumberWarning.style.display = DisplayStyle.None;
+                _bigNumberWarning.parent.Remove(_bigNumberWarning);
+                _bigNumberWarning = null;
+                return;
+            }
+
+            if (Abs(transform.position.x) > 100000 || Abs(transform.position.y) > 100000 ||
+                Abs(transform.position.z) > 100000)
+            {
+                if (_bigNumberWarning != null)
+                    _bigNumberWarning.style.display = DisplayStyle.Flex;
                 else
                     CreateBigNumberWarning();
             }
             else
             {
-                if (bigNumberWarning != null)
-                    bigNumberWarning.style.display = DisplayStyle.None;
+                if (_bigNumberWarning != null)
+                    _bigNumberWarning.style.display = DisplayStyle.None;
             }
         }
 
-        private void CreateBigNumberWarning()
+        /// <summary>
+        /// Adds this text HelpBox "Due to floating-point precision limitations, it is recommended to bring the world coordinates within a smaller range"
+        /// </summary>
+        void CreateBigNumberWarning()
         {
-            bigNumberWarning = new HelpBox("Due to floating-point precision limitations, it is recommended to bring the world coordinates within a smaller range.", HelpBoxMessageType.Warning);
-            root.Add(bigNumberWarning);
-        }
-
-        private void SetupPosition_buttons()
-        {
-            var positionToolbar = toolbarGroupBox.Q<GroupBox>("PositionToolbar");
-            copyPositionButton = positionToolbar.Q<Button>("Copy");
-            pastePositionButton = positionToolbar.Q<Button>("Paste");
-            resetPositionButton = positionToolbar.Q<Button>("Reset");
-
-            copyPositionButton.clicked += () =>
-            {
-                CopyPosition();
-            };
-            pastePositionButton.clicked += () =>
-            {
-                PastePosition();
-            };
-            resetPositionButton.clicked += () =>
-            {
-                ResetPosition();
-            };
-        }
-
-        private void ResetPosition()
-        {
-            if (targets.Length == 1)
-            {
-                Undo.RecordObject(transform, "Reset position of " + transform.gameObject.name);
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                    transform.localPosition = Vector3.zero;
-                else
-                    transform.position = Vector3.zero;
-                EditorUtility.SetDirty(transform);
-            }
-            else
-            {
-                Undo.RecordObjects(targets, "Reset positions.");
-                foreach (Transform t in targets.Cast<Transform>())
+            _bigNumberWarning =
+                new(
+                    "Due to floating-point precision limitations, it is recommended to bring the world coordinates of the GameObject within a smaller range.",
+                    HelpBoxMessageType.Warning)
                 {
-                    if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                        t.position = Vector3.zero;
-                    else
-                        t.localPosition = Vector3.zero;
-                    EditorUtility.SetDirty(t);
-                }
-
-                UpdateWorldPositionField();
-            }
+                    style =
+                    {
+                        marginLeft = 0,
+                        marginRight = 0
+                    }
+                };
+            _defaultEditorGroupBox.parent.Add(_bigNumberWarning);
         }
 
-        private void UpdatePosition_buttons()
-        {
-            copyPositionButton.tooltip = "Copy " + GetCurrentWorkspaceForToolbar() + " position.";
-            pastePositionButton.tooltip = "Paste to " + GetCurrentWorkspaceForToolbar() + " position.";
-            resetPositionButton.tooltip = "Reset " + GetCurrentWorkspaceForToolbar() + " position to zero.";
-        }
 
-        private void UpdatePosition_prefabOverrideIndicator()
+        void UpdatePosition_prefabOverrideIndicator()
         {
             if (!HasPrefabOverride_position())
             {
-                positionPrefabOverrideMark.style.display = DisplayStyle.None;
-                positionDefaultPrefabOverrideMark.style.display = DisplayStyle.None;
+                _positionPrefabOverrideMark.style.display = DisplayStyle.None;
+                _positionDefaultPrefabOverrideMark.style.display = DisplayStyle.None;
 
-                positionLabel.RemoveFromClassList(prefabOverrideLabel);
-                worldPositionField.RemoveFromClassList(prefabOverrideLabel);
+                _positionLabel.RemoveFromClassList(PrefabOverrideLabelUSSClass);
+                _worldPositionField.RemoveFromClassList(PrefabOverrideLabelUSSClass);
             }
             else
             {
                 if (!HasPrefabOverride_position(true))
                 {
-                    positionDefaultPrefabOverrideMark.style.display = DisplayStyle.Flex;
-                    positionPrefabOverrideMark.style.display = DisplayStyle.None;
+                    _positionDefaultPrefabOverrideMark.style.display = DisplayStyle.Flex;
+                    _positionPrefabOverrideMark.style.display = DisplayStyle.None;
                 }
                 else
                 {
-                    positionPrefabOverrideMark.style.display = DisplayStyle.Flex;
-                    positionDefaultPrefabOverrideMark.style.display = DisplayStyle.None;
+                    _positionPrefabOverrideMark.style.display = DisplayStyle.Flex;
+                    _positionDefaultPrefabOverrideMark.style.display = DisplayStyle.None;
                 }
-                positionLabel.AddToClassList(prefabOverrideLabel);
-                worldPositionField.AddToClassList(prefabOverrideLabel);
+
+                _positionLabel.AddToClassList(PrefabOverrideLabelUSSClass);
+                _worldPositionField.AddToClassList(PrefabOverrideLabelUSSClass);
             }
         }
 
-        private void CopyPosition()
-        {
-            if (targets.Length == 1)
-            {
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                    EditorGUIUtility.systemCopyBuffer = "Vector3" + transform.localPosition.ToString("F20");
-                else
-                    EditorGUIUtility.systemCopyBuffer = "Vector3" + transform.position.ToString("F20");
-
-                //Debug.Log(transform.position.ToString("F20"));
-                UpdatePasteButtons();
-            }
-            else //Copying multiple targets
-            {
-                CopyMultipleSelectToBuffer_position();
-            }
-        }
-
-        private void PastePosition()
-        {
-            if (targets.Length == 1)
-            {
-                GetVector3FromCopyBuffer(out bool exists, out float x, out float y, out float z);
-                if (!exists)
-                    return;
-
-                Undo.RecordObject(transform, "Position Paste on " + transform.gameObject.name);
-
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                    transform.localPosition = new Vector3(x, y, z);
-                else
-                    transform.position = new Vector3(x, y, z);
-
-                EditorUtility.SetDirty(transform);
-            }
-            else
-            {
-                GetVector3ListFromCopyBuffer(out bool exists, out List<string> values);
-                //values.Reverse();
-
-                if (!exists) return;
-
-                var transforms = targets.Cast<Transform>().ToList();
-
-                //for (int i = transforms.Count() - 1; i >= 0; i--)
-                for (int i = 0; i < transforms.Count; i++)
-                {
-                    if (values.Count <= i)
-                        break;
-
-                    var value = GetVector3FromString(values[i], out bool exists2);
-
-                    if (!exists2) continue;
-
-                    Undo.RecordObject(transforms[i], "Position Paste on " + transforms[i].gameObject.name);
-
-                    if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                        transforms[i].position = value;
-                    else
-                        transforms[i].localPosition = value;
-
-                    EditorUtility.SetDirty(transforms[i]);
-                }
-            }
-        }
 
         /// <summary>
-        ///
-        ///
         /// </summary>
         /// <param name="checkDefaultOverride">
-        /// Certain properties on the root GameObject of a Prefab instance are considered default overrides.
-        /// These are overridden by default and are usually rarely applied or reverted.
-        /// Most apply and revert operations will ignore default overrides.
-        /// https://docs.unity3d.com/ScriptReference/PrefabUtility.IsDefaultOverride.html
+        ///     Certain properties on the root GameObject of a Prefab instance are considered default overrides.
+        ///     These are overridden by default and are usually rarely applied or reverted.
+        ///     Most apply and revert operations will ignore default overrides.
+        ///     https://docs.unity3d.com/ScriptReference/PrefabUtility.IsDefaultOverride.html
         /// </param>
         /// <returns></returns>
-        private bool HasPrefabOverride_position(bool checkDefaultOverride = false)
+        bool HasPrefabOverride_position(bool checkDefaultOverride = false)
         {
-            if (soTarget.FindProperty(positionProperty).prefabOverride)
-            {
-                if (checkDefaultOverride)
-                    if (soTarget.FindProperty(positionProperty).isDefaultOverride)
-                        return false;
-                return true;
-            }
-            else
-                return false;
+            if (!_soTarget.FindProperty(PositionProperty).prefabOverride) return false;
+            if (!checkDefaultOverride) return true;
+            return !_soTarget.FindProperty(PositionProperty).isDefaultOverride;
         }
 
         #endregion Position
 
         #region Rotation
 
-        private void SetupRotation()
+        void SetupRotation()
         {
-            rotationGroupBox = customEditorGroupBox.Q<GroupBox>("Rotation");
-            rotationLabel = rotationGroupBox.Q<Label>("RotationLabel");
+            _rotationGroupBox = _customEditorGroupBox.Q<GroupBox>("Rotation");
+            _rotationLabel = _rotationGroupBox.Q<Label>("RotationLabel");
 
             SetupRotation_fields();
-            SetupRotation_buttons();
 
-            rotationPrefabOverrideMark = rotationGroupBox.Q<VisualElement>("PrefabOverrideMark");
-            rotationDefaultPrefabOverrideMark = rotationGroupBox.Q<VisualElement>("DefaultPrefabOverrideMark");
+            _rotationPrefabOverrideMark = _rotationGroupBox.Q<VisualElement>("PrefabOverrideMark");
+            _rotationDefaultPrefabOverrideMark = _rotationGroupBox.Q<VisualElement>("DefaultPrefabOverrideMark");
         }
 
-        private void UpdateRotation()
+        void UpdateRotation()
         {
             UpdateRotation_label();
             UpdateRotation_fields();
-            UpdateRotation_buttons();
-
             UpdateRotation_prefabOverrideIndicator();
         }
 
-        private void UpdateRotation_label()
+        void UpdateRotation_label()
         {
-            if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                rotationLabel.tooltip = "The local rotation of this GameObject relative to the parent.\n\n" +
-                    "Unity uses quaternions to store rotations, but displays them as Euler angles in the Inspector to make it easier for people to use.\n\n" +
-                    "An internal editor only property is used to store the value you set in the field.";
+            if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
+            {
+                _rotationLabel.tooltip = "The local rotation of this GameObject relative to the parent.\n\n" +
+                                         "Unity uses quaternions to store rotations, but displays them as Euler angles in the Inspector to make it easier for people to use.\n\n" +
+                                         "An internal editor only property is used to store the value you set in the field.";
+            }
             else
             {
-                rotationLabel.tooltip = "The world rotation of this GameObject.\n\n" +
-                    "Unity uses quaternions internally to store rotations, but displays them as Euler angles in the Inspector to make it easier for people to use.\n\n" +
-                    "The value you set in the field for global rotation isn't saved anywhere. " +
-                    "That's why it is retrieved from the quaternion rotation of the transform and although it is effectively the value you set, it can often look different.";
+                _rotationLabel.tooltip = "The world rotation of this GameObject.\n\n" +
+                                         "Unity uses quaternions internally to store rotations, but displays them as Euler angles in the Inspector to make it easier for people to use.\n\n" +
+                                         "The value you set in the field for global rotation isn't saved anywhere. " +
+                                         "That's why it is retrieved from the quaternion rotation of the transform and although it is effectively the value you set, it can often look different.";
 
                 if (targets.Length > 1)
                 {
-                    rotationLabel.tooltip += "\n" + worldRotationReadOnlyTooltip;
-                    rotationLabel.SetEnabled(false);
+                    _rotationLabel.tooltip += "\n" + WorldRotationReadOnlyTooltip;
+                    _rotationLabel.SetEnabled(false);
                 }
             }
+
             UpdateRotationLabelContextMenu();
         }
 
-        private void UpdateRotationLabelContextMenu()
+        void UpdateRotationLabelContextMenu()
         {
-            if (contextualMenuManipulatorForRotationLabel != null)
-                rotationLabel.RemoveManipulator(contextualMenuManipulatorForRotationLabel);
+            if (_contextualMenuManipulatorForRotationLabel != null)
+                _rotationLabel.RemoveManipulator(_contextualMenuManipulatorForRotationLabel);
 
             UpdateContextMenuForRotation();
 
-            rotationLabel.AddManipulator(contextualMenuManipulatorForRotationLabel);
+            _rotationLabel.AddManipulator(_contextualMenuManipulatorForRotationLabel);
+            return;
 
             void UpdateContextMenuForRotation()
             {
-                contextualMenuManipulatorForRotationLabel = new ContextualMenuManipulator((evt) =>
+                _contextualMenuManipulatorForRotationLabel = new(evt =>
                 {
-                    evt.menu.AppendAction("Rotation :", (x) => { }, DropdownMenuAction.AlwaysDisabled);
+                    evt.menu.AppendAction("Rotation :", _ => { }, DropdownMenuAction.AlwaysDisabled);
                     evt.menu.AppendSeparator();
 
-                    evt.menu.AppendAction("Copy property path", (x) => CopyRotationPropertyPath(), DropdownMenuAction.AlwaysEnabled);
+                    evt.menu.AppendAction("Copy property path",
+                        _ => { EditorGUIUtility.systemCopyBuffer = RotationProperty; },
+                        DropdownMenuAction.AlwaysEnabled);
 
-                    if (editorSettings.roundRotationField)
-                        evt.menu.AppendAction("Round out field values for the inspector", (x) => ToggleRotationFieldRounding(), DropdownMenuAction.Status.Checked);
-                    else
-                        evt.menu.AppendAction("Round out field values for the inspector", (x) => ToggleRotationFieldRounding(), DropdownMenuAction.Status.Normal);
+                    // if (_betterTransformSettings.roundRotationField)
+                    //     evt.menu.AppendAction("Round out field values for the inspector",
+                    //         _ => ToggleRotationFieldRounding(), DropdownMenuAction.Status.Checked);
+                    // else
+                    //     evt.menu.AppendAction("Round out field values for the inspector",
+                    //         // ReSharper disable once RedundantArgumentDefaultValue
+                    //         _ => ToggleRotationFieldRounding(), DropdownMenuAction.Status.Normal);
 
                     if (HasPrefabOverride_rotation())
                     {
                         evt.menu.AppendSeparator();
                         if (HasPrefabOverride_rotation(true))
-                            evt.menu.AppendAction("Apply to Prefab '" + PrefabUtility.GetCorrespondingObjectFromSource(transform.gameObject).name + "'", (x) => ApplyRotationChangeToPrefab(), DropdownMenuAction.AlwaysEnabled);
+                            evt.menu.AppendAction(
+                                "Apply to Prefab '" +
+                                PrefabUtility.GetCorrespondingObjectFromSource(transform.gameObject).name + "'",
+                                _ => ApplyRotationChangeToPrefab(), DropdownMenuAction.AlwaysEnabled);
                         else
-                            evt.menu.AppendAction("Apply to Prefab '" + PrefabUtility.GetCorrespondingObjectFromSource(transform.gameObject).name + "'", (x) => ApplyRotationChangeToPrefab(), DropdownMenuAction.AlwaysDisabled);
+                            evt.menu.AppendAction(
+                                "Apply to Prefab '" +
+                                PrefabUtility.GetCorrespondingObjectFromSource(transform.gameObject).name + "'",
+                                _ => ApplyRotationChangeToPrefab(), DropdownMenuAction.AlwaysDisabled);
 
-                        evt.menu.AppendAction("Revert", (x) => ResetRotationChangeToPrefab(), DropdownMenuAction.AlwaysEnabled);
+                        evt.menu.AppendAction("Revert", _ => RevertRotationChangeToPrefab(),
+                            DropdownMenuAction.AlwaysEnabled);
                     }
 
                     evt.menu.AppendSeparator();
 
-                    evt.menu.AppendAction("Copy Euler Angles", (x) => CopyRotationEulerAngles(), DropdownMenuAction.AlwaysEnabled);
-                    evt.menu.AppendAction("Copy Quaternion", (x) => CopyRotationQuaternion(), DropdownMenuAction.AlwaysEnabled);
+                    evt.menu.AppendAction("Copy Euler Angles", _ => _quickActions.CopyRotationEulerAngles());
+                    evt.menu.AppendAction("Copy Quaternion", _ => _quickActions.CopyRotationQuaternion());
 
-                    GetVector3FromCopyBuffer(out bool exists, out float x, out float y, out float z);
-                    GetQuaternionFromCopyBuffer(out bool quaternionExists, out float qx, out float qy, out float qz, out float qw);
-                    if (exists || quaternionExists)
-                        evt.menu.AppendAction("Paste", (x) => PasteRotation(), DropdownMenuAction.AlwaysEnabled);
+                    if (_quickActions.HasVector3ValueToPaste() || _quickActions.HasQuaternionValueToPaste())
+                        evt.menu.AppendAction("Paste", _ => _quickActions.PasteRotation());
                     else
-                        evt.menu.AppendAction("Paste", (x) => PasteRotation(), DropdownMenuAction.AlwaysDisabled);
+                        evt.menu.AppendAction("Paste", _ => _quickActions.PasteRotation(),
+                            DropdownMenuAction.Status.Disabled);
 
-                    evt.menu.AppendAction("Reset", (x) => ResetRotation(), DropdownMenuAction.AlwaysEnabled);
+                    evt.menu.AppendAction("Reset", _ => _quickActions.ResetRotation());
                 });
             }
 
-            void CopyRotationPropertyPath()
-            {
-                EditorGUIUtility.systemCopyBuffer = rotationProperty;
-            }
 
             void ApplyRotationChangeToPrefab()
             {
-                if (soTarget.FindProperty(rotationProperty).prefabOverride)
-                {
-                    PrefabUtility.ApplyPropertyOverride(soTarget.FindProperty(rotationProperty), PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(transform), InteractionMode.UserAction);
-                }
+                if (_soTarget.FindProperty(RotationProperty).prefabOverride)
+                    PrefabUtility.ApplyPropertyOverride(_soTarget.FindProperty(RotationProperty),
+                        PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(transform), InteractionMode.UserAction);
             }
 
-            void ResetRotationChangeToPrefab()
+            void RevertRotationChangeToPrefab()
             {
-                if (soTarget.FindProperty(rotationProperty).prefabOverride)
-                {
-                    Debug.Log("Revert rot");
-                    PrefabUtility.RevertPropertyOverride(soTarget.FindProperty(rotationProperty), InteractionMode.UserAction);
-                }
+                if (_soTarget.FindProperty(RotationProperty).prefabOverride)
+                    PrefabUtility.RevertPropertyOverride(_soTarget.FindProperty(RotationProperty),
+                        InteractionMode.UserAction);
             }
         }
 
-        private void ToggleRotationFieldRounding()
+        void ToggleRotationFieldRounding()
         {
-            editorSettings.roundRotationField = !editorSettings.roundRotationField;
-            editorSettings.Save();
+            _betterTransformSettings.roundRotationField = !_betterTransformSettings.roundRotationField;
+            _betterTransformSettings.Save();
 
-            if (editorSettings.roundRotationField)
+            if (_betterTransformSettings.roundRotationField)
             {
-                localRotationField.SetValueWithoutNotify(RoundedVector3v2(serializedEulerHint.vector3Value));
-                worldRotationField.SetValueWithoutNotify(RoundedVector3v2(transform.eulerAngles));
+                _localRotationField.SetValueWithoutNotify(RoundedVector3(_serializedEulerHint.vector3Value));
+                _worldRotationField.SetValueWithoutNotify(RoundedVector3(transform.eulerAngles));
             }
             else
             {
-                localRotationField.SetValueWithoutNotify(serializedEulerHint.vector3Value);
-                worldRotationField.SetValueWithoutNotify(transform.eulerAngles);
+                _localRotationField.SetValueWithoutNotify(_serializedEulerHint.vector3Value);
+                _worldRotationField.SetValueWithoutNotify(transform.eulerAngles);
             }
 
             UpdateRotationLabelContextMenu();
-            if (roundRotationFieldToggle != null) roundRotationFieldToggle.SetValueWithoutNotify(editorSettings.roundRotationField);
+            _roundRotationFieldToggle?.SetValueWithoutNotify(_betterTransformSettings.roundRotationField);
         }
 
         /// <summary>
-        /// This is the right click menu on the label
+        ///     This is the right click menu on the label
         /// </summary>
-        private ContextualMenuManipulator contextualMenuManipulatorForRotationLabel;
+        ContextualMenuManipulator _contextualMenuManipulatorForRotationLabel;
 
-        private void CopyRotationEulerAngles()
+
+        bool _isRotateUpdatedByLocalField;
+        bool _isRotationUpdatedByWorldField;
+
+        void SetupRotation_fields()
         {
-            if (targets.Length == 1)
-            {
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                    EditorGUIUtility.systemCopyBuffer = "Vector3" + transform.localEulerAngles.ToString("F20"); //This used to be :myTarget.localRotation.eulerAngles.ToString(). Is there any difference?
-                else
-                    EditorGUIUtility.systemCopyBuffer = "Vector3" + transform.eulerAngles.ToString("F20");
-            }
+            _serializedEulerHint = _soTarget.FindProperty("m_LocalEulerAnglesHint");
+
+            _localRotationField = _rotationGroupBox.Q<Vector3Field>("LocalRotation");
+
+            if (_betterTransformSettings.roundRotationField)
+                _localRotationField.SetValueWithoutNotify(RoundedVector3(_serializedEulerHint.vector3Value));
             else
-            {
-                CopyMultipleSelectToBuffer_rotation();
-            }
-            UpdatePasteButtons();
-        }
-
-        private void CopyRotationQuaternion()
-        {
-            if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                EditorGUIUtility.systemCopyBuffer = "Quaternion" + transform.rotation.ToString("F20");
-            else
-                EditorGUIUtility.systemCopyBuffer = "Quaternion" + transform.localRotation.ToString("F20");
-
-            UpdateMainControls();
-
-            UpdatePasteButtons();
-        }
-
-        private void PasteRotation()
-        {
-            if (targets.Length == 1)
-            {
-                GetVector3FromCopyBuffer(out bool exists, out float x, out float y, out float z);
-                if (exists)
-                {
-                    Undo.RecordObject(transform, "Rotation Paste on " + transform.gameObject.name);
-
-                    //These three shouldn't be needed but were added because for some reason,
-                    //the world rotation field were not being updated without them because isRotationUpdatedByWorldField was true when it shouldn't be
-                    temporarilyRotatedToCheckSize = false;
-                    isRotationUpdatedByWorldField = false;
-                    isRotateUpdatedByLocalField = false;
-
-                    if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                        transform.localRotation = Quaternion.Euler(x, y, z);
-                    else
-                        transform.rotation = Quaternion.Euler(x, y, z);
-
-                    //soTarget.Update();
-                    EditorUtility.SetDirty(transform);
-                }
-
-                GetQuaternionFromCopyBuffer(out bool quaternionExists, out float qx, out float qy, out float qz, out float qw);
-                if (quaternionExists)
-                {
-                    Undo.RecordObject(transform, "Rotation Quaternion Paste on " + transform.gameObject.name);
-
-                    //These three shouldn't be needed but were added because for some reason,
-                    //the world rotation field were not being updated without them because isRotationUpdatedByWorldField was true when it shouldn't be
-                    temporarilyRotatedToCheckSize = false;
-                    isRotationUpdatedByWorldField = false;
-                    isRotateUpdatedByLocalField = false;
-
-                    if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                        transform.rotation = new Quaternion(qx, qy, qz, qw);
-                    else
-                        transform.localRotation = new Quaternion(qx, qy, qz, qw);
-
-                    soTarget.Update();
-                    EditorUtility.SetDirty(transform);
-                }
-            }
-            else
-            {
-                GetVector3ListFromCopyBuffer(out bool exists, out List<string> values);
-                //values.Reverse();
-
-                if (!exists) return;
-
-                var transforms = targets.Cast<Transform>().ToList();
-
-                //for (int i = transforms.Count() - 1; i >= 0; i--)
-                for (int i = 0; i < transforms.Count; i++)
-                {
-                    if (values.Count <= i)
-                        break;
-
-                    var value = GetVector3FromString(values[i], out bool exists2);
-
-                    if (!exists2) continue;
-
-                    Undo.RecordObject(transforms[i], "Rotation Paste on " + transforms[i].gameObject.name);
-
-                    //These three shouldn't be needed but were added because for some reason,
-                    //the world rotation field were not being updated without them because isRotationUpdatedByWorldField was true when it shouldn't be
-                    temporarilyRotatedToCheckSize = false;
-                    isRotationUpdatedByWorldField = false;
-                    isRotateUpdatedByLocalField = false;
-
-                    if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                        transforms[i].rotation = Quaternion.Euler(value.x, value.y, value.z);
-                    else
-                        transforms[i].localRotation = Quaternion.Euler(value.x, value.y, value.z);
-
-                    //soTarget.Update();
-                    EditorUtility.SetDirty(transform);
-                }
-            }
-        }
-
-        private bool isRotateUpdatedByLocalField = false;
-        private bool isRotationUpdatedByWorldField = false;
-
-        private void SetupRotation_fields()
-        {
-            serializedEulerHint = soTarget.FindProperty("m_LocalEulerAnglesHint");
-
-            localRotationField = rotationGroupBox.Q<Vector3Field>("LocalRotation");
-
-            if (editorSettings.roundRotationField)
-                localRotationField.SetValueWithoutNotify(RoundedVector3v2(serializedEulerHint.vector3Value));
-            else
-                localRotationField.SetValueWithoutNotify(RoundedVector3(serializedEulerHint.vector3Value));
+                _localRotationField.SetValueWithoutNotify(TrimVectorNoise(_serializedEulerHint.vector3Value));
 
             //Setting the fields in the codes above should be unnecessary. Remove them later after testing.
-            localRotationField.schedule.Execute(() => ScheduleUpdateRotationField()).ExecuteLater(0);
+            _localRotationField.schedule.Execute(ScheduleUpdateRotationField).ExecuteLater(0);
 
-            localRotationField.RegisterValueChangedCallback(ev =>
+            _localRotationField.schedule.Execute(() =>
             {
-                Undo.RecordObject(transform, "Rotation change on " + transform.gameObject.name);
+                _localRotationField.RegisterValueChangedCallback(ev =>
+                {
+                    Undo.RecordObject(transform, "Rotation change on " + transform.gameObject.name);
 
-                isRotateUpdatedByLocalField = true;
+                    _isRotateUpdatedByLocalField = true;
 
-                serializedEulerHint.vector3Value = ev.newValue; //This doesn't change the rotation
-                soTarget.ApplyModifiedProperties(); //Can't update rotation if this is called after setting transform.localrotaion or before setting serializedEulerHint
+                    _serializedEulerHint.vector3Value = ev.newValue; //This doesn't change the rotation
+                    _soTarget
+                        .ApplyModifiedProperties(); //Can't update rotation if this is called after setting transform.localRotation or before setting serializedEulerHint
 
-                transform.localRotation = Quaternion.Euler(ev.newValue);
+                    transform.localRotation = Quaternion.Euler(ev.newValue);
 
-                UpdateRotation_prefabOverrideIndicator();
+                    UpdateRotation_prefabOverrideIndicator();
 
-                if (editorSettings.roundRotationField)
-                    localRotationField.SetValueWithoutNotify(RoundedVector3v2(ev.newValue));
-            });
+                    if (_betterTransformSettings.roundRotationField)
+                        _localRotationField.SetValueWithoutNotify(RoundedVector3(ev.newValue));
+                });
+            }).ExecuteLater(100);
 
-            worldRotationField = rotationGroupBox.Q<Vector3Field>("WorldRotation");
+            _worldRotationField = _rotationGroupBox.Q<Vector3Field>("WorldRotation");
             if (targets.Length > 1)
             {
-                worldRotationField.SetEnabled(false);
-                worldRotationField.tooltip = worldRotationReadOnlyTooltip;
+                _worldRotationField.SetEnabled(false);
+                _worldRotationField.tooltip = WorldRotationReadOnlyTooltip;
             }
-            worldRotationField.RegisterValueChangedCallback(ev =>
+
+            _worldRotationField.schedule.Execute(() =>
             {
-                isRotationUpdatedByWorldField = true;
+                _worldRotationField.RegisterValueChangedCallback(ev =>
+                {
+                    _isRotationUpdatedByWorldField = true;
 
-                Undo.RecordObject(transform, "Rotation change on " + transform.gameObject.name);
-                transform.eulerAngles = ev.newValue;
-                //The field are updated by the quaternionRotation
-            });
+                    Undo.RecordObject(transform, "Rotation change on " + transform.gameObject.name);
+                    transform.eulerAngles = ev.newValue;
+                    //The fields are updated by the quaternionRotation
+                });
+            }).ExecuteLater(500);
 
-            quaternionRotationPropertyField = root.Q<PropertyField>("QuaternionRotation");
+            _quaternionRotationPropertyField = _root.Q<PropertyField>("QuaternionRotation");
 
-            //This is the hidden rotation field which tracks the actual rotation.
-            rotationSerializedProperty = soTarget.FindProperty(rotationProperty);
-            quaternionRotationPropertyField.TrackPropertyValue(rotationSerializedProperty, RotationUpdated);
+            //This is the hidden rotation field that tracks the actual rotation.
+            _rotationSerializedProperty = _soTarget.FindProperty(RotationProperty);
+            _quaternionRotationPropertyField.TrackPropertyValue(_rotationSerializedProperty, RotationUpdated);
         }
 
         /// <summary>
-        /// This is only called once during setup.
-        /// This is called after a single frame update to overwrite the binding's value update and apply rounding if required
+        ///     This is only called once during setup.
+        ///     This is called after a single frame update to overwrite the binding's value update and apply rounding if required
         /// </summary>
-        private void ScheduleUpdateRotationField()
+        void ScheduleUpdateRotationField()
         {
-            if (editorSettings.roundRotationField)
-                localRotationField.SetValueWithoutNotify(RoundedVector3v2(serializedEulerHint.vector3Value));
+            if (_betterTransformSettings.roundRotationField)
+                _localRotationField.SetValueWithoutNotify(RoundedVector3(_serializedEulerHint.vector3Value));
             else
-                localRotationField.SetValueWithoutNotify(RoundedVector3(serializedEulerHint.vector3Value));
+                _localRotationField.SetValueWithoutNotify(TrimVectorNoise(_serializedEulerHint.vector3Value));
         }
 
-        private Vector3 rotationVector3Cached;
+        Vector3 _rotationVector3Cached;
 
         /// <summary>
         /// This is called only if the rotation is updated by code
         /// </summary>
         /// <param name="property"></param>
-        private void RotationUpdated(SerializedProperty property)
+        void RotationUpdated(SerializedProperty property)
         {
-            if (temporarilyRotatedToCheckSize)
+            if (_temporarilyRotatedToCheckSize)
             {
-                temporarilyRotatedToCheckSize = false;
+                _temporarilyRotatedToCheckSize = false;
                 //This is required because of the Undo function.
-                if (rotationVector3Cached == RoundedVector3(transform.localRotation.eulerAngles))
+                if (_rotationVector3Cached == TrimVectorNoise(transform.localRotation.eulerAngles))
                     return;
             }
 
             //First update the target
-            soTarget.ApplyModifiedProperties();
-            soTarget.Update();
+            _soTarget.ApplyModifiedProperties();
+            _soTarget.Update();
 
-            rotationVector3Cached = RoundedVector3(transform.localRotation.eulerAngles);
+            _rotationVector3Cached = TrimVectorNoise(transform.localRotation.eulerAngles);
 
             //Then update fields
-            if (!isRotateUpdatedByLocalField)
+            if (!_isRotateUpdatedByLocalField)
             {
-                if (editorSettings.roundRotationField)
-                    localRotationField.SetValueWithoutNotify(RoundedVector3v2(rotationVector3Cached));
+                if (_betterTransformSettings.roundRotationField)
+                    _localRotationField.SetValueWithoutNotify(RoundedVector3(_rotationVector3Cached));
                 else
-                    localRotationField.SetValueWithoutNotify(rotationVector3Cached);
+                    _localRotationField.SetValueWithoutNotify(_rotationVector3Cached);
 
-                serializedEulerHint.vector3Value = rotationVector3Cached;
+                _serializedEulerHint.vector3Value = _rotationVector3Cached;
             }
             else
-                isRotateUpdatedByLocalField = false;
+            {
+                _isRotateUpdatedByLocalField = false;
+            }
 
-            if (!isRotationUpdatedByWorldField)
+            if (!_isRotationUpdatedByWorldField)
                 UpdateWorldRotationField();
-            //worldRotationField.SetValueWithoutNotify(RoundedVector3(transform.eulerAngles));
+            //worldRotationField.SetValueWithoutNotify(TrimVectorNoise(transform.eulerAngles));
             else
-                isRotationUpdatedByWorldField = false;
+                _isRotationUpdatedByWorldField = false;
 
             UpdateRotation_label();
             UpdateRotation_prefabOverrideIndicator();
 
-            UpdateSize();
+            // UpdateSize();
+            AutoUpdateSizeAfterValueChanged();
 
-            quaternionRotationPropertyField.schedule.Execute(() => UpdateAnimatorState_RotationFields()).ExecuteLater(100); //1000 ms = 1 s
+            _quaternionRotationPropertyField.schedule.Execute(UpdateAnimatorState_RotationFields)
+                .ExecuteLater(100); //1000 ms = 1 s
         }
 
-        private void UpdateWorldRotationField()
+        void UpdateWorldRotationField()
         {
-            if (editorSettings.roundRotationField)
-                worldRotationField.SetValueWithoutNotify(RoundedVector3v2(transform.eulerAngles));
+            if (_betterTransformSettings.roundRotationField)
+                _worldRotationField.SetValueWithoutNotify(RoundedVector3(transform.eulerAngles));
             else
-                worldRotationField.SetValueWithoutNotify(RoundedVector3(transform.eulerAngles));
+                _worldRotationField.SetValueWithoutNotify(TrimVectorNoise(transform.eulerAngles));
 
             if (targets.Length == 1)
                 return;
@@ -1702,221 +1791,130 @@ namespace TinyGiantStudio.BetterInspector
             foreach (Transform t in targets.Cast<Transform>())
             {
                 if (isCommonX)
-                    if (t.rotation.x != commonX)
+                    if (!Approximately(t.rotation.x, commonX))
                         isCommonX = false;
 
                 if (isCommonY)
-                    if (t.rotation.y != commonY)
+                    if (!Approximately(t.rotation.y, commonY))
                         isCommonY = false;
 
                 if (isCommonZ)
-                    if (t.rotation.z != commonZ)
+                    if (!Approximately(t.rotation.z, commonZ))
                         isCommonZ = false;
 
                 if (!isCommonX && !isCommonY && !isCommonZ)
                     break;
             }
 
-            var xField = worldRotationField.Q<FloatField>("unity-x-input");
+            FloatField xField = _worldRotationField.Q<FloatField>("unity-x-input");
             if (!isCommonX)
                 xField.showMixedValue = true;
             else
                 xField.showMixedValue = false;
 
-            var yField = worldRotationField.Q<FloatField>("unity-y-input");
+            FloatField yField = _worldRotationField.Q<FloatField>("unity-y-input");
             if (!isCommonY)
                 yField.showMixedValue = true;
             else
                 yField.showMixedValue = false;
 
-            var zField = worldRotationField.Q<FloatField>("unity-z-input");
+            FloatField zField = _worldRotationField.Q<FloatField>("unity-z-input");
             if (!isCommonZ)
                 zField.showMixedValue = true;
             else
                 zField.showMixedValue = false;
         }
 
-        private void UpdateRotation_fields()
+        void UpdateRotation_fields()
         {
             UpdateWorldRotationField();
             //worldRotationField.SetValueWithoutNotify(transform.eulerAngles);
 
-            switch (editorSettings.CurrentWorkSpace)
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch (_betterTransformSettings.CurrentWorkSpace)
             {
                 case BetterTransformSettings.WorkSpace.Local:
-                    localRotationField.style.display = DisplayStyle.Flex;
-                    worldRotationField.style.display = DisplayStyle.None;
+                    _localRotationField.style.display = DisplayStyle.Flex;
+                    _worldRotationField.style.display = DisplayStyle.None;
                     break;
 
+                // ReSharper disable once DuplicatedSwitchSectionBodies
                 case BetterTransformSettings.WorkSpace.World:
-                    worldRotationField.style.display = DisplayStyle.Flex;
-                    localRotationField.style.display = DisplayStyle.None;
+                    _worldRotationField.style.display = DisplayStyle.Flex;
+                    _localRotationField.style.display = DisplayStyle.None;
                     break;
 
                 case BetterTransformSettings.WorkSpace.Both:
-                    worldRotationField.style.display = DisplayStyle.Flex;
-                    localRotationField.style.display = DisplayStyle.None;
+                    _worldRotationField.style.display = DisplayStyle.Flex;
+                    _localRotationField.style.display = DisplayStyle.None;
                     break;
             }
         }
 
-        private void SetupRotation_buttons()
-        {
-            var rotationToolbar = toolbarGroupBox.Q<GroupBox>("RotationToolbar");
-            copyRotationButton = rotationToolbar.Q<Button>("Copy");
-            pasteRotationButton = rotationToolbar.Q<Button>("Paste");
-            resetRotationButton = rotationToolbar.Q<Button>("Reset");
 
-            copyRotationButton.clicked += () =>
-            {
-                CopyRotationEulerAngles();
-            };
-            pasteRotationButton.clicked += () =>
-            {
-                PasteRotation();
-            };
-            resetRotationButton.clicked += () =>
-            {
-                ResetRotation();
-            };
-        }
-
-        private void ResetRotation()
-        {
-            if (targets.Length == 1)
-            {
-                Undo.RecordObject(transform, "Reset rotation of " + transform.gameObject.name);
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                {
-                    isRotateUpdatedByLocalField = true;
-                    localRotationField.SetValueWithoutNotify(Vector3.zero);
-
-                    serializedEulerHint.vector3Value = Vector3.zero;
-                    soTarget.ApplyModifiedProperties();
-                    transform.localRotation = Quaternion.Euler(Vector3.zero);
-                }
-                else
-                {
-                    //These three shouldn't be needed but were added because for some reason,
-                    //the world rotation field were not being updated without them because isRotationUpdatedByWorldField was true when it shouldn't be
-                    temporarilyRotatedToCheckSize = false;
-                    isRotationUpdatedByWorldField = false;
-                    isRotateUpdatedByLocalField = false;
-
-                    transform.eulerAngles = Vector3.zero;
-                }
-                EditorUtility.SetDirty(transform);
-            }
-            else
-            {
-                foreach (Transform t in targets.Cast<Transform>())
-                {
-                    Undo.RecordObject(t, "Reset rotation of " + t.gameObject.name);
-                    if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                    {
-                        //These three shouldn't be needed but were added because for some reason,
-                        //the world rotation field were not being updated without them because isRotationUpdatedByWorldField was true when it shouldn't be
-                        temporarilyRotatedToCheckSize = false;
-                        isRotationUpdatedByWorldField = false;
-                        isRotateUpdatedByLocalField = false;
-
-                        t.eulerAngles = Vector3.zero;
-                    }
-                    else
-                    {
-                        isRotateUpdatedByLocalField = true;
-                        localRotationField.SetValueWithoutNotify(Vector3.zero);
-
-                        serializedEulerHint.vector3Value = Vector3.zero;
-                        soTarget.ApplyModifiedProperties();
-                        t.localRotation = Quaternion.Euler(Vector3.zero);
-                    }
-                    EditorUtility.SetDirty(t);
-                }
-
-                UpdateWorldRotationField();
-            }
-        }
-
-        private void UpdateRotation_buttons()
-        {
-            copyRotationButton.tooltip = "Copy " + GetCurrentWorkspaceForToolbar() + " Euler Angles rotation";
-            pasteRotationButton.tooltip = "Paste to " + GetCurrentWorkspaceForToolbar() + " Euler Angles rotation";
-            resetRotationButton.tooltip = "Reset " + GetCurrentWorkspaceForToolbar() + " Euler Angles rotation to zero.";
-        }
-
-        private void UpdateRotation_prefabOverrideIndicator()
+        void UpdateRotation_prefabOverrideIndicator()
         {
             if (!HasPrefabOverride_rotation())
             {
-                rotationPrefabOverrideMark.style.display = DisplayStyle.None;
-                rotationDefaultPrefabOverrideMark.style.display = DisplayStyle.None;
+                _rotationPrefabOverrideMark.style.display = DisplayStyle.None;
+                _rotationDefaultPrefabOverrideMark.style.display = DisplayStyle.None;
 
-                rotationLabel.RemoveFromClassList(prefabOverrideLabel);
-                localRotationField.RemoveFromClassList(prefabOverrideLabel);
-                worldRotationField.RemoveFromClassList(prefabOverrideLabel);
+                _rotationLabel.RemoveFromClassList(PrefabOverrideLabelUSSClass);
+                _localRotationField.RemoveFromClassList(PrefabOverrideLabelUSSClass);
+                _worldRotationField.RemoveFromClassList(PrefabOverrideLabelUSSClass);
             }
             else
             {
                 if (!HasPrefabOverride_position(true) && PrefabUtility.IsAnyPrefabInstanceRoot(transform.gameObject))
                 {
-                    rotationDefaultPrefabOverrideMark.style.display = DisplayStyle.Flex;
-                    rotationPrefabOverrideMark.style.display = DisplayStyle.None;
+                    _rotationDefaultPrefabOverrideMark.style.display = DisplayStyle.Flex;
+                    _rotationPrefabOverrideMark.style.display = DisplayStyle.None;
                 }
                 else
                 {
-                    rotationDefaultPrefabOverrideMark.style.display = DisplayStyle.None;
-                    rotationPrefabOverrideMark.style.display = DisplayStyle.Flex;
+                    _rotationDefaultPrefabOverrideMark.style.display = DisplayStyle.None;
+                    _rotationPrefabOverrideMark.style.display = DisplayStyle.Flex;
                 }
 
-                rotationLabel.AddToClassList(prefabOverrideLabel);
-                localRotationField.AddToClassList(prefabOverrideLabel);
-                worldRotationField.AddToClassList(prefabOverrideLabel);
+                _rotationLabel.AddToClassList(PrefabOverrideLabelUSSClass);
+                _localRotationField.AddToClassList(PrefabOverrideLabelUSSClass);
+                _worldRotationField.AddToClassList(PrefabOverrideLabelUSSClass);
             }
         }
 
-        private bool HasPrefabOverride_rotation(bool checkDefaultOverride = false)
+        bool HasPrefabOverride_rotation(bool checkDefaultOverride = false)
         {
-            if (soTarget.FindProperty(rotationProperty).prefabOverride)
-            {
-                if (checkDefaultOverride)
-                    if (soTarget.FindProperty(rotationProperty).isDefaultOverride)
-                        return false;
-                return true;
-            }
-            else
-                return false;
+            if (!_soTarget.FindProperty(RotationProperty).prefabOverride) return false;
+            if (!checkDefaultOverride) return true;
+            return !_soTarget.FindProperty(RotationProperty).isDefaultOverride;
         }
 
         #endregion Rotation
 
         #region Scale
 
-        private void SetupScale()
+        void SetupScale()
         {
-            scaleGroupBox = customEditorGroupBox.Q<GroupBox>("Scale");
-            scaleLabelGroupbox = scaleGroupBox.Q<GroupBox>("ScaleLabelGroupbox");
-            scaleLabel = scaleGroupBox.Q<Label>("ScaleLabel");
+            _scaleGroupBox = _customEditorGroupBox.Q<GroupBox>("Scale");
+            _scaleLabelGroupbox = _scaleGroupBox.Q<GroupBox>("ScaleLabelGroupbox");
+            _scaleLabel = _scaleGroupBox.Q<Label>("ScaleLabel");
 
             SetupScale_fields();
-            SetupScale_buttons();
 
-            scalePrefabOverrideMark = scaleGroupBox.Q<VisualElement>("PrefabOverrideMark");
+            _scalePrefabOverrideMark = _scaleGroupBox.Q<VisualElement>("PrefabOverrideMark");
 
-            //m_ConstrainProportionsScaleProperty = serializedObject.FindProperty("m_ConstrainProportionsScale");
-
-            scaleAspectRatioLocked = scaleGroupBox.Q<Button>("AspectRatioLocked");
-            scaleAspectRatioLocked.clicked += () =>
+            _scaleAspectRatioLocked = _scaleGroupBox.Q<Button>("AspectRatioLocked");
+            _scaleAspectRatioLocked.clicked += () =>
             {
-                editorSettings.LockSizeAspectRatio = false;
+                _betterTransformSettings.LockSizeAspectRatio = false;
                 //m_ConstrainProportionsScaleProperty.boolValue = false;
                 UpdateScaleAspectRationButton();
                 UpdateSize_AspectRationButton();
             };
-            scaleAspectRatioUnlocked = scaleGroupBox.Q<Button>("AspectRatioUnlocked");
-            scaleAspectRatioUnlocked.clicked += () =>
+            _scaleAspectRatioUnlocked = _scaleGroupBox.Q<Button>("AspectRatioUnlocked");
+            _scaleAspectRatioUnlocked.clicked += () =>
             {
-                editorSettings.LockSizeAspectRatio = true;
+                _betterTransformSettings.LockSizeAspectRatio = true;
                 //m_ConstrainProportionsScaleProperty.boolValue = true;
                 UpdateScaleAspectRationButton();
                 UpdateSize_AspectRationButton();
@@ -1925,71 +1923,76 @@ namespace TinyGiantStudio.BetterInspector
             UpdateScaleAspectRationButton();
         }
 
-        private void SetupScale_fields()
+        void SetupScale_fields()
         {
-            localScaleField = scaleGroupBox.Q<Vector3Field>("LocalScale");
-            worldScaleField = scaleGroupBox.Q<Vector3Field>("LossyScale");
+            _localScaleField = _scaleGroupBox.Q<Vector3Field>("LocalScale");
+            _worldScaleField = _scaleGroupBox.Q<Vector3Field>("LossyScale");
 
             if (targets.Length > 1)
             {
-                worldScaleField.SetEnabled(false);
-                worldScaleField.tooltip = worldScaleReadOnlyTooltip;
+                _worldScaleField.SetEnabled(false);
+                _worldScaleField.tooltip = WorldScaleReadOnlyTooltip;
             }
 
-            localScaleField.RegisterValueChangedCallback(ev =>
+            _localScaleField.schedule.Execute(() =>
             {
-                SetLocalScale(ev.newValue);
-            });
+                _localScaleField.RegisterValueChangedCallback(ev => { SetLocalScale(ev.newValue); });
+            }).ExecuteLater(100);
 
-            worldScaleField.RegisterValueChangedCallback(ev =>
+            _worldScaleField.schedule.Execute(() =>
             {
-                SetGlobalScale(transform, ev.newValue);
-            });
+                _worldScaleField.RegisterValueChangedCallback(ev => { SetWorldScale(transform, ev.newValue); });
+            }).ExecuteLater(100);
 
-            boundLocalScaleField = scaleGroupBox.Q<Vector3Field>("BoundLocalScale");
+            _boundLocalScaleField = _scaleGroupBox.Q<Vector3Field>("BoundLocalScale");
             //This makes sure the binding operation is done before the callback is registered to avoid it calling the change
-            boundLocalScaleField.schedule.Execute(() => RegisterBoundLocalPositionFieldValueChangedCallBack());
-            //RegisterBoundLocalPositionFieldValueChangedCallBack();
-
-            scaleBeingUpdatedBySize = false;
-        }
-
-        private void RegisterBoundLocalPositionFieldValueChangedCallBack()
-        {
-            boundLocalScaleField.RegisterValueChangedCallback((EventCallback<ChangeEvent<Vector3>>)(ev =>
+            _boundLocalScaleField.schedule.Execute(() =>
             {
-                if (ev.newValue != ev.previousValue)
+                _boundLocalScaleField.RegisterValueChangedCallback(ev =>
                 {
-                    Undo.RecordObject(transform, "Scale change on " + transform.gameObject.name);
+                    if (ev.newValue == ev.previousValue) return;
 
-                    if (editorSettings.roundScaleField)
-                        localScaleField.SetValueWithoutNotify(RoundedVector3v2(transform.localScale));
+                    //A true "fromBinding" value means the change came from a script
+                    bool fromBinding = ev.target == _boundLocalScaleField && ev.currentTarget == _boundLocalScaleField;
+
+                    if (!Application.isPlaying)
+                        Undo.RecordObject(transform, "Scale change on " + transform.gameObject.name);
+
+                    if (_betterTransformSettings.roundScaleField)
+                        _localScaleField.SetValueWithoutNotify(RoundedVector3(transform.localScale));
                     else
-                        localScaleField.SetValueWithoutNotify(RoundedVector3(transform.localScale));
+                        _localScaleField.SetValueWithoutNotify(TrimVectorNoise(transform.localScale));
 
                     SetWorldScaleField();
 
-                    soTarget.Update();
+                    if (!fromBinding) _soTarget.Update(); //If changed by UI field
+
                     UpdateScale_prefabOverrideIndicator();
                     UpdateScale_label();
                     EditorUtility.SetDirty(transform);
 
-                    if (!scaleBeingUpdatedBySize)
-                        UpdateSize();
+                    if (!_scaleBeingUpdatedBySize)
+                    {
+                        // UpdateSize();
+                        AutoUpdateSizeAfterValueChanged();
+                    }
 
-                    scaleBeingUpdatedBySize = false;
+                    _scaleBeingUpdatedBySize = false;
 
-                    boundLocalScaleField.schedule.Execute(() => UpdateAnimatorState_ScaleFields()).ExecuteLater(100); //1000 ms = 1 s
-                }
-            }));
+                    _boundLocalScaleField.schedule.Execute(UpdateAnimatorState_ScaleFields)
+                        .ExecuteLater(100); //1000 ms = 1 s
+                });
+            }).ExecuteLater(500);
+
+            _scaleBeingUpdatedBySize = false;
         }
 
-        private void SetWorldScaleField()
+        void SetWorldScaleField()
         {
-            if (editorSettings.roundScaleField)
-                worldScaleField.SetValueWithoutNotify(RoundedVector3v2(transform.lossyScale));
+            if (_betterTransformSettings.roundScaleField)
+                _worldScaleField.SetValueWithoutNotify(RoundedVector3(transform.lossyScale));
             else
-                worldScaleField.SetValueWithoutNotify(RoundedVector3(transform.lossyScale));
+                _worldScaleField.SetValueWithoutNotify(TrimVectorNoise(transform.lossyScale));
 
             if (targets.Length == 1)
                 return;
@@ -2004,437 +2007,298 @@ namespace TinyGiantStudio.BetterInspector
             foreach (Transform t in targets.Cast<Transform>())
             {
                 if (isCommonX)
-                    if (t.lossyScale.x != commonX)
+                    if (!Approximately(t.lossyScale.x, commonX))
                         isCommonX = false;
 
                 if (isCommonY)
-                    if (t.lossyScale.y != commonY)
+                    if (!Approximately(t.lossyScale.y, commonY))
                         isCommonY = false;
 
                 if (isCommonZ)
-                    if (t.lossyScale.z != commonZ)
+                    if (!Approximately(t.lossyScale.z, commonZ))
                         isCommonZ = false;
 
                 if (!isCommonX && !isCommonY && !isCommonZ)
                     break;
             }
 
-            var xField = worldScaleField.Q<FloatField>("unity-x-input");
+            FloatField xField = _worldScaleField.Q<FloatField>("unity-x-input");
             if (!isCommonX)
                 xField.showMixedValue = true;
             else
                 xField.showMixedValue = false;
 
-            var yField = worldScaleField.Q<FloatField>("unity-y-input");
+            FloatField yField = _worldScaleField.Q<FloatField>("unity-y-input");
             if (!isCommonY)
                 yField.showMixedValue = true;
             else
                 yField.showMixedValue = false;
 
-            var zField = worldScaleField.Q<FloatField>("unity-z-input");
+            FloatField zField = _worldScaleField.Q<FloatField>("unity-z-input");
             if (!isCommonZ)
                 zField.showMixedValue = true;
             else
                 zField.showMixedValue = false;
         }
 
-        private void SetupScale_buttons()
-        {
-            var scaleToolbar = toolbarGroupBox.Q<GroupBox>("ScaleToolbar");
-            copyScaleButton = scaleToolbar.Q<Button>("Copy");
-            pasteScaleButton = scaleToolbar.Q<Button>("Paste");
-            resetScaleButton = scaleToolbar.Q<Button>("Reset");
 
-            copyScaleButton.clicked += () =>
-            {
-                CopyScale();
-            };
-            pasteScaleButton.clicked += () =>
-            {
-                PasteScale();
-            };
-            resetScaleButton.clicked += () =>
-            {
-                ResetScale();
-            };
-        }
+        const string LockedAspectRatioDisabledFieldTooltip =
+            "Can't change field value from zero when aspect ratio is locked. Please unlock and change it.";
 
-        private void ResetScale()
+        void UpdateScaleAspectRationButton()
         {
-            if (targets.Length == 1)
+            FloatField scaleFieldXLocal = _localScaleField.Q<FloatField>("unity-x-input");
+            FloatField scaleFieldXWorld = _worldScaleField.Q<FloatField>("unity-x-input");
+
+            FloatField scaleFieldYLocal = _localScaleField.Q<FloatField>("unity-y-input");
+            FloatField scaleFieldYWorld = _worldScaleField.Q<FloatField>("unity-y-input");
+
+            FloatField scaleFieldZLocal = _localScaleField.Q<FloatField>("unity-z-input");
+            FloatField scaleFieldZWorld = _worldScaleField.Q<FloatField>("unity-z-input");
+
+            if (_betterTransformSettings.LockSizeAspectRatio)
             {
-                Undo.RecordObject(transform, "Reset position of " + transform.gameObject.name);
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                    transform.localScale = Vector3.one;
-                else
-                    SetGlobalScale(transform, Vector3.one, true);
-                EditorUtility.SetDirty(transform);
+                _scaleAspectRatioLocked.style.display = DisplayStyle.Flex;
+                _scaleAspectRatioUnlocked.style.display = DisplayStyle.None;
+
+                if (targets.Length != 1) return;
+                Vector3 localScale = transform.localScale;
+                if (localScale.x == 0)
+                {
+                    scaleFieldXLocal.SetEnabled(false);
+                    scaleFieldXLocal.tooltip = LockedAspectRatioDisabledFieldTooltip;
+                    scaleFieldXWorld.SetEnabled(false);
+                    scaleFieldXWorld.tooltip = LockedAspectRatioDisabledFieldTooltip;
+                }
+
+                if (localScale.y == 0)
+                {
+                    scaleFieldYLocal.SetEnabled(false);
+                    scaleFieldYLocal.tooltip = LockedAspectRatioDisabledFieldTooltip;
+                    scaleFieldYWorld.SetEnabled(false);
+                    scaleFieldYWorld.tooltip = LockedAspectRatioDisabledFieldTooltip;
+                }
+
+                if (localScale.z != 0) return;
+                scaleFieldZLocal.SetEnabled(false);
+                scaleFieldZLocal.tooltip = LockedAspectRatioDisabledFieldTooltip;
+                scaleFieldZWorld.SetEnabled(false);
+                scaleFieldZWorld.tooltip = LockedAspectRatioDisabledFieldTooltip;
             }
             else
             {
-                foreach (Transform t in targets.Cast<Transform>())
-                {
-                    Undo.RecordObject(t, "Reset position of " + t.gameObject.name);
-                    if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                        t.localScale = Vector3.one;
-                    else
-                        SetGlobalScale(transform, Vector3.one, true);
-                    EditorUtility.SetDirty(transform);
-                }
+                _scaleAspectRatioLocked.style.display = DisplayStyle.None;
+                _scaleAspectRatioUnlocked.style.display = DisplayStyle.Flex;
+
+                scaleFieldXLocal.SetEnabled(true);
+                scaleFieldXLocal.tooltip = string.Empty;
+
+                scaleFieldXWorld.SetEnabled(true);
+                scaleFieldXWorld.tooltip = string.Empty;
+
+                scaleFieldYLocal.SetEnabled(true);
+                scaleFieldYLocal.tooltip = string.Empty;
+
+                scaleFieldYWorld.SetEnabled(true);
+                scaleFieldYWorld.tooltip = string.Empty;
+
+                scaleFieldZLocal.SetEnabled(true);
+                scaleFieldZLocal.tooltip = string.Empty;
+
+                scaleFieldZWorld.SetEnabled(true);
+                scaleFieldZWorld.tooltip = string.Empty;
             }
         }
 
-        private string lockedAspectRatioDisabledFieldTooltip = "Can't change field value from zero when aspect ratio is locked. Please unlock and change it.";
-
-        private void UpdateScaleAspectRationButton()
-        {
-            var scaleField_x_local = localScaleField.Q<FloatField>("unity-x-input");
-            var scaleField_x_world = worldScaleField.Q<FloatField>("unity-x-input");
-
-            var scaleField_y_local = localScaleField.Q<FloatField>("unity-y-input");
-            var scaleField_y_world = worldScaleField.Q<FloatField>("unity-y-input");
-
-            var scaleField_z_local = localScaleField.Q<FloatField>("unity-z-input");
-            var scaleField_z_world = worldScaleField.Q<FloatField>("unity-z-input");
-
-            if (editorSettings.LockSizeAspectRatio)
-            {
-                scaleAspectRatioLocked.style.display = DisplayStyle.Flex;
-                scaleAspectRatioUnlocked.style.display = DisplayStyle.None;
-
-                if (targets.Length == 1)
-                {
-                    Vector3 localScale = transform.localScale;
-                    if (localScale.x == 0)
-                    {
-                        scaleField_x_local.SetEnabled(false);
-                        scaleField_x_local.tooltip = lockedAspectRatioDisabledFieldTooltip;
-                        scaleField_x_world.SetEnabled(false);
-                        scaleField_x_world.tooltip = lockedAspectRatioDisabledFieldTooltip;
-                    }
-                    if (localScale.y == 0)
-                    {
-                        scaleField_y_local.SetEnabled(false);
-                        scaleField_y_local.tooltip = lockedAspectRatioDisabledFieldTooltip;
-                        scaleField_y_world.SetEnabled(false);
-                        scaleField_y_world.tooltip = lockedAspectRatioDisabledFieldTooltip;
-                    }
-                    if (localScale.z == 0)
-                    {
-                        scaleField_z_local.SetEnabled(false);
-                        scaleField_z_local.tooltip = lockedAspectRatioDisabledFieldTooltip;
-                        scaleField_z_world.SetEnabled(false);
-                        scaleField_z_world.tooltip = lockedAspectRatioDisabledFieldTooltip;
-                    }
-                }
-            }
-            else
-            {
-                scaleAspectRatioLocked.style.display = DisplayStyle.None;
-                scaleAspectRatioUnlocked.style.display = DisplayStyle.Flex;
-
-                scaleField_x_local.SetEnabled(true);
-                scaleField_x_local.tooltip = string.Empty;
-
-                scaleField_x_world.SetEnabled(true);
-                scaleField_x_world.tooltip = string.Empty;
-
-                scaleField_y_local.SetEnabled(true);
-                scaleField_y_local.tooltip = string.Empty;
-
-                scaleField_y_world.SetEnabled(true);
-                scaleField_y_world.tooltip = string.Empty;
-
-                scaleField_z_local.SetEnabled(true);
-                scaleField_z_local.tooltip = string.Empty;
-
-                scaleField_z_world.SetEnabled(true);
-                scaleField_z_world.tooltip = string.Empty;
-            }
-        }
-
-        private void UpdateScale()
+        void UpdateScale()
         {
             UpdateScale_label();
             UpdateScale_fields();
-            UpdateScale_buttons();
-
             UpdateScale_prefabOverrideIndicator();
         }
 
-        private void UpdateScale_label()
+        void UpdateScale_label()
         {
-            if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                scaleLabel.tooltip = "The local scaling of this GameObject relative to the parent.";
+            if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
+            {
+                _scaleLabel.tooltip = "The local scaling of this GameObject relative to the parent.";
+            }
             else
             {
-                scaleLabel.tooltip = "The world scaling of this GameObject.";
+                _scaleLabel.tooltip = "The world scaling of this GameObject.";
                 if (targets.Length > 1)
                 {
-                    scaleLabel.tooltip += "\n" + worldScaleReadOnlyTooltip;
-                    scaleLabel.SetEnabled(false);
+                    _scaleLabel.tooltip += "\n" + WorldScaleReadOnlyTooltip;
+                    _scaleLabel.SetEnabled(false);
                 }
             }
+
             UpdateScaleLabelContextMenu();
         }
 
-        private void UpdateScale_fields()
+        void UpdateScale_fields()
         {
-            if (editorSettings.roundScaleField)
-                localScaleField.SetValueWithoutNotify(RoundedVector3v2(transform.localScale));
+            if (_betterTransformSettings.roundScaleField)
+                _localScaleField.SetValueWithoutNotify(RoundedVector3(transform.localScale));
             else
-                localScaleField.SetValueWithoutNotify(RoundedVector3(transform.localScale));
+                _localScaleField.SetValueWithoutNotify(TrimVectorNoise(transform.localScale));
 
             SetWorldScaleField();
 
-            switch (editorSettings.CurrentWorkSpace)
+            // ReSharper disable once SwitchStatementHandlesSomeKnownEnumValuesWithDefault
+            switch (_betterTransformSettings.CurrentWorkSpace)
             {
                 case BetterTransformSettings.WorkSpace.Local:
-                    localScaleField.style.display = DisplayStyle.Flex;
-                    worldScaleField.style.display = DisplayStyle.None;
+                    _localScaleField.style.display = DisplayStyle.Flex;
+                    _worldScaleField.style.display = DisplayStyle.None;
                     break;
 
                 case BetterTransformSettings.WorkSpace.World:
-                    localScaleField.style.display = DisplayStyle.None;
-                    worldScaleField.style.display = DisplayStyle.Flex;
+                    _localScaleField.style.display = DisplayStyle.None;
+                    _worldScaleField.style.display = DisplayStyle.Flex;
                     break;
 
                 case BetterTransformSettings.WorkSpace.Both:
-                    localScaleField.style.display = DisplayStyle.None; //Uses the default inspector's local field for this when showing both
-                    worldScaleField.style.display = DisplayStyle.Flex;
+                    _localScaleField.style.display =
+                        DisplayStyle.None; //Uses the default inspector's local field for this when showing both
+                    _worldScaleField.style.display = DisplayStyle.Flex;
                     break;
             }
         }
 
-        private void UpdateScale_buttons()
-        {
-            if (editorSettings.ShowCopyPasteButtons)
-            {
-                copyScaleButton.style.display = DisplayStyle.Flex;
-                pasteScaleButton.style.display = DisplayStyle.Flex;
-                resetScaleButton.style.display = DisplayStyle.Flex;
-
-                copyScaleButton.tooltip = "Copy " + GetCurrentWorkspaceForToolbar() + " scale.";
-                pasteScaleButton.tooltip = "Paste to " + GetCurrentWorkspaceForToolbar() + " scale.";
-                resetScaleButton.tooltip = "Reset " + GetCurrentWorkspaceForToolbar() + " scale to one.";
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                    resetScaleButton.tooltip += "\n" + "Please note that world scale takes into account of parent rotation and scale. So, setting it to one won't always result in 1. Sometimes, its just a number close to it.";
-            }
-            else
-            {
-                copyScaleButton.style.display = DisplayStyle.None;
-                pasteScaleButton.style.display = DisplayStyle.None;
-                resetScaleButton.style.display = DisplayStyle.None;
-            }
-        }
-
-        private string GetCurrentWorkspaceForToolbar()
-        {
-            if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Both)
-                return "World";
-            return editorSettings.CurrentWorkSpace.ToString();
-        }
-
         /// <summary>
-        /// This is the right click menu on the label
+        ///     This is the right click menu on the label
         /// </summary>
-        private ContextualMenuManipulator contextualMenuManipulatorForScaleLabel;
+        ContextualMenuManipulator _contextualMenuManipulatorForScaleLabel;
 
-        private void UpdateScaleLabelContextMenu()
+        void UpdateScaleLabelContextMenu()
         {
-            if (contextualMenuManipulatorForScaleLabel != null)
-                scaleLabel.RemoveManipulator(contextualMenuManipulatorForScaleLabel);
+            if (_contextualMenuManipulatorForScaleLabel != null)
+                _scaleLabel.RemoveManipulator(_contextualMenuManipulatorForScaleLabel);
 
             UpdateContextMenuForScale();
 
-            scaleLabel.AddManipulator(contextualMenuManipulatorForScaleLabel);
+            _scaleLabel.AddManipulator(_contextualMenuManipulatorForScaleLabel);
+            return;
 
             void UpdateContextMenuForScale()
             {
-                contextualMenuManipulatorForScaleLabel = new ContextualMenuManipulator((evt) =>
+                _contextualMenuManipulatorForScaleLabel = new(evt =>
                 {
-                    evt.menu.AppendAction("Scale :", (x) => CopyScalePropertyPath(), DropdownMenuAction.Status.Disabled);
+                    evt.menu.AppendAction("Scale :", _ => { },
+                        DropdownMenuAction.Status.Disabled);
                     evt.menu.AppendSeparator();
 
-                    evt.menu.AppendAction("Copy property path", (x) => CopyScalePropertyPath(), DropdownMenuAction.AlwaysEnabled);
 
-                    if (editorSettings.roundScaleField)
-                        evt.menu.AppendAction("Round out field values for the inspector", (x) => ToggleScaleFieldRounding(), DropdownMenuAction.Status.Checked);
+                    evt.menu.AppendAction("Copy property path",
+                        _ => { EditorGUIUtility.systemCopyBuffer = ScaleProperty; },
+                        DropdownMenuAction.AlwaysEnabled);
+
+                    if (_betterTransformSettings.roundScaleField)
+                        evt.menu.AppendAction("Round out field values for the inspector",
+                            _ => ToggleScaleFieldRounding(), DropdownMenuAction.Status.Checked);
                     else
-                        evt.menu.AppendAction("Round out field values for the inspector", (x) => ToggleScaleFieldRounding(), DropdownMenuAction.Status.Normal);
+                        evt.menu.AppendAction("Round out field values for the inspector",
+                            // ReSharper disable once RedundantArgumentDefaultValue
+                            _ => ToggleScaleFieldRounding(), DropdownMenuAction.Status.Normal);
 
                     if (HasPrefabOverride_scale())
                     {
                         evt.menu.AppendSeparator();
-                        evt.menu.AppendAction("Apply to Prefab '" + PrefabUtility.GetCorrespondingObjectFromSource(transform.gameObject).name + "'", (x) => ApplyScaleChangeToPrefab(), DropdownMenuAction.AlwaysEnabled);
-                        evt.menu.AppendAction("Revert", (x) => ResetScaleChangeToPrefab(), DropdownMenuAction.AlwaysEnabled);
+                        evt.menu.AppendAction(
+                            "Apply to Prefab '" +
+                            PrefabUtility.GetCorrespondingObjectFromSource(transform.gameObject).name + "'",
+                            _ => ApplyScaleChangeToPrefab(), DropdownMenuAction.AlwaysEnabled);
+                        evt.menu.AppendAction("Revert", _ => RevertScaleChangeToPrefab(),
+                            DropdownMenuAction.AlwaysEnabled);
                     }
 
                     evt.menu.AppendSeparator();
 
-                    evt.menu.AppendAction("Copy", (x) => CopyScale(), DropdownMenuAction.AlwaysEnabled);
-                    GetVector3FromCopyBuffer(out bool exists, out float x, out float y, out float z);
-                    if (exists)
-                        evt.menu.AppendAction("Paste", (x) => PasteScale(), DropdownMenuAction.AlwaysEnabled);
+                    evt.menu.AppendAction("Copy", _ => _quickActions.CopyScale());
+                    if (_quickActions.HasVector3ValueToPaste())
+                        evt.menu.AppendAction("Paste", _ => _quickActions.PasteScale());
                     else
-                        evt.menu.AppendAction("Paste", (x) => PasteScale(), DropdownMenuAction.AlwaysDisabled);
+                        evt.menu.AppendAction("Paste", _ => _quickActions.PasteScale(),
+                            DropdownMenuAction.Status.Disabled);
 
-                    evt.menu.AppendAction("Reset", (x) => ResetScale(), DropdownMenuAction.AlwaysEnabled);
+                    evt.menu.AppendAction("Reset", _ => _quickActions.ResetScale());
                 });
             }
 
-            void CopyScalePropertyPath()
-            {
-                EditorGUIUtility.systemCopyBuffer = scaleProperty;
-            }
 
             void ApplyScaleChangeToPrefab()
             {
-                if (soTarget.FindProperty(scaleProperty).prefabOverride)
-                {
-                    PrefabUtility.ApplyPropertyOverride(soTarget.FindProperty(scaleProperty), PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(transform), InteractionMode.UserAction);
-                }
+                if (_soTarget.FindProperty(ScaleProperty).prefabOverride)
+                    PrefabUtility.ApplyPropertyOverride(_soTarget.FindProperty(ScaleProperty),
+                        PrefabUtility.GetPrefabAssetPathOfNearestInstanceRoot(transform), InteractionMode.UserAction);
             }
 
-            void ResetScaleChangeToPrefab()
+            void RevertScaleChangeToPrefab()
             {
-                if (soTarget.FindProperty(scaleProperty).prefabOverride)
-                {
-                    PrefabUtility.RevertPropertyOverride(soTarget.FindProperty(scaleProperty), InteractionMode.UserAction);
-                }
+                if (_soTarget.FindProperty(ScaleProperty).prefabOverride)
+                    PrefabUtility.RevertPropertyOverride(_soTarget.FindProperty(ScaleProperty),
+                        InteractionMode.UserAction);
             }
         }
 
-        private bool HasPrefabOverride_scale()
-        {
-            if (soTarget.FindProperty(scaleProperty).prefabOverride)
-                return true;
-            else
-                return false;
-        }
+        bool HasPrefabOverride_scale() => _soTarget.FindProperty(ScaleProperty).prefabOverride;
 
-        private void CopyScale()
+
+        void ToggleScaleFieldRounding()
         {
-            if (targets.Length == 1)
+            _betterTransformSettings.roundScaleField = !_betterTransformSettings.roundScaleField;
+            _betterTransformSettings.Save();
+
+            if (_betterTransformSettings.roundScaleField)
             {
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                    EditorGUIUtility.systemCopyBuffer = "Vector3" + transform.localScale.ToString("F10");
-                else
-                    EditorGUIUtility.systemCopyBuffer = "Vector3" + transform.lossyScale.ToString("F10");
+                _localScaleField.SetValueWithoutNotify(RoundedVector3(transform.localScale));
+                _worldScaleField.SetValueWithoutNotify(RoundedVector3(transform.lossyScale));
             }
             else
             {
-                CopyMultipleSelectToBuffer_scale();
-            }
-
-            UpdatePasteButtons();
-        }
-
-        private void PasteScale()
-        {
-            if (targets.Length == 1)
-            {
-                GetVector3FromCopyBuffer(out bool exists, out float x, out float y, out float z);
-
-                if (!exists)
-                    return;
-
-                Undo.RecordObject(transform, "Scale Paste on " + transform.gameObject.name);
-
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
-                    transform.localScale = new Vector3(x, y, z);
-                else
-                    SetGlobalScale(transform, new Vector3(x, y, z), true);
-
-                soTarget.Update();
-                EditorUtility.SetDirty(transform);
-            }
-            else
-            {
-                GetVector3ListFromCopyBuffer(out bool exists, out List<string> values);
-                //values.Reverse();
-
-                if (!exists) return;
-
-                var transforms = targets.Cast<Transform>().ToList();
-
-                //for (int i = transforms.Count() - 1; i >= 0; i--)
-                for (int i = 0; i < transforms.Count; i++)
-                {
-                    if (values.Count <= i)
-                        break;
-
-                    var value = GetVector3FromString(values[i], out bool exists2);
-
-                    if (!exists2) continue;
-
-                    Undo.RecordObject(transforms[i], "Scale Paste on " + transforms[i].gameObject.name);
-
-                    if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                        SetGlobalScale(transforms[i], value, true);
-                    else
-                        transforms[i].localScale = value;
-
-                    soTarget.Update();
-                    EditorUtility.SetDirty(transforms[i]);
-                }
-            }
-        }
-
-        private void ToggleScaleFieldRounding()
-        {
-            editorSettings.roundScaleField = !editorSettings.roundScaleField;
-            editorSettings.Save();
-
-            if (editorSettings.roundScaleField)
-            {
-                localScaleField.SetValueWithoutNotify(RoundedVector3v2(transform.localScale));
-                worldScaleField.SetValueWithoutNotify(RoundedVector3v2(transform.lossyScale));
-            }
-            else
-            {
-                localScaleField.SetValueWithoutNotify(transform.localScale);
-                worldScaleField.SetValueWithoutNotify(transform.lossyScale);
+                _localScaleField.SetValueWithoutNotify(transform.localScale);
+                _worldScaleField.SetValueWithoutNotify(transform.lossyScale);
             }
 
             UpdateScaleLabelContextMenu();
 
-            if (roundScaleFieldToggle != null) roundScaleFieldToggle.SetValueWithoutNotify(editorSettings.roundScaleField);
+            _roundScaleFieldToggle?.SetValueWithoutNotify(_betterTransformSettings.roundScaleField);
         }
 
-        private bool scaleBeingUpdatedBySize = false;
+        bool _scaleBeingUpdatedBySize;
 
-        private void UpdateScale_prefabOverrideIndicator()
+        void UpdateScale_prefabOverrideIndicator()
         {
             if (!HasPrefabOverride_scale())
             {
-                scalePrefabOverrideMark.style.display = DisplayStyle.None;
-                scaleLabel.RemoveFromClassList(prefabOverrideLabel);
-                localScaleField.RemoveFromClassList(prefabOverrideLabel);
-                worldScaleField.RemoveFromClassList(prefabOverrideLabel);
+                _scalePrefabOverrideMark.style.display = DisplayStyle.None;
+                _scaleLabel.RemoveFromClassList(PrefabOverrideLabelUSSClass);
+                _localScaleField.RemoveFromClassList(PrefabOverrideLabelUSSClass);
+                _worldScaleField.RemoveFromClassList(PrefabOverrideLabelUSSClass);
             }
             else
             {
-                scalePrefabOverrideMark.style.display = DisplayStyle.Flex;
-                scaleLabel.AddToClassList(prefabOverrideLabel);
-                localScaleField.AddToClassList(prefabOverrideLabel);
-                worldScaleField.AddToClassList(prefabOverrideLabel);
+                _scalePrefabOverrideMark.style.display = DisplayStyle.Flex;
+                _scaleLabel.AddToClassList(PrefabOverrideLabelUSSClass);
+                _localScaleField.AddToClassList(PrefabOverrideLabelUSSClass);
+                _worldScaleField.AddToClassList(PrefabOverrideLabelUSSClass);
             }
         }
 
-        private void SetLocalScale(Vector3 newLocalScale)
+        void SetLocalScale(Vector3 newLocalScale)
         {
             Undo.RecordObject(transform, "Scale change on " + transform.gameObject.name);
-            if (editorSettings.LockSizeAspectRatio)
+            if (_betterTransformSettings.LockSizeAspectRatio)
                 transform.localScale = AspectRatioAppliedLocalScale(transform.localScale, newLocalScale);
             else
                 transform.localScale = newLocalScale;
         }
 
-        private void SetGlobalScale(Transform t, Vector3 newLossyScale, bool ignoreAspectRatioLock = false)
+        public void SetWorldScale(Transform t, Vector3 newLossyScale, bool ignoreAspectRatioLock = false)
         {
             Undo.RecordObject(t, "Scale change on " + t.gameObject.name);
-            if (!editorSettings.LockSizeAspectRatio || ignoreAspectRatioLock)
+            if (!_betterTransformSettings.LockSizeAspectRatio || ignoreAspectRatioLock)
             {
                 if (t.parent == null)
                 {
@@ -2449,20 +2313,23 @@ namespace TinyGiantStudio.BetterInspector
                 float newY = originalLocalScale.y;
                 float newZ = originalLocalScale.z;
 
-                if (!Mathf.Approximately(newLossyScale.x, oldLossyScale.x))
+                if (!Approximately(newLossyScale.x, oldLossyScale.x))
                     newX = newLossyScale.x / t.parent.lossyScale.x;
 
-                if (!Mathf.Approximately(newLossyScale.y, oldLossyScale.y))
+                if (!Approximately(newLossyScale.y, oldLossyScale.y))
                     newY = newLossyScale.y / t.parent.lossyScale.y;
 
-                if (!Mathf.Approximately(newLossyScale.z, oldLossyScale.z))
+                if (!Approximately(newLossyScale.z, oldLossyScale.z))
                     newZ = newLossyScale.z / t.parent.lossyScale.z;
 
-                Vector3 newScale = new Vector3(newX, newY, newZ);
+                Vector3 newScale = new(newX, newY, newZ);
                 if (IsInfinity(newScale))
-                    Debug.LogWarning("<color=yellow>Unable to set world scale</color> because the target world scale :" + newScale + " contains infinity. The most common cause of this issue is any object in it's parent hierarchy has scale with 0 value in any axis.", transform);
+                    Debug.LogWarning(
+                        "<color=yellow>Unable to set world scale</color> because the target world scale :" + newScale +
+                        " contains infinity. The most common cause of this issue is any object in it's parent hierarchy has scale with 0 value in any axis.",
+                        transform);
                 else
-                    t.localScale = new Vector3(newX, newY, newZ);
+                    t.localScale = new(newX, newY, newZ);
             }
             else
             {
@@ -2471,336 +2338,103 @@ namespace TinyGiantStudio.BetterInspector
             }
         }
 
-        private bool IsInfinity(Vector3 vector3)
+        Vector3 _nonZeroValue = Vector3.one;
+
+        Vector3 AspectRatioAppliedLocalScale(Vector3 currentLocalScale, Vector3 newLocalScale)
         {
-            if (vector3.x == Mathf.Infinity)
-                return true;
-            if (vector3.y == Mathf.Infinity)
-                return true;
-            if (vector3.z == Mathf.Infinity)
-                return true;
-
-            return false;
-        }
-
-        private Vector3 nonZeroValue = Vector3.one;
-
-        private Vector3 AspectRatioAppliedLocalScale(Vector3 currentLocalScale, Vector3 newLocalScale)
-        {
-            if (currentLocalScale.x != newLocalScale.x)
+            float multiplier;
+            if (!Approximately(currentLocalScale.x, newLocalScale.x))
             {
                 if (newLocalScale.x == 0)
-                    nonZeroValue = currentLocalScale;
+                    _nonZeroValue = currentLocalScale;
 
-                float multiplier = newLocalScale.x / currentLocalScale.x;
+                multiplier = newLocalScale.x / currentLocalScale.x;
 
                 if (float.IsFinite(multiplier))
-                    return new Vector3(newLocalScale.x, (currentLocalScale.y * multiplier), (currentLocalScale.z * multiplier));
-                else
-                {
-                    multiplier = newLocalScale.x / nonZeroValue.x;
-                    return new Vector3(newLocalScale.x, (nonZeroValue.y * multiplier), (nonZeroValue.z * multiplier));
-                }
+                    return new(newLocalScale.x, currentLocalScale.y * multiplier,
+                        currentLocalScale.z * multiplier);
+                multiplier = newLocalScale.x / _nonZeroValue.x;
+                return new(newLocalScale.x, _nonZeroValue.y * multiplier, _nonZeroValue.z * multiplier);
             }
-            else if (currentLocalScale.y != newLocalScale.y)
+
+            if (!Approximately(currentLocalScale.y, newLocalScale.y))
             {
                 if (newLocalScale.y == 0)
-                    nonZeroValue = currentLocalScale;
+                    _nonZeroValue = currentLocalScale;
 
-                float multiplier = newLocalScale.y / currentLocalScale.y;
+                multiplier = newLocalScale.y / currentLocalScale.y;
                 if (float.IsFinite(multiplier))
-                    return new Vector3((currentLocalScale.x * multiplier), newLocalScale.y, (currentLocalScale.z * multiplier));
-                else
-                {
-                    Debug.Log(newLocalScale);
-                    multiplier = newLocalScale.y / nonZeroValue.y;
-                    return new Vector3((nonZeroValue.x * multiplier), newLocalScale.y, (nonZeroValue.z * multiplier));
-                }
-            }
-            else if (currentLocalScale.z != newLocalScale.z)
-            {
-                if (newLocalScale.z == 0)
-                    nonZeroValue = currentLocalScale;
-
-                float multiplier = newLocalScale.z / currentLocalScale.z;
-                if (float.IsFinite(multiplier))
-                    return new Vector3((currentLocalScale.x * multiplier), (currentLocalScale.y * multiplier), newLocalScale.z);
-                else
-                {
-                    multiplier = newLocalScale.z / nonZeroValue.z;
-                    return new Vector3((nonZeroValue.x * multiplier), (nonZeroValue.y * multiplier), newLocalScale.z);
-                }
+                    return new(currentLocalScale.x * multiplier, newLocalScale.y,
+                        currentLocalScale.z * multiplier);
+                Debug.Log(newLocalScale);
+                multiplier = newLocalScale.y / _nonZeroValue.y;
+                return new(_nonZeroValue.x * multiplier, newLocalScale.y, _nonZeroValue.z * multiplier);
             }
 
-            return newLocalScale;
+            if (Approximately(currentLocalScale.z, newLocalScale.z)) return newLocalScale;
+            if (newLocalScale.z == 0)
+                _nonZeroValue = currentLocalScale;
+
+            multiplier = newLocalScale.z / currentLocalScale.z;
+            if (float.IsFinite(multiplier))
+                return new(currentLocalScale.x * multiplier, currentLocalScale.y * multiplier,
+                    newLocalScale.z);
+            multiplier = newLocalScale.z / _nonZeroValue.z;
+            return new(_nonZeroValue.x * multiplier, _nonZeroValue.y * multiplier, newLocalScale.z);
         }
 
-        private Vector3 AspectRatioAppliedWorldScale(Vector3 newLossyScale)
+        Vector3 AspectRatioAppliedWorldScale(Vector3 newLossyScale)
         {
             Vector3 currentLossyScale = transform.lossyScale;
 
             Vector3 currentLocalScale = transform.localScale;
             Vector3 newLocalScale = Multiply(transform.localScale, Divide(newLossyScale, transform.lossyScale));
-
-            if (currentLossyScale.x != newLossyScale.x)
+            float multiplier;
+            if (!Approximately(currentLossyScale.x, newLossyScale.x))
             {
                 if (newLossyScale.x == 0)
-                    nonZeroValue = currentLossyScale;
+                    _nonZeroValue = currentLossyScale;
 
-                float multiplier = newLossyScale.x / currentLossyScale.x;
+                multiplier = newLossyScale.x / currentLossyScale.x;
 
                 if (float.IsFinite(multiplier))
-                {
-                    return new Vector3(newLocalScale.x, (currentLocalScale.y * multiplier), (currentLocalScale.z * multiplier));
-                }
-                else
-                {
-                    multiplier = newLossyScale.x / nonZeroValue.x;
-                    return new Vector3(newLossyScale.x, (nonZeroValue.y * multiplier), (nonZeroValue.z * multiplier));
-                }
+                    return new(newLocalScale.x, currentLocalScale.y * multiplier,
+                        currentLocalScale.z * multiplier);
+
+                multiplier = newLossyScale.x / _nonZeroValue.x;
+                return new(newLossyScale.x, _nonZeroValue.y * multiplier, _nonZeroValue.z * multiplier);
             }
-            else if (currentLossyScale.y != newLossyScale.y)
+
+            if (!Approximately(currentLossyScale.y, newLossyScale.y))
             {
                 if (newLossyScale.y == 0)
-                    nonZeroValue = currentLossyScale;
+                    _nonZeroValue = currentLossyScale;
 
-                float multiplier = newLossyScale.y / currentLossyScale.y;
-
-                if (float.IsFinite(multiplier))
-                {
-                    return new Vector3((currentLocalScale.x * multiplier), newLocalScale.y, (currentLocalScale.z * multiplier));
-                }
-                else
-                {
-                    multiplier = newLossyScale.y / nonZeroValue.y;
-                    return new Vector3((nonZeroValue.x * multiplier), newLossyScale.y, (nonZeroValue.z * multiplier));
-                }
-            }
-            else if (currentLossyScale.z != newLossyScale.z)
-            {
-                if (newLossyScale.z == 0)
-                    nonZeroValue = currentLossyScale;
-
-                float multiplier = newLossyScale.z / currentLossyScale.z;
+                multiplier = newLossyScale.y / currentLossyScale.y;
 
                 if (float.IsFinite(multiplier))
-                {
-                    return new Vector3((currentLocalScale.x * multiplier), (currentLocalScale.y * multiplier), newLocalScale.z);
-                }
-                else
-                {
-                    multiplier = newLossyScale.z / nonZeroValue.z;
-                    return new Vector3((nonZeroValue.x * multiplier), (nonZeroValue.y * multiplier), newLossyScale.z);
-                }
+                    return new(currentLocalScale.x * multiplier, newLocalScale.y,
+                        currentLocalScale.z * multiplier);
+
+                multiplier = newLossyScale.y / _nonZeroValue.y;
+                return new(_nonZeroValue.x * multiplier, newLossyScale.y, _nonZeroValue.z * multiplier);
             }
 
-            return newLocalScale;
+            if (Approximately(currentLossyScale.z, newLossyScale.z)) return newLocalScale;
+            if (newLossyScale.z == 0)
+                _nonZeroValue = currentLossyScale;
+
+            multiplier = newLossyScale.z / currentLossyScale.z;
+
+            if (float.IsFinite(multiplier))
+                return new(currentLocalScale.x * multiplier, currentLocalScale.y * multiplier,
+                    newLocalScale.z);
+
+            multiplier = newLossyScale.z / _nonZeroValue.z;
+            return new(_nonZeroValue.x * multiplier, _nonZeroValue.y * multiplier, newLossyScale.z);
         }
 
         #endregion Scale
-
-        private void GetQuaternionFromCopyBuffer(out bool exists, out float x, out float y, out float z, out float w)
-        {
-            exists = false;
-            x = 0; y = 0; z = 0; w = 0;
-
-            string copyBuffer = EditorGUIUtility.systemCopyBuffer;
-            if (copyBuffer != null)
-            {
-                if (copyBuffer.Contains("Quaternion"))
-                {
-                    if (copyBuffer.Length > 9)
-                    {
-                        copyBuffer = copyBuffer.Substring(11, copyBuffer.Length - 12);
-                        string[] valueStrings = copyBuffer.Split(',');
-                        if (valueStrings.Length == 4)
-                        {
-                            if (float.TryParse(valueStrings[0], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out x))
-                                exists = true;
-
-                            if (exists)
-                            {
-                                if (!float.TryParse(valueStrings[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out y))
-                                    exists = false;
-                            }
-
-                            if (exists)
-                            {
-                                if (!float.TryParse(valueStrings[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out z))
-                                    exists = false;
-                            }
-                            if (exists)
-                            {
-                                if (!float.TryParse(valueStrings[3], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out w))
-                                    exists = false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        //todo: Remove duplicate code and use the one in Quick actions
-        private void GetVector3FromCopyBuffer(out bool exists, out float x, out float y, out float z)
-        {
-            exists = false;
-            x = 0; y = 0; z = 0;
-
-            string copyBuffer = EditorGUIUtility.systemCopyBuffer;
-            if (copyBuffer != null)
-            {
-                if (copyBuffer.Contains("Vector3"))
-                {
-                    if (copyBuffer.Length > 9)
-                    {
-                        copyBuffer = copyBuffer.Substring(8, copyBuffer.Length - 9);
-                        string[] valueStrings = copyBuffer.Split(',');
-                        if (valueStrings.Length == 3)
-                        {
-                            char userDecimalSeparator = Convert.ToChar(CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-
-                            string sanitizedValueString_x = valueStrings[0].Replace(userDecimalSeparator == ',' ? '.' : ',', userDecimalSeparator);
-                            if (float.TryParse(sanitizedValueString_x, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out x))
-                                exists = true;
-
-                            if (exists)
-                            {
-                                string sanitizedValueString_y = valueStrings[1].Replace(userDecimalSeparator == ',' ? '.' : ',', userDecimalSeparator);
-                                if (!float.TryParse(sanitizedValueString_y, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out y))
-                                    exists = false;
-                            }
-
-                            if (exists)
-                            {
-                                string sanitizedValueString_z = valueStrings[2].Replace(userDecimalSeparator == ',' ? '.' : ',', userDecimalSeparator);
-                                if (!float.TryParse(sanitizedValueString_z, System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out z))
-                                    exists = false;
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        private Vector3 GetVector3FromString(string value, out bool exists)
-        {
-            exists = false;
-            float x = 0;
-            float y = 0;
-            float z = 0;
-
-            if (value != null)
-            {
-                if (value.Contains("Vector3"))
-                {
-                    if (value.Length > 9)
-                    {
-                        value = value.Substring(8, value.Length - 9);
-                        string[] valueStrings = value.Split(',');
-                        if (valueStrings.Length == 3)
-                        {
-                            if (float.TryParse(valueStrings[0], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out x))
-                                exists = true;
-
-                            if (exists)
-                            {
-                                if (!float.TryParse(valueStrings[1], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out y))
-                                    exists = false;
-                            }
-
-                            if (exists)
-                            {
-                                if (!float.TryParse(valueStrings[2], System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.CurrentCulture, out z))
-                                    exists = false;
-                            }
-                        }
-                    }
-                }
-            }
-
-            return new Vector3(x, y, z);
-        }
-
-        private string hierarchyCopyIdentifier = "Hierarchy Copy";
-
-        //todo: Move this function to QuickActionsClass
-        private void CopyMultipleSelectToBuffer_position()
-        {
-            string copyString = hierarchyCopyIdentifier;
-
-            foreach (Transform t in targets.Cast<Transform>())
-            {
-                copyString += "\n";
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                    copyString += "Vector3" + t.position.ToString();
-                else
-                    copyString += "Vector3" + t.localPosition.ToString();
-            }
-
-            EditorGUIUtility.systemCopyBuffer = copyString;
-
-            UpdatePasteButtons();
-        }
-
-        private void CopyMultipleSelectToBuffer_scale()
-        {
-            string copyString = hierarchyCopyIdentifier;
-
-            foreach (Transform t in targets.Cast<Transform>())
-            {
-                copyString += "\n";
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                    copyString += "Vector3" + t.lossyScale.ToString();
-                else
-                    copyString += "Vector3" + t.localScale.ToString();
-            }
-
-            EditorGUIUtility.systemCopyBuffer = copyString;
-
-            UpdatePasteButtons();
-        }
-
-        private void CopyMultipleSelectToBuffer_rotation()
-        {
-            string copyString = hierarchyCopyIdentifier;
-
-            foreach (Transform t in targets.Cast<Transform>())
-            {
-                copyString += "\n";
-
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                    copyString += "Vector3" + t.eulerAngles.ToString();
-                else
-                    copyString += "Vector3" + t.localEulerAngles.ToString();
-            }
-
-            EditorGUIUtility.systemCopyBuffer = copyString;
-
-            UpdatePasteButtons();
-        }
-
-        private void GetVector3ListFromCopyBuffer(out bool exists, out List<string> values)
-        {
-            exists = true;
-            values = new List<string>();
-
-            string copyBuffer = EditorGUIUtility.systemCopyBuffer;
-
-            if (!copyBuffer.Contains(hierarchyCopyIdentifier))
-            {
-                exists = false;
-                return;
-            }
-
-            copyBuffer = copyBuffer.Substring(hierarchyCopyIdentifier.Length, copyBuffer.Length - hierarchyCopyIdentifier.Length);
-
-            string[] copiedItems = copyBuffer.Split('\n');
-            foreach (string s in copiedItems)
-            {
-                if (!string.IsNullOrEmpty(s))
-                    values.Add(s);
-            }
-        }
 
         #endregion Main Controls
 
@@ -2808,260 +2442,358 @@ namespace TinyGiantStudio.BetterInspector
 
         #region Variable
 
-        private GroupBox sizeFoldout;
-        private DropdownField unitDropDownField;
-        private Vector3Field sizeFoldoutField;
-        private GroupBox sizeCenterFoldoutGroup; //This is inside the size foldout
-        private Vector3Field sizeCenterFoldoutField;
-        private Bounds currentBound;
+        GroupBox _sizeFoldout;
 
-        private Button gizmoOnButton;
-        private Button gizmoOffButton;
+        /// <summary>
+        /// Contains the label and lock, unlock aspect ratio buttons
+        /// </summary>
+        GroupBox _sizeLabelGroupBox;
 
-        private Button hierarchySizeButton;
-        private Button selfSizeButton;
+        /// <summary>
+        /// Contains buttons for refresh, unit selection and other options to control size 
+        /// </summary>
+        GroupBox _sizeToolbox;
 
-        private Button sizeAspectRatioUnlocked;
-        private Button sizeAspectRatioLocked;
+        DropdownField _unitDropDownField;
+        Vector3Field _sizeFoldoutField;
+        GroupBox _sizeCenterFoldoutGroup; //This is inside the size foldout
+        Vector3Field _sizeCenterFoldoutField;
+        public Bounds currentBound;
 
-        private IntegerField maxChildCountForSizeCalculation;
+        Button _hierarchySizeButton;
+        Button _selfSizeButton;
 
-        private Button refreshSizeButton;
+        Button _sizeAspectRatioUnlocked;
+        Button _sizeAspectRatioLocked;
 
-        private Button rendererSizeButton;
-        private Button filterSizeButton;
+        IntegerField _maxChildCountForSizeCalculation;
 
-        private GroupBox inlineSizeGroupBox;
-        private GroupBox inlineSizeButtonsGroupBox;
+        /// <summary>
+        /// The text is updated with workspace
+        /// </summary>
+        Button _autoRefreshSizeButton;
 
-        private Button manualUpdateButton;
+        Button _refreshSizeButton;
 
-        private Vector3 targetVector3;
+        Button _rendererSizeButton;
+        Button _filterSizeButton;
 
-        private bool sizeSetupDone = false;
+        GroupBox _inlineSizeGroupBox;
+        GroupBox _inlineSizeButtonsGroupBox;
+
+        Button _manualUpdateButton;
+
+        /// <summary>
+        /// Contains the size copy, paste and rotation buttons
+        /// </summary>
+        GroupBox _sizeToolbar;
+
+        Label _sizeFoldoutInformationLabel;
+
+        Vector3 _targetVector3;
+
+        bool _sizeSetupDone;
 
         #endregion Variable
 
-        private void SetupSizeCommon()
+        void SetupSizeCommon()
         {
-            sizeFoldout = root.Q<GroupBox>("SizeFoldout");
+            _sizeFoldout = _root.Q<GroupBox>("SizeFoldout");
 
-            sizeFoldoutField = sizeFoldout.Q<Vector3Field>("SizeFoldoutField");
-            sizeCenterFoldoutGroup = sizeFoldout.Q<GroupBox>("SizeCenterFoldoutGroup");
-            sizeCenterFoldoutField = sizeCenterFoldoutGroup.Q<Vector3Field>("CenterFoldoutField");
+            _sizeFoldoutField = _sizeFoldout.Q<Vector3Field>("SizeFoldoutField");
+            _sizeCenterFoldoutGroup = _sizeFoldout.Q<GroupBox>("SizeCenterFoldoutGroup");
+            _sizeCenterFoldoutField = _sizeCenterFoldoutGroup.Q<Vector3Field>("CenterFoldoutField");
+            _sizeToolbox = _sizeFoldout.Q<GroupBox>("SizeToolbox");
         }
 
-        private void HideSize()
+        void HideSize()
         {
-            sizeFoldout.style.display = DisplayStyle.None;
+            _sizeFoldout.style.display = DisplayStyle.None;
 
-            if (inlineSizeGroupBox == null)
-                inlineSizeGroupBox = root.Q<GroupBox>("InlineSizeGroupBox");
-            if (inlineSizeButtonsGroupBox == null)
-                inlineSizeButtonsGroupBox = root.Q<GroupBox>("InlineSizeButtonsGroupBox");
+            _inlineSizeGroupBox ??= _root.Q<GroupBox>("InlineSizeGroupBox");
+            _inlineSizeGroupBox.style.display = DisplayStyle.None;
 
-            inlineSizeGroupBox.style.display = DisplayStyle.None;
-            inlineSizeButtonsGroupBox.style.display = DisplayStyle.None;
+            _inlineSizeButtonsGroupBox ??= _root.Q<GroupBox>("InlineSizeButtonsGroupBox");
+            _inlineSizeButtonsGroupBox.style.display = DisplayStyle.None;
         }
 
-        private void SetupSize(CustomFoldoutSetup customFoldoutSetup)
+        /// <summary>
+        /// Doesn't do anything if size has already been set up
+        /// </summary>
+        void SetupSize()
         {
-            if (sizeSetupDone) return;
+            if (_sizeSetupDone) return;
+            _sizeSetupDone = true;
 
-            sizeSetupDone = true;
+            CustomFoldout.SetupFoldout(_sizeFoldout);
 
-            customFoldoutSetup.SetupFoldout(sizeFoldout);
+            _sizeFoldoutInformationLabel = _root.Q<Label>("sizeInformationLabel");
 
-            sizeFoldoutInformationLabel = root.Q<Label>("sizeInformationLabel");
+            if (_betterTransformSettings.ShowSizeFoldout && targets.Length == 1)
+                _sizeFoldout.style.display = DisplayStyle.Flex;
+            else _sizeFoldout.style.display = DisplayStyle.None;
 
-            if (editorSettings.ShowSizeFoldout && targets.Length == 1)
-                sizeFoldout.style.display = DisplayStyle.Flex;
-            else
-                sizeFoldout.style.display = DisplayStyle.None;
-
-            unitDropDownField = sizeFoldout.Q<DropdownField>("UnitsDropDownField");
-            if (ScalesFinder.MyScales().GetAvailableUnits().ToList().Count == 0) ScalesFinder.MyScales().Reset();
-            unitDropDownField.choices = ScalesFinder.MyScales().GetAvailableUnits().ToList();
-            unitDropDownField.index = ScalesFinder.MyScales().selectedUnit;
-            unitDropDownField.RegisterValueChangedCallback(ev =>
+            _sizeFoldoutField.schedule.Execute(() =>
             {
-                var myScales = ScalesFinder.MyScales();
-                myScales.selectedUnit = unitDropDownField.index;
-                EditorUtility.SetDirty(myScales);
+                _sizeFoldoutField.RegisterValueChangedCallback(_ =>
+                {
+                    _sizeFoldoutField.schedule.Execute(SetSizeAsync).ExecuteLater(500);
+                });
+            }).ExecuteLater(100);
 
-                UpdateSize();
-            });
+            _sizeCenterFoldoutGroup.SetEnabled(false);
+            _sizeAspectRatioLocked = _sizeFoldout.Q<Button>("AspectRatioLocked");
+            _sizeAspectRatioUnlocked = _sizeFoldout.Q<Button>("AspectRatioUnlocked");
 
-            sizeFoldoutField.RegisterValueChangedCallback(ev =>
+            _sizeAspectRatioLocked.clicked += () =>
             {
-                sizeFoldoutField.schedule.Execute(() => SetSizeAsynch()).ExecuteLater(500);
-            });
-
-            sizeCenterFoldoutGroup.SetEnabled(false);
-
-            refreshSizeButton = sizeFoldout.Q<Button>("RefreshSizeButton");
-            refreshSizeButton.clicked += () =>
-            {
-                UpdateSize();
-            };
-
-            gizmoOnButton = sizeFoldout.Q<Button>("GizmoOn");
-            gizmoOnButton.clicked += () =>
-            {
-                editorSettings.ShowSizeGizmo = false;
-                UpdateSize_ShowGizmoButton();
-                SceneView.RepaintAll();
-            };
-            gizmoOffButton = sizeFoldout.Q<Button>("GizmoOff");
-            gizmoOffButton.clicked += () =>
-            {
-                editorSettings.ShowSizeGizmo = true;
-                UpdateSize_ShowGizmoButton();
-                SceneView.RepaintAll();
-            };
-            UpdateSize_ShowGizmoButton();
-
-            hierarchySizeButton = sizeFoldout.Q<Button>("HierarchySize");
-            selfSizeButton = sizeFoldout.Q<Button>("SelfSize");
-
-            sizeAspectRatioLocked = sizeFoldout.Q<Button>("AspectRatioLocked");
-            sizeAspectRatioLocked.clicked += () =>
-            {
-                editorSettings.LockSizeAspectRatio = false;
+                _betterTransformSettings.LockSizeAspectRatio = false;
                 UpdateSize_AspectRationButton();
                 UpdateScaleAspectRationButton();
             };
 
-            sizeAspectRatioUnlocked = sizeFoldout.Q<Button>("AspectRatioUnlocked");
-            sizeAspectRatioUnlocked.clicked += () =>
+            _sizeAspectRatioUnlocked.clicked += () =>
             {
-                editorSettings.LockSizeAspectRatio = true;
+                _betterTransformSettings.LockSizeAspectRatio = true;
                 UpdateSize_AspectRationButton();
                 UpdateScaleAspectRationButton();
             };
-
-            hierarchySizeButton.clicked += () =>
-            {
-                editorSettings.IncludeChildBounds = false;
-                UpdateSizeInclusionButtons();
-
-                SceneView.RepaintAll();
-            };
-            selfSizeButton.clicked += () =>
-            {
-                editorSettings.IncludeChildBounds = true;
-                UpdateSizeInclusionButtons();
-
-                SceneView.RepaintAll();
-            };
-
             UpdateSize_AspectRationButton();
 
-            sizeCopyButton = sizeFoldout.Q<Button>("Copy");
-            sizeCopyButton.clicked += () =>
-            {
-                float unitMultiplier = ScalesFinder.MyScales().CurrentUnitValue();
-                //EditorGUIUtility.systemCopyBuffer = "Vector3" + RoundedVector3(currentBound.size * unitMultiplier).ToString();
-                EditorGUIUtility.systemCopyBuffer = "Vector3" + (currentBound.size * unitMultiplier).ToString("F20");
-            };
+            SetupSizeToolbar();
 
-            sizePasteButton = sizeFoldout.Q<Button>("Paste");
-            sizePasteButton.clicked += () =>
+            SetupSizeToolbox();
+
+            _inlineSizeGroupBox = _root.Q<GroupBox>("InlineSizeGroupBox");
+            _inlineSizeButtonsGroupBox = _root.Q<GroupBox>("InlineSizeButtonsGroupBox");
+            UpdateSizeViewType();
+        }
+
+        void AutoUpdateSizeAfterValueChanged()
+        {
+            if (originalTransform) //This is a subinspector
+                return;
+            if (Application.isPlaying)
             {
-                GetVector3FromCopyBuffer(out bool exists, out float x, out float y, out float z);
+                if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
+                {
+                    if (!_betterTransformSettings.autoRefreshSizeInLocalSpaceInPlaymode)
+                        return;
+                    else
+                        UpdateSize();
+                }
+            }
+
+            if (_betterTransformSettings.autoRefreshSize) UpdateSize();
+        }
+
+        void SetupSizeToolbox()
+        {
+            _refreshSizeButton = _sizeToolbox.Q<Button>("RefreshSizeButton");
+            _autoRefreshSizeButton = _sizeToolbox.Q<Button>("AutoRefreshSizeButton");
+            UpdateAutoRefreshButton();
+
+            _hierarchySizeButton = _sizeToolbox.Q<Button>("HierarchySize");
+            _selfSizeButton = _sizeToolbox.Q<Button>("SelfSize");
+
+            _rendererSizeButton = _sizeToolbox.Q<Button>("RendererSizeButton");
+            _filterSizeButton = _sizeToolbox.Q<Button>("FilterSizeButton");
+
+            _sizeToolbox.schedule.Execute(() =>
+            {
+                _autoRefreshSizeButton.clicked += ToggleAutoRefreshSize;
+                _refreshSizeButton.clicked += () => { UpdateSize(); };
+
+                _hierarchySizeButton.clicked += () =>
+                {
+                    _betterTransformSettings.IncludeChildBounds = false;
+                    UpdateSizeInclusionButtons();
+
+                    SceneView.RepaintAll();
+                };
+                _selfSizeButton.clicked += () =>
+                {
+                    _betterTransformSettings.IncludeChildBounds = true;
+                    UpdateSizeInclusionButtons();
+
+                    SceneView.RepaintAll();
+                };
+                _rendererSizeButton.clicked += () =>
+                {
+                    _betterTransformSettings.CurrentSizeType = BetterTransformSettings.SizeType.Filter;
+                    UpdateSizeTypeButtons();
+                    UpdateSize();
+                    SceneView.RepaintAll();
+                };
+                _filterSizeButton.clicked += () =>
+                {
+                    _betterTransformSettings.CurrentSizeType = BetterTransformSettings.SizeType.Renderer;
+                    UpdateSizeTypeButtons();
+                    UpdateSize();
+                    SceneView.RepaintAll();
+                };
+            }).ExecuteLater(1000);
+
+
+            if (_betterTransformSettings.IncludeChildBounds)
+            {
+                _hierarchySizeButton.style.display = DisplayStyle.Flex;
+                _selfSizeButton.style.display = DisplayStyle.None;
+            }
+            else
+            {
+                _hierarchySizeButton.style.display = DisplayStyle.None;
+                _selfSizeButton.style.display = DisplayStyle.Flex;
+            }
+
+            if (_betterTransformSettings.ShowSizeCenter)
+                _sizeCenterFoldoutGroup.style.display = DisplayStyle.Flex;
+            else
+                _sizeCenterFoldoutGroup.style.display = DisplayStyle.None;
+
+
+            UpdateSizeTypeButtons();
+
+            SetupUnitDropDownField();
+        }
+
+        void UpdateAutoRefreshButton()
+        {
+            if (originalTransform != null) //This is the original transform
+            {
+                UpdateAutoRefreshButtonVisual(false);
+                _autoRefreshSizeButton.tooltip = "Can't auto refresh size on sub inspectors";
+                _autoRefreshSizeButton.SetEnabled(false);
+                return;
+            }
+
+            if (Application.isPlaying)
+            {
+                if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
+                {
+                    UpdateAutoRefreshButtonVisual(_betterTransformSettings.autoRefreshSizeInLocalSpaceInPlaymode);
+                    return;
+                }
+            }
+
+            UpdateAutoRefreshButtonVisual(_betterTransformSettings.autoRefreshSize);
+        }
+
+        void UpdateAutoRefreshButtonVisual(bool state)
+        {
+            if (_autoRefreshSizeButton == null) return;
+            if (state)
+            {
+                _autoRefreshSizeButton.text = "Auto Refresh";
+                _autoRefreshSizeButton.style.opacity = 1;
+            }
+            else
+            {
+                _autoRefreshSizeButton.text = "A̶u̶t̶o̶ ̶R̶e̶f̶r̶e̶s̶h̶";
+                _autoRefreshSizeButton.style.opacity = 0.35f;
+            }
+        }
+
+        void ToggleAutoRefreshSize()
+        {
+            if (Application.isPlaying)
+            {
+                if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Local)
+                {
+                    _betterTransformSettings.autoRefreshSizeInLocalSpaceInPlaymode =
+                        !_betterTransformSettings.autoRefreshSizeInLocalSpaceInPlaymode;
+                    // UpdateAutoRefreshButton();
+                    UpdateMainControls(); //This calls the UpdateAutoRefreshButton(); as well.
+                    return;
+                }
+            }
+
+            _betterTransformSettings.autoRefreshSize = !_betterTransformSettings.autoRefreshSize;
+            UpdateAutoRefreshButton();
+        }
+
+        void SetupSizeToolbar()
+        {
+            //Added these two because a user reported null reference error. Couldn't replicate the source of the bug
+            _sizeFoldout ??= _root.Q<GroupBox>("SizeFoldout");
+            _sizeToolbar ??= _sizeFoldout.Q<GroupBox>("SizeToolbar");
+
+            if (_sizeToolbar == null) return;
+            
+            _sizeToolbar.Q<Button>("Paste").clicked += () =>
+            {
+                QuickActions.GetVector3FromCopyBuffer(out bool exists, out float x, out float y, out float z);
                 if (!exists)
                     return;
 
                 Undo.RecordObject(transform, "Size Paste on " + transform.gameObject.name);
-                SetSize(new Vector3(x, y, z));
+                SetSize(new(x, y, z));
                 EditorUtility.SetDirty(transform);
 
-                float unitMultiplier = ScalesFinder.MyScales().CurrentUnitValue();
-                sizeFoldoutField.SetValueWithoutNotify(RoundedVector3(currentBound.size * unitMultiplier));
-                sizeCenterFoldoutField.SetValueWithoutNotify(RoundedVector3(currentBound.center * unitMultiplier));
+                float unitMultiplier = ScalesManager.instance.CurrentUnitValue();
+                _sizeFoldoutField.SetValueWithoutNotify(TrimVectorNoise(currentBound.size * unitMultiplier));
+                _sizeCenterFoldoutField.SetValueWithoutNotify(TrimVectorNoise(currentBound.center * unitMultiplier));
             };
 
-            sizeResetButton = sizeFoldout.Q<Button>("Reset");
-            sizeResetButton.clicked += () =>
+            _sizeToolbar.Q<Button>("Reset").clicked += () =>
             {
                 Undo.RecordObject(transform, "Size Reset on " + transform.gameObject.name);
                 SetSize(Vector3.one);
                 EditorUtility.SetDirty(transform);
 
-                float unitMultiplier = ScalesFinder.MyScales().CurrentUnitValue();
-                sizeFoldoutField.SetValueWithoutNotify(RoundedVector3(Vector3.one * unitMultiplier));
-                sizeCenterFoldoutField.SetValueWithoutNotify(RoundedVector3(currentBound.center * unitMultiplier));
+                float unitMultiplier = ScalesManager.instance.CurrentUnitValue();
+                _sizeFoldoutField.SetValueWithoutNotify(TrimVectorNoise(Vector3.one * unitMultiplier));
+                _sizeCenterFoldoutField.SetValueWithoutNotify(TrimVectorNoise(currentBound.center * unitMultiplier));
             };
-
-            inlineSizeGroupBox = root.Q<GroupBox>("InlineSizeGroupBox");
-            inlineSizeButtonsGroupBox = root.Q<GroupBox>("InlineSizeButtonsGroupBox");
-            SetupInLineSizeView();
-
-            if (editorSettings.IncludeChildBounds)
-            {
-                hierarchySizeButton.style.display = DisplayStyle.Flex;
-                selfSizeButton.style.display = DisplayStyle.None;
-            }
-            else
-            {
-                hierarchySizeButton.style.display = DisplayStyle.None;
-                selfSizeButton.style.display = DisplayStyle.Flex;
-            }
-
-            if (editorSettings.ShowSizeCenter)
-                sizeCenterFoldoutGroup.style.display = DisplayStyle.Flex;
-            else
-                sizeCenterFoldoutGroup.style.display = DisplayStyle.None;
-
-            rendererSizeButton = root.Q<Button>("RendererSizeButton");
-            rendererSizeButton.clicked += () =>
-            {
-                editorSettings.CurrentSizeType = BetterTransformSettings.SizeType.Filter;
-                UpdateSizeTypeButtons();
-                UpdateSize();
-            };
-            filterSizeButton = root.Q<Button>("FilterSizeButton");
-            filterSizeButton.clicked += () =>
-            {
-                editorSettings.CurrentSizeType = BetterTransformSettings.SizeType.Renderer;
-                UpdateSizeTypeButtons();
-                UpdateSize();
-            };
-            UpdateSizeTypeButtons();
-
-            maxChildCountForSizeCalculation = root.Q<IntegerField>("MaxChildCountForSizeCalculation");
-            maxChildCountForSizeCalculation.value = editorSettings.MaxChildCountForSizeCalculation;
-            maxChildCountForSizeCalculation.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.MaxChildCountForSizeCalculation = ev.newValue;
-            });
         }
 
-        private bool manuallyUpdatedSize = false;
-
-        private void CreateTooManyChildForAutoSizeCalculationWarning()
+        void SetupUnitDropDownField()
         {
-            manualUpdateButton = new Button();
-            manualUpdateButton.text = "Check Size";
-            manualUpdateButton.tooltip = "Too many child objects for automatic size calculation. You can change the amount from setting.";
-            manualUpdateButton.clicked += () =>
+            _unitDropDownField = _sizeFoldout.Q<DropdownField>("UnitsDropDownField");
+            if (ScalesManager.instance.GetAvailableUnits().ToList().Count == 0) ScalesManager.instance.Reset();
+            _unitDropDownField.choices = ScalesManager.instance.GetAvailableUnits().ToList();
+            _unitDropDownField.index = ScalesManager.instance.SelectedUnit;
+            _unitDropDownField.schedule.Execute(() =>
             {
-                manuallyUpdatedSize = true;
+                _unitDropDownField.RegisterValueChangedCallback(_ =>
+                {
+                    ScalesManager myScales = ScalesManager.instance;
+                    myScales.SelectedUnit = _unitDropDownField.index;
+                    EditorUtility.SetDirty(myScales);
+
+                    UpdateSize();
+                });
+            }).ExecuteLater(100);
+        }
+
+        bool _manuallyUpdatedSize;
+
+        void CreateTooManyChildForAutoSizeCalculationWarning()
+        {
+            _manualUpdateButton = new()
+            {
+                text = "Check Size",
+                tooltip =
+                    "Too many child objects for automatic size calculation. You can change the amount from setting."
+            };
+            _manualUpdateButton.clicked += () =>
+            {
+                _manuallyUpdatedSize = true;
                 UpdateSize();
             };
 
-            var rootHolder = root.Q<VisualElement>("RootHolder");
-            int index = rootHolder.IndexOf(sizeFoldout);
-            rootHolder.Insert(index, manualUpdateButton);
+            VisualElement rootHolder = _root.Q<VisualElement>("RootHolder");
+            int index = rootHolder.IndexOf(_sizeFoldout);
+            rootHolder.Insert(index, _manualUpdateButton);
             //root.Add(manualUpdateButton);
         }
 
-        private void UpdateSizeTypeButtons()
+        void UpdateSizeTypeButtons()
         {
-            var rendererSizeButton = root.Q<Button>("RendererSizeButton");
-            var filterSizeButton = root.Q<Button>("FilterSizeButton");
+            Button rendererSizeButton = _root.Q<Button>("RendererSizeButton");
+            Button filterSizeButton = _root.Q<Button>("FilterSizeButton");
 
-            if (editorSettings.CurrentSizeType == BetterTransformSettings.SizeType.Filter)
+            if (_betterTransformSettings.CurrentSizeType == BetterTransformSettings.SizeType.Filter)
             {
                 rendererSizeButton.style.display = DisplayStyle.None;
                 filterSizeButton.style.display = DisplayStyle.Flex;
@@ -3073,222 +2805,222 @@ namespace TinyGiantStudio.BetterInspector
             }
         }
 
-        private void SetupInLineSizeView()
-        {
-            if (editorSettings.ShowSizeInLine)
-            {
-                inlineSizeGroupBox.Add(sizeFoldoutField.parent.parent);
-                inlineSizeButtonsGroupBox.Add(unitDropDownField);
-                inlineSizeButtonsGroupBox.Add(sizeFoldout.Q<GroupBox>("SizeTypeGroupBox"));
-                inlineSizeButtonsGroupBox.Add(sizeFoldout.Q<GroupBox>("CalculationTypeGroupBox"));
-                inlineSizeButtonsGroupBox.Add(sizeFoldout.Q<GroupBox>("GizmoGroupBox"));
-            }
-        }
 
-        private void UpdateSizeFoldout()
+        void UpdateSizeFoldout()
         {
-            if (editorSettings.ShowSizeFoldout && targets.Length == 1)
-                sizeFoldout.style.display = DisplayStyle.Flex;
+            if (_betterTransformSettings.ShowSizeFoldout && targets.Length == 1)
+                _sizeFoldout.style.display = DisplayStyle.Flex;
             else
-                sizeFoldout.style.display = DisplayStyle.None;
+                _sizeFoldout.style.display = DisplayStyle.None;
 
-            if (editorSettings.ShowSizeFoldout || editorSettings.ShowSizeInLine)
+            if (_betterTransformSettings.ShowSizeFoldout || _betterTransformSettings.ShowSizeInLine)
             {
-                if (ScalesFinder.MyScales().GetAvailableUnits().ToList().Count == 0) ScalesFinder.MyScales().Reset();
-                unitDropDownField.choices = ScalesFinder.MyScales().GetAvailableUnits().ToList();
+                if (ScalesManager.instance.GetAvailableUnits().ToList().Count == 0) ScalesManager.instance.Reset();
+                _unitDropDownField.choices = ScalesManager.instance.GetAvailableUnits().ToList();
 
-                unitDropDownField.index = ScalesFinder.MyScales().selectedUnit;
+                _unitDropDownField.index = ScalesManager.instance.SelectedUnit;
 
                 UpdateSizeInclusionButtons();
             }
 
-            if (editorSettings.ShowSizeCenter)
-                sizeCenterFoldoutGroup.style.display = DisplayStyle.Flex;
+            if (_betterTransformSettings.ShowSizeCenter)
+                _sizeCenterFoldoutGroup.style.display = DisplayStyle.Flex;
             else
-                sizeCenterFoldoutGroup.style.display = DisplayStyle.None;
+                _sizeCenterFoldoutGroup.style.display = DisplayStyle.None;
         }
 
         /// <summary>
-        /// SetupInLineSizeView() is called to update this first time
+        /// Toggles between inline and foldout size view
         /// </summary>
-        private void UpdateInLineSizeView()
+        void UpdateSizeViewType()
         {
-            if (editorSettings.ShowSizeInLine)
+            if (_betterTransformSettings.ShowSizeInLine)
             {
-                inlineSizeGroupBox.Add(sizeFoldoutField.parent.parent);
-
-                inlineSizeButtonsGroupBox.Add(unitDropDownField);
-                inlineSizeButtonsGroupBox.Add(sizeFoldout.Q<GroupBox>("SizeTypeGroupBox"));
-                inlineSizeButtonsGroupBox.Add(sizeFoldout.Q<GroupBox>("CalculationTypeGroupBox"));
-                inlineSizeButtonsGroupBox.Add(sizeFoldout.Q<GroupBox>("GizmoGroupBox"));
+                _inlineSizeGroupBox.Add(_sizeFoldoutField.parent.parent);
+                _inlineSizeButtonsGroupBox.Add(_sizeToolbox);
             }
             else //show size in foldout
             {
-                GroupBox content = sizeFoldout.Q<GroupBox>("Content");
-                content.Insert(0, sizeFoldoutField.parent.parent);
-
-                GroupBox InlineSizeButtonsGroupBox = root.Q<GroupBox>("InlineSizeButtonsGroupBox");
-
-                GroupBox header = sizeFoldout.Q<GroupBox>("Header");
-                header.Add(InlineSizeButtonsGroupBox.Q<GroupBox>("GizmoGroupBox"));
-                header.Add(InlineSizeButtonsGroupBox.Q<GroupBox>("SizeTypeGroupBox"));
-                header.Add(InlineSizeButtonsGroupBox.Q<GroupBox>("CalculationTypeGroupBox"));
-                header.Add(unitDropDownField);
+                GroupBox content = _sizeFoldout.Q<GroupBox>("Content");
+                content.Insert(0, _sizeFoldoutField.parent.parent);
+                GroupBox header = _sizeFoldout.Q<GroupBox>("Header");
+                header.Add(_sizeToolbox);
             }
         }
 
-        private void UpdateSize_ShowGizmoButton()
+        void UpdateSize_AspectRationButton()
         {
-            if (editorSettings.ShowSizeGizmo)
+            if (_betterTransformSettings.LockSizeAspectRatio)
             {
-                gizmoOnButton.style.display = DisplayStyle.Flex;
-                gizmoOffButton.style.display = DisplayStyle.None;
+                _sizeAspectRatioLocked.style.display = DisplayStyle.Flex;
+                _sizeAspectRatioUnlocked.style.display = DisplayStyle.None;
             }
             else
             {
-                gizmoOnButton.style.display = DisplayStyle.None;
-                gizmoOffButton.style.display = DisplayStyle.Flex;
+                _sizeAspectRatioLocked.style.display = DisplayStyle.None;
+                _sizeAspectRatioUnlocked.style.display = DisplayStyle.Flex;
             }
         }
 
-        private void UpdateSize_AspectRationButton()
+        void UpdateSizeInclusionButtons()
         {
-            if (editorSettings.LockSizeAspectRatio)
+            if (_betterTransformSettings.IncludeChildBounds)
             {
-                sizeAspectRatioLocked.style.display = DisplayStyle.Flex;
-                sizeAspectRatioUnlocked.style.display = DisplayStyle.None;
+                _hierarchySizeButton.style.display = DisplayStyle.Flex;
+                _selfSizeButton.style.display = DisplayStyle.None;
             }
             else
             {
-                sizeAspectRatioLocked.style.display = DisplayStyle.None;
-                sizeAspectRatioUnlocked.style.display = DisplayStyle.Flex;
+                _hierarchySizeButton.style.display = DisplayStyle.None;
+                _selfSizeButton.style.display = DisplayStyle.Flex;
             }
+
+            UpdateSize();
         }
 
-        private void UpdateSizeInclusionButtons()
-        {
-            if (editorSettings.IncludeChildBounds)
-            {
-                hierarchySizeButton.style.display = DisplayStyle.Flex;
-                selfSizeButton.style.display = DisplayStyle.None;
-                UpdateSize();
-            }
-            else
-            {
-                hierarchySizeButton.style.display = DisplayStyle.None;
-                selfSizeButton.style.display = DisplayStyle.Flex;
-                UpdateSize();
-            }
-        }
 
-        private Button sizeCopyButton;
-        private Button sizePasteButton;
-        private Button sizeResetButton;
-        private Label sizeFoldoutInformationLabel;
-
-        private void UpdateSize(bool showWarningIfTooManyChild = false)
+        void UpdateSize(bool showWarningIfTooManyChild = false)
         {
             if (targets.Length != 1) return;
 
             //If not showing the size foldout, no need to update it
-            if (!editorSettings.ShowSizeFoldout && !editorSettings.ShowSizeInLine) return;
+            if (!_betterTransformSettings.ShowSizeFoldout && !_betterTransformSettings.ShowSizeInLine) return;
 
             //On domain reload, the reference is lost.
-            if (sizeFoldout == null)
+            if (_sizeFoldout == null)
             {
-                sizeSetupDone = false;
+                _sizeSetupDone = false;
 
-                SetupSize(new CustomFoldoutSetup());
+                SetupSize();
                 //Debug.Log("size foldout setup was required.");
             }
 
             currentBound = CheckSize(transform, showWarningIfTooManyChild);
 
-            //Do not show size foldout if the object has zero size, aka, no renderer
+            //Do not show size foldout if the object's size is zero
             if (currentBound.size == Vector3.zero)
             {
-                sizeFoldoutInformationLabel ??= root.Q<Label>("sizeInformationLabel");
-                if (sizeFoldoutInformationLabel != null) //If it is still not found for some reason.
+                _sizeFoldoutInformationLabel ??= _root.Q<Label>("sizeInformationLabel");
+                if (_sizeFoldoutInformationLabel != null) //If it is still not found for some reason.
                 {
-                    if (editorSettings.showWhySizeIsHiddenLabel)
+                    if (_betterTransformSettings.showWhySizeIsHiddenLabel)
                     {
-                        sizeFoldoutInformationLabel.style.display = DisplayStyle.Flex;
-                        if (!editorSettings.IncludeChildBounds)
+                        _sizeFoldoutInformationLabel.style.display = DisplayStyle.Flex;
+
+                        if (!_betterTransformSettings.IncludeChildBounds)
                         {
                             if (transform.childCount > 0)
-                                sizeFoldoutInformationLabel.text = "Size is hidden because this object has no mesh with size and child object's size is ignored because self size is selected";
+                            {
+                                _sizeFoldoutInformationLabel.text =
+                                    "Size is hidden because this object has no mesh with size and child object's size is ignored because self size is selected";
+                            }
                             else
-                                sizeFoldoutInformationLabel.text = "Size is hidden because this object has no mesh with size.";
-                            sizeFoldoutInformationLabel.tooltip = "Showing zero size on an empty game object can be misleading."; //todo add a note about how to swap to hierarchy size.
+                            {
+                                _sizeFoldoutInformationLabel.text = _betterTransformSettings.CurrentSizeType switch
+                                {
+                                    BetterTransformSettings.SizeType.Filter when transform.GetComponent<Renderer>() !=
+                                        null =>
+                                        "Size is hidden because size type of filter is selected and this object has a renderer.",
+                                    BetterTransformSettings.SizeType.Renderer when
+                                        _betterTransformSettings.ignoreParticleAndVFXInSizeCalculation &&
+                                        (transform.GetComponent<ParticleSystem>() != null ||
+                                         transform.GetComponent<VisualEffect>()) =>
+                                        "Size is hidden because the size of particle systems and visual effect are ignored in setting.",
+                                    _ => "Size is hidden because this object has no mesh with size."
+                                };
+                            }
                         }
                         else
                         {
-                            if (manuallyUpdatedSize) //Pressed the check size button
-                                sizeFoldoutInformationLabel.text = "Size is hidden because this object and it's child objects have no mesh with size.";
+                            if (_manuallyUpdatedSize) //Pressed the check size button
+                            {
+                                _sizeFoldoutInformationLabel.text =
+                                    "Size is hidden because this object and it's child objects have no mesh with size.";
+                            }
                             else
                             {
                                 if (transform.childCount > 0)
-                                    sizeFoldoutInformationLabel.text = "Size is hidden because this object and it's child objects have no mesh with size or size needs to be updated.";
+                                {
+                                    _sizeFoldoutInformationLabel.text =
+                                        "Size is hidden because this object and it's child objects have no mesh with size or size needs to be updated.";
+                                }
                                 else
-                                    sizeFoldoutInformationLabel.text = "Size is hidden because this object has no mesh with size.";
+                                {
+                                    _sizeFoldoutInformationLabel.text = _betterTransformSettings.CurrentSizeType switch
+                                    {
+                                        BetterTransformSettings.SizeType.Filter when
+                                            transform.GetComponent<Renderer>() != null =>
+                                            "Size is hidden because size type of filter is selected and this object has a renderer.",
+                                        BetterTransformSettings.SizeType.Renderer when _betterTransformSettings
+                                                .ignoreParticleAndVFXInSizeCalculation &&
+                                            (transform.GetComponent<ParticleSystem>() != null ||
+                                             transform.GetComponent<VisualEffect>()) =>
+                                            "Size is hidden because the size of particle systems and visual effect are ignored in setting.",
+                                        _ => "Size is hidden because this object has no mesh with size."
+                                    };
+                                }
                             }
-                            sizeFoldoutInformationLabel.tooltip = "Showing zero size on an empty game object can be misleading.";
                         }
                     }
                     else
                     {
-                        sizeFoldoutInformationLabel.style.display = DisplayStyle.None;
+                        _sizeFoldoutInformationLabel.style.display = DisplayStyle.None;
                     }
                 }
+
                 HideSize();
 
                 return;
             }
 
-            sizeFoldoutInformationLabel.style.display = DisplayStyle.None;
+            _sizeFoldoutInformationLabel ??= _root.Q<Label>("sizeInformationLabel");
+            if (_sizeFoldoutInformationLabel != null) //Paranoid if statement. Its 5AM and I am still working
+                _sizeFoldoutInformationLabel.style.display = DisplayStyle.None;
 
-            if (editorSettings.ShowSizeFoldout && targets.Length == 1)
-                sizeFoldout.style.display = DisplayStyle.Flex;
-            else if (editorSettings.ShowSizeInLine && targets.Length == 1)
+            if (_betterTransformSettings.ShowSizeFoldout && targets.Length == 1)
             {
-                if (inlineSizeButtonsGroupBox == null)
-                    inlineSizeGroupBox = root.Q<GroupBox>("InlineSizeGroupBox");
-                inlineSizeGroupBox.style.display = DisplayStyle.Flex;
+                // ReSharper disable once PossibleNullReferenceException
+                _sizeFoldout.style.display = DisplayStyle.Flex;
+            }
+            else if (_betterTransformSettings.ShowSizeInLine && targets.Length == 1)
+            {
+                if (_inlineSizeButtonsGroupBox == null)
+                    _inlineSizeGroupBox = _root.Q<GroupBox>("InlineSizeGroupBox");
+                _inlineSizeGroupBox.style.display = DisplayStyle.Flex;
 
-                if (inlineSizeButtonsGroupBox == null)
-                    inlineSizeButtonsGroupBox = root.Q<GroupBox>("InlineSizeButtonsGroupBox");
-                inlineSizeButtonsGroupBox.style.display = DisplayStyle.Flex;
+                _inlineSizeButtonsGroupBox ??= _root.Q<GroupBox>("InlineSizeButtonsGroupBox");
+                _inlineSizeButtonsGroupBox.style.display = DisplayStyle.Flex;
             }
 
-            float unitMultiplier = ScalesFinder.MyScales().CurrentUnitValue();
+            float unitMultiplier = ScalesManager.instance.CurrentUnitValue();
 
-            if (sizeFoldoutField == null)
-                SetupSize(customFoldoutSetup);
+            if (_sizeFoldoutField == null)
+                SetupSize();
 
-            sizeFoldoutField.SetValueWithoutNotify(RoundedVector3(currentBound.size * unitMultiplier));
-
-            sizeCenterFoldoutField.SetValueWithoutNotify(RoundedVector3(currentBound.center * unitMultiplier));
+            // ReSharper disable once PossibleNullReferenceException
+            _sizeFoldoutField.SetValueWithoutNotify(TrimVectorNoise(currentBound.size * unitMultiplier));
+            _sizeCenterFoldoutField.SetValueWithoutNotify(TrimVectorNoise(currentBound.center * unitMultiplier));
         }
 
-        private void SetSizeAsynch()
+        void SetSizeAsync()
         {
-            targetVector3 = sizeFoldoutField.value;
+            _targetVector3 = _sizeFoldoutField.value;
 
-            float minimum = 0.1f;
-            if (targetVector3.x <= minimum) targetVector3.x = minimum;
-            if (targetVector3.y <= minimum) targetVector3.y = minimum;
-            if (targetVector3.z <= minimum) targetVector3.z = minimum;
+            const float minimum = 0.1f;
+            if (_targetVector3.x <= minimum) _targetVector3.x = minimum;
+            if (_targetVector3.y <= minimum) _targetVector3.y = minimum;
+            if (_targetVector3.z <= minimum) _targetVector3.z = minimum;
 
-            SetSize(targetVector3);
+            SetSize(_targetVector3);
         }
 
         /// <summary>
-        /// Settings the size
+        ///     Settings the size
         /// </summary>
         /// <param name="newSize"></param>
-        private void SetSize(Vector3 newSize)
+        void SetSize(Vector3 newSize)
         {
-            float unitMultiplier = ScalesFinder.MyScales().CurrentUnitValue();
+            float unitMultiplier = ScalesManager.instance.CurrentUnitValue();
 
             currentBound = CheckSize(transform);
             Vector3 originalSize = currentBound.size * unitMultiplier;
@@ -3296,11 +3028,11 @@ namespace TinyGiantStudio.BetterInspector
             if (newSize == originalSize)
                 return;
 
-            scaleBeingUpdatedBySize = true;
+            _scaleBeingUpdatedBySize = true;
 
             Vector3 newLocalScale = Multiply(transform.localScale, Divide(newSize, originalSize));
 
-            if (editorSettings.LockSizeAspectRatio)
+            if (_betterTransformSettings.LockSizeAspectRatio)
             {
                 Undo.RecordObject(transform, "Scale change on " + transform.gameObject.name);
                 transform.localScale = AspectRatioAppliedLocalScale(transform.localScale, newLocalScale);
@@ -3310,7 +3042,7 @@ namespace TinyGiantStudio.BetterInspector
 
                 //If the size field is not updated to avoid losing focus,
                 //the old size x that wasn't changed impacts the value you are trying to put in Y
-                sizeFoldoutField.SetValueWithoutNotify(currentBound.size);
+                _sizeFoldoutField.SetValueWithoutNotify(currentBound.size);
             }
             else
             {
@@ -3321,7 +3053,7 @@ namespace TinyGiantStudio.BetterInspector
                 currentBound.size = newSize;
             }
 
-            sizeCenterFoldoutField.schedule.Execute(() => JustUpdateCenter()).ExecuteLater(200);
+            _sizeCenterFoldoutField.schedule.Execute(JustUpdateCenter).ExecuteLater(200);
 
             //Update the gizmo
             SceneView.RepaintAll();
@@ -3333,39 +3065,44 @@ namespace TinyGiantStudio.BetterInspector
         //    sizeFoldoutField.SetValueWithoutNotify(currentBound.size);
         //}
 
-        private void JustUpdateCenter()
+        void JustUpdateCenter()
         {
             currentBound.center = CheckSize(transform).center;
-            sizeCenterFoldoutField.SetValueWithoutNotify(currentBound.center);
+            _sizeCenterFoldoutField.SetValueWithoutNotify(currentBound.center);
         }
 
         #region Check Size
 
-        private bool temporarilyRotatedToCheckSize = false;
+        bool _temporarilyRotatedToCheckSize;
 
         /// <summary>
-        ///
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="showWarningIfTooManyChild">If set to true, this will stop the update if there are too much child object. if false, it will always update</param>
+        /// <param name="targetTransform"></param>
+        /// <param name="showWarningIfTooManyChild">
+        ///     When true, the update is skipped if the number of child objects is too high;
+        ///     otherwise, the update always runs.
+        /// </param>
         /// <returns></returns>
-        private Bounds CheckSize(Transform target, bool showWarningIfTooManyChild = false)
+        Bounds CheckSize(Transform targetTransform, bool showWarningIfTooManyChild = false)
         {
 #if UNITY_2021_1_OR_NEWER
-            if (editorSettings.IncludeChildBounds)
-                return GetSizeWithChildren(target, showWarningIfTooManyChild);
-            else
-                return GetSelfBounds(target);
+            if (_betterTransformSettings.IncludeChildBounds)
+                return GetSizeWithChildren(targetTransform, showWarningIfTooManyChild);
+
+            if (_manualUpdateButton != null)
+                _manualUpdateButton.style.display = DisplayStyle.None;
+
+            return _sizeCalculator?.GetSelfBounds(targetTransform) ?? new Bounds();
 #else
            if (editorSettings.IncludeChildBounds)
-                return GetSizeWithChildren(target);
+                return GetSizeWithChildren(targetTransform);
             else
-                return GetRendererSelfBoundsForOlderUnityVersion(target);
+                return GetRendererSelfBoundsForOlderUnityVersion(targetTransform);
+            return new Bounds();
 #endif
         }
 
 #if !UNITY_2021_1_OR_NEWER
-
         Bounds GetRendererSelfBoundsForOlderUnityVersion(Transform target)
         {
             if (target.GetComponent<Renderer>() == null)
@@ -3395,128 +3132,63 @@ namespace TinyGiantStudio.BetterInspector
         }
 #endif
 
-        private Bounds GetSelfBounds(Transform target)
+        /// <summary>
+        /// </summary>
+        /// <param name="targetTransform"></param>
+        /// <param name="showWarningIfTooManyChild">
+        ///     When true, the update is skipped if the number of child objects is too high;
+        ///     otherwise, the update always runs.
+        /// </param>
+        /// <returns></returns>
+        Bounds GetSizeWithChildren(Transform targetTransform, bool showWarningIfTooManyChild = false)
         {
-            if (manualUpdateButton != null)
-                manualUpdateButton.style.display = DisplayStyle.None;
+            if (_betterTransformSettings.CurrentSizeType == BetterTransformSettings.SizeType.Renderer)
+                return _betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World
+                    ? GetRendererWorldBounds(targetTransform, showWarningIfTooManyChild)
+                    : GetRendererLocalBounds(targetTransform, showWarningIfTooManyChild);
 
-            if (editorSettings.CurrentSizeType == BetterTransformSettings.SizeType.Renderer)
-            {
-                if (target.GetComponent<Renderer>() == null)
-                    return new Bounds(Vector3.zero, Vector3.zero);
-
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                {
-                    Bounds bounds = target.GetComponent<Renderer>().bounds;
-                    bounds.center -= (target.position);
-
-                    return bounds;
-                }
-                else
-                {
-#if UNITY_2021_1_OR_NEWER
-                    Bounds bounds = target.GetComponent<Renderer>().localBounds;
-#else
-                    Bounds bounds = target.GetComponent<Renderer>().bounds; //todo
-#endif
-                    //bounds.center -= (target.position);
-                    bounds.size = Multiply(transform.lossyScale, bounds.size);
-                    bounds.center = Multiply(transform.lossyScale, bounds.center);
-
-                    return bounds;
-                }
-            }
-            else
-            {
-                MeshFilter meshFilter = target.GetComponent<MeshFilter>();
-                if (meshFilter != null)
-                {
-                    if (!meshFilter.sharedMesh)
-                        return new Bounds(Vector3.zero, Vector3.zero);
-
-                    Bounds bounds = meshFilter.sharedMesh.bounds;
-                    bounds.size = Multiply(bounds.size, target.lossyScale);
-
-                    return bounds;
-                }
-                else
-                {
-                    if (target.GetComponent<RectTransform>())
-                    {
-                        Vector3[] v = new Vector3[4];
-                        target.GetComponent<RectTransform>().GetLocalCorners(v);
-
-                        Vector3 min = Vector3.positiveInfinity;
-                        Vector3 max = Vector3.negativeInfinity;
-
-                        foreach (Vector3 vector3 in v)
-                        {
-                            min = Vector3.Min(min, vector3);
-                            max = Vector3.Max(max, vector3);
-                        }
-
-                        Bounds newBounds = new Bounds();
-                        newBounds.SetMinMax(min, max);
-                        return newBounds;
-                    }
-                }
-            }
-
-            return new Bounds(Vector3.zero, Vector3.zero);
+            return CheckFilterBoundsWithChildren(targetTransform, showWarningIfTooManyChild);
         }
 
         /// <summary>
-        ///
+        ///     The difference between local and world space size is, the world space size checks axis in world space and local
+        ///     takes targetTransform rotation into consideration
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="showWarningIfTooManyChild">If set to true, this will stop the update if there are too much child object. if false, it will always update</param>
+        /// <param name="targetTransform"></param>
+        /// <param name="showWarningIfTooManyChild">
+        ///     When true, the update is skipped if the number of child objects is too high;
+        ///     otherwise, the update always runs.
+        /// </param>
         /// <returns></returns>
-        private Bounds GetSizeWithChildren(Transform target, bool showWarningIfTooManyChild = false)
+        Bounds GetRendererWorldBounds(Transform targetTransform, bool showWarningIfTooManyChild = false)
         {
-            if (editorSettings.CurrentSizeType == BetterTransformSettings.SizeType.Renderer)
-            {
-                if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                    return GetRendererWorldBounds(target, showWarningIfTooManyChild);
-                else
-                    return GetRendererLocalBounds(target, showWarningIfTooManyChild);
-            }
-            else
-                return CheckFilterBoundsWithChildren(target, showWarningIfTooManyChild);
-        }
+            if (_manualUpdateButton != null)
+                _manualUpdateButton.style.display = DisplayStyle.None;
 
-        /// <summary>
-        /// The difference between local and world space size is, the world space size checks axis in world space and local takes target rotation into consideration
-        /// </summary>
-        /// <param name="target"></param>
-        /// <param name="showWarningIfTooManyChild">If set to true, this will stop the update if there are too much child object. if false, it will always update</param>
-        /// <returns></returns>
-        private Bounds GetRendererWorldBounds(Transform target, bool showWarningIfTooManyChild = false)
-        {
-            if (manualUpdateButton != null)
-                manualUpdateButton.style.display = DisplayStyle.None;
+            Bounds newBound = new();
 
-            Bounds newBound = new Bounds();
-            Transform[] transforms = target.GetComponentsInChildren<Transform>()
-                                        .Where(t =>
-                                            !editorSettings.ignoreParticleAndVFXInSizeCalculation ||
-                                            (t.GetComponent<ParticleSystem>() == null && t.GetComponent<VisualEffect>() == null))
-                                        .ToArray();
+            Transform[] transforms = targetTransform.GetComponentsInChildren<Transform>()
+                .Where(t =>
+                    !_betterTransformSettings.ignoreParticleAndVFXInSizeCalculation ||
+                    (t.GetComponent<ParticleSystem>() == null && t.GetComponent<VisualEffect>() == null))
+                .ToArray();
 
             if (transforms.Length == 0)
                 return newBound;
 
-            if (showWarningIfTooManyChild && transforms.Length > editorSettings.MaxChildCountForSizeCalculation)
+            if (showWarningIfTooManyChild &&
+                transforms.Length > _betterTransformSettings.MaxChildCountForSizeCalculation)
             {
-                if (manualUpdateButton != null)
-                    manualUpdateButton.style.display = DisplayStyle.Flex;
+                if (_manualUpdateButton != null)
+                    _manualUpdateButton.style.display = DisplayStyle.Flex;
                 else
                     CreateTooManyChildForAutoSizeCalculationWarning();
 
                 return newBound;
             }
 
-            if (manualUpdateButton != null)
-                manualUpdateButton.style.display = DisplayStyle.None;
+            if (_manualUpdateButton != null)
+                _manualUpdateButton.style.display = DisplayStyle.None;
 
             bool firstRenderer = true;
             for (int i = 0; i < transforms.Length; ++i)
@@ -3527,19 +3199,20 @@ namespace TinyGiantStudio.BetterInspector
                 if (firstRenderer)
                 {
                     Bounds bounds = transforms[i].GetComponent<Renderer>().bounds;
-                    bounds.center -= (transforms[i].position);
+                    bounds.center -= transforms[i].position;
                     if (transforms[i] != transform)
                         bounds.center += transforms[i].localPosition;
+
                     //There's no such thing as an "empty" Bounds,
-                    //you must create it with the "first" one. That's why the declared bounds is replaced,
-                    //otherwise, bound will always count the declared 0,0,0 location as a valid one;
+                    //you must create it with the "first" one. That's why the declared bound is replaced,
+                    //otherwise, bound will always count the declared (0,0,0) position as a valid one;
                     newBound = bounds;
                     firstRenderer = false;
                 }
                 else
                 {
                     Bounds bounds = transforms[i].GetComponent<Renderer>().bounds;
-                    bounds.center -= (target.position);
+                    bounds.center -= targetTransform.position;
                     newBound.Encapsulate(bounds);
                 }
             }
@@ -3548,50 +3221,54 @@ namespace TinyGiantStudio.BetterInspector
         }
 
         /// <summary>
-        /// The difference between local and world space size is, the world space size checks axis in world space and local takes target rotation into consideration
+        ///     The difference between local and world space size is, the world space size checks axis in world space and local
+        ///     takes targetTransform rotation into consideration
         /// </summary>
-        /// <param name="target"></param>
-        /// <param name="showWarningIfTooManyChild">If set to true, this will stop the update if there are too much child object. if false, it will always update</param>
+        /// <param name="targetTransform"></param>
+        /// <param name="showWarningIfTooManyChild">
+        ///     When true, the update is skipped if the number of child objects is too high;
+        ///     otherwise, the update always runs.
+        /// </param>
         /// <returns></returns>
-        private Bounds GetRendererLocalBounds(Transform target, bool showWarningIfTooManyChild = false)
+        Bounds GetRendererLocalBounds(Transform targetTransform, bool showWarningIfTooManyChild = false)
         {
-            Bounds newBound = new Bounds();
+            Bounds newBound = new();
 
-            //Transform[] transforms = target.GetComponentsInChildren<Transform>();
-            Transform[] transforms = target.GetComponentsInChildren<Transform>()
-                            .Where(t =>
-                                !editorSettings.ignoreParticleAndVFXInSizeCalculation ||
-                                (t.GetComponent<ParticleSystem>() == null && t.GetComponent<VisualEffect>() == null))
-                            .ToArray();
+            Transform[] transforms = targetTransform.GetComponentsInChildren<Transform>()
+                .Where(t =>
+                    !_betterTransformSettings.ignoreParticleAndVFXInSizeCalculation ||
+                    (t.GetComponent<ParticleSystem>() == null && t.GetComponent<VisualEffect>() == null))
+                .ToArray();
 
             if (transforms.Length == 0)
                 return newBound;
 
-            if (showWarningIfTooManyChild && transforms.Length > editorSettings.MaxChildCountForSizeCalculation)
+            if (showWarningIfTooManyChild &&
+                transforms.Length > _betterTransformSettings.MaxChildCountForSizeCalculation)
             {
-                if (manualUpdateButton != null)
-                    manualUpdateButton.style.display = DisplayStyle.Flex;
+                if (_manualUpdateButton != null)
+                    _manualUpdateButton.style.display = DisplayStyle.Flex;
                 else
                     CreateTooManyChildForAutoSizeCalculationWarning();
 
                 return newBound;
             }
 
-            if (manualUpdateButton != null)
-                manualUpdateButton.style.display = DisplayStyle.None;
+            if (_manualUpdateButton != null)
+                _manualUpdateButton.style.display = DisplayStyle.None;
 
-            temporarilyRotatedToCheckSize = true;
+            _temporarilyRotatedToCheckSize = true;
 
             Quaternion currentRotation;
-            if (target.parent == null)
+            if (targetTransform.parent == null)
             {
-                currentRotation = target.localRotation;
-                target.localRotation = Quaternion.Euler(Vector3.zero);
+                currentRotation = targetTransform.localRotation;
+                targetTransform.localRotation = Quaternion.Euler(Vector3.zero);
             }
             else
             {
-                currentRotation = target.rotation;
-                target.rotation = Quaternion.Euler(Vector3.zero);
+                currentRotation = targetTransform.rotation;
+                targetTransform.rotation = Quaternion.Euler(Vector3.zero);
             }
 
             bool firstRenderer = true;
@@ -3603,59 +3280,56 @@ namespace TinyGiantStudio.BetterInspector
                 if (firstRenderer)
                 {
                     Bounds bounds = transforms[i].GetComponent<Renderer>().bounds;
-                    bounds.center -= (transforms[i].position);
+                    bounds.center -= transforms[i].position;
                     if (transforms[i] != transform)
                         bounds.center += transforms[i].localPosition;
 
                     //There's no such thing as an "empty" Bounds,
-                    //you must create it with the "first" one. That's why the declared bounds is replaced,
-                    //otherwise, bound will always count the declared 0,0,0 location as a valid one;
+                    //you must create it with the "first" one. That's why the declared bound is replaced,
+                    //otherwise, bound will always count the declared (0,0,0) position as a valid one;
                     newBound = bounds;
                     firstRenderer = false;
                 }
                 else
                 {
                     Bounds bounds = transforms[i].GetComponent<Renderer>().bounds;
-                    bounds.center -= (target.position);
+                    bounds.center -= targetTransform.position;
                     newBound.Encapsulate(bounds);
                 }
             }
 
-            if (target.parent == null)
-                target.localRotation = currentRotation;
+            if (targetTransform.parent == null)
+                targetTransform.localRotation = currentRotation;
             else
-                target.rotation = currentRotation;
+                targetTransform.rotation = currentRotation;
 
             return newBound;
         }
 
         /// <summary>
-        ///
         /// </summary>
-        /// <param name="target"></param>
+        /// <param name="targetTransform"></param>
         /// <param name="showWarningIfTooManyChild"></param>
         /// <returns></returns>
-        private Bounds CheckFilterBoundsWithChildren(Transform target, bool showWarningIfTooManyChild = false)
+        Bounds CheckFilterBoundsWithChildren(Transform targetTransform, bool showWarningIfTooManyChild = false)
         {
-            Transform[] transforms = target.GetComponentsInChildren<Transform>();
+            Transform[] transforms = targetTransform.GetComponentsInChildren<Transform>();
             if (showWarningIfTooManyChild)
-            {
-                if (transforms.Length > editorSettings.MaxChildCountForSizeCalculation)
+                if (transforms.Length > _betterTransformSettings.MaxChildCountForSizeCalculation)
                 {
-                    if (manualUpdateButton != null)
-                        manualUpdateButton.style.display = DisplayStyle.Flex;
+                    if (_manualUpdateButton != null)
+                        _manualUpdateButton.style.display = DisplayStyle.Flex;
                     else
                         CreateTooManyChildForAutoSizeCalculationWarning();
-                    return new Bounds();
+                    return new();
                 }
-            }
 
             //This button is never created unless required.
-            if (manualUpdateButton != null)
-                manualUpdateButton.style.display = DisplayStyle.None;
+            if (_manualUpdateButton != null)
+                _manualUpdateButton.style.display = DisplayStyle.None;
 
-            MeshFilter[] meshFilters = target.GetComponentsInChildren<MeshFilter>();
-            Matrix4x4 worldToTargetLocal = target.worldToLocalMatrix;
+            MeshFilter[] meshFilters = targetTransform.GetComponentsInChildren<MeshFilter>();
+            Matrix4x4 worldToTargetLocal = targetTransform.worldToLocalMatrix;
 
             Bounds bounds = new();
             bool firstBounds = true;
@@ -3674,12 +3348,12 @@ namespace TinyGiantStudio.BetterInspector
                     // Convert vertex to world space, applying position, rotation, and scale
                     Vector3 worldVertex = meshToWorld.MultiplyPoint3x4(vertex);
 
-                    // Convert world space vertex back to target's local space
+                    // Convert world space vertex back to targetTransform's local space
                     Vector3 localVertex = worldToTargetLocal.MultiplyPoint3x4(worldVertex);
 
                     if (firstBounds)
                     {
-                        bounds = new Bounds(localVertex, Vector3.zero); // Initialize bounds in local space
+                        bounds = new(localVertex, Vector3.zero); // Initialize bounds in local space
                         firstBounds = false;
                     }
                     else
@@ -3700,455 +3374,123 @@ namespace TinyGiantStudio.BetterInspector
 
         #region Notes
 
-        private bool thisIsAnAsset = false;
+        bool _thisIsAnAsset;
 
-        private TextField noteTextField;
-        private readonly string noNoteString = "This does not have a note. Click to add one.";
-
-        private Button noteToolbarButton;
-
-        private string myNote;
-        private NoteType noteType;
-        private Color noteColor;
-
-        private GroupBox noteEditGroupBox;
-        private GroupBox noteTopGroupBox;
-        private GroupBox noteBottomGroupBox;
-        private Button noteChangeDoneButton;
-        private Button noteChangeCancelButton;
-        private Button noteDeleteButton;
-        private EnumField noteTypeField;
-        private ColorField noteColorField;
-
-        private SceneNotesManager sceneNotesManager;
-
-        private bool noteSetupCompleted = false;
-
-        private void SetupNote()
+        void SetupGuid()
         {
-            noteTopGroupBox = root.Q<GroupBox>("NoteTopGroupBox");
-            noteTopGroupBox.style.display = DisplayStyle.None;
+            _thisIsAnAsset = AssetDatabase.Contains(transform);
 
-            noteBottomGroupBox = root.Q<GroupBox>("NoteBottomGroupBox");
-            noteBottomGroupBox.style.display = DisplayStyle.None;
+            Label assetGuidLabel = _root.Q<Label>("GUID");
+            assetGuidLabel.style.display = DisplayStyle.None;
 
-            noteEditGroupBox = root.Q<GroupBox>("NoteEditGroupBox");
-            noteEditGroupBox.style.display = DisplayStyle.None;
-
-            thisIsAnAsset = AssetDatabase.Contains(transform);
-
-            Label assetGUIDLabel = root.Q<Label>("GUID");
-            assetGUIDLabel.style.display = DisplayStyle.None;
-
-            if (thisIsAnAsset && editorSettings.showAssetGUID)
-            {
-                string myGUID = GetID();
-                assetGUIDLabel.text = myGUID;
-                assetGUIDLabel.tooltip = "GUID\n" + myGUID;
-                assetGUIDLabel.style.display = DisplayStyle.Flex;
-            }
-
-            noteToolbarButton = root.Q<Button>("NoteToolbarButton");
-
-            if (!editorSettings.ShowNotes)
-            {
-                noteToolbarButton.style.display = DisplayStyle.None;
-                return;
-            }
-
-            InitialNoteSetup();
-        }
-
-        private bool initialNoteSetupDone = false;
-
-        private void InitialNoteSetup()
-        {
-            if (initialNoteSetupDone)
-                return;
-
-            initialNoteSetupDone = true;
-
-            noteColorField = root.Q<ColorField>("NoteBGColor");
-            noteColorField.RegisterValueChangedCallback(e =>
-            {
-                noteColor = e.newValue;
-            });
-
-            if (!thisIsAnAsset)
-                GetNotesManager();
-
-            noteToolbarButton.RegisterCallback<MouseEnterEvent>(e =>
-            {
-                NoteToolbarHovered();
-            });
-
-            noteToolbarButton.clicked += ToggleNoteEditor;
-
-            noteBottomGroupBox.Q<Button>().clicked += ToggleNoteEditor;
-            noteTopGroupBox.Q<Button>().clicked += ToggleNoteEditor;
-
-            //Try to get note
-            if (string.IsNullOrEmpty(myNote))
-            {
-                if (thisIsAnAsset)
-                {
-                    myNote = editorSettings.GetNote(GetID());
-                }
-                else
-                {
-                    if (sceneNotesManager != null)
-                    {
-                        //TODO. These two should be one
-                        myNote = sceneNotesManager.GetNote(transform);
-                        noteType = sceneNotesManager.GetNoteType(transform);
-                    }
-                }
-
-                if (string.IsNullOrWhiteSpace(myNote))
-                    myNote = noNoteString;
-            }
-
-            UpdateNoteType();
-        }
-
-        private void SetupNote_complete()
-        {
-            if (!initialNoteSetupDone)
-            {
-                InitialNoteSetup();
-                Debug.Log("Initial setup being done in full setup");
-            }
-
-            noteTextField = root.Q<TextField>("Note");
-
-            noteTypeField = root.Q<EnumField>("NoteType");
-            noteTypeField.Init(NoteType.tooltip);
-            noteTypeField.RegisterValueChangedCallback(e =>
-            {
-                noteType = (NoteType)e.newValue;
-                //UpdateNoteType();
-            });
-
-            noteChangeDoneButton = noteEditGroupBox.Q<Button>("NoteChangeDoneButton");
-            noteChangeDoneButton.clicked += SaveNoteChange;
-
-            noteChangeCancelButton = noteEditGroupBox.Q<Button>("NoteChangeCancelButton");
-            noteChangeCancelButton.clicked += CancelNoteChange;
-
-            noteDeleteButton = noteEditGroupBox.Q<Button>("NoteDeleteButton");
-            noteDeleteButton.clicked += DeleteNote;
-
-            noteSetupCompleted = true;
+            if (!_thisIsAnAsset || !_betterTransformSettings.showAssetGuid) return;
+            string myGuid = GetObjectID();
+            assetGuidLabel.text = myGuid;
+            assetGuidLabel.tooltip = "GUID\n" + myGuid;
+            assetGuidLabel.style.display = DisplayStyle.Flex;
         }
 
         /// <summary>
-        /// Doesn't create if nothing is in the scene
+        ///     Returns a unique identifier for the object.
+        ///     If the object is a persistent asset, returns its GUID.
+        ///     Otherwise, returns the instance ID (as a string) for scene objects or non-persistent objects.
         /// </summary>
-        private void GetNotesManager()
+        string GetObjectID()
         {
-            //Already assigned, no need to search
-            if (sceneNotesManager != null)
-                return;
-
-            //Get from scene
-            sceneNotesManager = SceneNotesManager.Instance;
-        }
-
-        private void IfReuquiredCreateSceneNoteManager()
-        {
-            //If found from scene, no need to do anything else
-            if (sceneNotesManager != null)
-                return;
-
-            //Don't add stuff during game time.
-            if (Application.isPlaying)
-                return;
-
-            GameObject sceneNoteManagerObject = new GameObject("Better Transform Scene Notes Manager"); //TODO: isn't there supposed to be a undo.creategameobjct  type method for editor
-            sceneNotesManager = sceneNoteManagerObject.AddComponent<SceneNotesManager>();
-            EditorUtility.SetDirty(sceneNoteManagerObject);
-        }
-
-        private void NoteToolbarHovered()
-        {
-            if (!noteSetupCompleted) SetupNote_complete();
-
-            UpdateNoteTooltip();
-        }
-
-        //Settings uses current method to find the object again when cleaning up,
-        //If this is updated, that needs to be updated as well.
-        private string GetID()
-        {
-            if (AssetDatabase.Contains(transform))
-            {
-                string guid;
-                long file;
-                AssetDatabase.TryGetGUIDAndLocalFileIdentifier(target, out guid, out file);
-
-                return guid;
-            }
-
-            return transform.GetInstanceID().ToString();
-        }
-
-        private void UpdateNoteTooltip()
-        {
-            //If failed,
-            if (string.IsNullOrWhiteSpace(myNote))
-                noteToolbarButton.tooltip = noNoteString;
-            else
-                noteToolbarButton.tooltip = myNote;
-        }
-
-        private void ToggleNoteEditor()
-        {
-            //if (!noteSetupCompleted) SetupNote_complete();
-            if (NoteEditBoxOpen())
-                noteEditGroupBox.style.display = DisplayStyle.None;
-            else
-                OpenNoteEditBox();
-        }
-
-        private bool NoteEditBoxOpen() => noteEditGroupBox.style.display != DisplayStyle.None;
-
-        private void OpenNoteEditBox()
-        {
-            //noteColorField null check was added due to domain reload clearing the reference
-            if (!noteSetupCompleted || noteColorField == null) SetupNote_complete();
-
-            UpdateNoteTextFieldFromSavedNote();
-
-            noteEditGroupBox.style.display = DisplayStyle.Flex;
-
-            noteTypeField ??= root.Q<EnumField>("NoteType");
-
-            noteTypeField.value = GetNoteType();
-            noteColor = GetNoteColor();
-            noteColorField.value = noteColor;
-
-            UpdateNoteTextFieldFromSavedNote();
-        }
-
-        private NoteType GetNoteType()
-        {
-            if (thisIsAnAsset)
-            {
-                //TODO
-            }
-
-            if (sceneNotesManager != null)
-            {
-                return sceneNotesManager.GetNoteType(transform);
-            }
-
-            return NoteType.tooltip;
-        }
-
-        private Color GetNoteColor()
-        {
-            if (thisIsAnAsset)
-            {
-                //TODO
-            }
-
-            if (sceneNotesManager != null)
-            {
-                return sceneNotesManager.GetNoteColor(transform);
-            }
-
-            return Color.gray;
-        }
-
-        private void UpdateNoteTextFieldFromSavedNote()
-        {
-            if (noteTextField == null)
-                noteTextField = root.Q<TextField>("Note");
-
-            if (string.IsNullOrWhiteSpace(myNote) || myNote == noNoteString)
-            {
-                noteTextField.SetValueWithoutNotify("");
-                noteDeleteButton.style.display = DisplayStyle.None;
-            }
-            else
-            {
-                noteTextField.SetValueWithoutNotify(myNote);
-                noteDeleteButton.style.display = DisplayStyle.Flex;
-            }
-        }
-
-        private void SaveNoteChange()
-        {
-            myNote = noteTextField.value;
-
-            if (thisIsAnAsset)
-            {
-                editorSettings.SetNote(GetID(), myNote, noteType, noteColor);
-            }
-            else
-            {
-                IfReuquiredCreateSceneNoteManager();
-
-                if (sceneNotesManager != null)
-                {
-                    sceneNotesManager.SetNote(transform, myNote, noteType, noteColor);
-                }
-            }
-
-            UpdateNoteTooltip();
-            UpdateNoteTextFieldFromSavedNote();
-            UpdateNoteType();
-
-            noteEditGroupBox.style.display = DisplayStyle.None;
-        }
-
-        private void UpdateNoteType()
-        {
-            noteToolbarButton.style.display = DisplayStyle.None;
-            noteTopGroupBox.style.display = DisplayStyle.None;
-            noteBottomGroupBox.style.display = DisplayStyle.None;
-
-            if (targets.Count() > 1 || myNote == noNoteString || string.IsNullOrEmpty(myNote))
-                return;
-
-            if (noteType == NoteType.tooltip)
-            {
-                noteToolbarButton.style.display = DisplayStyle.Flex;
-                noteTopGroupBox.style.display = DisplayStyle.None;
-                noteBottomGroupBox.style.display = DisplayStyle.None;
-
-                return;
-            }
-
-            noteToolbarButton.style.display = DisplayStyle.None;
-
-            if (noteType == NoteType.fullWidthTop)
-            {
-                noteTopGroupBox.style.display = DisplayStyle.Flex;
-                noteTopGroupBox.Q<Label>("Note").text = myNote;
-
-                if (sceneNotesManager != null) noteTopGroupBox.style.backgroundColor = sceneNotesManager.GetNoteColor(transform);
-                noteBottomGroupBox.style.display = DisplayStyle.None;
-            }
-            else
-            {
-                noteTopGroupBox.style.display = DisplayStyle.None;
-
-                noteBottomGroupBox.style.display = DisplayStyle.Flex;
-                noteBottomGroupBox.Q<Label>("Note").text = myNote;
-                if (sceneNotesManager != null) noteBottomGroupBox.style.backgroundColor = sceneNotesManager.GetNoteColor(transform);
-            }
-        }
-
-        private void CancelNoteChange()
-        {
-            UpdateNoteTextFieldFromSavedNote();
-
-            noteEditGroupBox.style.display = DisplayStyle.None;
-        }
-
-        private void DeleteNote()
-        {
-            noteEditGroupBox.style.display = DisplayStyle.None;
-
-            if (thisIsAnAsset)
-            {
-                editorSettings.DeleteNote(GetID());
-            }
-            else
-            {
-                if (sceneNotesManager != null)
-                {
-                    Debug.Log("Note deleted.");
-                    sceneNotesManager.DeleteNote(transform);
-                }
-            }
-
-            myNote = noNoteString;
-
-            UpdateNoteTooltip();
-
-            UpdateNoteType();
-
-            noteEditGroupBox.style.display = DisplayStyle.None;
+            if (!AssetDatabase.Contains(transform)) return transform.GetInstanceID().ToString();
+            // ReSharper disable once NotAccessedOutParameterVariable
+            long localID; //Required in Unity 2022 or before
+            AssetDatabase.TryGetGUIDAndLocalFileIdentifier(target, out string guid, out localID);
+            return guid;
         }
 
         #endregion Notes
 
         #region Parent Child
 
-        private GroupBox parentGroupBox;
+        GroupBox _parentGroupBox;
+        GroupBox _childGroupBox;
+        bool _alreadySetupChildren;
 
-        private void SetupParentChild(VisualElement root, CustomFoldoutSetup customFoldoutSetup)
+        void SetupParentChild()
         {
-            if (!editorSettings.ShowParentChildTransform || targets.Length > 1)
+            _childGroupBox = _root.Q<GroupBox>("ChildGroupBox");
+            if (!_betterTransformSettings.ShowParentChildTransform || targets.Length > 1)
             {
-                root.Q<GroupBox>("ChildGroupBox").style.display = DisplayStyle.None;
+                _childGroupBox.style.display = DisplayStyle.None;
                 return;
             }
 
             if (folderTemplate == null)
-                folderTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(folderTemplateFileLocation);
+            {
+                folderTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(FolderTemplateFileLocation);
+                if (folderTemplate == null)
+                {
+                    string assetPath = AssetDatabase.GUIDToAssetPath(FolderTemplateGuid);
+                    if (!string.IsNullOrEmpty(assetPath))
+                        folderTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(assetPath);
+                }
+            }
+
 
             if (folderTemplate == null)
                 return;
 
-            GroupBox rootHolder = root.Q<GroupBox>("RootHolder");
+            GroupBox rootHolder = _root.Q<GroupBox>("RootHolder");
 
-            SetupParent(customFoldoutSetup, rootHolder);
-            SetupChildren(customFoldoutSetup, rootHolder);
+            SetupParent(rootHolder);
+            SetupChildren(rootHolder);
         }
 
-        private void UpdateSetupParentChildFoldouts()
+        void UpdateSetupParentChildFoldouts()
         {
-            GroupBox rootHolder = root.Q<GroupBox>("RootHolder");
-            if (!editorSettings.ShowParentChildTransform)
+            GroupBox rootHolder = _root.Q<GroupBox>("RootHolder");
+            if (!_betterTransformSettings.ShowParentChildTransform)
             {
-                rootHolder.Q<GroupBox>("ChildGroupBox").style.display = DisplayStyle.None;
+                _childGroupBox.style.display = DisplayStyle.None;
 
-                if (parentGroupBox != null)
-                    parentGroupBox.style.display = DisplayStyle.None;
-
-                return;
+                if (_parentGroupBox != null)
+                    _parentGroupBox.style.display = DisplayStyle.None;
             }
             else
             {
                 if (transform.childCount > 0)
                 {
-                    root.Q<GroupBox>("ChildGroupBox").style.display = DisplayStyle.Flex;
-                    if (!alreadySetupChildren) SetupChildren(customFoldoutSetup, rootHolder);
+                    _childGroupBox.style.display = DisplayStyle.Flex;
+                    if (!_alreadySetupChildren) SetupChildren(rootHolder);
                 }
-                if (transform.parent)
-                {
-                    if (parentGroupBox != null)
-                        parentGroupBox.style.display = DisplayStyle.Flex;
 
-                    if (!alreadySetupParent) SetupParent(customFoldoutSetup, rootHolder);
-                }
+                if (!transform.parent) return;
+                if (_parentGroupBox != null)
+                    _parentGroupBox.style.display = DisplayStyle.Flex;
+
+                if (!_alreadySetupParent) SetupParent(rootHolder);
             }
         }
 
-        private bool alreadySetupChildren = false;
 
-        private void SetupChildren(CustomFoldoutSetup customFoldoutSetup, GroupBox rootHolder)
+        void SetupChildren(GroupBox rootHolder)
         {
-            alreadySetupChildren = true;
+            _alreadySetupChildren = true;
             GroupBox childGroupBox = rootHolder.Q<GroupBox>("ChildGroupBox");
 
             if (transform.childCount > 0)
             {
                 childGroupBox.style.display = DisplayStyle.Flex;
-                customFoldoutSetup.SetupFoldout(childGroupBox);
+                CustomFoldout.SetupFoldout(childGroupBox);
 
                 GroupBox warning = rootHolder.Q<GroupBox>("TooManyChildForInspectorCreation");
-                if (transform.childCount <= editorSettings.MaxChildInspector)
+                GroupBox childEditorHolder = childGroupBox.Q<GroupBox>("Content");
+                if (transform.childCount <= _betterTransformSettings.MaxChildInspector)
                 {
                     warning.style.display = DisplayStyle.None;
                     foreach (Transform child in transform)
-                    {
                         if (child != originalTransform)
-                            CreateEditor(customFoldoutSetup, childGroupBox.Q<GroupBox>("Content"), child.gameObject.name, child);
-                    }
+                            CreateEditor(childEditorHolder,
+                                child.GetSiblingIndex() + ". " + child.gameObject.name, child, false, false);
+                        else
+                            childEditorHolder.Add(new Label("   ✖ " + child.GetSiblingIndex() + ". " +
+                                                            child.gameObject.name + " <i>[Selected Object]</i>"));
                 }
                 else
                 {
@@ -4174,33 +3516,40 @@ namespace TinyGiantStudio.BetterInspector
             }
         }
 
-        private bool alreadySetupParent = false;
+        bool _alreadySetupParent;
 
-        private void SetupParent(CustomFoldoutSetup customFoldoutSetup, GroupBox rootHolder)
+        void SetupParent(GroupBox rootHolder)
         {
-            if (transform.parent)
+            if (!transform.parent) return;
+            _alreadySetupParent = true;
+            if (transform.parent == originalTransform) return;
+            if (_parentGroupBox == null)
             {
-                alreadySetupParent = true;
-                if (transform.parent != originalTransform)
+                _parentGroupBox = new()
                 {
-                    if (parentGroupBox == null)
+                    style =
                     {
-                        parentGroupBox = new GroupBox();
-                        parentGroupBox.style.marginTop = 0;
-                        parentGroupBox.style.marginRight = 0;
-                        parentGroupBox.style.marginBottom = 0;
-                        parentGroupBox.style.paddingTop = 0;
-                        parentGroupBox.style.paddingBottom = 0;
-                        rootHolder.Add(parentGroupBox);
+                        marginTop = 0,
+                        marginRight = 0,
+                        marginBottom = 0,
+                        paddingTop = 0,
+                        paddingBottom = 0
                     }
-                    CreateEditor(customFoldoutSetup, parentGroupBox, "(Parent) " + transform.parent.gameObject.name, transform.parent, true);
-                }
+                };
+                // int index = Math.Abs(rootHolder.childCount - 2);
+
+                int index = Math.Abs(_childGroupBox.parent.IndexOf(_childGroupBox));
+                rootHolder.Insert(index, _parentGroupBox);
             }
+
+            CreateEditor(_parentGroupBox, "(Parent) " + transform.parent.gameObject.name,
+                transform.parent, true);
         }
 
-        private void CreateEditor(CustomFoldoutSetup customFoldoutSetup, GroupBox rootHolder, string foldoutName, Transform targetTransform, bool margin = false)
+        void CreateEditor(GroupBox rootHolder, string foldoutName,
+            Transform targetTransform, bool margin = false, bool showSiblingIndex = true)
         {
-            VisualElement visualElement = new VisualElement();
+            VisualElement visualElement = new();
             rootHolder.Add(visualElement);
             folderTemplate.CloneTree(visualElement);
             GroupBox container = visualElement.Q<GroupBox>("TemplateRoot");
@@ -4209,51 +3558,56 @@ namespace TinyGiantStudio.BetterInspector
                 container.style.marginLeft = -7;
                 container.style.marginRight = 0;
             }
-            customFoldoutSetup.SetupFoldout(container);
+
+            CustomFoldout.SetupFoldout(container);
 
             GroupBox content = container.Q<GroupBox>("Content");
 
-            Toolbar editorHeader = container.Q<Toolbar>("EditorHeader");
-            editorHeader.style.display = DisplayStyle.None;
+            container.Q<Button>("Ping").clicked += () =>
+            {
+                if (targetTransform == null) return;
+                EditorGUIUtility.PingObject(targetTransform.gameObject);
+            };
+
+            container.Q<Button>("Select").clicked += () =>
+            {
+                if (targetTransform == null) return;
+                Selection.activeGameObject = targetTransform.gameObject;
+            };
 
             Button openEditorButton = container.Q<Button>("OpenEditorButton");
             openEditorButton.style.display = DisplayStyle.Flex;
 
             Toggle toggle = container.Q<Toggle>("FoldoutToggle");
             toggle.text = foldoutName;
-            toggle.RegisterValueChangedCallback(e =>
+            toggle.schedule.Execute(() =>
             {
-                if (openEditorButton.style.display == DisplayStyle.Flex)
+                toggle.RegisterValueChangedCallback(_ =>
                 {
+                    if (openEditorButton.style.display != DisplayStyle.Flex) return;
                     openEditorButton.style.display = DisplayStyle.None;
-                    editorHeader.style.display = DisplayStyle.Flex;
                     OpenEditor(targetTransform, content);
-                }
-            });
+                });
+            }).ExecuteLater(500);
 
-            Label label1 = container.Q<Label>("Label1");
-            UpdateSiblingIndex(targetTransform, label1);
-
-            Label label2 = container.Q<Label>("Label2");
-            label2.style.display = DisplayStyle.None;
-
-            //    openEditorButton.clicked += () =>
-            //    {
-            //        openEditorButton.style.display = DisplayStyle.None;
-            //        editorHeader.style.display = DisplayStyle.Flex;
-            //        OpenEditor(targetTransform, content);
-            //    };
+            if (showSiblingIndex)
+                UpdateSiblingIndex(targetTransform, container.Q<Label>("SiblingIndex"), "Sibling Index: ");
+            else
+                container.Q<Label>("SiblingIndex").style.display = DisplayStyle.None;
         }
 
-        private void UpdateSiblingIndex(Transform targetTransform, Label label)
+        static void UpdateSiblingIndex(Transform targetTransform, Label label, string prefix = "")
         {
             if (targetTransform.parent)
             {
                 int siblingIndex = targetTransform.GetSiblingIndex();
-                label.text = "Sibling index: " + siblingIndex;
-                label.tooltip = "The game object \"" + targetTransform.gameObject.name + "\" is the number " + (siblingIndex + 1) + " child object of \"" + targetTransform.parent.gameObject.name + "\".\n\n" +
-                    "If a GameObject shares a parent with other GameObjects and are on the same level (i.e. they share the same direct parent), these GameObjects are known as siblings.\n" +
-                    "The sibling index shows where each GameObject sits in this sibling hierarchy.";
+                label.text = prefix + siblingIndex;
+                label.tooltip = "Sibling index " + siblingIndex + " means,\n" +
+                                "The game object \"" + targetTransform.gameObject.name + "\" is the number " +
+                                (siblingIndex + 1) + " child object of \"" + targetTransform.parent.gameObject.name +
+                                "\".\n\n" +
+                                "If a GameObject shares a parent with other GameObjects and are on the same level (i.e. they share the same direct parent), these GameObjects are known as siblings.\n" +
+                                "The sibling index shows where each GameObject sits in this sibling hierarchy.";
             }
             else
             {
@@ -4261,24 +3615,17 @@ namespace TinyGiantStudio.BetterInspector
             }
         }
 
-        private void OpenEditor(Transform targetTransform, GroupBox container)
+        void OpenEditor(Transform targetTransform, GroupBox container)
         {
-            BetterTransformEditor newEditor = (BetterTransformEditor)BetterTransformEditor.CreateEditor(targetTransform);
+            BetterTransformEditor newEditor =
+                (BetterTransformEditor)CreateEditor(targetTransform);
 
-            if (originalTransform == null) originalTransform = transform;
-            //VisualElement inspector = newEditor.CreateInspectorGUI();
+            // if (originalTransform == null) originalTransform = transform;
+            newEditor.originalTransform = transform;
             VisualElement inspector = newEditor.CreateInspectorInsideAnother(transform);
 
-            otherBetterTransformEditors.Add(newEditor);
+            _otherBetterTransformEditors.Add(newEditor);
             container.Add(inspector);
-
-            ToolbarButton pingButton = container.Q<ToolbarButton>("Ping");
-            //TargetEditorName.text = targetTransform.gameObject.name;
-            //TargetEditorName.text = "Ping";
-            pingButton.clicked += () =>
-            {
-                EditorGUIUtility.PingObject(targetTransform.gameObject);
-            };
         }
 
         #endregion Parent Child
@@ -4287,94 +3634,130 @@ namespace TinyGiantStudio.BetterInspector
 
         #region Variables
 
-        private Button addFunctionalityButton;
-        private GenericDropdownMenu addFunctionalityContextMenu;
+        Button _settingsButton;
+        GenericDropdownMenu _settingsMenuButton;
 
         #endregion Variables
 
-        private void SetupAddFunctionality()
+        void SetupMenu()
         {
-            addFunctionalityButton = topGroupBox.Q<Button>("AddButton");
+            _settingsButton = _topGroupBox.Q<Button>("Settings");
 
-            if (targets.Length != 1)
+            if (targets.Length != 1 ||
+                originalTransform !=
+                null) //No settings when multiple objects are selected and when this inside another editor.
             {
-                addFunctionalityButton.style.visibility = Visibility.Hidden;
+                _settingsButton.style.display = DisplayStyle.None;
                 return;
             }
 
-            addFunctionalityButton.clicked += () => OpenContextMenu_addFunctionality();
+            _settingsButton.clicked += OpenContextMenu_settings;
         }
 
-        private void OpenContextMenu_addFunctionality()
+        void OpenContextMenu_settings()
         {
-            UpdateContextMenu_addFunctionality();
-            addFunctionalityContextMenu.DropDown(GetMenuRect(addFunctionalityButton), addFunctionalityButton, true);
+            UpdateContextMenu_settings();
+            _settingsMenuButton.DropDown(GetMenuRect(_settingsButton), _settingsButton, true);
         }
 
-        private void UpdateContextMenu_addFunctionality()
+        void UpdateContextMenu_settings()
         {
-            addFunctionalityContextMenu = new GenericDropdownMenu();
-            if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Both)
+            _settingsMenuButton = new();
+            _settingsMenuButton.AddItem("Settings", false, ToggleSettings);
+
+            _settingsMenuButton.AddSeparator("");
+
+            if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.Both)
             {
-                addFunctionalityContextMenu.AddItem("Both space together", true, () =>
+                _settingsMenuButton.AddItem("Both Space Together", true, () =>
                 {
-                    editorSettings.CurrentWorkSpace = BetterTransformSettings.WorkSpace.Local;
+                    _betterTransformSettings.CurrentWorkSpace = BetterTransformSettings.WorkSpace.Local;
                     UpdateMainControls();
                     UpdateSize();
                 });
+                _settingsMenuButton.AddDisabledItem("Default Inspector for Local Fields", true);
             }
             else
             {
-                addFunctionalityContextMenu.AddItem("Both space together", false, () =>
+                _settingsMenuButton.AddItem("Both Space Together", false, () =>
                 {
-                    editorSettings.CurrentWorkSpace = BetterTransformSettings.WorkSpace.Both;
+                    _betterTransformSettings.CurrentWorkSpace = BetterTransformSettings.WorkSpace.Both;
                     UpdateMainControls();
                     UpdateSize();
                 });
+                _settingsMenuButton.AddItem("Default Inspector for Local Fields",
+                    _betterTransformSettings.LoadDefaultInspector, () =>
+                    {
+                        _betterTransformSettings.LoadDefaultInspector = !_betterTransformSettings.LoadDefaultInspector;
+                        UpdateMainControls();
+                    });
             }
 
-            addFunctionalityContextMenu.AddSeparator("");
-            if (editorSettings.ShowNotes)
+            _settingsMenuButton.AddSeparator("");
+            if (_inspectorEditorSettings != null)
             {
-                if (!NoteEditBoxOpen())
+                _inspectorEditorSettings.BetterTransformContextMenuItems ??= new();
+
+                foreach (KeyValuePair<string, Action> item in _inspectorEditorSettings.BetterTransformContextMenuItems)
+                    _settingsMenuButton.AddItem(item.Key, false, item.Value);
+            }
+
+            if (!_betterTransformSettings.ShowSizeFoldout && !_betterTransformSettings.ShowSizeInLine) return;
+            _settingsMenuButton.AddSeparator("");
+
+            bool hierarchySize = _betterTransformSettings.IncludeChildBounds;
+            _settingsMenuButton.AddItem("Hierarchy Size", hierarchySize, () =>
+            {
+                _betterTransformSettings.IncludeChildBounds = true;
+                UpdateSizeInclusionButtons();
+                SceneView.RepaintAll();
+            });
+            _settingsMenuButton.AddItem("Self Size", !hierarchySize, () =>
+            {
+                _betterTransformSettings.IncludeChildBounds = false;
+                UpdateSizeInclusionButtons();
+                SceneView.RepaintAll();
+            });
+
+            _settingsMenuButton.AddSeparator("");
+
+            _settingsMenuButton.AddItem("Renderer Size",
+                _betterTransformSettings.CurrentSizeType == BetterTransformSettings.SizeType.Renderer, () =>
                 {
-                    string noteLabel;
-                    if (string.IsNullOrEmpty(myNote) || myNote == noNoteString)
-                        noteLabel = "Add note";
-                    else
-                        noteLabel = "Modify note";
-                    addFunctionalityContextMenu.AddItem(noteLabel, false, () => OpenNoteEditBox());
-                }
-            }
+                    _betterTransformSettings.CurrentSizeType = BetterTransformSettings.SizeType.Renderer;
+                    UpdateSizeTypeButtons();
+                    UpdateSize();
+                });
 
-            addFunctionalityContextMenu.AddSeparator("");
+            _settingsMenuButton.AddItem("Mesh Filter Only Size",
+                _betterTransformSettings.CurrentSizeType == BetterTransformSettings.SizeType.Filter, () =>
+                {
+                    _betterTransformSettings.CurrentSizeType = BetterTransformSettings.SizeType.Filter;
+                    UpdateSizeTypeButtons();
+                    UpdateSize();
+                });
 
-            bool hierarchySize = editorSettings.IncludeChildBounds;
-            addFunctionalityContextMenu.AddItem("Hierarchy Size", hierarchySize, () =>
-            {
-                editorSettings.IncludeChildBounds = true;
-                UpdateSizeInclusionButtons();
-                SceneView.RepaintAll();
-            });
-            addFunctionalityContextMenu.AddItem("Self Size", !hierarchySize, () =>
-            {
-                editorSettings.IncludeChildBounds = false;
-                UpdateSizeInclusionButtons();
-                SceneView.RepaintAll();
-            });
+            _settingsMenuButton.AddSeparator("");
 
-            addFunctionalityContextMenu.AddSeparator("");
-
-            if (settingsFoldout == null || settingsFoldout.style.display == DisplayStyle.None)
-                addFunctionalityContextMenu.AddItem("Open Settings", false, () => OpenSettings());
+            if (_betterTransformSettings.CurrentSizeType == BetterTransformSettings.SizeType.Filter)
+                _settingsMenuButton.AddDisabledItem("Ignore Particle and VFX Renderer",
+                    _betterTransformSettings.ignoreParticleAndVFXInSizeCalculation);
             else
-                addFunctionalityContextMenu.AddItem("Close Settings", false, () => ToggleSettings(false));
+                _settingsMenuButton.AddItem("Ignore Particle and VFX Renderer",
+                    _betterTransformSettings.ignoreParticleAndVFXInSizeCalculation, () =>
+                    {
+                        _betterTransformSettings.ignoreParticleAndVFXInSizeCalculation =
+                            !_betterTransformSettings.ignoreParticleAndVFXInSizeCalculation;
+                        _betterTransformSettings.Save();
+                        UpdateSize(true);
+                        SceneView.RepaintAll();
+                    });
         }
 
-        private Rect GetMenuRect(VisualElement anchor)
+        static Rect GetMenuRect(VisualElement anchor)
         {
-            var worldBound = anchor.worldBound;
-            worldBound.xMin -= 150;
+            Rect worldBound = anchor.worldBound;
+            worldBound.xMin -= 250;
             worldBound.xMax += 0;
             return worldBound;
         }
@@ -4384,99 +3767,86 @@ namespace TinyGiantStudio.BetterInspector
         #region Settings
 
         /// <summary>
-        /// These is no need to register callbacks for every field in the setting when it will remain unused most of the times,
-        /// This can be used to track if the setup is done, and if not, can be done by calling SetupSettingsField() method.
+        ///     Registering callbacks for every field in the settings is unnecessary when most fields remain unused.
+        ///     This can be used to determine whether setup has already occurred; if not, invoke SetupSettingsField() to complete
+        ///     it.
         /// </summary>
-        private bool settingsFieldSetupDone = false;
+        bool _settingsFieldSetupDone;
 
-        private Toggle roundPositionFieldToggle;
-        private Toggle roundRotationFieldToggle;
-        private Toggle roundScaleFieldToggle;
+        Toggle _roundPositionFieldToggle;
+        Toggle _roundRotationFieldToggle;
+        Toggle _roundScaleFieldToggle;
 
-        /// <summary>
-        /// This is called once when the object is selected.
-        ///
-        /// The fields are setup AFTER the foldout is opened
-        /// </summary>
-        /// <param name="customFoldoutSetup"></param>
-        private void SetupSettings()
+
+        GroupBox _settingsFoldout;
+
+        void SetupSettingsFoldouts()
         {
-            //The gear icon on the right top corner
-            Button openSettingsButton = topGroupBox.Q<Button>("OpenSettingsButton");
-            if (targets.Length > 1)
-            {
-                openSettingsButton.style.display = DisplayStyle.None;
-                return;
-            }
+            CustomFoldout.SetupFoldout(_settingsFoldout);
+            CustomFoldout.SetupFoldout(_settingsFoldout.Q<GroupBox>("InspectorCustomizationSettings"));
+            CustomFoldout.SetupFoldout(_settingsFoldout.Q<GroupBox>("MainInformationSettings"));
+            CustomFoldout.SetupFoldout(_settingsFoldout.Q<GroupBox>("SizeGroupBox"));
+            CustomFoldout.SetupFoldout(_settingsFoldout.Q<GroupBox>("GizmoSettingsGroupBox"));
+            CustomFoldout.SetupFoldout(_settingsFoldout.Q<GroupBox>("GizmoLabelSettingsGroupBox"),
+                "FoldoutToggle", "GizmoLabel");
+            CustomFoldout.SetupFoldout(_settingsFoldout.Q<GroupBox>("UtilitySettings"));
 
-            openSettingsButton.clicked += () =>
+            Toggle foldoutToggle = _settingsFoldout.Q<Toggle>("FoldoutToggle");
+            foldoutToggle.schedule.Execute(() =>
             {
-                OpenSettings();
-            };
+                foldoutToggle.RegisterValueChangedCallback(ev => { ToggleSettings(ev.newValue); });
+            }).ExecuteLater(1000);
+
+            foldoutToggle.SetValueWithoutNotify(false);
         }
 
-        private void OpenSettings()
+        /// <summary>
+        /// </summary>
+        /// <param name="value">Turn on or off</param>
+        void ToggleSettings(bool value)
         {
-            if (!settingsFieldSetupDone)
+            Toggle foldoutToggle = _settingsFoldout.Q<Toggle>("FoldoutToggle");
+            GroupBox content = _settingsFoldout.Q<GroupBox>("Content");
+
+            //When on, this is called AFTER foldout value has been set. If this causes issue, schedule the binding
+            ToggleSettings(_settingsFoldout, foldoutToggle, content, value);
+        }
+
+        void ToggleSettings()
+        {
+            if (!_settingsFieldSetupDone)
             {
+                if (settingsTemplate == null)
+                {
+                    settingsTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(SettingsTemplateFileLocation);
+                    if (settingsTemplate == null)
+                    {
+                        string assetPath = AssetDatabase.GUIDToAssetPath(SettingsTemplateGuid);
+                        if (!string.IsNullOrEmpty(assetPath))
+                            settingsTemplate = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(assetPath);
+                    }
+                }
+
+                if (settingsTemplate == null) return;
+                TemplateContainer settingsTemplateContainer = settingsTemplate.CloneTree();
+                _rootHolder.Insert(1, settingsTemplateContainer);
+
+                _settingsFoldout = settingsTemplateContainer.Q<GroupBox>("Settings");
                 SetupSettingsFoldouts();
                 SetupSettingsFields();
             }
 
-            ToggleSettings();
-        }
-
-        private ColorField gizmoColorField;
-
-        private GroupBox settingsFoldout;
-
-        private void SetupSettingsFoldouts()
-        {
-            settingsFoldout = root.Q<GroupBox>("Settings");
-            customFoldoutSetup.SetupFoldout(settingsFoldout);
-            customFoldoutSetup.SetupFoldout(settingsFoldout.Q<GroupBox>("InspectorCustomizationSettings"));
-            customFoldoutSetup.SetupFoldout(settingsFoldout.Q<GroupBox>("MainInformationSettings"));
-            customFoldoutSetup.SetupFoldout(settingsFoldout.Q<GroupBox>("SizeGroupBox"));
-            customFoldoutSetup.SetupFoldout(settingsFoldout.Q<GroupBox>("GizmoSettingsGroupBox"), "FoldoutToggle", "GizmoLabel");
-            customFoldoutSetup.SetupFoldout(settingsFoldout.Q<GroupBox>("PrefabNotesGroupBox"), "FoldoutToggle", "PrefabNotesToggle");
-            customFoldoutSetup.SetupFoldout(settingsFoldout.Q<GroupBox>("UtilitySettings"));
-
-            GroupBox content = settingsFoldout.Q<GroupBox>("Content");
-            Toggle foldoutToggle = settingsFoldout.Q<Toggle>("FoldoutToggle");
-            foldoutToggle.RegisterValueChangedCallback(ev =>
-            {
-                ToggleSettings(ev.newValue);
-            });
-            foldoutToggle.value = false;
-        }
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="value">Turn on or off</param>
-        private void ToggleSettings(bool value)
-        {
-            GroupBox settingsFoldout = root.Q<GroupBox>("Settings");
-            Toggle foldoutToggle = settingsFoldout.Q<Toggle>("FoldoutToggle");
-            GroupBox content = settingsFoldout.Q<GroupBox>("Content");
+            Toggle foldoutToggle = _settingsFoldout.Q<Toggle>("FoldoutToggle");
+            GroupBox content = _settingsFoldout.Q<GroupBox>("Content");
 
             //When on, this is called AFTER foldout value has been set. If this causes issue, schedule the binding
-            ToggleSettings(customFoldoutSetup, settingsFoldout, foldoutToggle, content, value);
+            ToggleSettings(_settingsFoldout, foldoutToggle, content, !foldoutToggle.value);
         }
 
-        private void ToggleSettings()
+        static void ToggleSettings(GroupBox settings, Toggle foldoutToggle,
+            GroupBox content, bool turnOn)
         {
-            GroupBox settingsFoldout = root.Q<GroupBox>("Settings");
-            Toggle foldoutToggle = settingsFoldout.Q<Toggle>("FoldoutToggle");
-            GroupBox content = settingsFoldout.Q<GroupBox>("Content");
-
-            //When on, this is called AFTER foldout value has been set. If this causes issue, schedule the binding
-            ToggleSettings(customFoldoutSetup, settingsFoldout, foldoutToggle, content, !foldoutToggle.value);
-        }
-
-        private void ToggleSettings(CustomFoldoutSetup customFoldoutSetup, GroupBox settings, Toggle foldoutToggle, GroupBox content, bool turnOn)
-        {
-            customFoldoutSetup.SwitchContent(content, turnOn);
+            CustomFoldout.SwitchContent(content, turnOn);
 
             //Turn on settings
             if (turnOn)
@@ -4494,464 +3864,842 @@ namespace TinyGiantStudio.BetterInspector
         //TODO: Q the content
         //This is only called after the settings button is clicked.
         //This is to reduce workload when something is clicked and not unnecessarily assign stuff.
-        private void SetupSettingsFields()
+        void SetupSettingsFields()
         {
-            settingsFieldSetupDone = true;
+            _settingsFieldSetupDone = true;
 
-            GroupBox inspectorSettingsFoldout = root.Q<GroupBox>("Settings");
+            GroupBox settingsFoldoutContent = _settingsFoldout.Q<GroupBox>("Content");
 
-            SetupFooter(root);
+            settingsFoldoutContent.Add(new HelpBox(
+                "Some fields and labels are automatically hidden according to the width of the inspector.\n" +
+                "Resize the inspector to check it out.",
+                HelpBoxMessageType.Info));
 
-            Toggle defaultUnityInspectorToggle = inspectorSettingsFoldout.Q<Toggle>("DefaultUnityInspectorToggle");
-            defaultUnityInspectorToggle.SetValueWithoutNotify(editorSettings.LoadDefaultInspector);
-            defaultUnityInspectorToggle.RegisterValueChangedCallback(e =>
+            settingsFoldoutContent.Q<ToolbarButton>("AssetLink").clicked += () => Application.OpenURL(AssetLink);
+            settingsFoldoutContent.Q<ToolbarButton>("Documentation").clicked +=
+                () => Application.OpenURL(DocumentationLink);
+            settingsFoldoutContent.Q<ToolbarButton>("OtherAssetsLink").clicked +=
+                () => Application.OpenURL(PublisherLink);
+
+            Toggle defaultUnityInspectorToggle = settingsFoldoutContent.Q<Toggle>("DefaultUnityInspectorToggle");
+            defaultUnityInspectorToggle.SetValueWithoutNotify(_betterTransformSettings.LoadDefaultInspector);
+            defaultUnityInspectorToggle.schedule.Execute(() =>
             {
-                editorSettings.LoadDefaultInspector = e.newValue;
-                UpdateMainControls();
-            });
-
-            ColorField inspectorColorField = inspectorSettingsFoldout.Q<ColorField>("InspectorColorField");
-            Toggle overrideInspectorColor = inspectorSettingsFoldout.Q<Toggle>("OverrideInspectorColorToggle");
-            ColorField foldoutColorField = inspectorSettingsFoldout.Q<ColorField>("FoldoutColorField");
-            Toggle overrideFoldoutColorToggle = inspectorSettingsFoldout.Q<Toggle>("OverrideFoldoutColorToggle");
-            SetupInspectorColorSettings(inspectorColorField, overrideInspectorColor, foldoutColorField, overrideFoldoutColorToggle);
-
-            Toggle copyPasteButtonsToggle = inspectorSettingsFoldout.Q<Toggle>("CopyPasteButtonsToggle");
-            SetupCopyPasteButtonsToggle(copyPasteButtonsToggle);
-
-            IntegerField fieldRoundingField = inspectorSettingsFoldout.Q<IntegerField>("FieldRounding");
-            SetupFieldRoundingField(fieldRoundingField);
-
-            roundPositionFieldToggle = inspectorSettingsFoldout.Q<Toggle>("RoundPositionFieldToggle");
-            roundPositionFieldToggle.value = editorSettings.roundPositionField;
-            roundPositionFieldToggle.RegisterValueChangedCallback(ev => { TogglePositionFieldRounding(); });
-
-            roundRotationFieldToggle = inspectorSettingsFoldout.Q<Toggle>("RoundRotationFieldToggle");
-            roundRotationFieldToggle.value = editorSettings.roundRotationField;
-            roundRotationFieldToggle.RegisterValueChangedCallback(ev => { ToggleRotationFieldRounding(); });
-
-            roundScaleFieldToggle = inspectorSettingsFoldout.Q<Toggle>("RoundScaleFieldToggle");
-            roundScaleFieldToggle.value = editorSettings.roundScaleField;
-            roundScaleFieldToggle.RegisterValueChangedCallback(ev => { ToggleScaleFieldRounding(); });
-
-            Toggle sizeFoldoutToggle = inspectorSettingsFoldout.Q<Toggle>("ShowSizeFoldoutToggle");
-            SetupSizeFoldoutToggle(inspectorSettingsFoldout, sizeFoldoutToggle);
-
-            Toggle showWhySizeFoldoutIsHidden = inspectorSettingsFoldout.Q<Toggle>("ShowWhySizeFoldoutIsHidden");
-            showWhySizeFoldoutIsHidden.SetValueWithoutNotify(editorSettings.showWhySizeIsHiddenLabel);
-            showWhySizeFoldoutIsHidden.RegisterValueChangedCallback(e =>
-            {
-                editorSettings.showWhySizeIsHiddenLabel = e.newValue;
-                editorSettings.Save();
-                UpdateSize(false);
-            });
-
-            Toggle ignoreParticleAndVFX = inspectorSettingsFoldout.Q<Toggle>("IgnoreParticleAndVFX");
-            ignoreParticleAndVFX.SetValueWithoutNotify(editorSettings.ignoreParticleAndVFXInSizeCalculation);
-            ignoreParticleAndVFX.RegisterValueChangedCallback(e =>
-            {
-                editorSettings.ignoreParticleAndVFXInSizeCalculation = e.newValue;
-                editorSettings.Save();
-                UpdateSize(true);
-                SceneView.RepaintAll();
-            });
-
-            Toggle gizmoLabel = inspectorSettingsFoldout.Q<Toggle>("GizmoLabel");
-            SetupGizmoLabel(inspectorSettingsFoldout, gizmoLabel);
-
-            IntegerField sizeGizmoLabelSizeField = inspectorSettingsFoldout.Q<IntegerField>("SizeGizmoLabelSize");
-            SetupSizeGizmoLabelSizeField(sizeGizmoLabelSizeField);
-
-            gizmoColorField = inspectorSettingsFoldout.Q<ColorField>("GizmoColor");
-            SetupGizmoColorField(gizmoColorField);
-
-            Toggle sizeGizmoLabelBothSideToggle = inspectorSettingsFoldout.Q<Toggle>("SizeGizmoLabelBothSide");
-            SetupSizeGizmoLabelBothSideToggle(inspectorSettingsFoldout, sizeGizmoLabelBothSideToggle);
-
-            IntegerField minimumSizeForDoubleLabel = inspectorSettingsFoldout.Q<IntegerField>("MinimumSizeForDoubleLabel");
-            SetupMinimumSizeForDoubleLabel(minimumSizeForDoubleLabel);
-
-            IntegerField gizmoMaximumDecimalPoints = inspectorSettingsFoldout.Q<IntegerField>("GizmoMaximumDecimalPoints");
-            gizmoMaximumDecimalPoints.value = editorSettings.GizmoMaximumDecimalPoints;
-            gizmoMaximumDecimalPoints.RegisterValueChangedCallback(ev =>
-            {
-                if (ev.newValue < 0)
+                defaultUnityInspectorToggle.RegisterValueChangedCallback(e =>
                 {
-                    gizmoMaximumDecimalPoints.SetValueWithoutNotify(0);
-                    editorSettings.GizmoMaximumDecimalPoints = 0;
+                    _betterTransformSettings.LoadDefaultInspector = e.newValue;
+                    UpdateMainControls();
+                });
+            }).ExecuteLater(100);
+
+            Toggle foldoutAnimationsToggle = settingsFoldoutContent.Q<Toggle>("FoldoutAnimationsToggle");
+            foldoutAnimationsToggle.SetValueWithoutNotify(_betterTransformSettings.animatedFoldout);
+            foldoutAnimationsToggle.schedule.Execute(() =>
+            {
+                foldoutAnimationsToggle.RegisterValueChangedCallback(e =>
+                {
+                    _betterTransformSettings.animatedFoldout = e.newValue;
+                    _betterTransformSettings.Save();
+
+                    StyleSheetsManager.UpdateStyleSheet(_root);
+                });
+            }).ExecuteLater(50);
+
+            ColorField foldoutColorField = settingsFoldoutContent.Q<ColorField>("FoldoutColorField");
+            Toggle overrideFoldoutColorToggle = settingsFoldoutContent.Q<Toggle>("OverrideFoldoutColorToggle");
+
+            Toggle overrideInspectorColor = settingsFoldoutContent.Q<Toggle>("OverrideInspectorColorToggle");
+            ColorField inspectorLocalSpaceColorField =
+                settingsFoldoutContent.Q<ColorField>("InspectorLocalSpaceColorField");
+            ColorField inspectorWorldSpaceColorField =
+                settingsFoldoutContent.Q<ColorField>("InspectorWorldSpaceColorField");
+            SetupInspectorColorSettings(overrideFoldoutColorToggle, foldoutColorField, overrideInspectorColor,
+                inspectorLocalSpaceColorField, inspectorWorldSpaceColorField);
+
+            SliderInt foldoutStyle = settingsFoldoutContent.Q<SliderInt>("FoldoutStyle");
+            foldoutStyle.SetValueWithoutNotify(_inspectorEditorSettings.selectedFoldoutStyle);
+            foldoutStyle.schedule.Execute(() =>
+            {
+                foldoutStyle.RegisterValueChangedCallback(ev =>
+                {
+                    _inspectorEditorSettings.selectedFoldoutStyle = ev.newValue;
+                    UpdateStyleSheets();
+                });
+            }).ExecuteLater(75);
+
+            SliderInt buttonStyle = settingsFoldoutContent.Q<SliderInt>("ButtonStyle");
+            buttonStyle.SetValueWithoutNotify(_inspectorEditorSettings.selectedButtonStyle);
+            buttonStyle.schedule.Execute(() =>
+            {
+                buttonStyle.RegisterValueChangedCallback(ev =>
+                {
+                    _inspectorEditorSettings.selectedButtonStyle = ev.newValue;
+                    UpdateStyleSheets();
+                });
+            }).ExecuteLater(100);
+
+            Toggle copyPasteButtonsToggle = settingsFoldoutContent.Q<Toggle>("CopyPasteButtonsToggle");
+            copyPasteButtonsToggle.SetValueWithoutNotify(_betterTransformSettings.ShowCopyPasteButtons);
+            copyPasteButtonsToggle.schedule.Execute(() =>
+            {
+                copyPasteButtonsToggle.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.ShowCopyPasteButtons = ev.newValue;
+                    UpdateToolbarVisibility();
+                });
+            }).ExecuteLater(100);
+
+
+            IntegerField fieldRoundingField = settingsFoldoutContent.Q<IntegerField>("FieldRounding");
+            fieldRoundingField.value = _betterTransformSettings.FieldRoundingAmount;
+            fieldRoundingField.schedule.Execute(() =>
+            {
+                fieldRoundingField.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.FieldRoundingAmount = ev.newValue;
+                    UpdateMainControls();
+                });
+            }).ExecuteLater(150);
+
+            _roundPositionFieldToggle = settingsFoldoutContent.Q<Toggle>("RoundPositionFieldToggle");
+            _roundPositionFieldToggle.SetValueWithoutNotify(_betterTransformSettings.roundPositionField);
+            _roundPositionFieldToggle.schedule.Execute(() =>
+            {
+                _roundPositionFieldToggle.RegisterValueChangedCallback(_ => { TogglePositionFieldRounding(); });
+            }).ExecuteLater(200);
+
+            _roundRotationFieldToggle = settingsFoldoutContent.Q<Toggle>("RoundRotationFieldToggle");
+            _roundRotationFieldToggle.SetValueWithoutNotify(_betterTransformSettings.roundRotationField);
+            _roundRotationFieldToggle.schedule.Execute(() =>
+            {
+                _roundRotationFieldToggle.RegisterValueChangedCallback(_ => { ToggleRotationFieldRounding(); });
+            }).ExecuteLater(250);
+
+            _maxChildCountForSizeCalculation = _root.Q<IntegerField>("MaxChildCountForSizeCalculation");
+            _maxChildCountForSizeCalculation.SetValueWithoutNotify(_betterTransformSettings
+                .MaxChildCountForSizeCalculation);
+            _maxChildCountForSizeCalculation.schedule.Execute(() =>
+            {
+                _maxChildCountForSizeCalculation.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.MaxChildCountForSizeCalculation = ev.newValue;
+                });
+            }).ExecuteLater(1000);
+
+            _roundScaleFieldToggle = settingsFoldoutContent.Q<Toggle>("RoundScaleFieldToggle");
+            _roundScaleFieldToggle.SetValueWithoutNotify(_betterTransformSettings.roundScaleField);
+            _roundScaleFieldToggle.schedule.Execute(() =>
+            {
+                _roundScaleFieldToggle.RegisterValueChangedCallback(_ => { ToggleScaleFieldRounding(); });
+            }).ExecuteLater(300);
+
+            Toggle sizeFoldoutToggle = settingsFoldoutContent.Q<Toggle>("ShowSizeFoldoutToggle");
+            SetupSizeFoldoutToggle(settingsFoldoutContent, sizeFoldoutToggle);
+
+            Toggle showWhySizeFoldoutIsHidden = settingsFoldoutContent.Q<Toggle>("ShowWhySizeFoldoutIsHidden");
+            showWhySizeFoldoutIsHidden.SetValueWithoutNotify(_betterTransformSettings.showWhySizeIsHiddenLabel);
+            showWhySizeFoldoutIsHidden.schedule.Execute(() =>
+            {
+                showWhySizeFoldoutIsHidden.RegisterValueChangedCallback(e =>
+                {
+                    _betterTransformSettings.showWhySizeIsHiddenLabel = e.newValue;
+                    _betterTransformSettings.Save();
+                    UpdateSize();
+                });
+            }).ExecuteLater(350);
+
+            Toggle ignoreParticleAndVFX = settingsFoldoutContent.Q<Toggle>("IgnoreParticleAndVFX");
+            ignoreParticleAndVFX.SetValueWithoutNotify(_betterTransformSettings.ignoreParticleAndVFXInSizeCalculation);
+            ignoreParticleAndVFX.schedule.Execute(() =>
+            {
+                ignoreParticleAndVFX.RegisterValueChangedCallback(e =>
+                {
+                    _betterTransformSettings.ignoreParticleAndVFXInSizeCalculation = e.newValue;
+                    _betterTransformSettings.Save();
+                    UpdateSize(true);
                     SceneView.RepaintAll();
-                    return;
-                }
+                });
+            }).ExecuteLater(400);
 
-                editorSettings.GizmoMaximumDecimalPoints = ev.newValue;
-                SceneView.RepaintAll();
-            });
+            #region Gizmo
 
-            Toggle showSiblingIndexToggle = inspectorSettingsFoldout.Q<Toggle>("ShowSiblingIndexToggle");
-            showSiblingIndexToggle.value = editorSettings.showSiblingIndex;
-            showSiblingIndexToggle.RegisterValueChangedCallback(ev =>
+            FloatField sizeGizmoOutlineThickness = settingsFoldoutContent.Q<FloatField>("OutlineThickness");
+            sizeGizmoOutlineThickness.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoOutlineThickness);
+            sizeGizmoOutlineThickness.schedule.Execute(() =>
             {
-                editorSettings.showSiblingIndex = ev.newValue;
-
-                if (editorSettings.showSiblingIndex && transform.parent)
+                sizeGizmoOutlineThickness.RegisterValueChangedCallback(e =>
                 {
-                    siblingIndexLabel.style.display = DisplayStyle.Flex;
-                    UpdateSiblingIndex(transform, siblingIndexLabel);
-                }
-                else
-                {
-                    siblingIndexLabel.style.display = DisplayStyle.None;
-                }
-            });
+                    if (e.newValue < 1) return;
+                    _betterTransformSettings.SizeGizmoOutlineThickness = e.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(450);
 
-            Toggle ShowAssetGUID = inspectorSettingsFoldout.Q<Toggle>("ShowAssetGUID");
-            ShowAssetGUID.value = editorSettings.showAssetGUID;
-            ShowAssetGUID.RegisterValueChangedCallback(ev =>
+            ColorField sizeGizmoOutlineColorX = settingsFoldoutContent.Q<ColorField>("OutlineColorX");
+            sizeGizmoOutlineColorX.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoOutlineColorX);
+            sizeGizmoOutlineColorX.schedule.Execute(() =>
             {
-                editorSettings.showAssetGUID = ev.newValue;
-                editorSettings.Save();
+                sizeGizmoOutlineColorX.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.SizeGizmoOutlineColorX = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(500);
 
-                Label idLabel = root.Q<Label>("GUID");
-                idLabel.style.display = DisplayStyle.None;
-                if (editorSettings.showAssetGUID)
-                    if (thisIsAnAsset)
+            ColorField sizeGizmoOutlineColorY = settingsFoldoutContent.Q<ColorField>("OutlineColorY");
+            sizeGizmoOutlineColorY.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoOutlineColorY);
+            sizeGizmoOutlineColorY.schedule.Execute(() =>
+            {
+                sizeGizmoOutlineColorY.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.SizeGizmoOutlineColorY = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(550);
+
+            ColorField sizeGizmoOutlineColorZ = settingsFoldoutContent.Q<ColorField>("OutlineColorZ");
+            sizeGizmoOutlineColorZ.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoOutlineColorZ);
+            sizeGizmoOutlineColorZ.schedule.Execute(() =>
+            {
+                sizeGizmoOutlineColorZ.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.SizeGizmoOutlineColorZ = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(600);
+
+            IntegerField sizeGizmoLabelSizeField = settingsFoldoutContent.Q<IntegerField>("SizeGizmoLabelSize");
+            sizeGizmoLabelSizeField.value = _betterTransformSettings.SizeGizmoLabelSize;
+            sizeGizmoLabelSizeField.schedule.Execute(() =>
+            {
+                sizeGizmoLabelSizeField.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.SizeGizmoLabelSize = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(650);
+
+            ColorField sizeGizmoLabelColorX = settingsFoldoutContent.Q<ColorField>("GizmoLabelColorX");
+            sizeGizmoLabelColorX.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoLabelColorX);
+            sizeGizmoLabelColorX.schedule.Execute(() =>
+            {
+                sizeGizmoLabelColorX.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.SizeGizmoLabelColorX = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(700);
+
+            ColorField sizeGizmoLabelColorY = settingsFoldoutContent.Q<ColorField>("GizmoLabelColorY");
+            sizeGizmoLabelColorY.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoLabelColorY);
+            sizeGizmoLabelColorY.schedule.Execute(() =>
+            {
+                sizeGizmoLabelColorY.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.SizeGizmoLabelColorY = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(750);
+
+            ColorField sizeGizmoLabelColorZ = settingsFoldoutContent.Q<ColorField>("GizmoLabelColorZ");
+            sizeGizmoLabelColorZ.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoLabelColorZ);
+            sizeGizmoLabelColorZ.schedule.Execute(() =>
+            {
+                sizeGizmoLabelColorZ.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.SizeGizmoLabelColorZ = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(800);
+
+            ColorField sizeGizmoLabelBackgroundColorX =
+                settingsFoldoutContent.Q<ColorField>("GizmoLabelBackgroundColorX");
+            sizeGizmoLabelBackgroundColorX.SetValueWithoutNotify(_betterTransformSettings
+                .SizeGizmoLabelBackgroundColorX);
+            sizeGizmoLabelBackgroundColorX.schedule.Execute(() =>
+            {
+                sizeGizmoLabelBackgroundColorX.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.SizeGizmoLabelBackgroundColorX = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(850);
+
+            ColorField sizeGizmoLabelBackgroundColorY =
+                settingsFoldoutContent.Q<ColorField>("GizmoLabelBackgroundColorY");
+            sizeGizmoLabelBackgroundColorY.SetValueWithoutNotify(_betterTransformSettings
+                .SizeGizmoLabelBackgroundColorY);
+            sizeGizmoLabelBackgroundColorY.schedule.Execute(() =>
+            {
+                sizeGizmoLabelBackgroundColorY.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.SizeGizmoLabelBackgroundColorY = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(900);
+
+            ColorField sizeGizmoLabelBackgroundColorZ =
+                settingsFoldoutContent.Q<ColorField>("GizmoLabelBackgroundColorZ");
+            sizeGizmoLabelBackgroundColorZ.SetValueWithoutNotify(_betterTransformSettings
+                .SizeGizmoLabelBackgroundColorZ);
+            sizeGizmoLabelBackgroundColorZ.schedule.Execute(() =>
+            {
+                sizeGizmoLabelBackgroundColorZ.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.SizeGizmoLabelBackgroundColorZ = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(950);
+
+            Toggle showAxisOnLabel = settingsFoldoutContent.Q<Toggle>("AxisOnLabel");
+            showAxisOnLabel.SetValueWithoutNotify(_betterTransformSettings.ShowAxisOnLabel);
+            showAxisOnLabel.schedule.Execute(() =>
+            {
+                showAxisOnLabel.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.ShowAxisOnLabel = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1000);
+
+            Toggle unitOnLabel = settingsFoldoutContent.Q<Toggle>("UnitOnLabel");
+            unitOnLabel.SetValueWithoutNotify(_betterTransformSettings.ShowUnitOnLabel);
+            unitOnLabel.schedule.Execute(() =>
+            {
+                unitOnLabel.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.ShowUnitOnLabel = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1005);
+
+            FloatField labelOffset = settingsFoldoutContent.Q<FloatField>("LabelOffset");
+            labelOffset.SetValueWithoutNotify(_betterTransformSettings.LabelOffset);
+            labelOffset.schedule.Execute(() =>
+            {
+                labelOffset.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.LabelOffset = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1010);
+
+            RadioButton positionLabelAtCenter = settingsFoldoutContent.Q<RadioButton>("PositionLabelAtCenter");
+            positionLabelAtCenter.SetValueWithoutNotify(_betterTransformSettings.PositionLabelAtCenter);
+            positionLabelAtCenter.schedule.Execute(() =>
+            {
+                positionLabelAtCenter.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.PositionLabelAtCenter = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1020);
+
+            RadioButton closestAxis = settingsFoldoutContent.Q<RadioButton>("ClosestAxis");
+            closestAxis.SetValueWithoutNotify(_betterTransformSettings.PositionLabelAtClosestAxis);
+            closestAxis.schedule.Execute(() =>
+            {
+                closestAxis.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.PositionLabelAtClosestAxis = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1030);
+
+            RadioButton cornerAxis = settingsFoldoutContent.Q<RadioButton>("CornerAxis");
+            cornerAxis.SetValueWithoutNotify(_betterTransformSettings.PositionLabelAtCornerAxis);
+            cornerAxis.schedule.Execute(() =>
+            {
+                cornerAxis.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.PositionLabelAtCornerAxis = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1040);
+
+            Toggle sizeGizmoLabelBothSideToggle = settingsFoldoutContent.Q<Toggle>("SizeGizmoLabelBothSide");
+            sizeGizmoLabelBothSideToggle.SetValueWithoutNotify(_betterTransformSettings.ShowSizeGizmoLabelOnBothSide);
+            sizeGizmoLabelBothSideToggle.schedule.Execute(() =>
+            {
+                sizeGizmoLabelBothSideToggle.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.ShowSizeGizmoLabelOnBothSide = ev.newValue;
+                    SceneView.RepaintAll();
+                    UpdateDoubleSidedLabelSettings(settingsFoldoutContent);
+                });
+            }).ExecuteLater(1050);
+
+
+            IntegerField minimumSizeForDoubleLabel =
+                settingsFoldoutContent.Q<IntegerField>("MinimumSizeForDoubleLabel");
+            minimumSizeForDoubleLabel.SetValueWithoutNotify(_betterTransformSettings.MinimumSizeForDoubleSidedLabel);
+            copyPasteButtonsToggle.schedule.Execute(() =>
+            {
+                minimumSizeForDoubleLabel.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.MinimumSizeForDoubleSidedLabel = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1060);
+
+
+            IntegerField gizmoMaximumDecimalPoints =
+                settingsFoldoutContent.Q<IntegerField>("GizmoMaximumDecimalPoints");
+            gizmoMaximumDecimalPoints.SetValueWithoutNotify(_betterTransformSettings.GizmoMaximumDecimalPoints);
+            copyPasteButtonsToggle.schedule.Execute(() =>
+            {
+                gizmoMaximumDecimalPoints.RegisterValueChangedCallback(ev =>
+                {
+                    if (ev.newValue < 0)
                     {
-                        idLabel.style.display = DisplayStyle.Flex;
-                        string id = GetID();
-                        idLabel.text = id;
-                        idLabel.tooltip = "GUID\n" + id;
+                        gizmoMaximumDecimalPoints.SetValueWithoutNotify(0);
+                        _betterTransformSettings.GizmoMaximumDecimalPoints = 0;
+                        SceneView.RepaintAll();
+                        return;
                     }
-            });
 
-            Toggle labelHandlesToggle = inspectorSettingsFoldout.Q<Toggle>("LabelHandles");
-            SetupLabelHandlesToggle(labelHandlesToggle);
+                    _betterTransformSettings.GizmoMaximumDecimalPoints = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1070);
 
-            Toggle parentChildTransformsToggle = inspectorSettingsFoldout.Q<Toggle>("ParentChildTransformsToggle");
-            SetupParentChildTransformsToggle(parentChildTransformsToggle);
 
-            IntegerField maxChildInspector = inspectorSettingsFoldout.Q<IntegerField>("MaxChildInspector");
-            SetupMaxChildInspector(maxChildInspector);
-
-            Button scaleSettingsButton = root.Q<Button>("ScaleSettingsButton"); //TODO: Why is it checking root instead of inspector settings foldout
-            scaleSettingsButton.clicked += () => { SettingsService.OpenProjectSettings("Project/Tiny Giant Studio/Scale Settings"); };
-
-            Toggle autoSizeUpdate = inspectorSettingsFoldout.Q<Toggle>("ConstantlyUpdateSize");
-            autoSizeUpdate.value = editorSettings.ConstantSizeUpdate;
-            autoSizeUpdate.RegisterValueChangedCallback(e =>
-             {
-                 editorSettings.ConstantSizeUpdate = e.newValue;
-                 if (e.newValue == true)
-                     StartSizeSchedule();
-                 else
-                     RemoveSizeUpdateScheduler();
-             });
-
-            Toggle prefabNotesToggle = inspectorSettingsFoldout.Q<Toggle>("PrefabNotesToggle");
-            UpdateNotesToggle(prefabNotesToggle);
-
-            Toggle showNotesInSceneGizmoToggle = inspectorSettingsFoldout.Q<Toggle>("ShowNotesInSceneGizmoToggle");
-            showNotesInSceneGizmoToggle.SetValueWithoutNotify(editorSettings.ShowNotesOnGizmo);
-            showNotesInSceneGizmoToggle.RegisterValueChangedCallback(e =>
+            Toggle labelHandlesToggle = settingsFoldoutContent.Q<Toggle>("LabelHandles");
+            labelHandlesToggle.SetValueWithoutNotify(_betterTransformSettings.ShowSizeGizmosLabelHandle);
+            labelHandlesToggle.schedule.Execute(() =>
             {
-                editorSettings.ShowNotesOnGizmo = e.newValue;
-                editorSettings.Save();
-                SceneView.RepaintAll();
-            });
-
-            Label notesCountLabel = inspectorSettingsFoldout.Q<Label>("NotesCount");
-            notesCountLabel.text = editorSettings.NoteCount().ToString();
-
-            Label notesInSceneCount = inspectorSettingsFoldout.Q<Label>("NotesInSceneCount");
-            if (thisIsAnAsset)
-            {
-                notesInSceneCount.style.display = DisplayStyle.None;
-            }
-            if (sceneNotesManager == null)
-            {
-                GetNotesManager();
-            }
-
-            if (sceneNotesManager != null)
-            {
-                notesInSceneCount.style.display = DisplayStyle.Flex;
-                notesInSceneCount.text = sceneNotesManager.notes.Count().ToString();
-            }
-
-            Button debugLogButton = inspectorSettingsFoldout.Q<Button>("DebugLogButton");
-            debugLogButton.clicked += () =>
-            {
-                editorSettings.DebugLogAllNotes();
-            };
-
-            Button deleteAllNoteButton = inspectorSettingsFoldout.Q<Button>("DeleteAllNotesButton");
-            deleteAllNoteButton.clicked += () =>
-            {
-                if (EditorUtility.DisplayDialog("Note permanent deletion", "This will permanently delete all notes. Are you sure?", "Yes", "No"))
+                labelHandlesToggle.RegisterValueChangedCallback(ev =>
                 {
-                    editorSettings.DeleteAllNotes();
-                    notesCountLabel.text = editorSettings.NoteCount().ToString();
-                }
-            };
-            Button cleanupNotesButton = inspectorSettingsFoldout.Q<Button>("CleanupNotesButton");
-            cleanupNotesButton.clicked += () =>
+                    _betterTransformSettings.ShowSizeGizmosLabelHandle = ev.newValue;
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1080);
+
+            #endregion Gizmo
+
+            Toggle showSiblingIndexToggle = settingsFoldoutContent.Q<Toggle>("ShowSiblingIndexToggle");
+            showSiblingIndexToggle.SetValueWithoutNotify(_betterTransformSettings.showSiblingIndex);
+            showSiblingIndexToggle.schedule.Execute(() =>
             {
-                int option = EditorUtility.DisplayDialogComplex("Clean-up Notes",
-            "This will attempt to remove all unused notes. This isn't always accurate and you can't undo it. Are you sure you want to proceed?",
-            "Yes",
-            "Yes, but debug.log the removed notes",
-            "Cancel");
-
-                switch (option)
+                showSiblingIndexToggle.RegisterValueChangedCallback(ev =>
                 {
-                    // Yes.
-                    case 0:
-                        editorSettings.CleanupNotes();
-                        break;
+                    _betterTransformSettings.showSiblingIndex = ev.newValue;
 
-                    // Yes with log.
-                    case 1:
-                        editorSettings.CleanupNotes(true);
-                        break;
+                    if (_betterTransformSettings.showSiblingIndex && transform.parent)
+                    {
+                        _siblingIndexLabel.style.display = DisplayStyle.Flex;
+                        _siblingIndex.style.display = DisplayStyle.Flex;
+                        UpdateSiblingIndex(transform, _siblingIndex);
+                    }
+                    else
+                    {
+                        _siblingIndexLabel.style.display = DisplayStyle.None;
+                        _siblingIndex.style.display = DisplayStyle.None;
+                    }
+                });
+            }).ExecuteLater(1090);
 
-                    // Cancel.
-                    case 2:
-                        Debug.Log("Note cleanup canceled.");
-                        break;
+            Toggle showAssetGuid = settingsFoldoutContent.Q<Toggle>("ShowAssetGUID");
+            showAssetGuid.SetValueWithoutNotify(_betterTransformSettings.showAssetGuid);
+            showAssetGuid.schedule.Execute(() =>
+            {
+                showAssetGuid.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.showAssetGuid = ev.newValue;
+                    _betterTransformSettings.Save();
 
-                    default:
-                        Debug.LogError("Unrecognized option.");
-                        break;
-                }
+                    Label idLabel = _root.Q<Label>("GUID");
+                    idLabel.style.display = DisplayStyle.None;
+                    if (!_betterTransformSettings.showAssetGuid) return;
+                    if (!_thisIsAnAsset) return;
+                    idLabel.style.display = DisplayStyle.Flex;
+                    string id = GetObjectID();
+                    idLabel.text = id;
+                    idLabel.tooltip = "GUID\n" + id;
+                });
+            }).ExecuteLater(1100);
+
+            Toggle parentChildTransformsToggle = settingsFoldoutContent.Q<Toggle>("ParentChildTransformsToggle");
+            parentChildTransformsToggle.value = _betterTransformSettings.ShowParentChildTransform;
+            parentChildTransformsToggle.schedule.Execute(() =>
+            {
+                parentChildTransformsToggle.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.ShowParentChildTransform = ev.newValue;
+                    UpdateSetupParentChildFoldouts();
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1110);
+
+            Toggle pingSelfButtonToggle = settingsFoldoutContent.Q<Toggle>("PingSelfButton");
+            pingSelfButtonToggle.SetValueWithoutNotify(_betterTransformSettings.pingSelfButton);
+            pingSelfButtonToggle.schedule.Execute(() =>
+            {
+                pingSelfButtonToggle.RegisterValueChangedCallback(e =>
+                {
+                    _betterTransformSettings.pingSelfButton = e.newValue;
+
+                    if (e.newValue)
+                    {
+                        _pingSelfButton.style.display = DisplayStyle.Flex;
+                        _pingSelfButton.clicked += () => { EditorGUIUtility.PingObject(transform); };
+                    }
+                    else
+                    {
+                        _pingSelfButton.style.display = DisplayStyle.None;
+                    }
+                });
+            }).ExecuteLater(1150);
+
+            IntegerField maxChildInspector = settingsFoldoutContent.Q<IntegerField>("MaxChildInspector");
+            maxChildInspector.value = _betterTransformSettings.MaxChildInspector;
+            maxChildInspector.schedule.Execute(() =>
+            {
+                maxChildInspector.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.MaxChildInspector = ev.newValue;
+                    UpdateSetupParentChildFoldouts();
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(1200);
+
+
+            Button scaleSettingsButton =
+                _root.Q<Button>(
+                    "ScaleSettingsButton"); //TODO: Why is it checking root instead of inspector settings foldout
+            scaleSettingsButton.clicked += () =>
+            {
+                SettingsService.OpenProjectSettings("Project/Tiny Giant Studio/Scale Settings");
             };
 
-            //UpdateInLineSizeView();
+            Toggle autoSizeUpdate = settingsFoldoutContent.Q<Toggle>("ConstantlyUpdateSize");
+            autoSizeUpdate.SetValueWithoutNotify(_betterTransformSettings.ConstantSizeUpdate);
+            autoSizeUpdate.schedule.Execute(() =>
+            {
+                autoSizeUpdate.RegisterValueChangedCallback(e =>
+                {
+                    _betterTransformSettings.ConstantSizeUpdate = e.newValue;
+                    if (e.newValue)
+                        StartSizeSchedule();
+                    else
+                        RemoveSizeUpdateScheduler();
+                    UpdateSizeFoldoutWarnings();
+                });
+            }).ExecuteLater(1210);
+
+
+            //UpdateSizeViewType();
             //UpdateSizeLabelSettings(inspectorSettingsFoldout);
-            UpdateDoubleSidedLabelSettings(inspectorSettingsFoldout);
+            UpdateDoubleSidedLabelSettings(settingsFoldoutContent);
 
-            Toggle performanceLoggingToggle = inspectorSettingsFoldout.Q<Toggle>("PerformanceLoggingToggle");
-            Toggle detailedPerformanceLoggingToggle = inspectorSettingsFoldout.Q<Toggle>("DetailedPerformanceLoggingToggle");
+            Toggle performanceLoggingToggle = settingsFoldoutContent.Q<Toggle>("PerformanceLoggingToggle");
+            Toggle detailedPerformanceLoggingToggle =
+                settingsFoldoutContent.Q<Toggle>("DetailedPerformanceLoggingToggle");
 
-            performanceLoggingToggle.value = editorSettings.logPerformance;
-            performanceLoggingToggle.RegisterValueChangedCallback(e =>
+            performanceLoggingToggle.SetValueWithoutNotify(_betterTransformSettings.logPerformance);
+            performanceLoggingToggle.schedule.Execute(() =>
             {
-                editorSettings.logPerformance = e.newValue;
-                editorSettings.Save();
+                performanceLoggingToggle.RegisterValueChangedCallback(e =>
+                {
+                    _betterTransformSettings.logPerformance = e.newValue;
+                    _betterTransformSettings.Save();
 
-                if (editorSettings.logPerformance)
-                    detailedPerformanceLoggingToggle.style.display = DisplayStyle.Flex;
-                else
-                    detailedPerformanceLoggingToggle.style.display = DisplayStyle.None;
+                    if (_betterTransformSettings.logPerformance)
+                        detailedPerformanceLoggingToggle.style.display = DisplayStyle.Flex;
+                    else
+                        detailedPerformanceLoggingToggle.style.display = DisplayStyle.None;
 
-                UpdatePerformanceLoggingGroupBox();
-            });
+                    UpdatePerformanceLoggingGroupBox();
+                });
+            }).ExecuteLater(1300);
 
-            if (editorSettings.logPerformance)
+            if (_betterTransformSettings.logPerformance)
                 detailedPerformanceLoggingToggle.style.display = DisplayStyle.Flex;
             else
                 detailedPerformanceLoggingToggle.style.display = DisplayStyle.None;
-            detailedPerformanceLoggingToggle.value = editorSettings.logDetailedPerformance;
-            detailedPerformanceLoggingToggle.RegisterValueChangedCallback(e =>
-            {
-                editorSettings.logDetailedPerformance = e.newValue;
-                editorSettings.Save();
-                UpdatePerformanceLoggingGroupBox();
-            });
 
-            Button resetInspectorSettingsToMinimal = root.Q<Button>("ResetInspectorSettingsToMinimal");
+            detailedPerformanceLoggingToggle.SetValueWithoutNotify(_betterTransformSettings.logDetailedPerformance);
+            detailedPerformanceLoggingToggle.schedule.Execute(() =>
+            {
+                detailedPerformanceLoggingToggle.RegisterValueChangedCallback(e =>
+                {
+                    _betterTransformSettings.logDetailedPerformance = e.newValue;
+                    _betterTransformSettings.Save();
+                    UpdatePerformanceLoggingGroupBox();
+                });
+            }).ExecuteLater(1310);
+
+            Button resetInspectorSettingsToMinimal = _root.Q<Button>("ResetInspectorSettingsToMinimal");
             resetInspectorSettingsToMinimal.clicked += () =>
             {
-                editorSettings.ResetToMinimal();
+                _betterTransformSettings.ResetToMinimal();
                 Reset();
             };
-            Button resetSettingsButton = root.Q<Button>("ResetButton");
+            Button resetSettingsButton = _root.Q<Button>("ResetButton");
             //There is no need to call the methods to update since the fields call them on value changes automatically.
             resetSettingsButton.clicked += () =>
             {
-                editorSettings.ResetToDefault();
+                _betterTransformSettings.ResetToDefault();
+                BetterInspectorEditorSettings.instance.Reset();
                 Reset();
             };
+            return;
 
             void Reset()
             {
-                inspectorSettingsFoldout.Q<Toggle>("DefaultUnityInspectorToggle").SetValueWithoutNotify(editorSettings.LoadDefaultInspector);
+                settingsFoldoutContent.Q<Toggle>("DefaultUnityInspectorToggle")
+                    .SetValueWithoutNotify(_betterTransformSettings.LoadDefaultInspector);
 
-                inspectorColorField.value = editorSettings.InspectorColor;
-                overrideInspectorColor.value = editorSettings.OverrideInspectorColor;
-                foldoutColorField.value = editorSettings.FoldoutColor;
-                overrideFoldoutColorToggle.value = editorSettings.OverrideFoldoutColor;
+                overrideFoldoutColorToggle.value = _betterTransformSettings.OverrideFoldoutColor;
+                foldoutColorField.value = _betterTransformSettings.FoldoutColor;
+                overrideInspectorColor.value = _betterTransformSettings.OverrideInspectorColor;
+                inspectorLocalSpaceColorField.value = _betterTransformSettings.InspectorColorInLocalSpace;
+                foldoutStyle.SetValueWithoutNotify(BetterInspectorEditorSettings.instance.selectedFoldoutStyle);
+                buttonStyle.SetValueWithoutNotify(BetterInspectorEditorSettings.instance.selectedButtonStyle);
+                inspectorWorldSpaceColorField.value = _betterTransformSettings.InspectorColorInWorldSpace;
+                StyleSheetsManager.UpdateStyleSheet(_root);
 
-                copyPasteButtonsToggle.value = editorSettings.ShowCopyPasteButtons;
-                fieldRoundingField.value = editorSettings.FieldRoundingAmount;
+                copyPasteButtonsToggle.value = _betterTransformSettings.ShowCopyPasteButtons;
+                fieldRoundingField.value = _betterTransformSettings.FieldRoundingAmount;
 
-                sizeFoldoutToggle.value = editorSettings.ShowSizeFoldout;
+                sizeFoldoutToggle.value = _betterTransformSettings.ShowSizeFoldout;
 
-                gizmoLabel.value = editorSettings.ShowSizeGizmoLabel;
+                #region Gizmo
 
-                sizeGizmoLabelSizeField.value = editorSettings.SizeGizmoLabelSize;
-                gizmoColorField.value = editorSettings.SizeGizmoColor;
-                sizeGizmoLabelBothSideToggle.value = editorSettings.ShowSizeGizmoLabelOnBothSide;
-                minimumSizeForDoubleLabel.value = editorSettings.MinimumSizeForDoubleSidedLabel;
-                gizmoMaximumDecimalPoints.value = editorSettings.GizmoMaximumDecimalPoints;
-                labelHandlesToggle.value = editorSettings.ShowSizeGizmosLabelHandle;
-                parentChildTransformsToggle.value = editorSettings.ShowParentChildTransform;
-                maxChildInspector.value = editorSettings.MaxChildInspector;
-                maxChildCountForSizeCalculation.value = editorSettings.MaxChildCountForSizeCalculation;
+                sizeGizmoOutlineThickness.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoOutlineThickness);
+                sizeGizmoOutlineColorX.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoOutlineColorX);
+                sizeGizmoOutlineColorY.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoOutlineColorY);
+                sizeGizmoOutlineColorZ.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoOutlineColorZ);
 
-                prefabNotesToggle.value = editorSettings.ShowNotes;
+                sizeGizmoLabelSizeField.value =
+                    _betterTransformSettings.SizeGizmoLabelSize; //Trigger the label styles to update
+                sizeGizmoLabelColorX.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoLabelColorX);
+                sizeGizmoLabelColorY.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoLabelColorY);
+                sizeGizmoLabelColorZ.SetValueWithoutNotify(_betterTransformSettings.SizeGizmoLabelColorZ);
 
-                showSiblingIndexToggle.value = editorSettings.showSiblingIndex;
-                ShowAssetGUID.value = editorSettings.showAssetGUID;
+                sizeGizmoLabelBackgroundColorX.value = _betterTransformSettings.SizeGizmoLabelBackgroundColorX;
+                sizeGizmoLabelBackgroundColorY.value = _betterTransformSettings.SizeGizmoLabelBackgroundColorY;
+                sizeGizmoLabelBackgroundColorZ.value = _betterTransformSettings.SizeGizmoLabelBackgroundColorZ;
 
-                performanceLoggingToggle.value = editorSettings.logPerformance;
+                showAxisOnLabel.SetValueWithoutNotify(_betterTransformSettings.ShowAxisOnLabel);
+                unitOnLabel.SetValueWithoutNotify(_betterTransformSettings.ShowUnitOnLabel);
+
+                positionLabelAtCenter.SetValueWithoutNotify(_betterTransformSettings.PositionLabelAtCenter);
+                closestAxis.SetValueWithoutNotify(_betterTransformSettings.PositionLabelAtClosestAxis);
+                cornerAxis.SetValueWithoutNotify(_betterTransformSettings.PositionLabelAtCornerAxis);
+
+                sizeGizmoLabelBothSideToggle.value = _betterTransformSettings.ShowSizeGizmoLabelOnBothSide;
+                minimumSizeForDoubleLabel.SetValueWithoutNotify(_betterTransformSettings
+                    .MinimumSizeForDoubleSidedLabel);
+                gizmoMaximumDecimalPoints.value = _betterTransformSettings.GizmoMaximumDecimalPoints;
+                labelHandlesToggle.SetValueWithoutNotify(_betterTransformSettings.ShowSizeGizmosLabelHandle);
+                labelOffset.SetValueWithoutNotify(_betterTransformSettings.LabelOffset);
+
+                #endregion Gizmo
+
+                parentChildTransformsToggle.value = _betterTransformSettings.ShowParentChildTransform;
+                maxChildInspector.value = _betterTransformSettings.MaxChildInspector;
+                _maxChildCountForSizeCalculation.value = _betterTransformSettings.MaxChildCountForSizeCalculation;
+
+                showSiblingIndexToggle.value = _betterTransformSettings.showSiblingIndex;
+                showAssetGuid.value = _betterTransformSettings.showAssetGuid;
+
+                performanceLoggingToggle.value = _betterTransformSettings.logPerformance;
 
                 SceneView.RepaintAll();
             }
         }
 
-        private void UpdateNotesToggle(Toggle prefabNotesToggle)
+        void SetupInspectorColorSettings(Toggle overrideFoldoutColorToggle, ColorField foldoutColorField,
+            Toggle overrideInspectorColor, ColorField inspectorLocalSpaceColorField,
+            ColorField inspectorWorldSpaceColorField)
         {
-            prefabNotesToggle.value = editorSettings.ShowNotes;
-            prefabNotesToggle.RegisterValueChangedCallback(ev =>
+            overrideFoldoutColorToggle.value = _betterTransformSettings.OverrideFoldoutColor;
+            overrideFoldoutColorToggle.schedule.Execute(() =>
             {
-                editorSettings.ShowNotes = ev.newValue;
-                //if (!ev.newValue)
-                //{
-                //    noteToolbarButton.style.display = DisplayStyle.None;
-                //    noteEditGroupBox.style.display = DisplayStyle.None;
-                //}
-                //else
-                //{
-                //    noteToolbarButton.style.display = DisplayStyle.Flex;
-                //}
-                InitialNoteSetup();
-                UpdateNoteType();
-            });
-        }
+                overrideFoldoutColorToggle.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.OverrideFoldoutColor = ev.newValue;
+                    if (!_betterTransformSettings.OverrideFoldoutColor)
+                        foldoutColorField.SetEnabled(false);
+                    else
+                        foldoutColorField.SetEnabled(true);
+                    UpdateInspectorColor();
+                });
+            }).ExecuteLater(300);
 
-        private void SetupInspectorColorSettings(ColorField inspectorColorField, Toggle overrideInspectorColor, ColorField foldoutColorField, Toggle overrideFoldoutColorToggle)
-        {
-            overrideInspectorColor.value = editorSettings.OverrideInspectorColor;
-            overrideInspectorColor.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.OverrideInspectorColor = ev.newValue;
-                if (!editorSettings.OverrideInspectorColor)
-                    inspectorColorField.SetEnabled(false);
-                else
-                    inspectorColorField.SetEnabled(true);
-                UpdateInspectorColor();
-            });
-            inspectorColorField.value = editorSettings.InspectorColor;
-            if (!editorSettings.OverrideInspectorColor)
-                inspectorColorField.SetEnabled(false);
-            else
-                inspectorColorField.SetEnabled(true);
-            inspectorColorField.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.InspectorColor = ev.newValue;
-                UpdateInspectorColor();
-            });
-
-            overrideFoldoutColorToggle.value = editorSettings.OverrideFoldoutColor;
-            overrideFoldoutColorToggle.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.OverrideFoldoutColor = ev.newValue;
-                if (!editorSettings.OverrideFoldoutColor)
-                    foldoutColorField.SetEnabled(false);
-                else
-                    foldoutColorField.SetEnabled(true);
-                UpdateInspectorColor();
-            });
-
-            if (!editorSettings.OverrideFoldoutColor)
+            if (!_betterTransformSettings.OverrideFoldoutColor)
                 foldoutColorField.SetEnabled(false);
             else
                 foldoutColorField.SetEnabled(true);
 
-            foldoutColorField.value = editorSettings.FoldoutColor;
-            foldoutColorField.RegisterValueChangedCallback(ev =>
+            foldoutColorField.SetValueWithoutNotify(_betterTransformSettings.FoldoutColor);
+            foldoutColorField.schedule.Execute(() =>
             {
-                editorSettings.FoldoutColor = ev.newValue;
-                UpdateInspectorColor();
-            });
-            UpdateInspectorColor();
+                foldoutColorField.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.FoldoutColor = ev.newValue;
+                    UpdateInspectorColor();
+                });
+            }).ExecuteLater(400);
+
+
+            overrideInspectorColor.value = _betterTransformSettings.OverrideInspectorColor;
+            overrideInspectorColor.schedule.Execute(() =>
+            {
+                overrideInspectorColor.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.OverrideInspectorColor = ev.newValue;
+                    if (!_betterTransformSettings.OverrideInspectorColor)
+                    {
+                        inspectorLocalSpaceColorField.SetEnabled(false);
+                        inspectorWorldSpaceColorField.SetEnabled(false);
+                    }
+                    else
+                    {
+                        inspectorLocalSpaceColorField.SetEnabled(true);
+                        inspectorWorldSpaceColorField.SetEnabled(true);
+                    }
+
+                    UpdateInspectorColor();
+                });
+            }).ExecuteLater(200);
+
+            inspectorLocalSpaceColorField.SetValueWithoutNotify(_betterTransformSettings.InspectorColorInLocalSpace);
+            inspectorWorldSpaceColorField.SetValueWithoutNotify(_betterTransformSettings.InspectorColorInWorldSpace);
+
+            if (!_betterTransformSettings.OverrideInspectorColor)
+            {
+                inspectorWorldSpaceColorField.SetEnabled(false);
+                inspectorLocalSpaceColorField.SetEnabled(false);
+            }
+            else
+            {
+                inspectorWorldSpaceColorField.SetEnabled(true);
+                inspectorLocalSpaceColorField.SetEnabled(true);
+            }
+
+            inspectorLocalSpaceColorField.schedule.Execute(() =>
+            {
+                inspectorLocalSpaceColorField.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.InspectorColorInLocalSpace = ev.newValue;
+                    UpdateInspectorColor();
+                });
+            }).ExecuteLater(200);
+
+            inspectorWorldSpaceColorField.schedule.Execute(() =>
+            {
+                inspectorWorldSpaceColorField.RegisterValueChangedCallback(ev =>
+                {
+                    _betterTransformSettings.InspectorColorInWorldSpace = ev.newValue;
+                    UpdateInspectorColor();
+                });
+            }).ExecuteLater(200);
         }
 
-        private void SetupCopyPasteButtonsToggle(Toggle copyPasteButtonsToggle)
-        {
-            copyPasteButtonsToggle.value = editorSettings.ShowCopyPasteButtons;
-            copyPasteButtonsToggle.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.ShowCopyPasteButtons = ev.newValue;
-                UpdateMainControls();
-            });
-        }
 
-        private void SetupFieldRoundingField(IntegerField fieldRoundingField)
-        {
-            fieldRoundingField.value = editorSettings.FieldRoundingAmount;
-            fieldRoundingField.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.FieldRoundingAmount = ev.newValue;
-                UpdateMainControls();
-            });
-        }
-
-        private void SetupSizeFoldoutToggle(GroupBox settingsFoldout, Toggle sizeFoldoutToggle)
+        void SetupSizeFoldoutToggle(GroupBox settingsFoldout, Toggle sizeFoldoutToggle)
         {
             Toggle showSizeInLineToggle = settingsFoldout.Q<Toggle>("ShowSizeInlineToggle");
             GroupBox gizmoSettingsGroupBox = settingsFoldout.Q<GroupBox>("GizmoSettingsGroupBox");
             Toggle showSizeCenterToggle = settingsFoldout.Q<Toggle>("ShowSizeCenterToggle");
 
-            sizeFoldoutToggle.value = editorSettings.ShowSizeFoldout;
-            sizeFoldoutToggle.RegisterValueChangedCallback(ev =>
+            sizeFoldoutToggle.SetValueWithoutNotify(_betterTransformSettings.ShowSizeFoldout);
+            sizeFoldoutToggle.schedule.Execute(() =>
             {
-                SetupSize(customFoldoutSetup);
-                SetupViewWidthAdaptionForSize();
-
-                editorSettings.ShowSizeFoldout = ev.newValue;
-                UpdateSizeFoldout();
-                UpdateInLineSizeView();
-
-                if (editorSettings.ShowSizeFoldout)
-                    showSizeInLineToggle.SetEnabled(false);
-                else
-                    showSizeInLineToggle.SetEnabled(true);
-
-                if (!editorSettings.ShowSizeInLine && !editorSettings.ShowSizeFoldout)
+                sizeFoldoutToggle.RegisterValueChangedCallback(ev =>
                 {
-                    gizmoSettingsGroupBox.SetEnabled(false);
-                    showSizeCenterToggle.SetEnabled(false);
-                    maxChildCountForSizeCalculation.SetEnabled(false);
-                    gizmoColorField.SetEnabled(false);
-                }
-                else
-                {
-                    gizmoSettingsGroupBox.SetEnabled(true);
-                    showSizeCenterToggle.SetEnabled(true);
-                    maxChildCountForSizeCalculation.SetEnabled(true);
-                }
+                    SetupSize();
+                    SetupViewWidthAdaptionForSize();
 
-                SceneView.RepaintAll();
-            });
+                    _betterTransformSettings.ShowSizeFoldout = ev.newValue;
+                    UpdateSizeFoldout();
+                    UpdateSizeViewType();
 
-            if (editorSettings.ShowSizeFoldout)
+                    if (_betterTransformSettings.ShowSizeFoldout)
+                        showSizeInLineToggle.SetEnabled(false);
+                    else
+                        showSizeInLineToggle.SetEnabled(true);
+
+                    if (!_betterTransformSettings.ShowSizeInLine && !_betterTransformSettings.ShowSizeFoldout)
+                    {
+                        gizmoSettingsGroupBox.SetEnabled(false);
+                        showSizeCenterToggle.SetEnabled(false);
+                        _maxChildCountForSizeCalculation.SetEnabled(false);
+                    }
+                    else
+                    {
+                        gizmoSettingsGroupBox.SetEnabled(true);
+                        showSizeCenterToggle.SetEnabled(true);
+                        _maxChildCountForSizeCalculation.SetEnabled(true);
+                    }
+
+                    UpdateGizmoButton_Outline();
+                    UpdateGizmoButton_sizeLabel();
+
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(100);
+
+            if (_betterTransformSettings.ShowSizeFoldout)
             {
                 showSizeInLineToggle.SetEnabled(false);
                 showSizeCenterToggle.SetEnabled(true);
             }
-            showSizeInLineToggle.value = editorSettings.ShowSizeInLine;
-            showSizeInLineToggle.schedule.Execute(() => BindShowSizeInLineToggle(sizeFoldoutToggle, showSizeInLineToggle, gizmoSettingsGroupBox, showSizeCenterToggle));
 
-            if (editorSettings.ShowSizeInLine)
+            showSizeInLineToggle.SetValueWithoutNotify(_betterTransformSettings.ShowSizeInLine);
+            showSizeInLineToggle.schedule.Execute(() =>
+            {
+                showSizeInLineToggle.RegisterValueChangedCallback(ev =>
+                {
+                    SetupSize();
+                    SetupViewWidthAdaptionForSize();
+
+                    _betterTransformSettings.ShowSizeInLine = ev.newValue;
+                    UpdateSizeFoldout();
+                    UpdateSizeViewType();
+
+                    if (_betterTransformSettings.ShowSizeInLine)
+                    {
+                        sizeFoldoutToggle.SetEnabled(false);
+                        showSizeCenterToggle.SetEnabled(false);
+                    }
+                    else
+                    {
+                        sizeFoldoutToggle.SetEnabled(true);
+                        showSizeCenterToggle.SetEnabled(true);
+                    }
+
+                    if (!_betterTransformSettings.ShowSizeInLine && !_betterTransformSettings.ShowSizeFoldout)
+                        gizmoSettingsGroupBox.SetEnabled(false);
+                    else
+                        gizmoSettingsGroupBox.SetEnabled(true);
+
+                    UpdateGizmoButton_Outline();
+                    UpdateGizmoButton_sizeLabel();
+
+                    SceneView.RepaintAll();
+                });
+            }).ExecuteLater(200);
+
+            if (_betterTransformSettings.ShowSizeInLine)
             {
                 sizeFoldoutToggle.SetEnabled(false);
                 showSizeCenterToggle.SetEnabled(false);
             }
 
-            showSizeCenterToggle.value = editorSettings.ShowSizeCenter;
-            showSizeCenterToggle.schedule.Execute(() => BindSizeCenterToggle(showSizeCenterToggle));
+            showSizeCenterToggle.SetValueWithoutNotify(_betterTransformSettings.ShowSizeCenter);
+            showSizeCenterToggle.schedule.Execute(() =>
+            {
+                showSizeCenterToggle.RegisterValueChangedCallback(_ =>
+                {
+                    _betterTransformSettings.ShowSizeCenter = showSizeCenterToggle.value;
+                    UpdateSizeFoldout();
+                });
+            }).ExecuteLater(1000);
 
-            if (!editorSettings.ShowSizeInLine && !editorSettings.ShowSizeFoldout)
+            if (!_betterTransformSettings.ShowSizeInLine && !_betterTransformSettings.ShowSizeFoldout)
             {
                 gizmoSettingsGroupBox.SetEnabled(false);
                 showSizeCenterToggle.SetEnabled(false);
@@ -4960,358 +4708,171 @@ namespace TinyGiantStudio.BetterInspector
             {
                 gizmoSettingsGroupBox.SetEnabled(true);
 
-                if (editorSettings.ShowSizeInLine)
+                if (_betterTransformSettings.ShowSizeInLine)
                     showSizeCenterToggle.SetEnabled(false);
                 else
                     showSizeCenterToggle.SetEnabled(true);
             }
         }
 
-        private void BindShowSizeInLineToggle(Toggle sizeFoldoutToggle, Toggle showSizeInLineToggle, GroupBox gizmoSettingsGroupBox, Toggle showSizeCenterToggle)
+
+        /// <summary>
+        ///     The difference between this and updateInspectorColor is this doesn't need to remove the color keywords since they
+        ///     weren't added.
+        /// </summary>
+        void SetupInspectorColor()
         {
-            showSizeInLineToggle.RegisterValueChangedCallback(ev =>
+            if (_betterTransformSettings.OverrideFoldoutColor)
             {
-                SetupSize(customFoldoutSetup);
-                SetupViewWidthAdaptionForSize();
-
-                editorSettings.ShowSizeInLine = ev.newValue;
-                UpdateSizeFoldout();
-                UpdateInLineSizeView();
-
-                if (editorSettings.ShowSizeInLine)
-                {
-                    sizeFoldoutToggle.SetEnabled(false);
-                    showSizeCenterToggle.SetEnabled(false);
-                }
-                else
-                {
-                    sizeFoldoutToggle.SetEnabled(true);
-                    showSizeCenterToggle.SetEnabled(true);
-                }
-
-                if (!editorSettings.ShowSizeInLine && !editorSettings.ShowSizeFoldout)
-                {
-                    gizmoSettingsGroupBox.SetEnabled(false);
-                }
-                else
-                {
-                    gizmoSettingsGroupBox.SetEnabled(true);
-                }
-
-                SceneView.RepaintAll();
-            });
-        }
-
-        private void BindSizeCenterToggle(Toggle showSizeCenterToggle)
-        {
-            showSizeCenterToggle.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.ShowSizeCenter = showSizeCenterToggle.value;
-                UpdateSizeFoldout();
-            });
-        }
-
-        private void SetupParentChildTransformsToggle(Toggle parentChildTransformsToggle)
-        {
-            parentChildTransformsToggle.value = editorSettings.ShowParentChildTransform;
-            parentChildTransformsToggle.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.ShowParentChildTransform = ev.newValue;
-                UpdateSetupParentChildFoldouts();
-                SceneView.RepaintAll();
-            });
-        }
-
-        private void SetupMaxChildInspector(IntegerField maxChildInspector)
-        {
-            maxChildInspector.value = editorSettings.MaxChildInspector;
-            maxChildInspector.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.MaxChildInspector = ev.newValue;
-                UpdateSetupParentChildFoldouts();
-                SceneView.RepaintAll();
-            });
-        }
-
-        private void SetupLabelHandlesToggle(Toggle labelHandles)
-        {
-            labelHandles.value = editorSettings.ShowSizeGizmosLabelHandle;
-            labelHandles.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.ShowSizeGizmosLabelHandle = ev.newValue;
-                SceneView.RepaintAll();
-            });
-        }
-
-        private void SetupMinimumSizeForDoubleLabel(IntegerField minimumSizeForDoubleLabel)
-        {
-            minimumSizeForDoubleLabel.value = editorSettings.MinimumSizeForDoubleSidedLabel;
-            minimumSizeForDoubleLabel.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.MinimumSizeForDoubleSidedLabel = ev.newValue;
-                SceneView.RepaintAll();
-            });
-        }
-
-        private void SetupSizeGizmoLabelBothSideToggle(GroupBox settings, Toggle sizeGizmoLabelBothSide)
-        {
-            sizeGizmoLabelBothSide.value = editorSettings.ShowSizeGizmoLabelOnBothSide;
-            sizeGizmoLabelBothSide.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.ShowSizeGizmoLabelOnBothSide = ev.newValue;
-                SceneView.RepaintAll();
-                UpdateDoubleSidedLabelSettings(settings);
-            });
-        }
-
-        private void SetupGizmoColorField(ColorField gizmoColorField)
-        {
-            gizmoColorField.value = editorSettings.SizeGizmoColor;
-            gizmoColorField.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.SizeGizmoColor = ev.newValue;
-                SceneView.RepaintAll();
-            });
-        }
-
-        private void SetupSizeGizmoLabelSizeField(IntegerField sizeGizmoLabelSizeField)
-        {
-            sizeGizmoLabelSizeField.value = editorSettings.SizeGizmoLabelSize;
-            sizeGizmoLabelSizeField.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.SizeGizmoLabelSize = ev.newValue;
-                UpdateHandleLabelStyle();
-                SceneView.RepaintAll();
-            });
-        }
-
-        private void SetupGizmoLabel(GroupBox settings, Toggle gizmoLabel)
-        {
-            gizmoLabel.value = editorSettings.ShowSizeGizmoLabel;
-            gizmoLabel.RegisterValueChangedCallback(ev =>
-            {
-                editorSettings.ShowSizeGizmoLabel = ev.newValue;
-                //UpdateSizeLabelSettings(settings);
-                SceneView.RepaintAll();
-            });
-        }
-
-        private void SetupInspectorColor()
-        {
-            if (editorSettings.OverrideFoldoutColor)
-            {
-                root.Q<GroupBox>("RootHolder").style.backgroundColor = editorSettings.InspectorColor;
-
-                List<GroupBox> customFoldoutGroups = root.Query<GroupBox>(className: "custom-foldout").ToList();
+                List<GroupBox> customFoldoutGroups = _root.Query<GroupBox>(className: "custom-foldout").ToList();
                 foreach (GroupBox foldout in customFoldoutGroups)
-                    foldout.style.backgroundColor = editorSettings.FoldoutColor;
+                    foldout.style.backgroundColor = _betterTransformSettings.FoldoutColor;
             }
+
+            UpdateInspectorRootColor();
         }
 
-        private void UpdateInspectorColor()
+        void UpdateInspectorColor()
         {
-            List<GroupBox> customFoldoutGroups = root.Query<GroupBox>(className: "custom-foldout").ToList();
-            if (editorSettings.OverrideFoldoutColor)
-            {
+            List<GroupBox> customFoldoutGroups = _root.Query<GroupBox>(className: "custom-foldout").ToList();
+            if (_betterTransformSettings.OverrideFoldoutColor)
                 foreach (GroupBox foldout in customFoldoutGroups)
-                    foldout.style.backgroundColor = editorSettings.FoldoutColor;
-            }
+                    foldout.style.backgroundColor = _betterTransformSettings.FoldoutColor;
             else
-            {
                 foreach (GroupBox foldout in customFoldoutGroups)
                     foldout.style.backgroundColor = StyleKeyword.Null;
-            }
 
-            if (editorSettings.OverrideInspectorColor)
-                root.Q<GroupBox>("RootHolder").style.backgroundColor = editorSettings.InspectorColor;
-            else
-                root.Q<GroupBox>("RootHolder").style.backgroundColor = StyleKeyword.Null;
+            UpdateInspectorRootColor();
         }
 
-        private void TurnOffSettings(GroupBox settings, Toggle toggle)
+        GroupBox _rootHolder;
+
+        void UpdateInspectorRootColor()
+        {
+            _rootHolder ??= _root.Q<GroupBox>("RootHolder"); //If it is null, find it.
+
+            if (_betterTransformSettings.OverrideInspectorColor)
+            {
+                if (_betterTransformSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
+                    _rootHolder.style.backgroundColor = _betterTransformSettings.InspectorColorInWorldSpace;
+                else
+                    _rootHolder.style.backgroundColor = _betterTransformSettings.InspectorColorInLocalSpace;
+            }
+            else
+            {
+                _rootHolder.style.backgroundColor = StyleKeyword.Null;
+            }
+        }
+
+        static void TurnOffSettings(GroupBox settings, Toggle toggle)
         {
             toggle.SetValueWithoutNotify(false);
             settings.style.display = DisplayStyle.None;
         }
 
-        private void UpdateDoubleSidedLabelSettings(GroupBox settings)
+        void UpdateDoubleSidedLabelSettings(GroupBox settings)
         {
             IntegerField minimumSizeForDoubleLabel = settings.Q<IntegerField>("MinimumSizeForDoubleLabel");
-            if (editorSettings.ShowSizeGizmoLabelOnBothSide)
-                minimumSizeForDoubleLabel.style.display = DisplayStyle.Flex;
+            if (_betterTransformSettings.ShowSizeGizmoLabelOnBothSide)
+                minimumSizeForDoubleLabel.SetEnabled(true);
             else
-                minimumSizeForDoubleLabel.style.display = DisplayStyle.None;
+                minimumSizeForDoubleLabel.SetEnabled(false);
         }
-
-        #region Footer
-
-        private readonly string assetLink = "https://assetstore.unity.com/packages/slug/276554?aid=1011ljxWe";
-        private readonly string publisherLink = "https://assetstore.unity.com/publishers/45848?aid=1011ljxWe";
-        private readonly string documentationLink = "https://ferdowsur.gitbook.io/better-transform/";
-
-        private void SetupFooter(VisualElement root)
-        {
-            root.Q<ToolbarButton>("AssetLink").clicked += OpenAssetLink;
-            root.Q<ToolbarButton>("Documentation").clicked += OpenDocumentationLink;
-            root.Q<ToolbarButton>("OtherAssetsLink").clicked += OpenPublisherLink;
-        }
-
-        private void OpenAssetLink() => Application.OpenURL(assetLink);
-
-        private void OpenDocumentationLink() => Application.OpenURL(documentationLink);
-
-        private void OpenPublisherLink() => Application.OpenURL(publisherLink);
-
-        #endregion Footer
 
         #endregion Settings
 
         #region Default Editor
 
         /// <summary>
-        /// If the UXML file is missing for any reason,
-        /// Instead of showing an empty inspector,
-        /// This loads the default one.
-        /// This shouldn't ever happen.
+        ///     If the UXML file is missing for any reason,
+        ///     Instead of showing an empty inspector,
+        ///     This loads the default one.
+        ///     This shouldn't ever happen.
         /// </summary>
-        private void LoadDefaultEditor(VisualElement container)
+        void LoadDefaultEditor(VisualElement container)
         {
-            if (originalEditor != null)
-                DestroyImmediate(originalEditor);
+            if (_originalEditor != null)
+                DestroyImmediate(_originalEditor);
 
-            originalEditor = Editor.CreateEditor(targets, Type.GetType("UnityEditor.TransformInspector, UnityEditor"));
-            IMGUIContainer inspectorContainer = new IMGUIContainer(OnGUICallback);
+            _originalEditor = CreateEditor(targets, Type.GetType("UnityEditor.TransformInspector, UnityEditor"));
+            IMGUIContainer inspectorContainer = new(OnGUICallback);
             container.Add(inspectorContainer);
         }
 
-        private void OnGUICallback()
+        void OnGUICallback()
         {
             if (target == null)
                 return;
-            if (originalEditor == null)
+            if (_originalEditor == null)
                 return;
 
+            if (_inspectorWidth > WorkSpaceLabelThreshold) EditorGUIUtility.labelWidth = 65;
+            else EditorGUIUtility.labelWidth = 0.001f;
+
             EditorGUI.BeginChangeCheck();
-            EditorGUIUtility.labelWidth = 65;
-            originalEditor.OnInspectorGUI();
+            _originalEditor.OnInspectorGUI();
             EditorGUI.EndChangeCheck();
         }
 
         #endregion Default Editor
-
-        #region Math
-
-        /// <summary>
-        ///
-        /// </summary>
-        /// <param name="vector3">Vector3 Rounded</param>
-        /// <returns></returns>
-        private Vector3 RoundedVector3v2(Vector3 vector3) => new Vector3(RoundedFloatv2(vector3.x), RoundedFloatv2(vector3.y), RoundedFloatv2(vector3.z));
-
-        private float RoundedFloatv2(float f)
-        {
-            if (float.IsNaN(f) || float.IsInfinity(f))
-                return f;
-
-            if (Mathf.Approximately(f, Mathf.Round(f)))
-                return Mathf.Round((float)f);
-
-            float rounded = (float)Math.Round(f, editorSettings.FieldRoundingAmount);
-            return rounded;
-        }
-
-        private Vector3 RoundedVector3(Vector3 vector3) => new Vector3(RoundedFloat(vector3.x), RoundedFloat(vector3.y), RoundedFloat(vector3.z));
-
-        private float RoundedFloat(float f)
-        {
-            if (float.IsNaN(f) || float.IsInfinity(f))
-                return f;
-
-            if (Mathf.Approximately(f, Mathf.Round(f)))
-                return Mathf.Round((float)f);
-
-            float rounded = (float)Math.Round(f, editorSettings.FieldRoundingAmount);
-            if (Mathf.Approximately(f, rounded))
-                return rounded;
-
-            return f;
-        }
-
-        private Vector3 Divide(Vector3 first, Vector3 second) => new Vector3(NanFixed(first.x / second.x), NanFixed(first.y / second.y), NanFixed(first.z / second.z));
-
-        private Vector3 Multiply(Vector3 first, Vector3 second) => new Vector3(NanFixed(first.x * second.x), NanFixed(first.y * second.y), NanFixed(first.z * second.z));
-
-        private float NanFixed(float value)
-        {
-            if (float.IsNaN(value) || float.IsInfinity(value))
-                return 1;
-
-            return value;
-        }
-
-        #endregion Math
 
         #region Animator
 
         #region Variables
 
         //Since it is not possible to get the current animator state like is it in recording mode in the current Unity version,
-        //The state is retrieved from bound fields and then applied to non bound field.
+        //The state is retrieved from bound fields and then applied to the non-bound field.
         //Example: Copy state from localPosition field to worldPositionField, where localPositionField is bound and automatically updated by Animator
-        private VisualElement animator_stateIndicator_position;
-
-        private VisualElement animator_stateIndicator_rotation;
-        private VisualElement animator_stateIndicator_scale;
+        VisualElement _animatorStateIndicatorPosition;
+        VisualElement _animatorStateIndicatorRotation;
+        VisualElement _animatorStateIndicatorScale;
 
         //The class applied to fields to indicate to user that the animator is playing a recorded state
-        private string animatedFieldClass = "animatedField";
+        const string AnimatedFieldClass = "animatedField";
 
         //The class applied to fields to indicate to user that the animator is recording
-        private string recordingFieldClass = "animationRecordingField";
+        const string RecordingFieldClass = "animationRecordingField";
 
         //The class applied by unity to fields that are being recorded
-        private string beingRecordedUnitysClass = "unity-binding--animation-recorded";
+        const string AnimationRecordingUssClass = "unity-binding--animation-recorded";
 
         #endregion Variables
 
         /// <summary>
-        /// Since the custom inspector uses a lot of non bou
+        ///     Since the custom inspector uses a lot of non bou
         /// </summary>
-        private void SetupAnimatorCompability()
+        void SetupAnimatorCompability()
         {
             VerifyStateIndicatorReferences();
             SetupAnimatorState();
 
-            root.schedule.Execute(() => UpdateAnimatorState()).Every(5000).StartingIn(10000); //1000 ms = 1 s
+            _root.schedule.Execute(UpdateAnimatorState).Every(5000).StartingIn(10000); //1000 ms = 1 s
         }
 
-        private void SetupAnimatorState()
+        void SetupAnimatorState()
         {
-            if (IsNotInValidAnimationMode())
-            {
-                return;
-            }
+            if (IsNotInValidAnimationMode()) return;
 
             UpdateAnimatorState_PositionFields();
             UpdateAnimatorState_RotationFields();
             UpdateAnimatorState_ScaleFields();
         }
 
-        private void UpdateAnimatorState()
+        void UpdateAnimatorState()
         {
-            if (editorSettings.logPerformance && editorSettings.logDetailedPerformance)
+            if (_betterTransformSettings.logPerformance && _betterTransformSettings.logDetailedPerformance)
             {
-                stopwatch = new Stopwatch();
-                stopwatch.Start();
+                _stopwatch = new();
+                _stopwatch.Start();
             }
 
             if (IsNotInValidAnimationMode())
             {
-                if (editorSettings.logPerformance && editorSettings.logDetailedPerformance)
-                {
-                    LogDelay("(Running on loop) Animator State Update", stopwatch.ElapsedMilliseconds);
-                    stopwatch.Stop();
-                }
+                if (!_betterTransformSettings.logPerformance ||
+                    !_betterTransformSettings.logDetailedPerformance) return;
+                LogDelay("(Running on loop) Animator State Update", _stopwatch.ElapsedMilliseconds);
+                _stopwatch.Stop();
+
                 return;
             }
 
@@ -5319,50 +4880,41 @@ namespace TinyGiantStudio.BetterInspector
             UpdateAnimatorState_RotationFields();
             UpdateAnimatorState_ScaleFields();
 
-            if (editorSettings.logPerformance && editorSettings.logDetailedPerformance)
-            {
-                LogDelay("(Running on loop) Animator State Update", stopwatch.ElapsedMilliseconds);
-                stopwatch.Stop();
-            }
+            if (!_betterTransformSettings.logPerformance || !_betterTransformSettings.logDetailedPerformance) return;
+            LogDelay("(Running on loop) Animator State Update", _stopwatch.ElapsedMilliseconds);
+            _stopwatch.Stop();
         }
 
-        private bool IsNotInValidAnimationMode()
+        static bool IsNotInValidAnimationMode()
         {
-            if (EditorApplication.isPlaying || !AnimationMode.InAnimationMode())
-                return true;
-
-            return false;
+            return EditorApplication.isPlaying || !AnimationMode.InAnimationMode();
         }
 
-        private void VerifyStateIndicatorReferences()
+        void VerifyStateIndicatorReferences()
         {
-            if (animator_stateIndicator_position == null)
-                animator_stateIndicator_position = localPositionField.Q<FloatField>().Children().ElementAt(1);
+            _animatorStateIndicatorPosition ??= _localPositionField.Q<FloatField>().Children().ElementAt(1);
 
             //This is written this way because it is a property field and binding takes time, sometimes this is called before the binding is done
-            if (animator_stateIndicator_rotation == null)
+            if (_animatorStateIndicatorRotation == null)
             {
-                var t = quaternionRotationPropertyField.Q<Toggle>();
+                Toggle t = _quaternionRotationPropertyField.Q<Toggle>();
                 if (t != null)
-                    animator_stateIndicator_rotation = t.Children().First();
+                    _animatorStateIndicatorRotation = t.Children().First();
             }
 
-            if (animator_stateIndicator_scale == null)
-                animator_stateIndicator_scale = boundLocalScaleField.Q<FloatField>().Children().ElementAt(1);
+            _animatorStateIndicatorScale ??= _boundLocalScaleField.Q<FloatField>().Children().ElementAt(1);
         }
 
-        private bool addedPositionAnimatorStateIndicatorClasses = false;
+        bool _addedPositionAnimatorStateIndicatorClasses;
 
-        private void UpdateAnimatorState_PositionFields()
+        void UpdateAnimatorState_PositionFields()
         {
             if (EditorApplication.isPlaying || !AnimationMode.InAnimationMode())
             {
-                if (addedPositionAnimatorStateIndicatorClasses)
-                {
-                    worldPositionField.RemoveFromClassList(animatedFieldClass);
-                    worldPositionField.RemoveFromClassList(recordingFieldClass);
-                    addedPositionAnimatorStateIndicatorClasses = false;
-                }
+                if (!_addedPositionAnimatorStateIndicatorClasses) return;
+                _worldPositionField.RemoveFromClassList(AnimatedFieldClass);
+                _worldPositionField.RemoveFromClassList(RecordingFieldClass);
+                _addedPositionAnimatorStateIndicatorClasses = false;
 
                 return;
             }
@@ -5370,152 +4922,149 @@ namespace TinyGiantStudio.BetterInspector
             //if (animator_stateIndicator_position == null)
             //    animator_stateIndicator_position = localPositionField.Q<FloatField>().Children().ElementAt(1);
 
-            bool isPositionAnimated = AnimationMode.IsPropertyAnimated(target, positionProperty);
+            bool isPositionAnimated = AnimationMode.IsPropertyAnimated(target, PositionProperty);
             if (isPositionAnimated)
             {
-                if (animator_stateIndicator_position != null && animator_stateIndicator_position.ClassListContains(beingRecordedUnitysClass))
+                if (_animatorStateIndicatorPosition != null &&
+                    _animatorStateIndicatorPosition.ClassListContains(AnimationRecordingUssClass))
                 {
-                    worldPositionField.RemoveFromClassList(animatedFieldClass);
-                    worldPositionField.AddToClassList(recordingFieldClass);
+                    _worldPositionField.RemoveFromClassList(AnimatedFieldClass);
+                    _worldPositionField.AddToClassList(RecordingFieldClass);
                 }
                 else
                 {
-                    worldPositionField.AddToClassList(animatedFieldClass);
-                    worldPositionField.RemoveFromClassList(recordingFieldClass);
+                    _worldPositionField.AddToClassList(AnimatedFieldClass);
+                    _worldPositionField.RemoveFromClassList(RecordingFieldClass);
                 }
-                addedPositionAnimatorStateIndicatorClasses = true;
+
+                _addedPositionAnimatorStateIndicatorClasses = true;
             }
             else
             {
-                if (addedPositionAnimatorStateIndicatorClasses)
-                {
-                    worldPositionField.RemoveFromClassList(animatedFieldClass);
-                    worldPositionField.RemoveFromClassList(recordingFieldClass);
-                    addedPositionAnimatorStateIndicatorClasses = false;
-                }
+                if (!_addedPositionAnimatorStateIndicatorClasses) return;
+                _worldPositionField.RemoveFromClassList(AnimatedFieldClass);
+                _worldPositionField.RemoveFromClassList(RecordingFieldClass);
+                _addedPositionAnimatorStateIndicatorClasses = false;
             }
         }
 
-        private bool addedRotationAnimatorStateIndicatorClasses = false;
+        bool _addedRotationAnimatorStateIndicatorClasses;
 
-        private void UpdateAnimatorState_RotationFields()
+        void UpdateAnimatorState_RotationFields()
         {
             if (EditorApplication.isPlaying || !AnimationMode.InAnimationMode())
             {
-                if (addedRotationAnimatorStateIndicatorClasses)
-                {
-                    localRotationField.RemoveFromClassList(animatedFieldClass);
-                    worldRotationField.RemoveFromClassList(animatedFieldClass);
+                if (!_addedRotationAnimatorStateIndicatorClasses) return;
+                _localRotationField.RemoveFromClassList(AnimatedFieldClass);
+                _worldRotationField.RemoveFromClassList(AnimatedFieldClass);
 
-                    localRotationField.RemoveFromClassList(recordingFieldClass);
-                    worldRotationField.RemoveFromClassList(recordingFieldClass);
+                _localRotationField.RemoveFromClassList(RecordingFieldClass);
+                _worldRotationField.RemoveFromClassList(RecordingFieldClass);
 
-                    addedRotationAnimatorStateIndicatorClasses = false;
-                }
+                _addedRotationAnimatorStateIndicatorClasses = false;
 
                 return;
             }
 
-            if (animator_stateIndicator_rotation == null)
+            if (_animatorStateIndicatorRotation == null)
             {
-                var t = quaternionRotationPropertyField.Q<Toggle>();
+                Toggle t = _quaternionRotationPropertyField.Q<Toggle>();
                 if (t != null)
-                    animator_stateIndicator_rotation = t.Children().First();
+                    _animatorStateIndicatorRotation = t.Children().First();
             }
 
-            bool isRotationAnimated = AnimationMode.IsPropertyAnimated(target, rotationProperty);
+            bool isRotationAnimated = AnimationMode.IsPropertyAnimated(target, RotationProperty);
             if (isRotationAnimated)
             {
-                if (animator_stateIndicator_rotation != null && animator_stateIndicator_rotation.ClassListContains(beingRecordedUnitysClass))
+                if (_animatorStateIndicatorRotation != null &&
+                    _animatorStateIndicatorRotation.ClassListContains(AnimationRecordingUssClass))
                 {
-                    localRotationField.RemoveFromClassList(animatedFieldClass);
-                    worldRotationField.RemoveFromClassList(animatedFieldClass);
+                    _localRotationField.RemoveFromClassList(AnimatedFieldClass);
+                    _worldRotationField.RemoveFromClassList(AnimatedFieldClass);
 
-                    localRotationField.AddToClassList(recordingFieldClass);
-                    worldRotationField.AddToClassList(recordingFieldClass);
+                    _localRotationField.AddToClassList(RecordingFieldClass);
+                    _worldRotationField.AddToClassList(RecordingFieldClass);
                 }
                 else
                 {
-                    localRotationField.AddToClassList(animatedFieldClass);
-                    worldRotationField.AddToClassList(animatedFieldClass);
+                    _localRotationField.AddToClassList(AnimatedFieldClass);
+                    _worldRotationField.AddToClassList(AnimatedFieldClass);
 
-                    localRotationField.RemoveFromClassList(recordingFieldClass);
-                    worldRotationField.RemoveFromClassList(recordingFieldClass);
+                    _localRotationField.RemoveFromClassList(RecordingFieldClass);
+                    _worldRotationField.RemoveFromClassList(RecordingFieldClass);
                 }
-                addedRotationAnimatorStateIndicatorClasses = true;
+
+                _addedRotationAnimatorStateIndicatorClasses = true;
             }
             else
             {
-                if (addedRotationAnimatorStateIndicatorClasses)
-                {
-                    localRotationField.RemoveFromClassList(animatedFieldClass);
-                    worldRotationField.RemoveFromClassList(animatedFieldClass);
+                if (!_addedRotationAnimatorStateIndicatorClasses) return;
 
-                    localRotationField.RemoveFromClassList(recordingFieldClass);
-                    worldRotationField.RemoveFromClassList(recordingFieldClass);
+                _localRotationField.RemoveFromClassList(AnimatedFieldClass);
+                _worldRotationField.RemoveFromClassList(AnimatedFieldClass);
 
-                    addedRotationAnimatorStateIndicatorClasses = false;
-                }
+                _localRotationField.RemoveFromClassList(RecordingFieldClass);
+                _worldRotationField.RemoveFromClassList(RecordingFieldClass);
+
+                _addedRotationAnimatorStateIndicatorClasses = false;
             }
         }
 
-        private bool addedScaleAnimatorStateIndicatorClasses = false;
+        bool _addedScaleAnimatorStateIndicatorClasses;
 
-        private void UpdateAnimatorState_ScaleFields()
+        void UpdateAnimatorState_ScaleFields()
         {
             if (EditorApplication.isPlaying || !AnimationMode.InAnimationMode())
             {
-                if (addedScaleAnimatorStateIndicatorClasses)
-                {
-                    localScaleField.RemoveFromClassList(animatedFieldClass);
-                    worldScaleField.RemoveFromClassList(animatedFieldClass);
+                if (!_addedScaleAnimatorStateIndicatorClasses) return;
 
-                    localScaleField.RemoveFromClassList(recordingFieldClass);
-                    worldScaleField.RemoveFromClassList(recordingFieldClass);
+                _localScaleField.RemoveFromClassList(AnimatedFieldClass);
+                _worldScaleField.RemoveFromClassList(AnimatedFieldClass);
 
-                    addedScaleAnimatorStateIndicatorClasses = false;
-                }
+                _localScaleField.RemoveFromClassList(RecordingFieldClass);
+                _worldScaleField.RemoveFromClassList(RecordingFieldClass);
+
+                _addedScaleAnimatorStateIndicatorClasses = false;
 
                 return;
             }
 
-            if (animator_stateIndicator_scale == null)
-                animator_stateIndicator_scale = boundLocalScaleField.Q<FloatField>().Children().ElementAt(1);
+            _animatorStateIndicatorScale ??= _boundLocalScaleField.Q<FloatField>().Children().ElementAt(1);
 
-            bool isLocalScaleAnimated = AnimationMode.IsPropertyAnimated(target, scaleProperty);
+            bool isLocalScaleAnimated = AnimationMode.IsPropertyAnimated(target, ScaleProperty);
 
             if (isLocalScaleAnimated)
             {
-                if (animator_stateIndicator_scale != null && animator_stateIndicator_scale.ClassListContains(beingRecordedUnitysClass))
+                if (_animatorStateIndicatorScale != null &&
+                    _animatorStateIndicatorScale.ClassListContains(AnimationRecordingUssClass))
                 {
-                    localScaleField.RemoveFromClassList(animatedFieldClass);
-                    worldScaleField.RemoveFromClassList(animatedFieldClass);
+                    _localScaleField.RemoveFromClassList(AnimatedFieldClass);
+                    _worldScaleField.RemoveFromClassList(AnimatedFieldClass);
 
-                    localScaleField.AddToClassList(recordingFieldClass);
-                    worldScaleField.AddToClassList(recordingFieldClass);
+                    _localScaleField.AddToClassList(RecordingFieldClass);
+                    _worldScaleField.AddToClassList(RecordingFieldClass);
                 }
                 else
                 {
-                    localScaleField.AddToClassList(animatedFieldClass);
-                    worldScaleField.AddToClassList(animatedFieldClass);
+                    _localScaleField.AddToClassList(AnimatedFieldClass);
+                    _worldScaleField.AddToClassList(AnimatedFieldClass);
 
-                    localScaleField.RemoveFromClassList(recordingFieldClass);
-                    worldScaleField.RemoveFromClassList(recordingFieldClass);
+                    _localScaleField.RemoveFromClassList(RecordingFieldClass);
+                    _worldScaleField.RemoveFromClassList(RecordingFieldClass);
                 }
-                addedScaleAnimatorStateIndicatorClasses = true;
+
+                _addedScaleAnimatorStateIndicatorClasses = true;
             }
             else
             {
-                if (addedScaleAnimatorStateIndicatorClasses)
-                {
-                    localScaleField.RemoveFromClassList(animatedFieldClass);
-                    worldScaleField.RemoveFromClassList(animatedFieldClass);
+                if (!_addedScaleAnimatorStateIndicatorClasses) return;
+                _localScaleField.RemoveFromClassList(AnimatedFieldClass);
+                _worldScaleField.RemoveFromClassList(AnimatedFieldClass);
 
-                    localScaleField.RemoveFromClassList(recordingFieldClass);
-                    worldScaleField.RemoveFromClassList(recordingFieldClass);
+                _localScaleField.RemoveFromClassList(RecordingFieldClass);
+                _worldScaleField.RemoveFromClassList(RecordingFieldClass);
 
-                    addedScaleAnimatorStateIndicatorClasses = false;
-                }
+                _addedScaleAnimatorStateIndicatorClasses = false;
             }
         }
 
@@ -5523,211 +5072,209 @@ namespace TinyGiantStudio.BetterInspector
 
         #region Adapt to view width
 
-        private Label refreshLabel;
-
-        private Label gizmoOnLabel;
-        private Label gizmoOffLabel;
-
-        private Label hierarchyLabel;
-        private Label selfSizeLabel;
-
-        private Label rendererSizeTypeLabel;
-        private Label meshSizeTypeLabel;
-
-        private GroupBox sizeToolbar;
-        private GroupBox calculationTypeGroupBox;
-
-        private GroupBox sizeLabelGroupBox;
-
         /// <summary>
-        /// This updates the inspector based off of outside factor from this code itself
+        ///     This updates the inspector based off of the size of the inspector.
         /// </summary>
-        private void SetupViewWidthAdaption()
+        void SetupViewWidthAdaption()
         {
-            if (editorSettings.ShowSizeFoldout || editorSettings.ShowSizeInLine)
-            {
+            if (_betterTransformSettings.ShowSizeFoldout || _betterTransformSettings.ShowSizeInLine)
                 SetupViewWidthAdaptionForSize();
-            }
 
-            root.RegisterCallback<GeometryChangedEvent>(evt =>
+            _root.RegisterCallback<GeometryChangedEvent>(evt =>
             {
-                if (editorSettings.logPerformance && editorSettings.logDetailedPerformance)
+                if (_betterTransformSettings.logPerformance && _betterTransformSettings.logDetailedPerformance)
                     Debug.Log("Inspector geometry updated.");
 
-                float width = evt.newRect.width;
-                Adapt(width);
+                Adapt(evt.newRect.width);
             });
         }
 
-        private void SetupViewWidthAdaptionForSize()
+        void SetupViewWidthAdaptionForSize()
         {
-            topGroupBox.schedule.Execute(() =>
+            _topGroupBox.schedule.Execute(() =>
             {
                 SetupViewWidthAdaptionForSizeMain();
-                Adapt(root.contentRect.width);
+                Adapt(_root.contentRect.width);
             }).ExecuteLater(0);
         }
 
-        private void SetupViewWidthAdaptionForSizeMain()
+        void SetupViewWidthAdaptionForSizeMain()
         {
-            if (targets.Length == 1)
-            {
-                if (editorSettings.ShowSizeFoldout || editorSettings.ShowSizeInLine)
-                {
-                    if (refreshSizeButton == null)
-                    {
-                        sizeSetupDone = false;
-                        SetupSize(new CustomFoldoutSetup());
-                    }
+            if (targets.Length != 1) return;
+            if (!_betterTransformSettings.ShowSizeFoldout && !_betterTransformSettings.ShowSizeInLine) return;
+            if (_refreshSizeButton != null) return;
 
-                    refreshLabel = refreshSizeButton.Q<Label>("Label");
-                    gizmoOnLabel = gizmoOnButton.Q<Label>("Label");
-                    gizmoOffLabel = gizmoOffButton.Q<Label>("Label");
-                    hierarchyLabel = hierarchySizeButton.Q<Label>("Label");
-                    selfSizeLabel = selfSizeButton.Q<Label>("Label");
-
-                    rendererSizeTypeLabel = rendererSizeButton.Q<Label>("Label");
-                    meshSizeTypeLabel = filterSizeButton.Q<Label>("Label");
-
-                    sizeToolbar = root.Q<GroupBox>("SizeToolbar");
-
-                    sizeLabelGroupBox = sizeFoldoutField.parent.Q<GroupBox>("SizeLabelGroupBox");
-
-                    calculationTypeGroupBox = root.Q<GroupBox>("CalculationTypeGroupBox");
-                }
-            }
+            _sizeSetupDone = false;
+            SetupSize();
         }
 
-        //todo: Null reference check for everything is a bit paranoid. Change these later. But since this will run in edge case sceneries for 1 frame, one extra if statement even if unnecessary isn't that bad.
-        private void Adapt(float width)
+
+        float _inspectorWidth;
+
+        //TODO: Null reference check for everything is a bit paranoid. Change these later. But since this will run in edge case sceneries for 1 frame, one extra if statement even if unnecessary isn't that bad.
+        void Adapt(float width)
         {
-            if (targets.Length != 1)
-                return;
-            if (editorSettings == null)
-                return;
-
-            if (editorSettings.ShowSizeFoldout || editorSettings.ShowSizeInLine)
-            {
-                AdaptSizeUI(width);
-            }
-
-            if (editorSettings.showSiblingIndex && siblingIndexLabel != null && transform.parent)
-                siblingIndexLabel.style.display = width > 225 ? DisplayStyle.Flex : DisplayStyle.None;
-
-            if (toolbarGroupBox != null)
-                toolbarGroupBox.style.display = width > 245 ? DisplayStyle.Flex : DisplayStyle.None;
-
+            _inspectorWidth = width;
+            AdaptSizeUI(width);
             AdaptMainInformationLabels(width);
+            UpdateToolbarVisibility(width);
         }
 
-        private void AdaptMainInformationLabels(float width)
+        const int WorkSpaceLabelThreshold = 200;
+
+        void AdaptMainInformationLabels(float width)
         {
-            if (positionLabel == null || rotationLabel == null || scaleLabelGroupbox == null || sizeLabelGroupBox == null || localSpaceLabel == null || worldSpaceLabel == null)
+            if (_positionLabel == null || _rotationLabel == null || _scaleLabelGroupbox == null ||
+                _localSpaceLabel == null || _worldSpaceLabel == null)
                 return;
 
-            localSpaceLabel.style.display = width > 180 ? DisplayStyle.Flex : DisplayStyle.None;
-            worldSpaceLabel.style.display = width > 180 ? DisplayStyle.Flex : DisplayStyle.None;
-            positionLabel.style.display = width > 180 ? DisplayStyle.Flex : DisplayStyle.None;
-            rotationLabel.style.display = width > 180 ? DisplayStyle.Flex : DisplayStyle.None;
-            scaleLabelGroupbox.style.display = width > 180 ? DisplayStyle.Flex : DisplayStyle.None;
-            sizeLabelGroupBox.style.display = width > 180 ? DisplayStyle.Flex : DisplayStyle.None;
+            _localSpaceLabel.style.display = width > WorkSpaceLabelThreshold ? DisplayStyle.Flex : DisplayStyle.None;
+            _worldSpaceLabel.style.display = width > WorkSpaceLabelThreshold ? DisplayStyle.Flex : DisplayStyle.None;
+            _positionLabel.style.display = width > WorkSpaceLabelThreshold ? DisplayStyle.Flex : DisplayStyle.None;
+            _rotationLabel.style.display = width > WorkSpaceLabelThreshold ? DisplayStyle.Flex : DisplayStyle.None;
+            _scaleLabelGroupbox.style.display = width > WorkSpaceLabelThreshold ? DisplayStyle.Flex : DisplayStyle.None;
         }
 
-        private void AdaptSizeUI(float width)
+
+        void AdaptSizeUI(float width)
         {
-            if (gizmoOnLabel == null) SetupViewWidthAdaptionForSize();
+            if (_sizeLabelGroupBox != null)
+                _sizeLabelGroupBox.style.display =
+                    width > WorkSpaceLabelThreshold ? DisplayStyle.Flex : DisplayStyle.None;
+            if (_sizeCenterFoldoutGroup != null)
+                _sizeCenterFoldoutGroup.Q<Label>("SizeCenterLabel").style.display =
+                    width > WorkSpaceLabelThreshold ? DisplayStyle.Flex : DisplayStyle.None;
 
-            //Hide the Refresh Button if too small
-            if (refreshSizeButton != null)
-                refreshSizeButton.style.display = width > 200 ? DisplayStyle.Flex : DisplayStyle.None;
+            if (_betterTransformSettings.ShowSizeFoldout)
+                AdaptSizeUIForFoldout(width);
+            else if (_betterTransformSettings.ShowSizeInLine)
+                AdaptSizeUIForInLine(width);
+        }
 
-            //Hide Calculation Type Button if too small
-            if (calculationTypeGroupBox != null)
-                calculationTypeGroupBox.style.display = width > 190 ? DisplayStyle.Flex : DisplayStyle.None;
+        void AdaptSizeUIForInLine(float width)
+        {
+            if (_pingSelfButton != null && _betterTransformSettings.pingSelfButton)
+                _pingSelfButton.style.display = width > 250 ? DisplayStyle.Flex : DisplayStyle.None;
 
-            if (refreshLabel != null)
-                refreshLabel.style.display = width > 420 ? DisplayStyle.Flex : DisplayStyle.None;
-
-            if (editorSettings.ShowSizeFoldout)
+            if (_betterTransformSettings.showSiblingIndex && _siblingIndexLabel != null && transform.parent)
             {
-                if (gizmoOnLabel != null)
-                    gizmoOnLabel.style.display = width > 385 ? DisplayStyle.Flex : DisplayStyle.None;
-                if (gizmoOffLabel != null)
-                    gizmoOffLabel.style.display = width > 385 ? DisplayStyle.Flex : DisplayStyle.None;
-            }
-            else
-            {
-                if (gizmoOnLabel != null)
-                    gizmoOnLabel.style.display = width > 350 ? DisplayStyle.Flex : DisplayStyle.None;
-                if (gizmoOffLabel != null)
-                    gizmoOffLabel.style.display = width > 350 ? DisplayStyle.Flex : DisplayStyle.None;
+                _siblingIndexLabel.style.display = width > 470 ? DisplayStyle.Flex : DisplayStyle.None;
+                _siblingIndex.style.display = width > 210 ? DisplayStyle.Flex : DisplayStyle.None;
             }
 
-            if (editorSettings.ShowSizeFoldout)
-            {
-                if (rendererSizeTypeLabel != null)
-                    rendererSizeTypeLabel.style.display = width > 355 ? DisplayStyle.Flex : DisplayStyle.None;
-                if (meshSizeTypeLabel != null)
-                    meshSizeTypeLabel.style.display = width > 355 ? DisplayStyle.Flex : DisplayStyle.None;
-            }
-            else
-            {
-                if (rendererSizeTypeLabel != null)
-                    rendererSizeTypeLabel.style.display = width > 315 ? DisplayStyle.Flex : DisplayStyle.None;
-                if (meshSizeTypeLabel != null)
-                    meshSizeTypeLabel.style.display = width > 315 ? DisplayStyle.Flex : DisplayStyle.None;
-            }
 
-            if (hierarchyLabel != null)
-                hierarchyLabel.style.display = width > 310 ? DisplayStyle.Flex : DisplayStyle.None;
-            if (selfSizeLabel != null)
-                selfSizeLabel.style.display = width > 310 ? DisplayStyle.Flex : DisplayStyle.None;
-
-            if (sizeToolbar != null)
-                sizeToolbar.style.display = width > 245 ? DisplayStyle.Flex : DisplayStyle.None;
-
-            if (unitDropDownField != null)
+            if (_sizeToolbox != null)
             {
-                if (editorSettings != null && editorSettings.ShowSizeInLine)
+                if (width < 135)
                 {
-                    if (width > 295)
-                        unitDropDownField.RemoveFromClassList("unity-popup-field-shortened");
-                    else
-                        unitDropDownField.AddToClassList("unity-popup-field-shortened");
+                    _sizeToolbox.style.display = DisplayStyle.None;
+                    return;
                 }
                 else
-                {
-                    if (width > 235)
-                        unitDropDownField.RemoveFromClassList("unity-popup-field-shortened");
-                    else
-                        unitDropDownField.AddToClassList("unity-popup-field-shortened");
-                }
+                    _sizeToolbox.style.display = DisplayStyle.Flex;
             }
 
-            //Convert Button types. The smaller ones have very little gap between them
-            if (width > 275)
+
+            if (_autoRefreshSizeButton != null)
             {
-                ConvertToNormalComboButton(refreshSizeButton);
-                ConvertToNormalComboButton(gizmoOnButton);
-                ConvertToNormalComboButton(gizmoOffButton);
-                ConvertToNormalComboButton(rendererSizeButton);
-                ConvertToNormalComboButton(filterSizeButton);
-                ConvertToNormalComboButton(hierarchySizeButton);
-                ConvertToNormalComboButton(selfSizeButton);
+                _autoRefreshSizeButton.style.maxWidth = width switch
+                {
+                    < 450 => 8,
+                    < 550 => 30,
+                    _ => 80
+                };
             }
+
+            // ApplyResponsiveComboStyle(width, _refreshSizeButton, RefreshThreshold);
+            ApplyResponsiveComboStyle(width, _rendererSizeButton, 440);
+            ApplyResponsiveComboStyle(width, _filterSizeButton, 440);
+            ApplyResponsiveComboStyle(width, _hierarchySizeButton, 405);
+            ApplyResponsiveComboStyle(width, _selfSizeButton, 405);
+
+            // Unit Selection
+            if (_unitDropDownField == null) return;
+            int threshold = _betterTransformSettings?.ShowSizeInLine ?? false
+                ? UnitFieldInlineThreshold
+                : UnitFieldDefaultThreshold;
+
+            if (width > threshold)
+                _unitDropDownField.RemoveFromClassList("unity-popup-field-shortened");
             else
-            {
-                ConvertToShortComboButton(refreshSizeButton);
-                ConvertToShortComboButton(gizmoOffButton);
-                ConvertToShortComboButton(gizmoOnButton);
-                ConvertToShortComboButton(rendererSizeButton);
-                ConvertToShortComboButton(filterSizeButton);
-                ConvertToShortComboButton(hierarchySizeButton);
-                ConvertToShortComboButton(selfSizeButton);
-            }
+                _unitDropDownField.AddToClassList("unity-popup-field-shortened");
         }
 
-        private void ConvertToNormalComboButton(VisualElement element)
+        const int UnitFieldInlineThreshold = 295;
+        const int UnitFieldDefaultThreshold = 235;
+
+        void AdaptSizeUIForFoldout(float width)
+        {
+            if (_betterTransformSettings.showSiblingIndex && _siblingIndexLabel != null && transform.parent)
+                _siblingIndexLabel.style.display = width > 250 ? DisplayStyle.Flex : DisplayStyle.None;
+
+            if (_pingSelfButton != null && _betterTransformSettings.pingSelfButton)
+                _pingSelfButton.style.display = width > 85 ? DisplayStyle.Flex : DisplayStyle.None;
+
+            if (_sizeFoldoutToggle != null)
+            {
+                _sizeFoldoutToggle.text = width switch
+                {
+                    < 120 => "Size",
+                    < 150 => "",
+                    _ => "Size"
+                };
+            }
+
+            if (_sizeToolbox != null)
+            {
+                if (width < 120)
+                {
+                    _sizeToolbox.style.display = DisplayStyle.None;
+                    return;
+                }
+                else
+                    _sizeToolbox.style.display = DisplayStyle.Flex;
+            }
+
+
+            if (_autoRefreshSizeButton != null)
+            {
+                _autoRefreshSizeButton.style.maxWidth = width switch
+                {
+                    < 200 => 9,
+                    < 250 => 30,
+                    _ => 80
+                };
+            }
+
+
+            // ApplyResponsiveComboStyle(width, _refreshSizeButton, RefreshThreshold);
+            ApplyResponsiveComboStyle(width, _rendererSizeButton, 360);
+            ApplyResponsiveComboStyle(width, _filterSizeButton, 360);
+            ApplyResponsiveComboStyle(width, _hierarchySizeButton, 335);
+            ApplyResponsiveComboStyle(width, _selfSizeButton, 335);
+
+            // Unit Selection
+            if (_unitDropDownField == null) return;
+            int threshold = _betterTransformSettings?.ShowSizeInLine ?? false
+                ? UnitFieldInlineThreshold
+                : UnitFieldDefaultThreshold;
+
+            if (width > threshold)
+                _unitDropDownField.RemoveFromClassList("unity-popup-field-shortened");
+            else
+                _unitDropDownField.AddToClassList("unity-popup-field-shortened");
+        }
+
+        static void ApplyResponsiveComboStyle(float width, VisualElement element, int threshold)
+        {
+            if (element == null) return;
+            if (width > threshold)
+                ConvertToNormalComboButton(element);
+            else
+                ConvertToShortComboButton(element);
+        }
+
+        static void ConvertToNormalComboButton(VisualElement element)
         {
             if (element == null) return;
 
@@ -5735,7 +5282,7 @@ namespace TinyGiantStudio.BetterInspector
             element.RemoveFromClassList("toolbarComboButton-shortened");
         }
 
-        private void ConvertToShortComboButton(VisualElement element)
+        static void ConvertToShortComboButton(VisualElement element)
         {
             if (element == null) return;
 
@@ -5744,201 +5291,5 @@ namespace TinyGiantStudio.BetterInspector
         }
 
         #endregion Adapt to view width
-
-        #region Gizmo
-
-        private GUIStyle handleLabelStyle;
-
-        private void UpdateHandleLabelStyle()
-        {
-            handleLabelStyle = new GUIStyle(EditorStyles.boldLabel);
-            handleLabelStyle.fontStyle = FontStyle.BoldAndItalic;
-            handleLabelStyle.alignment = TextAnchor.MiddleCenter;
-            handleLabelStyle.fontSize = editorSettings.SizeGizmoLabelSize;
-            handleLabelStyle.normal.background = Texture2D.whiteTexture;
-        }
-
-        private Color redHandleLabel = new Color(1, 0, 0, 1f);
-        private Color greenHandleLabel = new Color(0, 0.4f, 0, 1f);
-        private Color blueHandleLabel = new Color(0, 0, 1, 1f);
-
-        private readonly float handlesTransparency = 0.1f;
-        private readonly float handleSize = 0.15f;
-
-        private void OnSceneGUI()
-        {
-            if (transform == null) return;
-
-            if (Selection.objects.Length > 1) return;
-
-            if (editorSettings == null) editorSettings = BetterTransformSettings.instance;
-            if (editorSettings == null) return;
-
-            if (!editorSettings.ShowSizeFoldout && !editorSettings.ShowSizeInLine)
-                return;
-
-            if (!editorSettings.ShowSizeGizmo)
-                return;
-
-            if (handleLabelStyle == null)
-                UpdateHandleLabelStyle();
-
-            //Get proper bounds
-            Bounds gizmoBounds = currentBound;
-            gizmoBounds.center = Divide(gizmoBounds.center, transform.lossyScale);
-            gizmoBounds.size = Divide(gizmoBounds.size, transform.lossyScale);
-            //Get transform matrix : position rotation and scale
-            if (editorSettings.CurrentWorkSpace == BetterTransformSettings.WorkSpace.World)
-                Handles.matrix = Matrix4x4.TRS(transform.position, Quaternion.identity, transform.lossyScale);
-            else
-                Handles.matrix = Matrix4x4.TRS(transform.position, transform.rotation, transform.lossyScale); //New
-                                                                                                              //Handles.matrix = transform.localToWorldMatrix; //Old
-
-            Handles.color = editorSettings.SizeGizmoColor;
-
-            Handles.DrawWireCube(gizmoBounds.center, gizmoBounds.size);
-
-            //Set matrix to ignore scale so that handles don't become skewed
-            //Disabled due to bug: This causes position to be wrong with global scale.
-            //Handles.matrix = Matrix4x4.TRS(transform.position, transform.rotation, Vector3.one);
-
-            DrawGizmoLabelAndHandle(gizmoBounds);
-
-            if (editorSettings.ShowNotesOnGizmo)
-            {
-                if (string.IsNullOrWhiteSpace(myNote) || myNote == noNoteString)
-                    return;
-
-                handleLabelStyle.normal.textColor = new Color(0, 0, 0, 0.75f);
-                Handles.Label(gizmoBounds.center + new Vector3(0, gizmoBounds.extents.y + 0.15f, 0), myNote, handleLabelStyle);
-            }
-        }
-
-        private readonly float positionOffset = 0;
-
-        private void DrawGizmoLabelAndHandle(Bounds gizmoBounds)
-        {
-            float multiplier = ScalesFinder.MyScales().CurrentUnitValue();
-            //float multiplier = ScalesFinder.CurrentUnitValue(editorSettings.SelectedUnit);
-            int selectedUnit = ScalesFinder.MyScales().selectedUnit;
-            string[] availableUnits = ScalesFinder.MyScales().GetAvailableUnits();
-            string unit;
-            if (availableUnits.Length > selectedUnit)
-                unit = availableUnits[selectedUnit];
-            else
-                return;
-
-            var settings = BetterTransformSettings.instance;
-            int gizmoMaximumDecimalPoints = settings ? settings.GizmoMaximumDecimalPoints : 4;
-
-            if (gizmoBounds.extents.x != 0)
-            {
-                handleLabelStyle.normal.textColor = redHandleLabel;
-                Handles.color = new Color(1, 0, 0, handlesTransparency);
-
-                GUIContent label;
-                float size = currentBound.size.x * multiplier;
-                if (size > 0 && size < 0.000001f)
-                    label = new GUIContent("X: " + " Almost 0 " + unit);
-                else
-                    label = new GUIContent("X: " + (float)Math.Round(size, gizmoMaximumDecimalPoints) + " " + unit);
-
-                if (editorSettings.ShowSizeGizmoLabel)
-                {
-                    Handles.Label(gizmoBounds.center + new Vector3(0, positionOffset, gizmoBounds.extents.z), label, handleLabelStyle);
-
-                    if (editorSettings.ShowSizeGizmoLabelOnBothSide && WideEnoughForDoubleLabel(currentBound.size.z))
-                    {
-                        Handles.Label(gizmoBounds.center + new Vector3(0, positionOffset, -gizmoBounds.extents.z), label, handleLabelStyle);
-
-                        if (editorSettings.ShowSizeGizmosLabelHandle)
-                        {
-                            Handles.ArrowHandleCap(2, gizmoBounds.center + new Vector3(0f, 0, -gizmoBounds.extents.z), Quaternion.Euler(0, 90, 0), handleSize, EventType.Repaint);
-                            Handles.ArrowHandleCap(3, gizmoBounds.center + new Vector3(0f, 0, -gizmoBounds.extents.z), Quaternion.Euler(0, -90, 0), handleSize, EventType.Repaint);
-                        }
-                    }
-                }
-
-                if (editorSettings.ShowSizeGizmosLabelHandle)
-                {
-                    Handles.ArrowHandleCap(0, gizmoBounds.center + new Vector3(0f, 0, gizmoBounds.extents.z), Quaternion.Euler(0, 90, 0), handleSize, EventType.Repaint);
-                    Handles.ArrowHandleCap(1, gizmoBounds.center + new Vector3(0f, 0, gizmoBounds.extents.z), Quaternion.Euler(0, -90, 0), handleSize, EventType.Repaint);
-                }
-            }
-
-            if (gizmoBounds.extents.y != 0)
-            {
-                handleLabelStyle.normal.textColor = greenHandleLabel;
-                Handles.color = new Color(0, 1, 0, handlesTransparency);
-
-                GUIContent label;
-                float size = currentBound.size.y * multiplier;
-                if (size > 0 && size < 0.000001f)
-                    label = new GUIContent("Y: " + " Almost 0 " + unit);
-                else
-                    label = new GUIContent("Y: " + (float)Math.Round(size, gizmoMaximumDecimalPoints) + " " + unit);
-
-                if (editorSettings.ShowSizeGizmoLabel)
-                    Handles.Label(gizmoBounds.center + new Vector3(0, gizmoBounds.extents.y, 0), label, handleLabelStyle);
-
-                if (editorSettings.ShowSizeGizmosLabelHandle)
-                {
-                    Handles.ArrowHandleCap(4, gizmoBounds.center + new Vector3(0, gizmoBounds.extents.y - 0.25f, 0), Quaternion.Euler(90, 0, 0), handleSize, EventType.Repaint);
-                    Handles.ArrowHandleCap(5, gizmoBounds.center + new Vector3(0, gizmoBounds.extents.y - 0.25f, 0), Quaternion.Euler(-90, 0, 0), handleSize, EventType.Repaint);
-                }
-
-                if (editorSettings.ShowSizeGizmoLabel && editorSettings.ShowSizeGizmoLabelOnBothSide && WideEnoughForDoubleLabel(currentBound.size.y))
-                {
-                    Handles.Label(gizmoBounds.center + new Vector3(0, -gizmoBounds.extents.y, 0), label, handleLabelStyle);
-                    if (editorSettings.ShowSizeGizmosLabelHandle)
-                    {
-                        Handles.ArrowHandleCap(4, gizmoBounds.center + new Vector3(-0, -gizmoBounds.extents.y + 0.25f, 0), Quaternion.Euler(90, 0, 0), handleSize, EventType.Repaint);
-                        Handles.ArrowHandleCap(5, gizmoBounds.center + new Vector3(0, -gizmoBounds.extents.y + 0.25f, 0), Quaternion.Euler(-90, 0, 0), handleSize, EventType.Repaint);
-                    }
-                }
-            }
-
-            if (gizmoBounds.extents.z != 0)
-            {
-                handleLabelStyle.normal.textColor = blueHandleLabel;
-                Handles.color = new Color(0, 0, 1, handlesTransparency);
-
-                GUIContent label;
-                float size = currentBound.size.z * multiplier;
-                if (size > 0 && size < 0.000001f)
-                    label = new GUIContent("Z: " + " Almost 0 " + unit);
-                else
-                    label = new GUIContent("Z: " + (float)Math.Round(size, gizmoMaximumDecimalPoints) + " " + unit);
-
-                if (editorSettings.ShowSizeGizmoLabel)
-                    Handles.Label(gizmoBounds.center + new Vector3(gizmoBounds.extents.x, positionOffset, 0), label, handleLabelStyle);
-
-                if (editorSettings.ShowSizeGizmosLabelHandle)
-                {
-                    Handles.ArrowHandleCap(4, gizmoBounds.center + new Vector3(gizmoBounds.extents.x, 0, 0), Quaternion.Euler(0, 0, 90), handleSize, EventType.Repaint);
-                    Handles.ArrowHandleCap(5, gizmoBounds.center + new Vector3(gizmoBounds.extents.x, 0, 0), Quaternion.Euler(180, 0, 0), handleSize, EventType.Repaint);
-                }
-
-                if (editorSettings.ShowSizeGizmoLabel && editorSettings.ShowSizeGizmoLabelOnBothSide && WideEnoughForDoubleLabel(currentBound.size.x))
-                {
-                    Handles.Label(gizmoBounds.center + new Vector3(-gizmoBounds.extents.x, positionOffset, 0), label, handleLabelStyle);
-                    if (editorSettings.ShowSizeGizmosLabelHandle)
-                    {
-                        Handles.ArrowHandleCap(4, gizmoBounds.center + new Vector3(-gizmoBounds.extents.x, 0, 0), Quaternion.Euler(0, 0, 90), handleSize, EventType.Repaint);
-                        Handles.ArrowHandleCap(5, gizmoBounds.center + new Vector3(-gizmoBounds.extents.x, 0, 0), Quaternion.Euler(180, 0, 0), handleSize, EventType.Repaint);
-                    }
-                }
-            }
-        }
-
-        private bool WideEnoughForDoubleLabel(float width)
-        {
-            if (width >= editorSettings.MinimumSizeForDoubleSidedLabel)
-                return true;
-
-            return false;
-        }
-
-        #endregion Gizmo
     }
 }

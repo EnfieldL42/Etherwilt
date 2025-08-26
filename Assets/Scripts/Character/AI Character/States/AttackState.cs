@@ -9,7 +9,7 @@ public class AttackState : AIState
 
     [Header("State Flags")]
     protected bool hasPerformedAttack = false;
-    protected bool hasPerformedCombo = false;
+    [SerializeField] protected bool hasPerformedCombo = false;
 
     [Header("Pivot After Attack")]
     [SerializeField] protected bool pivotAfterAttack = false;
@@ -74,6 +74,7 @@ public class AttackState : AIState
 
     protected virtual void PerformComboAttack(AICharacterManager aiCharacter)
     {
+
         bool canPerformCombo = false;
 
         if (!willPerformCombo)
@@ -86,7 +87,7 @@ public class AttackState : AIState
             return;
         }
 
-        if(currentAttack.comboAction == null)
+        if (currentAttack.comboAction == null)
         {
             return;
         }
@@ -94,6 +95,7 @@ public class AttackState : AIState
         //if we dont need to hit enemy before, perform combo attack
         if (aiCharacter.aICharacterCombatManager.canPerformCombo && !aiCharacter.combatState.onlyPerformComboIfInitialAttackHits)
         {
+            Debug.Log("Performing Combo");
             canPerformCombo = true;
         }
 

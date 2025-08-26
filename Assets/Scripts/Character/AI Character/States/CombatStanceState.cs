@@ -175,7 +175,7 @@ public class CombatStanceState : AIState
 
         int randomPercentage = Random.Range(0, 100);
 
-        if(randomPercentage > outcomeChance)
+        if(randomPercentage < outcomeChance)
         {
             outcomeWillBePerformed = true;
         }

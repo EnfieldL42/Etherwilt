@@ -10,71 +10,75 @@ namespace TinyGiantStudio.BetterInspector
     public static class ScaleSettingsProvider
     {
         [SettingsProvider]
-        private static SettingsProvider CreateScaleSettingsProvider()
+        static SettingsProvider CreateScaleSettingsProvider()
         {
-            Scales scales = ScalesFinder.MyScales();
+            ScalesManager scales = ScalesManager.instance;
 
-            if (scales.units.Count == 0)
+            if (scales.Units.Count == 0)
             {
                 scales.Reset();
             }
 
-            SettingsProvider provider = new SettingsProvider("Project/Tiny Giant Studio/Scale Settings", SettingsScope.Project)
+            SettingsProvider provider = new("Project/Tiny Giant Studio/Scale Settings", SettingsScope.Project)
             {
                 label = "Scale Settings",
-                guiHandler = (searchContext) =>
+                guiHandler = _ =>
                 {
                     EditorGUI.BeginChangeCheck();
 
                     GUILayout.BeginVertical(EditorStyles.helpBox, GUILayout.MaxWidth(500)); //full custom unit settings
 
                     GUILayout.BeginHorizontal(EditorStyles.toolbar);
-                    EditorGUILayout.LabelField("Name", EditorStyles.miniLabel, GUILayout.MaxWidth(300));
-                    EditorGUILayout.LabelField("Value", EditorStyles.miniLabel, GUILayout.MaxWidth(150));
+                    EditorGUILayout.LabelField("Name", EditorStyles.miniLabel, GUILayout.MaxWidth(290));
+                    EditorGUILayout.LabelField("Value", EditorStyles.miniLabel, GUILayout.MaxWidth(210));
                     GUILayout.EndHorizontal();
 
-                    for (int i = 0; i < scales.units.Count; i++)
+                    for (int i = 0; i < scales.Units.Count; i++)
                     {
                         GUILayout.BeginHorizontal();
 
-                        string newName = EditorGUILayout.TextField(scales.units[i].name, GUILayout.MaxWidth(300));
-                        if (newName != scales.units[i].name)
+                        string newName = EditorGUILayout.TextField(scales.Units[i].name, GUILayout.MaxWidth(300));
+                        if (newName != scales.Units[i].name)
                         {
-                            scales.units[i].name = newName;
+                            scales.Units[i].name = newName;
                             EditorUtility.SetDirty(scales);
                         }
 
-                        float newValue = EditorGUILayout.FloatField(scales.units[i].value, GUILayout.MaxWidth(150));
-                        if (newValue != scales.units[i].value)
+                        float newValue = EditorGUILayout.FloatField(scales.Units[i].value, GUILayout.MaxWidth(150));
+                        if (!Mathf.Approximately(newValue, scales.Units[i].value))
                         {
-                            scales.units[i].value = newValue;
+                            scales.Units[i].value = newValue;
                             EditorUtility.SetDirty(scales);
                         }
 
                         if (GUILayout.Button("Remove", GUILayout.MaxWidth(70)))
                         {
-                            scales.units.RemoveAt(i);
+                            scales.Units.RemoveAt(i);
                             EditorUtility.SetDirty(scales);
                         }
 
                         GUILayout.EndHorizontal();
                     }
-                    if (GUILayout.Button("Add new Unit", GUILayout.MaxWidth(500), GUILayout.Height(30)))
-                    {
-                        scales.units.Add(new Unit("New unit", 1));
-                        EditorUtility.SetDirty(scales);
-                    }
-                    GUILayout.Space(30);
 
                     GUILayout.Space(10);
+                    if (GUILayout.Button("Add new Unit", GUILayout.MaxWidth(500), GUILayout.Height(20)))
+                    {
+                        scales.Units.Add(new("New unit", 1));
+                        EditorUtility.SetDirty(scales);
+                    }
+
+                    GUILayout.Space(30);
                     if (GUILayout.Button("Reset to default"))
                     {
-                        if (EditorUtility.DisplayDialog("Restore default unit values?", "Are you sure you want to restore default values? This will overwrite all changes to the units.", "Yes", "No"))
+                        if (EditorUtility.DisplayDialog("Restore default unit values?",
+                                "Are you sure you want to restore default values? This will overwrite all changes to the units.",
+                                "Yes", "No"))
                         {
                             scales.Reset();
                             EditorUtility.SetDirty(scales);
                         }
                     }
+
                     GUILayout.EndVertical();
 
                     if (EditorGUI.EndChangeCheck())

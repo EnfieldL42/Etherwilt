@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Earth Guardian Tail Phase 1 Slam Attack 01
   m_EditorClassIdentifier: 
   attackAnimation: Attack_01
-  comboAction: {fileID: 0}
+  comboAction: {fileID: 11400000, guid: 14429fa00e99a7440b74bb928191f650, type: 2}
   attackWeight: 50
   attackType: 0
   actionRecoveryTime: 1.5

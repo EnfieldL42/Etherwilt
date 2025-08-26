@@ -12,42 +12,58 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb0db3f3231a5e248b092562f93f61ed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _overrideInspectorColor: 0
-  _inspectorColor: {r: 0, g: 0, b: 1, a: 0.025}
-  _overrideFoldoutColor: 0
-  _foldoutColor: {r: 0, g: 1, b: 0, a: 0.025}
-  _currentWorkSpace: 1
-  _showCopyPasteButtons: 1
-  _showAllVariableCopyPasteButtons: 0
-  _fieldRoundingAmount: 5
+  currentWorkSpace: 1
+  showCopyPasteButtons: 1
+  fieldRoundingAmount: 5
   roundPositionField: 0
   roundRotationField: 0
   roundScaleField: 0
-  _showSizeInLine: 0
-  _showSizeFoldout: 1
-  _showSizeCenter: 1
-  _includeChildBounds: 0
-  ignoreParticleAndVFXInSizeCalculation: 0
-  _currentSizeType: 0
-  _lockSizeAspectRatio: 0
-  _maxChildCountForSizeCalculation: 50
-  _maxChildInspectors: 10
-  _constantSizeUpdate: 0
-  _showSizeGizmo: 1
-  _showSizeGizmoLabel: 1
-  _sizeGizmoLabelSize: 10
-  _sizeGizmoColor: {r: 1, g: 1, b: 1, a: 0.15}
-  _showSizeGizmoLabelOnBothSide: 1
-  _showSizeGizmosLabelHandle: 0
-  _minimumSizeForDoubleSidedLabel: 10
-  _gizmoMaximumDecimalPoints: 4
-  _showNotes: 1
-  _showNotesOnGizmo: 1
-  notes: []
-  _showParentChildTransform: 1
+  animatedFoldout: 1
+  pingSelfButton: 0
   showSiblingIndex: 0
-  showAssetGUID: 0
+  showAssetGuid: 0
   showWhySizeIsHiddenLabel: 1
-  _loadDefaultInspector: 1
+  loadDefaultInspector: 1
   logPerformance: 0
   logDetailedPerformance: 0
+  overrideInspectorColor: 0
+  inspectorColorInLocalSpace: {r: 1, g: 1, b: 1, a: 0}
+  inspectorColorInWorldSpace: {r: 0, g: 0, b: 1, a: 0.025}
+  overrideFoldoutColor: 0
+  foldoutColor: {r: 0, g: 1, b: 0, a: 0.025}
+  showSizeInLine: 0
+  showSizeFoldout: 1
+  showSizeCenter: 1
+  includeChildBounds: 0
+  ignoreParticleAndVFXInSizeCalculation: 0
+  currentSizeType: 0
+  lockSizeAspectRatio: 0
+  maxChildCountForSizeCalculation: 50
+  maxChildInspectors: 10
+  constantSizeUpdate: 0
+  autoRefreshSize: 1
+  autoRefreshSizeInLocalSpaceInPlaymode: 0
+  showSizeGizmo: 1
+  sizeGizmoOutlineThickness: 1
+  sizeGizmoOutlineColorX: {r: 1, g: 0, b: 0, a: 0.75}
+  sizeGizmoOutlineColorY: {r: 0, g: 1, b: 0, a: 0.75}
+  sizeGizmoOutlineColorZ: {r: 0, g: 0, b: 1, a: 0.75}
+  showSizeLabelGizmo: 1
+  sizeGizmoLabelSize: 10
+  sizeGizmoLabelColorX: {r: 1, g: 1, b: 1, a: 1}
+  sizeGizmoLabelColorY: {r: 1, g: 1, b: 1, a: 1}
+  sizeGizmoLabelColorZ: {r: 1, g: 1, b: 1, a: 1}
+  sizeGizmoLabelBackgroundColorX: {r: 0.65, g: 0, b: 0, a: 1}
+  sizeGizmoLabelBackgroundColorY: {r: 0.1008, g: 0.4842, b: 0, a: 1}
+  sizeGizmoLabelBackgroundColorZ: {r: 0, g: 0.189, b: 0.522, a: 1}
+  showAxisOnLabel: 1
+  showUnitOnLabel: 1
+  positionLabelAtCenter: 0
+  positionLabelAtClosestAxis: 1
+  positionLabelAtCornerAxis: 0
+  labelOffset: 0
+  showSizeGizmoLabelOnBothSide: 1
+  showSizeGizmosLabelHandle: 0
+  minimumSizeForDoubleSidedLabel: 10
+  gizmoMaximumDecimalPoints: 4
+  showParentChildTransform: 1

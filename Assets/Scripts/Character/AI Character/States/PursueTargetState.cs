@@ -31,7 +31,7 @@ public class PursueTargetState : AIState
             aiCharacter.navmeshAgent.enabled = true;
         }
 
-        aiCharacter.navmeshAgent.stoppingDistance = aiCharacter.combatState.maximumEngagementDistance;
+        //aiCharacter.navmeshAgent.stoppingDistance = aiCharacter.combatState.maximumEngagementDistance;
 
         if(canPivot)
         {
