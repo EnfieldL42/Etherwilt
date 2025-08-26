@@ -103,7 +103,7 @@ Material:
     - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Ambient: 0.15
+    - _Ambient: 0.156
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -121,7 +121,7 @@ Material:
     - _DirectionalRimSmoothness: 0.5
     - _DstBlend: 0
     - _DstBlendAlpha: 0
-    - _EmissionIntensity: 1
+    - _EmissionIntensity: 2
     - _EnvironmentReflections: 1
     - _FORWARD_PLUS: 1
     - _GlossMapScale: 0
@@ -148,7 +148,7 @@ Material:
     - _ReceiveShadows: 1
     - _SSSIntensity: 0.22
     - _SSSPower: 1
-    - _ShadowOpacity: 0.75
+    - _ShadowOpacity: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -164,7 +164,7 @@ Material:
     - _Colour: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _SSSColour: {r: 0.44025147, g: 0.24212195, b: 0.21458796, a: 1}
-    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0}
+    - _ShadowTint: {r: 0.3004603, g: 0.19384116, b: 0.509434, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

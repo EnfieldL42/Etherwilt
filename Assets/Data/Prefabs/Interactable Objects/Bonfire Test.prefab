@@ -9979,7 +9979,7 @@ MonoBehaviour:
   isActivated:
     m_InternalValue: 0
   activatedParticles: {fileID: 3934104226784476687}
-  unactivatedInteractionText: Activate the Bonefire
+  unactivatedInteractionText: Activate the Bonfire
   activatedInteractionText: Rest
   interactionText: BONFIRE RESTORED
   teleportTransform: {fileID: 93816116825904022}

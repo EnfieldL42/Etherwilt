@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-2720107803680852458
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 9
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,25 +7,30 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Leaves 2
-  m_Shader: {fileID: -6465566751694194690, guid: b8c593ef9384c74448b37157a71918fd, type: 3}
+  m_Name: TreeTrunk
+  m_Shader: {fileID: -6465566751694194690, guid: 8738bb055962b0944940893412fbf054, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
-  m_ValidKeywords: []
+  m_ValidKeywords:
+  - _FORWARD_PLUS
   m_InvalidKeywords: []
   m_LightmapFlags: 4
-  m_EnableInstancingVariants: 1
-  m_DoubleSidedGI: 1
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: _WindSpeed
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+    - _AlphaTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _BaseMap:
-        m_Texture: {fileID: 2800000, guid: 164fdd4fa02523a4a96e74b4cb59da1c, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -61,15 +53,19 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 164fdd4fa02523a4a96e74b4cb59da1c, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _MetallicGlossMap:
+    - _EmissionTex:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NormalFromTexture_2a94dd16ac8a47749b75a469ca440290_Texture_0_Texture2D:
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTexture:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MetallicGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -81,19 +77,11 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _SampleTexture2D_70e4587124fc4314bcff43f00a36213b_Texture_1_Texture2D:
-        m_Texture: {fileID: 2800000, guid: 164fdd4fa02523a4a96e74b4cb59da1c, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _Texture2D:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _Texture2DAsset_aaa9bdb2987342ec86fc0d5b42dbf3f9_Out_0_Texture2D:
+    - _ThicknessTexture:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -112,75 +100,84 @@ Material:
     m_Ints: []
     m_Floats:
     - _AddPrecomputedVelocity: 0
-    - _AdditionalLightsCutoff: 0
-    - _AdditionalLightsIntensity: 1
-    - _AdditionalLightsSmoothness: 1
-    - _AlphaClip: 1
-    - _AlphaToMask: 1
+    - _Alpha: 1
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _Ambient: 0.15
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
+    - _CelShadeCutoff: 0
+    - _CelShadeSmoothness: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _Cull: 0
-    - _Cutoff: 0.49
+    - _Cull: 2
+    - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DirectionalRimCutoff: 0.5
+    - _DirectionalRimIntensity: 1
+    - _DirectionalRimPower: 1
+    - _DirectionalRimSmoothness: 0.5
     - _DstBlend: 0
     - _DstBlendAlpha: 0
+    - _EmissionIntensity: 0
     - _EnvironmentReflections: 1
     - _FORWARD_PLUS: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HeightBlend: 0
-    - _HeightWeight: 6
-    - _Max: 1
+    - _HighlightCutoff: 1
+    - _HighlightIntensity: 0
+    - _InvertedRImIntensity: 0.1
+    - _InvertedRimCutoff: 0.5
+    - _InvertedRimSmoothness: 0.1
+    - _LightCutoff: 0
+    - _LightIntensity: 1
+    - _LightSmoothness: 0
     - _Metallic: 0
-    - _Min: 0.75
-    - _NoiseScale: 5
-    - _NormalSSSInfluence: 1
+    - _NormalSSSInfluence: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
+    - _PointRimLightCutoff: 0.2
+    - _PointRimLightIntensity: 0
+    - _PointRimLightPower: 1
+    - _PointRimLightSmoothness: 0.2
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _ReceiveShadows: 0
-    - _RimLightCutoff: 0.25
-    - _RimLightIntensity: 1
-    - _RimLightPower: 1
-    - _RimLightSmoothness: 1
-    - _SSSIntensity: 1
-    - _SSSPower: 4
-    - _Scale: 1
-    - _SineOffset: 1
-    - _Smoothness: 0
+    - _ReceiveShadows: 1
+    - _SSSIntensity: 0
+    - _SSSPower: 1
+    - _ShadowOpacity: 1
+    - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _SrcBlendAlpha: 1
     - _Surface: 0
-    - _TerrainSize: 1000
-    - _WindIntensity: 0.75
-    - _WindSpeed: 0.2
+    - _Threshold: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _smoothness: 0
-    - _smoothstep: -1
-    - _temp: 0
     m_Colors:
-    - _BaseColor: {r: 0.4817847, g: 0.754717, b: 0.49614957, a: 1}
-    - _Black: {r: 0, g: 0, b: 0, a: 0}
-    - _Bottom_Colour: {r: 0, g: 0, b: 0, a: 0}
-    - _Color: {r: 0.48178464, g: 0.75471693, b: 0.49614948, a: 1}
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _Colour: {r: 0.5849056, g: 0.43047228, b: 0.41660732, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FarColour: {r: 0.14928201, g: 0.42767292, b: 0.30749276, a: 0}
-    - _Highlight: {r: 1, g: 1, b: 1, a: 0}
-    - _LeafColour: {r: 0.5219335, g: 0.6603774, b: 0.52020293, a: 0}
-    - _NearColour: {r: 0.65854, g: 1, b: 0.54402506, a: 0}
-    - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
-    - _SSSColour: {r: 0.9685534, g: 0.96399236, b: 0.3807206, a: 1}
-    - _ShadowTint: {r: 0.28622282, g: 0.42070678, b: 0.4528302, a: 0}
+    - _SSSColour: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowTint: {r: 0.22217086, g: 0.109370574, b: 0.44025147, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _TerrainOffset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!114 &6446127971863405479
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9

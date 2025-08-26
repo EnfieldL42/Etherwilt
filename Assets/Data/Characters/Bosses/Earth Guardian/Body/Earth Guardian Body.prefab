@@ -2681,7 +2681,7 @@ MonoBehaviour:
   actionTimer: 0
   canTakeDmgAnimation: 0
   hasMultipleColliders: 1
-  characterName: Earth Guadian Body
+  characterName: Earth Guardian
   aICharacterCombatManager: {fileID: 0}
   aICharacterNetworkManager: {fileID: 0}
   aICharacterLocomotionManager: {fileID: 0}

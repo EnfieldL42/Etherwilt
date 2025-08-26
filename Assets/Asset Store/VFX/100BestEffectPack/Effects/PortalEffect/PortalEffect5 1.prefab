@@ -78,7 +78,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowTopMostFoldoutHeaderGroup: 1
-  interactableText: Return Ether
+  interactableText: Recover Ether
   interactableCollider: {fileID: 7757280427106807484}
   hostOnlyInteractable: 1
   etherCount: 0
