@@ -156,16 +156,6 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
         }
     }
 
-
-
-    //Special Functions
-    public void ActivateBorrow()
-    {
-        //character.characterController.enabled = false;
-    }
-
-
-
     //Rigging Functions
     public void SetAimTarget()
     {
@@ -194,6 +184,8 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     }
     public void FadeRigWeight(float targetWeight)
     {
+        Debug.Log("body Fading");
+        StopCoroutine(FadeRigWeightRoutine(targetWeight, 0.75f));
         //StopAllCoroutines(); // optional: stop any previous blend in progress
         StartCoroutine(FadeRigWeightRoutine(targetWeight, 0.75f));
     }

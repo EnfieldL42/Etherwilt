@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.Animations.Rigging;
+using UnityEngine.TextCore.Text;
 
 public class AIEarthGuardianCharacterManager : AIBossCharacterManager
 {
@@ -8,8 +9,10 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
     [HideInInspector] public AIEarthGuardianTailCombatManager tailCombatManager;
     [HideInInspector] public AIEarthGuardianBodyCombatManager bodyCombatManager;
 
-    [Header("Burrowing State")]
+    [Header("Burrowing Attack")]
     [SerializeField] CombatStanceState burrowedCombatStanceState;
+    public AICharacterAttackAction burrowAttack;
+    public bool forceBurrowAttack = false;
 
     protected override void Awake()
     {
@@ -19,6 +22,18 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
         bodyCombatManager = GetComponent<AIEarthGuardianBodyCombatManager>();
     }
 
+
+    override protected void Update()
+    {
+        base.Update();
+
+        if (forceBurrowAttack)
+        {
+            forceBurrowAttack = false;
+            ForceBurrowAttack();
+        }
+
+    }
 
     public override void PhaseShift()
     {
@@ -43,9 +58,10 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
         currentState = combatState;
     }
 
-    public void ForceSecondBodyAttack()
+    public void ForceBurrowAttack()
     {
-        //currentState = attackState;
+        attack.currentAttack = burrowAttack;
+        currentState = attack;
     }
 
 }

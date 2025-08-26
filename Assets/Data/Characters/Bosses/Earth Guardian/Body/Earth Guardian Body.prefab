@@ -233,13 +233,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 2945296929994410322}
   character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 7470819526314529298}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
+  parentCombatManager: {fileID: 2945296929994410322}
 --- !u!136 &7470819526314529298
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -434,13 +434,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 2945296929994410322}
   character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 5659251269248910269}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
+  parentCombatManager: {fileID: 2945296929994410322}
 --- !u!136 &5659251269248910269
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2047,13 +2047,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 2945296929994410322}
   character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 5798311736174783766}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
+  parentCombatManager: {fileID: 2945296929994410322}
 --- !u!136 &5798311736174783766
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2707,6 +2707,7 @@ MonoBehaviour:
   awakenAnimation: Awaken_01
   sleepState: {fileID: 11400000, guid: e5c59905a3c72e7479af72010cf2997f, type: 2}
   bossDefeatedMessage: Guardian Vanquised
+  canPhaseShift: 1
   minimumHealthPercentageForPhaseShift: 50
   phaseShiftAnimation: Phase_Shift_01
   phase02CombatStanceState: {fileID: 11400000, guid: 55149ae3ad17d6b4d93f756c893cfa0a, type: 2}
@@ -2716,6 +2717,8 @@ MonoBehaviour:
   tailCombatManager: {fileID: 0}
   bodyCombatManager: {fileID: 0}
   burrowedCombatStanceState: {fileID: 11400000, guid: dfac79f3b49117345835f28ceecbe87e, type: 2}
+  burrowAttack: {fileID: 11400000, guid: 0f9646c5e0dabca4cb201e3dea68acfb, type: 2}
+  forceBurrowAttack: 0
 --- !u!114 &2945296929994410322
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2759,6 +2762,7 @@ MonoBehaviour:
   ignoreStanceBreak: 0
   stanceRegenerationTimer: 0
   defaultTimeUntilStanceRegenerationBegins: 15
+  earthGuardianManager: {fileID: 0}
   secondBody: {fileID: 0}
   bitedamageCollider: {fileID: 566420309689054706}
   slamdamageCollider:
@@ -3487,13 +3491,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 2945296929994410322}
   character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 5431659065337675263}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
+  parentCombatManager: {fileID: 2945296929994410322}
 --- !u!135 &5431659065337675263
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -3896,13 +3900,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 2945296929994410322}
   character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 202318712775586030}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
+  parentCombatManager: {fileID: 2945296929994410322}
 --- !u!136 &202318712775586030
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4131,13 +4135,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 2945296929994410322}
   character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 4999604739185590626}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
+  parentCombatManager: {fileID: 2945296929994410322}
 --- !u!136 &4999604739185590626
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -4349,13 +4353,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 2945296929994410322}
   character: {fileID: -3136992118666280910}
   damageCollider: {fileID: 6403971963337668474}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: -3136992118666280910}
+  parentCombatManager: {fileID: 2945296929994410322}
 --- !u!136 &6403971963337668474
 CapsuleCollider:
   m_ObjectHideFlags: 0

@@ -177,7 +177,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ed2925b654bd0144a81f0074f252bf41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 0}
   physicalDamage: 0
@@ -285,13 +284,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 6735013127955156554}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: 1588135390861105207}
+  parentCombatManager: {fileID: 5890563049310126815}
 --- !u!136 &6735013127955156554
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -404,13 +403,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 1434517753703164547}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: 1588135390861105207}
+  parentCombatManager: {fileID: 5890563049310126815}
 --- !u!136 &1434517753703164547
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -722,13 +721,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 6520800063857996899}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: 1588135390861105207}
+  parentCombatManager: {fileID: 5890563049310126815}
 --- !u!136 &6520800063857996899
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -797,13 +796,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 3670997585816606079}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: 1588135390861105207}
+  parentCombatManager: {fileID: 5890563049310126815}
 --- !u!136 &3670997585816606079
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1274,6 +1273,7 @@ MonoBehaviour:
   awakenAnimation: Awaken_01
   sleepState: {fileID: 11400000, guid: aa1c2b103dfb9f643b98dce22ce4ea0e, type: 2}
   bossDefeatedMessage: Guardian Vanquished
+  canPhaseShift: 1
   minimumHealthPercentageForPhaseShift: 50
   phaseShiftAnimation: Phase_Shift_01
   phase02CombatStanceState: {fileID: 11400000, guid: 1ab59e47a0f18bb428fc8d368991b7d8, type: 2}
@@ -1283,6 +1283,8 @@ MonoBehaviour:
   tailCombatManager: {fileID: 0}
   bodyCombatManager: {fileID: 0}
   burrowedCombatStanceState: {fileID: 11400000, guid: fa7250ddd0607f24ba9cf95319e50a85, type: 2}
+  burrowAttack: {fileID: 11400000, guid: d3dee3ac34ad3854c8c22c65206ee9c5, type: 2}
+  forceBurrowAttack: 0
 --- !u!114 &5890563049310126815
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1302,7 +1304,7 @@ MonoBehaviour:
   hasChangedTarget:
     m_InternalValue: 0
   currentAttackType: 0
-  lockOnTransform: {fileID: 0}
+  lockOnTransform: {fileID: 8797667629973108194}
   canPerformRollingAttack: 0
   canPerformBackstepAttack: 0
   canBlock: 1
@@ -1326,6 +1328,7 @@ MonoBehaviour:
   ignoreStanceBreak: 0
   stanceRegenerationTimer: 0
   defaultTimeUntilStanceRegenerationBegins: 15
+  earthGuardianManager: {fileID: 0}
   secondBody: {fileID: 0}
   aoeCollider: {fileID: 793722686032858324}
   stabdamageCollider:
@@ -1696,13 +1699,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 6230340508247617700}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: 1588135390861105207}
+  parentCombatManager: {fileID: 5890563049310126815}
 --- !u!136 &6230340508247617700
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1833,13 +1836,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 1172649052413599465}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: 1588135390861105207}
+  parentCombatManager: {fileID: 5890563049310126815}
 --- !u!136 &1172649052413599465
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2343,7 +2346,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2804344999373300740
 Transform:
   m_ObjectHideFlags: 0
@@ -2366,7 +2369,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6623250804511211555}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a1948b28938d2e641a786a0dd0aceac4, type: 3}
   m_Name: 
@@ -2416,13 +2419,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 6091510435596311818}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: 1588135390861105207}
+  parentCombatManager: {fileID: 5890563049310126815}
 --- !u!136 &6091510435596311818
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2580,13 +2583,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 3295299172733352122}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: 1588135390861105207}
+  parentCombatManager: {fileID: 5890563049310126815}
 --- !u!136 &3295299172733352122
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2655,13 +2658,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 2329090649315408364}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: 1588135390861105207}
+  parentCombatManager: {fileID: 5890563049310126815}
 --- !u!136 &2329090649315408364
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2788,13 +2791,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 42e0bc6a66b205a4d909207b7396198c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 5890563049310126815}
   character: {fileID: 1588135390861105207}
   damageCollider: {fileID: 7657563440639544090}
   physicalDamage: 0
   magicDamage: 0
   poiseDamage: 0
   bossCharacter: {fileID: 1588135390861105207}
+  parentCombatManager: {fileID: 5890563049310126815}
 --- !u!136 &7657563440639544090
 CapsuleCollider:
   m_ObjectHideFlags: 0
