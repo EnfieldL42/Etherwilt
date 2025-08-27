@@ -150,7 +150,7 @@ public class TakeDamageEffect : InstantCharacterEffect
             return;
         }
 
-        if (poiseIsBroken && characterCausingDamage.canTakeDmgAnimation)
+        if (poiseIsBroken)
         {
             //damageAnimation = character.characterAnimatorManager.hit_Forward_Medium_01;
 

@@ -6321,8 +6321,12 @@ PrefabInstance:
       value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 4367345727372892929, guid: 5e71ff351a00ab942aba60de55d3f84e, type: 3}
+      propertyPath: lockOnTargetFollowSpeed
+      value: 0.05
+      objectReference: {fileID: 0}
+    - target: {fileID: 4367345727372892929, guid: 5e71ff351a00ab942aba60de55d3f84e, type: 3}
       propertyPath: collideWithLayers.m_Bits
-      value: 16385
+      value: 16393
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

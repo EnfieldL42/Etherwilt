@@ -2744,7 +2744,7 @@ MonoBehaviour:
   canBlock: 0
   criticalAttackDistanceCheck: 0.7
   pendingCriticalDamage: 0
-  baseDamage: 50
+  baseDamage: 1
   basePoiseDamage: 50
   actionRecoveryTimer: 0
   canPerformCombo: 0
@@ -2887,7 +2887,7 @@ MonoBehaviour:
   blockingStability: 0
   totalPoiseDamanage: 0
   offensivePoiseBonus: 0
-  basePoiseDefense: 500
+  basePoiseDefense: 9999
   defaultPoiseResetTime: 8
   poiseResetTimer: 0
 --- !u!114 &6451187813055123171

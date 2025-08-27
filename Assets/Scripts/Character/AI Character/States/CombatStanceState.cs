@@ -138,7 +138,7 @@ public class CombatStanceState : AIState
 
         if(potentialAttacks.Count <= 0)
         {
-            Debug.Log("no attakcs");
+            Debug.Log(aiCharacter + "no attakcs");
             return;
         }
 
