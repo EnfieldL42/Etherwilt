@@ -34,7 +34,10 @@ public class EventTriggerBossFight : MonoBehaviour
         // All bosses are present and active, wake each
         foreach (var boss in bosses)
         {
-            boss.WakeBoss();
+            if (!boss.hasBeenAwakened.Value)
+            {
+                boss.WakeBoss();
+            }
         }
     }
 }

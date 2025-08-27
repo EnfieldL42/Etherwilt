@@ -77,6 +77,7 @@ public class AICharacterSpawner : MonoBehaviour
 
         aiCharacter.characterUIManager.ResetCharacterHPBar();
 
+
         if (aiCharacter is AIBossCharacterManager)
         {
             AIBossCharacterManager boss = aiCharacter as AIBossCharacterManager;
@@ -84,6 +85,8 @@ public class AICharacterSpawner : MonoBehaviour
             //boss.sleepState.hasBeenAwakened = boss.hasBeenAwakened.Value;
             //boss.currentState = boss.currentState.SwitchState(boss, boss.sleepState);
         }
+
+
 
     }
 

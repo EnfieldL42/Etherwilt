@@ -535,7 +535,7 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.7463845
+      - time: 0.69363725
         functionName: FadeRigWeight
         data: 
         objectReferenceParameter: {instanceID: 0}

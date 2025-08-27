@@ -45,6 +45,7 @@ public class WorldGameSessionManager : MonoBehaviour
         PlayerUIManager.instance.localPlayer.ReviveCharacter();
 
         WorldAIManager.instance.ResetAllCharacters();
+        WorldObjectManager.instance.ResetAllFogWalls();
 
         for (int i = 0; i < WorldObjectManager.instance.bonfires.Count; i++)
         {

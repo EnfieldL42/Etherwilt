@@ -55,6 +55,25 @@ public class WorldObjectManager : MonoBehaviour
         }
     }
 
+    public void ResetAllFogWalls()
+    {
+        foreach (var fogWall in fogWalls)
+        {
+            if (fogWall != null)
+                fogWall.interactableCollider.enabled = true;
+        }
+    }
+
+    //public void TurnOffFogWallEventTrigger()
+    //{
+    //    foreach (var fogWall in fogWalls)
+    //    {
+    //        if (fogWall != null)
+    //            fogWall.eventTrigger.enabled = false;
+    //    }
+    //}
+
+
     public void AddBonfireToList(BonefireInteractable bonfire)
     {
         if (!bonfires.Contains(bonfire))

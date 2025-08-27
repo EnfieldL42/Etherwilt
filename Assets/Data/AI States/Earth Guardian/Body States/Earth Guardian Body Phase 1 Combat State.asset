@@ -17,6 +17,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 3731bf75fe5eb3b4296f517b563623c8, type: 2}
   - {fileID: 11400000, guid: d6ebce43757b54e42981089af041305f, type: 2}
   - {fileID: 11400000, guid: d8e3be1aa1aab4d4e960ed1c97e6163d, type: 2}
+  - {fileID: 11400000, guid: ed7ef7599f159894488d5658362ae32b, type: 2}
+  - {fileID: 11400000, guid: c7f7c2f859962cc44afe5f19506b886a, type: 2}
   potentialAttacks: []
   canPerformCombo: 1
   percentageToPerformCombo: 50

@@ -2692,7 +2692,7 @@ MonoBehaviour:
   combatState: {fileID: 11400000, guid: 31f663ec774af1c4796bc4f582c2691d, type: 2}
   attack: {fileID: 11400000, guid: 92c84719f3080e24992b2cfaf1f271ae, type: 2}
   investigateSoundState: {fileID: 11400000, guid: b154290c33992a840bc64ea34029b6a7, type: 2}
-  maxHealth: 800
+  maxHealth: 1600
   bossID: 0
   bossIntroClip: {fileID: 0}
   bossBattleLoopClip: {fileID: 0}
@@ -2744,15 +2744,15 @@ MonoBehaviour:
   canBlock: 0
   criticalAttackDistanceCheck: 0.7
   pendingCriticalDamage: 0
-  baseDamage: 5
-  basePoiseDamage: 25
+  baseDamage: 50
+  basePoiseDamage: 50
   actionRecoveryTimer: 0
   canPerformCombo: 0
   hasHitTargetDuringCombo: 0
   distanceFromTarget: 0
   viewableAngle: 0
   targetsDirection: {x: 0, y: 0, z: 0}
-  detectionRadius: 15
+  detectionRadius: 16
   minimumFOV: -35
   maximumFOV: 35
   attackRotationSpeed: 25

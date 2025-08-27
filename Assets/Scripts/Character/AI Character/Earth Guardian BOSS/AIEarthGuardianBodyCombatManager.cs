@@ -59,7 +59,10 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
             secondBody.FadeRigWeight(1f);
         }
 
-        SyncBodyHealth();
+        if (earthGuardianManager.bossFightIsActive.Value)
+        {
+            SyncBodyHealth();
+        }
 
     }
 

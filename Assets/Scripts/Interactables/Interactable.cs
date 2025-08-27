@@ -4,7 +4,7 @@ using Unity.Netcode;
 public class Interactable : NetworkBehaviour
 {
     public string interactableText;
-    [SerializeField] protected Collider interactableCollider;
+    public Collider interactableCollider;
     [SerializeField] protected bool hostOnlyInteractable = true;
 
     protected virtual void Awake()

@@ -193,7 +193,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5653, y: 1, z: 1.879}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 5342447446831518642}
@@ -231,7 +231,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c99d160bcbab90f41b66701f498ea72d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentCombatManager: {fileID: 0}
   character: {fileID: 0}
   damageCollider: {fileID: 2458137022838204436}
   physicalDamage: 0
