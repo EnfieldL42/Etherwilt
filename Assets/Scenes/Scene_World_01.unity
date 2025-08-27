@@ -1295,6 +1295,10 @@ PrefabInstance:
       value: -5.754
       objectReference: {fileID: 0}
     - target: {fileID: 6406361149144538578, guid: 9e659cb8ae86c0545b895a7c11ce0d52, type: 3}
+      propertyPath: eventTrigger
+      value: 
+      objectReference: {fileID: 5697677836438417800}
+    - target: {fileID: 6406361149144538578, guid: 9e659cb8ae86c0545b895a7c11ce0d52, type: 3}
       propertyPath: fogWallCollider
       value: 
       objectReference: {fileID: 41256663}
@@ -9787,6 +9791,43 @@ Transform:
   m_Children: []
   m_Father: {fileID: 273389715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &581623148
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!43 &593986207
 Mesh:
   m_ObjectHideFlags: 32
@@ -13108,7 +13149,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 16384
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 1852742508}
+  m_TargetTexture: {fileID: 581623148}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -13172,7 +13213,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -107.600006, y: 524.37494, z: -24.899979}
-  m_LocalScale: {x: 1, y: 1.0000386, z: 1.0000386}
+  m_LocalScale: {x: 1, y: 1.000042, z: 1.000042}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 623485530}
@@ -24157,43 +24198,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!84 &1852742508
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!43 &1855218660
 Mesh:
   m_ObjectHideFlags: 32
@@ -27923,7 +27927,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 272369956472534526, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
       propertyPath: m_LocalScale.y
-      value: 10.496821
+      value: 10.496824
       objectReference: {fileID: 0}
     - target: {fileID: 272369956472534526, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
       propertyPath: m_LocalScale.z
@@ -27978,6 +27982,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3177611664151172427, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
+      propertyPath: triggerCollider
+      value: 
+      objectReference: {fileID: 5697677836438417801}
+    - target: {fileID: 3177611664151172427, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
       propertyPath: bossID.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -27985,6 +27993,10 @@ PrefabInstance:
       propertyPath: 'bossID.Array.data[1]'
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3177611664151172427, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
+      propertyPath: eventTriggerCollider
+      value: 
+      objectReference: {fileID: 5697677836438417801}
     - target: {fileID: 6271873660826771244, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
       propertyPath: m_Name
       value: Event Trigger - Wake Earth Guardian
@@ -27992,8 +28004,57 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 6271873660826771244, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
+      insertIndex: 4
+      addedObject: {fileID: 5697677836438417803}
   m_SourcePrefab: {fileID: 100100000, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
+--- !u!114 &5697677836438417800 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3177611664151172427, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
+  m_PrefabInstance: {fileID: 5697677836438417799}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5697677836438417802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09d354398969b9d4189100a1bf13d2b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!65 &5697677836438417801 stripped
+BoxCollider:
+  m_CorrespondingSourceObject: {fileID: 1918416644561663797, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
+  m_PrefabInstance: {fileID: 5697677836438417799}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &5697677836438417802 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6271873660826771244, guid: 600aa49d21c8e0c41881ba757b054710, type: 3}
+  m_PrefabInstance: {fileID: 5697677836438417799}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5697677836438417803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5697677836438417802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5a57f767e5e46a458fc5d3c628d0cbb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  GlobalObjectIdHash: 3572178569
+  InScenePlacedSourceGlobalObjectIdHash: 0
+  DeferredDespawnTick: 0
+  Ownership: 1
+  AlwaysReplicateAsRoot: 0
+  SynchronizeTransform: 1
+  ActiveSceneSynchronization: 0
+  SceneMigrationSynchronization: 1
+  SpawnWithObservers: 1
+  DontDestroyWithOwner: 0
+  AutoObjectParentSync: 1
+  SyncOwnerTransformWhenParented: 1
+  AllowOwnerToParent: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

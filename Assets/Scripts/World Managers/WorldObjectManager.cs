@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class WorldObjectManager : MonoBehaviour
 {
@@ -16,6 +17,9 @@ public class WorldObjectManager : MonoBehaviour
 
     [Header("Bonfires")]
     public List<BonefireInteractable> bonfires;
+
+    [Header("Boss Triggers")]
+    public List<EventTriggerBossFight> bossTriggers;
 
     private void Awake()
     {
@@ -60,7 +64,9 @@ public class WorldObjectManager : MonoBehaviour
         foreach (var fogWall in fogWalls)
         {
             if (fogWall != null)
+            {
                 fogWall.interactableCollider.enabled = true;
+            }
         }
     }
 
@@ -90,5 +96,32 @@ public class WorldObjectManager : MonoBehaviour
         }
     }
 
+
+    public void AddBossTriggerToList(EventTriggerBossFight eventTrigger)
+    {
+        if (!bossTriggers.Contains(eventTrigger))
+        {
+            bossTriggers.Add(eventTrigger);
+        }
+    }
+
+    public void RemoveBossTriggerToList(EventTriggerBossFight eventTrigger)
+    {
+        if (bossTriggers.Contains(eventTrigger))
+        {
+            bossTriggers.Remove(eventTrigger);
+        }
+    }
+
+    public void ResetAllBossTriggers()
+    {
+        foreach (var eventTrigger in bossTriggers)
+        {
+            if (eventTrigger != null)
+            {
+                eventTrigger.triggerCollider.enabled = true;
+            }
+        }
+    }
 
 }

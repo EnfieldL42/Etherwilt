@@ -1,21 +1,25 @@
 using UnityEngine;
+using System.Collections;
+using Unity.Netcode;
 
-public class EventTriggerBossFight : MonoBehaviour
+public class EventTriggerBossFight : NetworkBehaviour
 {
+    [Header("Event Trigger ID")]
+    public int eventTriggerID;
+
     [SerializeField] int[] bossID;
+    public Collider triggerCollider;
 
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+        WorldObjectManager.instance.AddBossTriggerToList(this);
+    }
 
-    //private void OnTriggerEnter(Collider other)
-    //{
-    //    foreach (int id in bossID)
-    //    {
-    //        AIBossCharacterManager boss = WorldAIManager.instance.GetBossCharacterByID(id);
-    //        if (boss != null)
-    //        {
-    //            boss.WakeBoss();
-    //        }
-    //    }
-    //}
+    override public void OnNetworkDespawn()
+    {
+        base.OnNetworkDespawn();
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -34,10 +38,13 @@ public class EventTriggerBossFight : MonoBehaviour
         // All bosses are present and active, wake each
         foreach (var boss in bosses)
         {
-            if (!boss.hasBeenAwakened.Value)
-            {
-                boss.WakeBoss();
-            }
+            boss.WakeBoss();
+            //if (!boss.hasBeenAwakened.Value)
+            //{
+            //    
+            //}
         }
+
+        triggerCollider.enabled = false;
     }
 }

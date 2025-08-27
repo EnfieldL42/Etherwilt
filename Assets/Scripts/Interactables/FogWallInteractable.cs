@@ -65,6 +65,7 @@ public class FogWallInteractable : Interactable
 
         StartCoroutine(HandleFogChangeWithDelay(newStatus));
     }
+
     private IEnumerator HandleFogChangeWithDelay(bool newStatus)
     {
         yield return new WaitForSeconds(0.5f); // Adjust delay as needed

@@ -46,6 +46,7 @@ public class WorldGameSessionManager : MonoBehaviour
 
         WorldAIManager.instance.ResetAllCharacters();
         WorldObjectManager.instance.ResetAllFogWalls();
+        WorldObjectManager.instance.ResetAllBossTriggers();
 
         for (int i = 0; i < WorldObjectManager.instance.bonfires.Count; i++)
         {
