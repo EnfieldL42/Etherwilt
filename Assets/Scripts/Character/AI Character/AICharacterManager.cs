@@ -209,7 +209,7 @@ public class AICharacterManager : CharacterManager
 
             if (!manuallySelectDeathAnimation)
             {
-                characterAnimatorManager.PlayTargetActionAnimation("Dead_01", true);
+                characterAnimatorManager.PlayTargetActionAnimationInstantly("Dead_01", true);
 
             }
 

@@ -184,7 +184,7 @@ public class AIBossCharacterManager : AICharacterManager
             // Play individual death animation
             if (!manuallySelectDeathAnimation)
             {
-                characterAnimatorManager.PlayTargetActionAnimation("Dead_01", true);
+                characterAnimatorManager.PlayTargetActionAnimationInstantly("Dead_01", true);
             }
 
             hasBeenDefeated.Value = true;

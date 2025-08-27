@@ -225,7 +225,14 @@ public class TakeDamageEffect : InstantCharacterEffect
         else
         {
             //if not poise broken, just play hit animation with no restriction
-            character.characterAnimatorManager.PlayTargetActionAnimation(damageAnimation, false, false, true, true);
+            if (!character.canMove)
+            {
+                character.characterAnimatorManager.PlayTargetActionAnimation(damageAnimation, false, false);
+            }
+            else
+            {
+                character.characterAnimatorManager.PlayTargetActionAnimation(damageAnimation, false, false, true, true);
+            }
 
         }
     }
