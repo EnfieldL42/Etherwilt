@@ -102,7 +102,9 @@ public class BonefireInteractable : Interactable
 
         interactableCollider.enabled = true;//temporary so we can keep interacting with the bonfire for the meantime
         player.playerNetworkManager.currentHealth.Value = player.playerNetworkManager.maxHealth.Value; //temp code
-        player.playerNetworkManager.currentStamina.Value = player.playerNetworkManager.maxStamina.Value; //temp code
+        player.playerNetworkManager.currentStamina.Value = player.playerNetworkManager.maxStamina.Value; //temp code\
+        player.playerNetworkManager.remainingHealthFlasks.Value = 3;
+        PlayerUIManager.instance.playerUIHudManager.UpdateQuickSlotItemQuickSlotIcon();
 
         WorldAIManager.instance.ResetAllCharacters();
     }
