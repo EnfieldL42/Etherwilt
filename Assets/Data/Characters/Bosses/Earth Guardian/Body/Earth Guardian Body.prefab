@@ -2692,7 +2692,7 @@ MonoBehaviour:
   combatState: {fileID: 11400000, guid: 31f663ec774af1c4796bc4f582c2691d, type: 2}
   attack: {fileID: 11400000, guid: 92c84719f3080e24992b2cfaf1f271ae, type: 2}
   investigateSoundState: {fileID: 11400000, guid: b154290c33992a840bc64ea34029b6a7, type: 2}
-  maxHealth: 1600
+  maxHealth: 400
   bossID: 0
   bossIntroClip: {fileID: 0}
   bossBattleLoopClip: {fileID: 0}
@@ -2716,9 +2716,12 @@ MonoBehaviour:
   earthGuardianSoundFXManager: {fileID: 0}
   tailCombatManager: {fileID: 0}
   bodyCombatManager: {fileID: 0}
+  doNothingState: {fileID: 11400000, guid: 5467ca9abc3bf4447acf234c7abef26d, type: 2}
   burrowedCombatStanceState: {fileID: 11400000, guid: dfac79f3b49117345835f28ceecbe87e, type: 2}
   burrowAttack: {fileID: 11400000, guid: 0f9646c5e0dabca4cb201e3dea68acfb, type: 2}
+  isBurrowed: 0
   forceBurrowAttack: 0
+  navmeshAgentStoppingDistance: 5
 --- !u!114 &2945296929994410322
 MonoBehaviour:
   m_ObjectHideFlags: 0

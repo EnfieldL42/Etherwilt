@@ -1,5 +1,7 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.AI;
 using UnityEngine.Animations.Rigging;
 using UnityEngine.TextCore.Text;
 
@@ -10,9 +12,14 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
     [HideInInspector] public AIEarthGuardianBodyCombatManager bodyCombatManager;
 
     [Header("Burrowing Attack")]
-    [SerializeField] CombatStanceState burrowedCombatStanceState;
+    [SerializeField] DoNothingState doNothingState;
+    public CombatStanceState burrowedCombatStanceState;
     public AICharacterAttackAction burrowAttack;
+    public bool isBurrowed = false;
     public bool forceBurrowAttack = false;
+
+    [Header("Navmesh Agent")]
+    public float navmeshAgentStoppingDistance = 0;
 
     protected override void Awake()
     {
@@ -33,6 +40,26 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
             ForceBurrowAttack();
         }
 
+        if(!isBurrowed)
+        {
+            navmeshAgent.stoppingDistance = navmeshAgentStoppingDistance;
+        }
+        else
+        {
+            navmeshAgent.stoppingDistance = combatState.maximumEngagementDistance;
+        }
+
+    }
+
+    public override void OnNetworkSpawn()
+    {
+        base.OnNetworkSpawn();
+
+        if (IsOwner)
+        {
+            burrowedCombatStanceState = Instantiate(burrowedCombatStanceState);
+            doNothingState = Instantiate(doNothingState);
+        }
     }
 
     public override void PhaseShift()
@@ -41,27 +68,41 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
         {
             return;
         }
-
         canPhaseShift = false;
-        animator.SetBool("isBurrowed", true);
-        characterAnimatorManager.PlayTargetActionAnimation(phaseShiftAnimation, true);
-        combatState = Instantiate(burrowedCombatStanceState);
-        currentState = pursueState;
 
-        PhaseShift();
+        currentState = doNothingState;
+        isBurrowed = true;
+        animator.SetBool("isBurrowed", isBurrowed);
+        characterAnimatorManager.PlayTargetActionAnimationInstantly(phaseShiftAnimation, true);
+        StartCoroutine(WaitThenChangeState(10f));
+    }
+
+    private IEnumerator WaitThenChangeState(float time)
+    {
+        yield return new WaitForSeconds(time);
+        combatState = burrowedCombatStanceState;
+        currentState = combatState;
+    }
+
+    public void TurnOffIsBurrowed()
+    {
+        isBurrowed = false;
+        animator.SetBool("isBurrowed", isBurrowed);
     }
 
     public void ShiftPhaseAfterBurrowAttack()
     {
-        animator.SetBool("isBurrowed", false);
         combatState = Instantiate(phase02CombatStanceState);
-        currentState = combatState;
+        //currentState = combatState;
     }
 
     public void ForceBurrowAttack()
     {
+        attack.hasPerformedAttack = false;
         attack.currentAttack = burrowAttack;
         currentState = attack;
     }
+
+
 
 }

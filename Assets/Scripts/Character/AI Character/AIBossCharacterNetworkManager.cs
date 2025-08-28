@@ -25,7 +25,7 @@ public class AIBossCharacterNetworkManager : AICharacterNetworkManager
 
             if (currentHealth.Value <= healthNeededForShift)
             {
-                //aiBossCharacter.PhaseShift();
+                aiBossCharacter.PhaseShift();
             }
         }
 

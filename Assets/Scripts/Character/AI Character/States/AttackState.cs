@@ -8,7 +8,7 @@ public class AttackState : AIState
     [HideInInspector] public bool willPerformCombo = true;
 
     [Header("State Flags")]
-    protected bool hasPerformedAttack = false;
+    [HideInInspector] public bool hasPerformedAttack = false;
     [SerializeField] protected bool hasPerformedCombo = false;
 
     [Header("Pivot After Attack")]
@@ -16,6 +16,7 @@ public class AttackState : AIState
 
     public override AIState Tick(AICharacterManager aiCharacter)
     {
+
         if (aiCharacter.aICharacterCombatManager.currentTarget == null)
         {
             return SwitchState(aiCharacter, aiCharacter.idle);
@@ -41,24 +42,26 @@ public class AttackState : AIState
 
         if (!hasPerformedAttack)
         {
-            if(aiCharacter.aICharacterCombatManager.actionRecoveryTimer > 0)
+
+            if (aiCharacter.aICharacterCombatManager.actionRecoveryTimer > 0)
             {
                 return this;
             }
 
+
             PerformAttack(aiCharacter);
-            
+
             return this;
         }
 
-        if(aiCharacter.pursueState.canPivot)
+
+        if (aiCharacter.pursueState.canPivot)
         {
             if (pivotAfterAttack)
             {
                 aiCharacter.aICharacterCombatManager.PivotTowardsTarget(aiCharacter);
             }
         }
-
 
         return SwitchState(aiCharacter, aiCharacter.combatState);
     }
@@ -68,7 +71,6 @@ public class AttackState : AIState
         hasPerformedAttack = true;
         currentAttack.AttemptToPerformAction(aiCharacter);
         aiCharacter.aICharacterCombatManager.actionRecoveryTimer = currentAttack.actionRecoveryTime;
-
     }
 
 
