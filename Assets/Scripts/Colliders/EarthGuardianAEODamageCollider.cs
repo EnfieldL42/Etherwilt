@@ -33,6 +33,10 @@ public class EarthGuardianAEODamageCollider : DamageCollider
                 {
                     continue;
                 }
+                if (character.characterGroup == CharacterGroup.Team02)
+                {
+                    continue;
+                }
 
                 charactersDamaged.Add(character);
 
