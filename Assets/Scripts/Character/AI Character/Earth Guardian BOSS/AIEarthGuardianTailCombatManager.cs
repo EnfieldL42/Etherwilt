@@ -76,6 +76,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
         {
             FadeRigWeight(1f);
         }
+
         SyncBodyHealth();
         
     }
@@ -324,6 +325,14 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
         else
         {
             return;
+        }
+    }
+
+    public void ForceSecondBodyUnburrow()
+    {
+        if(secondBody != null)
+        {
+            secondBody.earthGuardianManager.ForceBurrowAttack();
         }
     }
 

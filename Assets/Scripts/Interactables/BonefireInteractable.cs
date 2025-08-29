@@ -158,11 +158,11 @@ public class BonefireInteractable : Interactable
     {
         PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
 
+        WorldSaveGameManager.instance.currentCharacterData.lastBonfireRestedAt = bonefireID;
         PlayerUIManager.instance.playerUILoadingScreenManager.ActivateLoadingScreen();
-
         player.transform.position = teleportTransform.position;
-
         PlayerUIManager.instance.playerUILoadingScreenManager.DeactivateLoadingScreen();
+        WorldSaveGameManager.instance.SaveGame();
 
     }
 }

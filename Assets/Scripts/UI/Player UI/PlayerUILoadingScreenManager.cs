@@ -27,6 +27,7 @@ public class PlayerUILoadingScreenManager : MonoBehaviour
             return;
         }
 
+        PlayerUIManager.instance.CloseAllMenuWindows();
         canvasGroup.alpha = 1.0f;
         loadingScreen.SetActive(true);
     }

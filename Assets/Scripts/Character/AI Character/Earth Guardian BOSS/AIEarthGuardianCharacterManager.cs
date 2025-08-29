@@ -13,10 +13,13 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
 
     [Header("Burrowing Attack")]
     [SerializeField] DoNothingState doNothingState;
-    public CombatStanceState burrowedCombatStanceState;
-    public AICharacterAttackAction burrowAttack;
-    public bool isBurrowed = false;
+    [SerializeField] CombatStanceState burrowedCombatStanceState;
+    [SerializeField] AICharacterAttackAction burrowAttack;
+    [HideInInspector] public bool canUnburrowAttack = false;
+    private bool isBurrowed = false;
     public bool forceBurrowAttack = false;
+
+    [SerializeField] float burrowMaxTime = 5f;
 
     [Header("Navmesh Agent")]
     public float navmeshAgentStoppingDistance = 0;
@@ -47,6 +50,11 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
         else
         {
             navmeshAgent.stoppingDistance = combatState.maximumEngagementDistance;
+        }
+
+        if (canUnburrowAttack)
+        {
+            BurrowTimer();
         }
 
     }
@@ -80,6 +88,7 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
     private IEnumerator WaitThenChangeState(float time)
     {
         yield return new WaitForSeconds(time);
+        canUnburrowAttack = true;
         combatState = burrowedCombatStanceState;
         currentState = combatState;
     }
@@ -88,6 +97,7 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
     {
         isBurrowed = false;
         animator.SetBool("isBurrowed", isBurrowed);
+        canUnburrowAttack = false;
     }
 
     public void ShiftPhaseAfterBurrowAttack()
@@ -98,11 +108,29 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
 
     public void ForceBurrowAttack()
     {
-        attack.hasPerformedAttack = false;
-        attack.currentAttack = burrowAttack;
-        currentState = attack;
+        if (canUnburrowAttack)
+        {
+            canUnburrowAttack = false;
+            attack.hasPerformedAttack = false;
+            attack.currentAttack = burrowAttack;
+            currentState = attack;
+        }
+
     }
 
+    private void BurrowTimer()
+    {
+        float timer = 0f;
 
+        if (timer < burrowMaxTime)
+        {
+            timer += Time.deltaTime;
+        }
+        else
+        {
+            timer = 0f;
+            ForceBurrowAttack();
+        }
+    }
 
 }

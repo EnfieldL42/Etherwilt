@@ -57,7 +57,11 @@ public class WorldGameSessionManager : MonoBehaviour
             }
         }
 
-        WorldObjectManager.instance.bonfires[0].TeleportToBonfire(); //CHANGE THIS TO SPAWN LOCATION VECTOR 3
+        if (WorldSaveGameManager.instance.currentCharacterData.lastBonfireRestedAt == 0)
+        {
+            WorldObjectManager.instance.bonfires[0].TeleportToBonfire(); //CHANGE THIS TO SPAWN LOCATION VECTOR 3
+        }
+
         WorldSaveGameManager.instance.SaveGame();
 
     }

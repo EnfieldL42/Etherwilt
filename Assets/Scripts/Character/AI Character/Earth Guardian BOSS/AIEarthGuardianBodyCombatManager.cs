@@ -230,4 +230,12 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
         }
     }
 
+    public void ForceSecondBodyUnburrow()
+    {
+        if (secondBody != null)
+        {
+            secondBody.earthGuardianManager.ForceBurrowAttack();
+        }
+    }
+
 }

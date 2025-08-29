@@ -1,6 +1,7 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using Unity.Netcode;
 
 public class AICharacterManager : CharacterManager
 {
@@ -226,5 +227,11 @@ public class AICharacterManager : CharacterManager
         }
     }
 
+    public void RemoveLockOnFromPlayer()
+    {
+        PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
+        player.playerNetworkManager.isLockedOn.Value = false;
+        player.playerCombatManager.SetTarget(null);
+    }
 
 }
