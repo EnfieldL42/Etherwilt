@@ -1285,8 +1285,9 @@ MonoBehaviour:
   doNothingState: {fileID: 11400000, guid: 38bde6893ce36f546a42c3c8ea421b1e, type: 2}
   burrowedCombatStanceState: {fileID: 11400000, guid: fa7250ddd0607f24ba9cf95319e50a85, type: 2}
   burrowAttack: {fileID: 11400000, guid: d3dee3ac34ad3854c8c22c65206ee9c5, type: 2}
-  isBurrowed: 0
+  canUnburrowAttack: 0
   forceBurrowAttack: 0
+  burrowMaxTime: 5
   navmeshAgentStoppingDistance: 10
 --- !u!114 &5890563049310126815
 MonoBehaviour:
@@ -2227,7 +2228,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 079b312a853ed9f4fae3423019d3cfc1, type: 2}
+  - {fileID: 2100000, guid: dd3db1ecb3af7874e8ccf7fee11126d5, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
