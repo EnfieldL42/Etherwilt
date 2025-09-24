@@ -33,6 +33,10 @@ public class PlayerUIPopUpManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI bonfireRestoredPopUpText;
     [SerializeField] CanvasGroup bonfireRestoredCanvasGroup;
 
+    [Header("Current Dialogue")]
+    [SerializeField] CharacterDialogue currentDialogue;
+    private Coroutine dialogueCoroutine;
+
     public void CloseAllPopUpWindows()
     {
         popUpMessageGameObject.SetActive(false);
@@ -111,6 +115,19 @@ public class PlayerUIPopUpManager : MonoBehaviour
         //stretch our the pop up
         //fade in the pop up
         //wait, then dafe out the pop up
+    }
+
+    public void SendDialoguePopUp(CharacterDialogue dialogue, AICharacterManager aICharacter)
+    {
+        currentDialogue = dialogue;
+
+        if(dialogueCoroutine != null)
+        {
+            StopCoroutine(dialogueCoroutine);
+        }
+
+        dialogueCoroutine = StartCoroutine(dialogue.PlayerDialogueCoroutine(aICharacter));
+        PlayerUIManager.instance.popUpWindowIsOpen = true;
     }
 
     private IEnumerator StretchPopUpTextOverTime(TextMeshProUGUI text, float duration, float stretchAmount)

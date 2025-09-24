@@ -28,6 +28,13 @@ public enum CharacterAttribute
     TankMastery,
 }
 
+//used to give characters proper dialogue sets
+public enum CharacterDialogueID
+{
+    NoDialogueID,
+    ForgottenAlchemist,
+}
+
 public enum CharacterGroup
 {
     Team01,

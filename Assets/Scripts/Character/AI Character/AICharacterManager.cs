@@ -11,6 +11,7 @@ public class AICharacterManager : CharacterManager
     [HideInInspector] public AICharacterCombatManager aICharacterCombatManager;
     [HideInInspector] public AICharacterNetworkManager aICharacterNetworkManager;
     [HideInInspector] public AICharacterLocomotionManager aICharacterLocomotionManager;
+    [HideInInspector] public AICharacterSoundFXManager aICharacterSoundFXManager;
 
     [Header("Navmesh Agent")]
     public NavMeshAgent navmeshAgent;
@@ -39,6 +40,7 @@ public class AICharacterManager : CharacterManager
         aICharacterCombatManager = GetComponent<AICharacterCombatManager>();
         aICharacterNetworkManager = GetComponent<AICharacterNetworkManager>();
         aICharacterLocomotionManager = GetComponent<AICharacterLocomotionManager>();
+        aICharacterSoundFXManager = GetComponent<AICharacterSoundFXManager>();
 
         navmeshAgent = GetComponentInChildren<NavMeshAgent>();
 
