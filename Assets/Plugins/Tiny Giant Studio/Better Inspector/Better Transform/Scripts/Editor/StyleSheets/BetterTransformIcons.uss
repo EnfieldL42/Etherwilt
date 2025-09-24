@@ -1,7 +1,0 @@
-.link-icon {
-    background-image: var(--unity-icons-link-checked);
-}
-
-.unlink-icon {
-    background-image: var(--unity-icons-link);
-}
