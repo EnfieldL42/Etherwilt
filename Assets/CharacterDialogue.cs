@@ -35,7 +35,7 @@ public class CharacterDialogue : ScriptableObject
         }
 
         aICharacter.aICharacterSoundFXManager.dialogueIsPlaying = true;
-        PlayerUIManager.instance.playerUIPopUpManager.BeginDialoguePopUp(this, aICharacter);
+        //PlayerUIManager.instance.playerUIPopUpManager.BeginDialoguePopUp(this, aICharacter);
     }
 
     public IEnumerator PlayerDialogueCoroutine(AICharacterManager aICharacter)
