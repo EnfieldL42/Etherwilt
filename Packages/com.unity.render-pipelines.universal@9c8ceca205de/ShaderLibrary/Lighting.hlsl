@@ -51,9 +51,10 @@ half3 LightingPhysicallyBased(BRDFData brdfData, BRDFData brdfDataClearCoat,
     half clearCoatMask, bool specularHighlightsOff)
 {
     half NdotL = saturate(dot(normalWS, lightDirectionWS));
-    half4 shadows = lightAttenuation * NdotL;
+    /*half4 shadows = lightAttenuation * NdotL;
     half4 shadowColor = half4((half3(27, 9, 99)/255), 1);
-    half3 radiance = lightColor * lerp(shadowColor, 1, shadows);
+    */
+    half3 radiance = lightColor * (lightAttenuation * NdotL);
 
     half3 brdf = brdfData.diffuse;
 #ifndef _SPECULARHIGHLIGHTS_OFF
@@ -159,6 +160,8 @@ struct LightingData
     half3 additionalLightsColor;
     half3 vertexLightingColor;
     half3 emissionColor;
+    half3 lightAttenuation; //Custom
+    half3 rawLightColor; //Custom
 };
 
 half3 CalculateLightingColor(LightingData lightingData, half3 albedo)
@@ -191,6 +194,8 @@ half3 CalculateLightingColor(LightingData lightingData, half3 albedo)
     }
 
     lightingColor *= albedo;
+    half4 shadowColor = half4((half3(70, 27, 114)/255) * lightingData.rawLightColor, 1);
+    lightingColor *= max(lightingData.lightAttenuation, shadowColor);
 
     if (IsLightingFeatureEnabled(DEBUGLIGHTINGFEATUREFLAGS_EMISSION))
     {
@@ -203,7 +208,7 @@ half3 CalculateLightingColor(LightingData lightingData, half3 albedo)
 half4 CalculateFinalColor(LightingData lightingData, half alpha)
 {
     half3 finalColor = CalculateLightingColor(lightingData, 1);
-
+    
     return half4(finalColor, alpha);
 }
 
@@ -235,6 +240,8 @@ LightingData CreateLightingData(InputData inputData, SurfaceData surfaceData)
     lightingData.vertexLightingColor = 0;
     lightingData.mainLightColor = 0;
     lightingData.additionalLightsColor = 0;
+    lightingData.lightAttenuation = 0;
+    lightingData.rawLightColor = 0;
 
     return lightingData;
 }
@@ -298,7 +305,6 @@ half4 UniversalFragmentPBR(InputData inputData, SurfaceData surfaceData)
     MixRealtimeAndBakedGI(mainLight, inputData.normalWS, inputData.bakedGI);
 
     LightingData lightingData = CreateLightingData(inputData, surfaceData);
-
     lightingData.giColor = GlobalIllumination(brdfData, brdfDataClearCoat, surfaceData.clearCoatMask,
                                               inputData.bakedGI, aoFactor.indirectAmbientOcclusion, inputData.positionWS,
                                               inputData.normalWS, inputData.viewDirectionWS, inputData.normalizedScreenSpaceUV);
@@ -310,6 +316,9 @@ half4 UniversalFragmentPBR(InputData inputData, SurfaceData surfaceData)
                                                               mainLight,
                                                               inputData.normalWS, inputData.viewDirectionWS,
                                                               surfaceData.clearCoatMask, specularHighlightsOff);
+
+        lightingData.lightAttenuation += (mainLight.shadowAttenuation * mainLight.distanceAttenuation); //
+        lightingData.rawLightColor = mainLight.color;
     }
 
     #if defined(_ADDITIONAL_LIGHTS)
@@ -329,6 +338,8 @@ half4 UniversalFragmentPBR(InputData inputData, SurfaceData surfaceData)
             lightingData.additionalLightsColor += LightingPhysicallyBased(brdfData, brdfDataClearCoat, light,
                                                                           inputData.normalWS, inputData.viewDirectionWS,
                                                                           surfaceData.clearCoatMask, specularHighlightsOff);
+
+            lightingData.lightAttenuation += (light.shadowAttenuation * light.distanceAttenuation); //
         }
     }
     #endif
@@ -343,6 +354,7 @@ half4 UniversalFragmentPBR(InputData inputData, SurfaceData surfaceData)
             lightingData.additionalLightsColor += LightingPhysicallyBased(brdfData, brdfDataClearCoat, light,
                                                                           inputData.normalWS, inputData.viewDirectionWS,
                                                                           surfaceData.clearCoatMask, specularHighlightsOff);
+            lightingData.lightAttenuation += (light.shadowAttenuation * light.distanceAttenuation); //
         }
     LIGHT_LOOP_END
     #endif

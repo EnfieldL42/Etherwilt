@@ -179,7 +179,7 @@ Material:
     - _NearColour: {r: 0.65854, g: 1, b: 0.54402506, a: 0}
     - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
     - _SSSColour: {r: 0.95564353, g: 1, b: 0.20440245, a: 1}
-    - _ShadowTint: {r: 0.31955814, g: 0.2866777, b: 0.408805, a: 0}
+    - _ShadowTint: {r: 0.18039216, g: 0.14901961, b: 0.2627451, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TerrainOffset: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
