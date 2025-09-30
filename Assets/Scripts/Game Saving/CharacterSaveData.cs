@@ -81,6 +81,8 @@ public class CharacterSaveData
     public List<SerializableWeapon> weaponsInInventory;
     public List<SerializableQuickSlotItem> quickSlotItemsInInventory;
 
+    [Header("Dialogue")]
+    public int forgottenAlchemistStageID = 0;
 
     public CharacterSaveData()
     {

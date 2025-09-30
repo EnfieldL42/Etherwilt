@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class CharacterSoundFXManager : MonoBehaviour
 {
-    private AudioSource audioSource;
+    public AudioSource audioSource;
 
     [Header("Damage Grunts")]
     [SerializeField] protected AudioClip[] damageGrunt;
@@ -21,6 +21,10 @@ public class CharacterSoundFXManager : MonoBehaviour
     }
 
     protected virtual void Update()
+    {
+    }
+
+    protected virtual void Start()
     {
     }
 

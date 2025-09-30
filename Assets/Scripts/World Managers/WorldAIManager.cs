@@ -20,6 +20,9 @@ public class WorldAIManager : MonoBehaviour
     private Coroutine despawnAllCharactersCoroutine;
     private Coroutine resetAllCharactersCoroutine;
 
+    [Header("Dialogue Interactable Prefab")]
+    public GameObject dialogueInteractable;
+
     [Header("Bosses")]
     [SerializeField] List<AIBossCharacterManager> spawnedInBosses;
 

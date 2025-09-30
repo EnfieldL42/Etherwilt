@@ -22,4 +22,17 @@ public class AICharacterNetworkManager : CharacterNetworkManager
 
         }
     }
+
+    public override void OnLockOnTargetIDChange(ulong oldID, ulong newID)
+    {
+        base.OnLockOnTargetIDChange(oldID, newID);
+
+        if(aiCharacter.aICharacterCombatManager.currentTarget != null && aiCharacter.aICharacterSoundFXManager.interactableDialogueCollider != null)
+        {
+            aiCharacter.aICharacterSoundFXManager.interactableDialogueCollider.SetActive(false);
+        }
+
+        //optionally reenable it when target is gone
+    }
+
 }

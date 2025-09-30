@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96cbbdbb605275f4888af6b06dc6667e, type: 3}
+  m_Name: Dialogue 1
+  m_EditorClassIdentifier: 
+  requiredStageID: 0
+  greetingDialogueString:
+  - Hello there!
+  greetingDialogueAudio:
+  - {fileID: 8300000, guid: a75aef6060f7dd5488c33e808a748576, type: 3}
+  dialogueString:
+  - A young traveller around these parts?
+  dialogueAudio:
+  - {fileID: 8300000, guid: 834aae9823c59664685dd66df36d1456, type: 3}
+  dialogueIndex: 0
+  farewellDialogueString:
+  - '"Okay, Farewell"'
+  farewellDialogueAudio:
+  - {fileID: 8300000, guid: 7a5c917a31972af4a91619713e8b04fc, type: 3}
+  setStageIndex: 1
+  stageID: 3

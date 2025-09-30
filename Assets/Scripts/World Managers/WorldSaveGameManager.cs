@@ -3,6 +3,7 @@ using System.ComponentModel;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
+using System.Collections.Generic;
 
 public class WorldSaveGameManager : MonoBehaviour
 {
@@ -35,6 +36,12 @@ public class WorldSaveGameManager : MonoBehaviour
     //public CharacterSaveData characterSlot8;
     //public CharacterSaveData characterSlot9;
     //public CharacterSaveData characterSlot10;
+
+    [Header("Stage IDs")]
+    public int forgottenAlchemistStageID = 0;
+
+    [Header("Dialogues")]
+    [SerializeField] List<CharacterDialogue> forgottenAlchemistDialogues = new List<CharacterDialogue>();
 
     private void Awake()
     {
@@ -248,6 +255,8 @@ public class WorldSaveGameManager : MonoBehaviour
         saveFileDataWriter.saveDataDataDirectoryPath = Application.persistentDataPath;
         saveFileDataWriter.saveFileName = saveFileName;
         currentCharacterData = saveFileDataWriter.LoadSaveFile();
+        GetStageIDsOnLoad();
+
         PlayerUIManager.instance.LockMouse();
 
 
@@ -385,5 +394,71 @@ public class WorldSaveGameManager : MonoBehaviour
 
     }
 
+    //LOAD DIALOGUE
+    public CharacterDialogue GetCharacterDialogueByEnum(CharacterDialogueID characterDialogueID)
+    {
+
+        CharacterDialogue dialogue = null;
+
+        switch (characterDialogueID)
+        {
+            case CharacterDialogueID.NoDialogueID:
+                break;
+            case CharacterDialogueID.ForgottenAlchemist:
+                dialogue = FindDialogueByStageID(forgottenAlchemistStageID, forgottenAlchemistDialogues);
+                break;
+            default:
+                break;
+        }
+
+        if (dialogue != null)
+        {
+            dialogue = Instantiate(dialogue);
+        }
+
+        return dialogue;
+    }
+
+    private CharacterDialogue FindDialogueByStageID(int stageID, List<CharacterDialogue> dialogueList)
+    {
+        CharacterDialogue dialogue = null;
+
+        for (int i = 0; i < dialogueList.Count; i++)
+        {
+            if (dialogueList[i] == null)
+            {
+                continue;
+            }
+
+            if (dialogueList[i].requiredStageID == stageID)
+            {
+                dialogue = dialogueList[i];
+                break;
+            }
+        }
+
+        return dialogue;
+    }
+
+
+    public void SetStageOfDialogue(CharacterDialogueID characterDialogue, int stageID)
+    {
+        switch (characterDialogue)
+        {
+            case CharacterDialogueID.NoDialogueID:
+                break;
+            case CharacterDialogueID.ForgottenAlchemist:
+                forgottenAlchemistStageID = stageID;
+                currentCharacterData.forgottenAlchemistStageID = forgottenAlchemistStageID;
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void GetStageIDsOnLoad()
+    {
+        forgottenAlchemistStageID = currentCharacterData.forgottenAlchemistStageID;
+    }
 
 }

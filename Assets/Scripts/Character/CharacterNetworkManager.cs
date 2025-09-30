@@ -84,7 +84,7 @@ public class CharacterNetworkManager : NetworkBehaviour
         character.animator.SetBool("isDead", character.isDead.Value);
     }
 
-    public void OnLockOnTargetIDChange(ulong oldID, ulong newID)
+    public virtual void OnLockOnTargetIDChange(ulong oldID, ulong newID)
     {
         if(!IsOwner)
         {

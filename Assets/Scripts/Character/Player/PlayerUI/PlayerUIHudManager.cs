@@ -48,6 +48,18 @@ public class PlayerUIHudManager : MonoBehaviour
         }
     }
 
+    public void ToggleHUDWithoutPopUps(bool status)
+    {
+        if (status)
+        {
+            canvasGroup[0].alpha = 1; 
+        }
+        else
+        {
+            canvasGroup[0].alpha = 0;
+        }
+    }
+
     public void RefreshHUD()
     {
         healthBar.gameObject.SetActive(false);

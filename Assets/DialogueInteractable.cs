@@ -10,7 +10,7 @@ public class DialogueInteractable : Interactable
     {
         base.Awake();
 
-        aiCharacter = GetComponent<AICharacterManager>();
+        aiCharacter = GetComponentInParent<AICharacterManager>();
     }
 
     public override void Interact(PlayerManager player)
@@ -29,7 +29,6 @@ public class DialogueInteractable : Interactable
         if (NetworkManager.Singleton.IsServer)
         {
             WorldSaveGameManager.instance.SaveGame();
-            //Close any open popups
         }
 
         //1. play current dialogue

@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96cbbdbb605275f4888af6b06dc6667e, type: 3}
+  m_Name: Dialogue 2
+  m_EditorClassIdentifier: 
+  requiredStageID: 3
+  greetingDialogueString:
+  - Again?
+  greetingDialogueAudio:
+  - {fileID: 8300000, guid: 238e59203c64d874da8e9b09d9405fd8, type: 3}
+  dialogueString:
+  - Go on
+  - Leave me alone
+  dialogueAudio:
+  - {fileID: 8300000, guid: fcf04ede49be5aa4fbe25f744ba176c6, type: 3}
+  - {fileID: 8300000, guid: 31d7b1c204cac9b40aa24c2fa7d63436, type: 3}
+  dialogueIndex: 0
+  farewellDialogueString:
+  - '"Okay, Farewell"'
+  farewellDialogueAudio:
+  - {fileID: 8300000, guid: 7a5c917a31972af4a91619713e8b04fc, type: 3}
+  setStageIndex: 0
+  stageID: 0

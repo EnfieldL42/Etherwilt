@@ -64,6 +64,11 @@ public class AICharacterManager : CharacterManager
         }
 
         aICharacterNetworkManager.currentHealth.OnValueChanged += aICharacterNetworkManager.CheckHP;
+
+        if(isDead.Value)
+        {
+            animator.Play("Dead_01");
+        }
     }
 
     public override void OnNetworkDespawn()

@@ -33,9 +33,13 @@ public class PlayerUIPopUpManager : MonoBehaviour
     [SerializeField] TextMeshProUGUI bonfireRestoredPopUpText;
     [SerializeField] CanvasGroup bonfireRestoredCanvasGroup;
 
-    [Header("Current Dialogue")]
+    [Header("Dialogue Pop Up")]
+    [SerializeField] GameObject dialoguedPopUpGameObject;
+    [SerializeField] TextMeshProUGUI dialoguePopUpText;
+
     [SerializeField] CharacterDialogue currentDialogue;
     private Coroutine dialogueCoroutine;
+
 
     public void CloseAllPopUpWindows()
     {
@@ -119,6 +123,7 @@ public class PlayerUIPopUpManager : MonoBehaviour
 
     public void SendDialoguePopUp(CharacterDialogue dialogue, AICharacterManager aICharacter)
     {
+        PlayerUIManager.instance.playerUIHudManager.ToggleHUDWithoutPopUps(false);
         currentDialogue = dialogue;
 
         if(dialogueCoroutine != null)
@@ -126,8 +131,62 @@ public class PlayerUIPopUpManager : MonoBehaviour
             StopCoroutine(dialogueCoroutine);
         }
 
-        dialogueCoroutine = StartCoroutine(dialogue.PlayerDialogueCoroutine(aICharacter));
+        PlayerUIManager.instance.playerUIPopUpManager.CloseAllPopUpWindows();
         PlayerUIManager.instance.popUpWindowIsOpen = true;
+
+        dialogueCoroutine = StartCoroutine(dialogue.PlayerDialogueCoroutine(aICharacter));
+    }
+
+    public void SendNextDialoguePopUpInIndex(CharacterDialogue dialogue, AICharacterManager aiCharacter)
+    {
+        currentDialogue = dialogue;
+
+        if (dialogueCoroutine != null)
+        {
+            StopCoroutine(dialogueCoroutine);
+        }
+
+        if (aiCharacter.aICharacterSoundFXManager.dialogueIsPlaying)
+        {
+            aiCharacter.aICharacterSoundFXManager.audioSource.Stop();
+        }
+
+        //Close any open popups
+        PlayerUIManager.instance.playerUIPopUpManager.CloseAllPopUpWindows();
+        PlayerUIManager.instance.popUpWindowIsOpen = true;
+
+        currentDialogue.dialogueIndex++;
+        dialogueCoroutine = StartCoroutine(dialogue.PlayerDialogueCoroutine(aiCharacter));
+    }
+
+    public void SetDialoguePopUpSubtitles(string dialogueText)
+    {
+        dialoguedPopUpGameObject.SetActive(true);
+        dialoguePopUpText.text = dialogueText;
+    }
+
+    public void EndDialoguePopUp()
+    {
+        dialoguedPopUpGameObject.SetActive(false);
+        PlayerUIManager.instance.playerUIHudManager.ToggleHUDWithoutPopUps(true);
+    }
+
+    public void CancelDialoguePopUp(AICharacterManager aiCharacter)
+    {
+        PlayerUIManager.instance.playerUIHudManager.ToggleHUDWithoutPopUps(true);
+
+        if (dialogueCoroutine != null)
+        {
+            StopCoroutine(dialogueCoroutine);
+        }
+
+        if (aiCharacter.aICharacterSoundFXManager.audioSource.isPlaying)
+        {
+            aiCharacter.aICharacterSoundFXManager.audioSource.Stop();
+        }
+
+        dialoguedPopUpGameObject.SetActive(false);
+        currentDialogue.OnDialogueCancelled(aiCharacter);
     }
 
     private IEnumerator StretchPopUpTextOverTime(TextMeshProUGUI text, float duration, float stretchAmount)
