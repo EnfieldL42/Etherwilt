@@ -73,12 +73,8 @@ public class PlayerInputManager : MonoBehaviour
     [SerializeField] bool closeMenuInput = false;
     [SerializeField] bool openCharacterMenu = false;
 
-
-
-
     private void Awake()
     {
-
 
         if (instance == null)
         {
