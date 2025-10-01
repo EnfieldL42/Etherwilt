@@ -502,7 +502,7 @@
                 "m_Node": {
                     "m_Id": "0362939208bf4e2a8a4404ff9a65e653"
                 },
-                "m_SlotId": 0
+                "m_SlotId": 7
             },
             "m_InputSlot": {
                 "m_Node": {
@@ -2812,8 +2812,8 @@
     "m_ObjectId": "0e9263fd3b33462a98c202cdaaccf395",
     "m_Title": "Additional Lights",
     "m_Position": {
-        "x": -978.6666870117188,
-        "y": 615.333251953125
+        "x": -978.0001220703125,
+        "y": 615.0000610351563
     }
 }
 
@@ -7030,7 +7030,7 @@
     "m_Title": "Rim Lighting",
     "m_Position": {
         "x": -980.0,
-        "y": 1908.66650390625
+        "y": 1908.000244140625
     }
 }
 
@@ -7789,8 +7789,8 @@
     "m_ObjectId": "6b1835c2a98f454ba1ea7b6af14d91f0",
     "m_Title": "Cel Shading",
     "m_Position": {
-        "x": -478.0001220703125,
-        "y": -283.3333740234375
+        "x": -478.0,
+        "y": -284.0
     }
 }
 
@@ -8600,8 +8600,8 @@
     "m_ObjectId": "78272a24677e480fa3f2e3ea586a0d82",
     "m_Title": "Subsurface Scattering",
     "m_Position": {
-        "x": -1293.3333740234375,
-        "y": -2075.33349609375
+        "x": -1293.0,
+        "y": -2076.0
     }
 }
 
@@ -12491,8 +12491,8 @@
     "m_ObjectId": "bf9cc85288b14d6a961de3112cf6d78a",
     "m_Title": "Inverted Rim Lighting",
     "m_Position": {
-        "x": -272.666748046875,
-        "y": 2368.66650390625
+        "x": -272.0,
+        "y": 2367.999755859375
     }
 }
 
