@@ -170,7 +170,7 @@ half3 CalculateLightingColor(LightingData lightingData, half3 albedo)
 
     if (IsOnlyAOLightingFeatureEnabled())
     {
-        return lightingData.giColor; // Contains white + AO
+        return lightingData.giColor;
     }
 
     if (IsLightingFeatureEnabled(DEBUGLIGHTINGFEATUREFLAGS_GLOBAL_ILLUMINATION))
@@ -194,8 +194,10 @@ half3 CalculateLightingColor(LightingData lightingData, half3 albedo)
     }
 
     lightingColor *= albedo;
-    half4 shadowColor = half4((half3(70, 27, 114)/255) * lightingData.rawLightColor, 1);
-    lightingColor *= max(lightingData.lightAttenuation, shadowColor);
+
+    half4 shadowColor = half4((half3(70, 27, 114)/255) * lightingData.rawLightColor, 1); //
+    lightingColor *= max(lightingData.lightAttenuation, shadowColor); //
+    //This is done before emission so that cel-shaded objects aren't affected too much
 
     if (IsLightingFeatureEnabled(DEBUGLIGHTINGFEATUREFLAGS_EMISSION))
     {
@@ -318,7 +320,7 @@ half4 UniversalFragmentPBR(InputData inputData, SurfaceData surfaceData)
                                                               surfaceData.clearCoatMask, specularHighlightsOff);
 
         lightingData.lightAttenuation += (mainLight.shadowAttenuation * mainLight.distanceAttenuation); //
-        lightingData.rawLightColor = mainLight.color;
+        lightingData.rawLightColor = mainLight.color;//
     }
 
     #if defined(_ADDITIONAL_LIGHTS)

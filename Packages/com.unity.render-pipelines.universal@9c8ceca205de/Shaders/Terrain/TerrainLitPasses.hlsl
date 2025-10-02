@@ -502,6 +502,7 @@ void SplatmapFragment(
 
 #ifdef _LIGHT_LAYERS
         if (IsMatchingLightLayer(light.layerMask, meshRenderingLayers))
+        //I don't understand why this is throwing an error
 #endif
         {
             float3 color = dot(normal, light.direction);
@@ -526,7 +527,7 @@ void SplatmapFragment(
     #endif
 */
     half4 color = UniversalFragmentPBR(inputData, albedo, metallic, /* specular */ half3(0.0h, 0.0h, 0.0h), smoothness , occlusion, /* emission */ half3(0, 0, 0), alpha);
-    
+
     SplatmapFinalColor(color, inputData.fogCoord);
 
     outColor = half4(color.rgb, 1.0h);
