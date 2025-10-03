@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using JetBrains.Annotations;
 using System.Xml.Serialization;
 using TMPro;
+using System.Collections;
 
 public class TitleScreenManager : MonoBehaviour
 {
@@ -83,27 +84,36 @@ public class TitleScreenManager : MonoBehaviour
         WorldSaveGameManager.instance.AttemptToCreateNewGame();
     }
 
+    IEnumerator ChangeCanvasGroup(GameObject menu, Button button)
+    {
+        yield return new WaitForSecondsRealtime(0.25f);
+        menu.SetActive(true);
+        button.Select();
+        yield return null;
+    }
     public void OpenLoadGameMenu()
     {
-        titleScreenMainMenu.SetActive(false);//cloase main
+        titleScreenMainMenu.GetComponentInChildren<CanvasGroupFade>().FadeOut(); //cloase main
 
-        titleScreenLoadMeu.SetActive(true);//open load
+        //titleScreenLoadMeu.SetActive(true);//open load
 
-        loadMenuReturnButton.Select();//select the return button
+        //loadMenuReturnButton.Select();//select the return button
+        StartCoroutine(ChangeCanvasGroup(titleScreenLoadMeu, loadMenuReturnButton));
     }
 
     public void CloseLoadGameMenu()
     {
 
-        titleScreenLoadMeu.SetActive(false);//open load
+        titleScreenLoadMeu.GetComponentInChildren<CanvasGroupFade>().FadeOut();//open load
 
-        titleScreenMainMenu.SetActive(true);//cloase main
+        //titleScreenMainMenu.SetActive(true);//cloase main
 
-
-        mainMenuLoadGameButton.Select();//select the load button
+       //mainMenuLoadGameButton.Select();//select the load button
+        StartCoroutine(ChangeCanvasGroup(titleScreenMainMenu, mainMenuLoadGameButton));
     }
 
-    public void OpenTitleScreenMainMenu()
+    /*
+     * public void OpenTitleScreenMainMenu()
     {
         titleScreenMainMenu.SetActive(true);
     }
@@ -112,17 +122,19 @@ public class TitleScreenManager : MonoBehaviour
     {
         titleScreenMainMenu.SetActive(false);
     }
-
+    */
     public void OpenCharacterCreationMenu()
     {
-        CloseTitleScreenMainMenu();
-        titleScreenCharacterCreationMenu.SetActive(true);
+        //CloseTitleScreenMainMenu();
+        titleScreenMainMenu.GetComponentInChildren<CanvasGroupFade>().FadeOut();
+        StartCoroutine(ChangeCanvasGroup(titleScreenCharacterCreationMenu, characterNameButton));
+        //titleScreenCharacterCreationMenu.SetActive(true);
     }
 
     public void CloseCharacterCreationMenu()
     {
         titleScreenCharacterCreationMenu.SetActive(false);
-        OpenTitleScreenMainMenu();
+        //OpenTitleScreenMainMenu();
     }
 
     public void OpenChooseCharacterClassSubMenu()
