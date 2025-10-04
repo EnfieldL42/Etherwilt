@@ -167,8 +167,9 @@ public class TitleScreenManager : MonoBehaviour
         PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
         ToggleCharacterCreationScreenMainMenuButtons(false);
 
-        characterNameButton.gameObject.SetActive(false);
-        characterNameMenu.SetActive(true);
+        //characterNameButton.gameObject.SetActive(false);
+        //characterNameMenu.SetActive(true);
+        characterNameInputField.interactable = true;
         characterNameInputField.Select();
     }
 
@@ -178,20 +179,20 @@ public class TitleScreenManager : MonoBehaviour
         ToggleCharacterCreationScreenMainMenuButtons(true);
 
 
-        characterNameButton.gameObject.SetActive(true);
-        characterNameMenu.SetActive(false);
-
+        //characterNameButton.gameObject.SetActive(true);
+        //characterNameMenu.SetActive(false);
+        characterNameInputField.interactable = false;
         characterNameButton.Select();
 
         player.playerNetworkManager.characterName.Value = characterNameInputField.text;
-        characterNameText.text = characterNameInputField.text;
+        //characterNameText.text = characterNameInputField.text;
     }
 
     private void ToggleCharacterCreationScreenMainMenuButtons(bool status)
     {
-        characterNameButton.enabled = status;
-        characterClassButton.enabled = status;
-        startGameButton.enabled = status;
+        characterNameButton.interactable = status;
+        characterClassButton.interactable = status;
+        startGameButton.interactable = status;
     }
 
     public void DisplayNoFreeCharacterCharacterSlotsPopUp()
