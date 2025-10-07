@@ -5,6 +5,7 @@ using JetBrains.Annotations;
 using System.Xml.Serialization;
 using TMPro;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class TitleScreenManager : MonoBehaviour
 {
@@ -46,6 +47,8 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] GameObject characterClassMenu;
     [SerializeField] GameObject characterNameMenu;
     [SerializeField] TMP_InputField characterNameInputField;
+    [SerializeField] GameObject characterClassDisplay;
+    [SerializeField] CCStatsDisplay characterStatsDisplay;
 
     [Header("Classes")]
     public CharacterClass[] startingClasses;
@@ -141,6 +144,8 @@ public class TitleScreenManager : MonoBehaviour
     {
         //disable main menu buttons
         ToggleCharacterCreationScreenMainMenuButtons(false);
+        characterNameMenu.SetActive(false) ;
+        characterClassDisplay.SetActive(false);
         //enable sub menu object
         characterClassMenu.SetActive(true);
         //auto select first button
@@ -157,6 +162,8 @@ public class TitleScreenManager : MonoBehaviour
     public void CloseChooseCharacterClassSubMenu()
     {
         ToggleCharacterCreationScreenMainMenuButtons(true);
+        characterNameMenu.SetActive(true);
+        characterClassDisplay.SetActive(true);
         characterClassMenu.SetActive(false);
         characterClassButton.Select();
         characterClassButton.OnSelect(null);
@@ -334,6 +341,9 @@ public class TitleScreenManager : MonoBehaviour
             player.playerInventoryManager.quickSlotItemsInQuickSlots[2] = Instantiate(quickSlotItems[2]);
         }
         player.playerEquipmentManager.LoadQuickSlotEquipment(player.playerInventoryManager.quickSlotItemsInQuickSlots[player.playerInventoryManager.quickSlotItemIndex]); //refreshes the hud
+
+        //update stats display on character creation menu
+        characterStatsDisplay.UpdateStats(player);
     }
 
 }

@@ -1,7 +1,6 @@
-void MainLight_float(in float3 clipSpacePos, in float3 worldPos, out float intensity, out float3 color, out float3 shadows)
+void MainLight_float(in float3 clipSpacePos, in float3 worldPos, out float3 color, out float3 shadows)
 {
     #ifdef SHADERGRAPH_PREVIEW
-        intensity = float(0.5);
         color = float3(0.5,0.5,0);
         shadows = float3(0.5,0.5,0);
     #else
@@ -14,7 +13,6 @@ void MainLight_float(in float3 clipSpacePos, in float3 worldPos, out float inten
         #if _MAIN_LIGHT_SHADOWS_CASCADE || _MAIN_LIGHT_SHADOWS
             Light light = GetMainLight(shadowCoord);
             color = light.color;
-            intensity = length(light.color);
             shadows = light.shadowAttenuation;
         #endif
     

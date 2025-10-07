@@ -462,6 +462,9 @@
         },
         {
             "m_Id": "db01b1fbb84f455bb75228afa37b4dd5"
+        },
+        {
+            "m_Id": "72dc031baea14b4a91d4eb9229544054"
         }
     ],
     "m_GroupDatas": [
@@ -1123,6 +1126,20 @@
             "m_InputSlot": {
                 "m_Node": {
                     "m_Id": "320d93b509834f9287107b835984792c"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "72dc031baea14b4a91d4eb9229544054"
+                },
+                "m_SlotId": 1
+            },
+            "m_InputSlot": {
+                "m_Node": {
+                    "m_Id": "96b5db5807bc4a43869c6d2365854464"
                 },
                 "m_SlotId": 0
             }
@@ -1962,6 +1979,20 @@
             },
             "m_InputSlot": {
                 "m_Node": {
+                    "m_Id": "72dc031baea14b4a91d4eb9229544054"
+                },
+                "m_SlotId": 0
+            }
+        },
+        {
+            "m_OutputSlot": {
+                "m_Node": {
+                    "m_Id": "e898773f3b1f40c6882962b27c204481"
+                },
+                "m_SlotId": 6
+            },
+            "m_InputSlot": {
+                "m_Node": {
                     "m_Id": "ab860d390b1a4be38cab1430eebf30c3"
                 },
                 "m_SlotId": 0
@@ -1993,20 +2024,6 @@
                     "m_Id": "b9b16dac960c4f34b2a6c18f2a5b4f93"
                 },
                 "m_SlotId": 1
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "e898773f3b1f40c6882962b27c204481"
-                },
-                "m_SlotId": 12
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "96b5db5807bc4a43869c6d2365854464"
-                },
-                "m_SlotId": 0
             }
         },
         {
@@ -2812,8 +2829,8 @@
     "m_ObjectId": "0e9263fd3b33462a98c202cdaaccf395",
     "m_Title": "Additional Lights",
     "m_Position": {
-        "x": -978.0001220703125,
-        "y": 615.0000610351563
+        "x": -978.66650390625,
+        "y": 615.3333740234375
     }
 }
 
@@ -6939,21 +6956,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "568d536c2460497fac63045b09e5c9fc",
-    "m_Id": 12,
-    "m_DisplayName": "intensity",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "intensity",
-    "m_StageCapability": 3,
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicValueMaterialSlot",
     "m_ObjectId": "56d6b925806a4a63a32f7569385b5474",
     "m_Id": 0,
@@ -7029,8 +7031,8 @@
     "m_ObjectId": "576ca2b43f9d4be98b69ab8051e70357",
     "m_Title": "Rim Lighting",
     "m_Position": {
-        "x": -980.0,
-        "y": 1908.000244140625
+        "x": -979.9998779296875,
+        "y": 1908.66650390625
     }
 }
 
@@ -7192,6 +7194,30 @@
     "m_SlotType": 0,
     "m_Hidden": false,
     "m_ShaderOutputName": "A",
+    "m_StageCapability": 3,
+    "m_Value": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    },
+    "m_DefaultValue": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0,
+        "w": 0.0
+    }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
+    "m_ObjectId": "5ca72683d0f4423abaeacec674136ecd",
+    "m_Id": 0,
+    "m_DisplayName": "In",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "In",
     "m_StageCapability": 3,
     "m_Value": {
         "x": 0.0,
@@ -7789,8 +7815,8 @@
     "m_ObjectId": "6b1835c2a98f454ba1ea7b6af14d91f0",
     "m_Title": "Cel Shading",
     "m_Position": {
-        "x": -478.0,
-        "y": -284.0
+        "x": -477.9998779296875,
+        "y": -283.3334655761719
     }
 }
 
@@ -8324,6 +8350,44 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.LengthNode",
+    "m_ObjectId": "72dc031baea14b4a91d4eb9229544054",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "Length",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 275.3333435058594,
+            "y": -480.6666564941406,
+            "width": 209.33334350585938,
+            "height": 280.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "5ca72683d0f4423abaeacec674136ecd"
+        },
+        {
+            "m_Id": "879edde4c7664a1c936ca9b63b8fc0b2"
+        }
+    ],
+    "synonyms": [
+        "measure"
+    ],
+    "m_Precision": 0,
+    "m_PreviewExpanded": false,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    }
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector3MaterialSlot",
     "m_ObjectId": "73ac9fdd22ee47489381a7da31dbd96e",
     "m_Id": 2,
@@ -8600,8 +8664,8 @@
     "m_ObjectId": "78272a24677e480fa3f2e3ea586a0d82",
     "m_Title": "Subsurface Scattering",
     "m_Position": {
-        "x": -1293.0,
-        "y": -2076.0
+        "x": -1293.333251953125,
+        "y": -2075.33349609375
     }
 }
 
@@ -9319,6 +9383,21 @@
         "z": 0.0,
         "w": 0.0
     }
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "879edde4c7664a1c936ca9b63b8fc0b2",
+    "m_Id": 1,
+    "m_DisplayName": "Out",
+    "m_SlotType": 1,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Out",
+    "m_StageCapability": 3,
+    "m_Value": 0.0,
+    "m_DefaultValue": 0.0,
+    "m_Labels": []
 }
 
 {
@@ -12491,8 +12570,8 @@
     "m_ObjectId": "bf9cc85288b14d6a961de3112cf6d78a",
     "m_Title": "Inverted Rim Lighting",
     "m_Position": {
-        "x": -272.0,
-        "y": 2367.999755859375
+        "x": -272.66650390625,
+        "y": 2368.666748046875
     }
 }
 
@@ -14791,9 +14870,6 @@
         },
         {
             "m_Id": "ace9e6ca2d544c3ca34de78c06ae1011"
-        },
-        {
-            "m_Id": "568d536c2460497fac63045b09e5c9fc"
         },
         {
             "m_Id": "6cba9f854112416aa356a461533602a4"

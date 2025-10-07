@@ -32,7 +32,7 @@ public class StartGameMenu : MonoBehaviour
         titleScreenManager.StartNetworkAsHost();
     }
 
-    IEnumerator Fade()
+    IEnumerator Fade()  
     {
         pulse.Pause();
         Sequence fadeText = DOTween.Sequence(text);

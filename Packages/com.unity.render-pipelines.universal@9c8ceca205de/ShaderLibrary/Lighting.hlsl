@@ -195,7 +195,7 @@ half3 CalculateLightingColor(LightingData lightingData, half3 albedo)
 
     lightingColor *= albedo;
 
-    half4 shadowColor = half4((half3(70, 27, 114)/255) * lightingData.rawLightColor, 1); //
+    half3 shadowColor = (half3(70, 27, 114)/255) * lightingData.rawLightColor; //
     lightingColor *= max(lightingData.lightAttenuation, shadowColor); //
     //This is done before emission so that cel-shaded objects aren't affected too much
 
