@@ -26,6 +26,10 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] GameObject noCharacterSlotsPopUp;
     [SerializeField] Button noCharacterSlotsOkayButton;
     [SerializeField] GameObject deleteCharacterSlotPopUp;
+    [SerializeField] GameObject noNamePopUp;
+    [SerializeField] Button noNameOkayButton;
+    [SerializeField] GameObject noClassPopUp;
+    [SerializeField] Button noClassOkayButton;
 
 
     [Header("Save Slots")]
@@ -84,7 +88,20 @@ public class TitleScreenManager : MonoBehaviour
 
     public void StartNewGame()
     {
-        WorldSaveGameManager.instance.AttemptToCreateNewGame();
+        /*if(string.IsNullOrEmpty(characterNameInputField.text))
+        {
+            DisplayNoNamePopUp();
+        }
+
+        else*/ if(string.IsNullOrEmpty(characterClassText.text))
+        {
+            DisplayNoClassPopUp();
+        }
+
+        else
+        {
+            WorldSaveGameManager.instance.AttemptToCreateNewGame();
+        }
     }
 
     IEnumerator ChangeCanvasGroup(GameObject menu, Button button)
@@ -135,8 +152,8 @@ public class TitleScreenManager : MonoBehaviour
     }
 
     public void CloseCharacterCreationMenu()
-    {
-        titleScreenCharacterCreationMenu.SetActive(false);
+    {   
+         //titleScreenCharacterCreationMenu.SetActive(false);
         //OpenTitleScreenMainMenu();
     }
 
@@ -219,6 +236,7 @@ public class TitleScreenManager : MonoBehaviour
     {
         currentSelectedSlot = characterSlot;
     }
+
 
     public void SelectNoSlot()
     {
@@ -344,6 +362,30 @@ public class TitleScreenManager : MonoBehaviour
 
         //update stats display on character creation menu
         characterStatsDisplay.UpdateStats(player);
+    }
+
+    public void DisplayNoNamePopUp()
+    {
+        noNamePopUp.SetActive(true);
+        noNameOkayButton.Select();
+    }
+
+    public void CloseNoNamePopUp()
+    {
+        noNamePopUp.SetActive(false);
+        OpenChooseCharacterNameSubMenu();
+    }
+
+    public void DisplayNoClassPopUp()
+    {
+        noClassPopUp.SetActive(true);
+        noClassOkayButton.Select();
+    }
+
+    public void CloseNoClassPopUp()
+    {
+        noClassPopUp.SetActive(false);
+        OpenChooseCharacterClassSubMenu();
     }
 
 }

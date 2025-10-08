@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class TitleScreenPlayerPreviewRotator : MonoBehaviour
@@ -30,10 +31,9 @@ public class TitleScreenPlayerPreviewRotator : MonoBehaviour
     private void Update()
     {
         horizontalInput = cameraInput.x;
-
         lookAngle += (horizontalInput * rotationSpeed) * Time.deltaTime;
         Vector3 cameraRotation = Vector3.zero;
-        cameraRotation.y = lookAngle;
+        cameraRotation.y = lookAngle -20f;
         Quaternion targetRotation = Quaternion.Euler(cameraRotation);
         transform.rotation = targetRotation;
 
