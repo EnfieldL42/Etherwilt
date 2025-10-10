@@ -11926,15 +11926,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6560763803504509555, guid: f99222a3fee638f46a4ec5e94c8b1619, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.6775055
+      value: 76.2
       objectReference: {fileID: 0}
     - target: {fileID: 6560763803504509555, guid: f99222a3fee638f46a4ec5e94c8b1619, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.0569549
+      value: 2.79
       objectReference: {fileID: 0}
     - target: {fileID: 6560763803504509555, guid: f99222a3fee638f46a4ec5e94c8b1619, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.7472267
+      value: -136
       objectReference: {fileID: 0}
     - target: {fileID: 6560763803504509555, guid: f99222a3fee638f46a4ec5e94c8b1619, type: 3}
       propertyPath: m_LocalRotation.w
@@ -12824,11 +12824,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6560763803504509555, guid: f99222a3fee638f46a4ec5e94c8b1619, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.2300453
+      value: 2.8
       objectReference: {fileID: 0}
     - target: {fileID: 6560763803504509555, guid: f99222a3fee638f46a4ec5e94c8b1619, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.9107733
+      value: -21.66
       objectReference: {fileID: 0}
     - target: {fileID: 6560763803504509555, guid: f99222a3fee638f46a4ec5e94c8b1619, type: 3}
       propertyPath: m_LocalRotation.w
@@ -13240,7 +13240,7 @@ Camera:
     serializedVersion: 2
     m_Bits: 16384
   m_RenderingPath: -1
-  m_TargetTexture: {fileID: 1940569739}
+  m_TargetTexture: {fileID: 1062645541}
   m_TargetDisplay: 0
   m_TargetEye: 3
   m_HDR: 1
@@ -13304,7 +13304,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: -107.600006, y: 524.37494, z: -24.899979}
-  m_LocalScale: {x: 1, y: 1.0000439, z: 1.0000439}
+  m_LocalScale: {x: 1, y: 1.0000443, z: 1.0000443}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 623485530}
@@ -15061,6 +15061,43 @@ Transform:
   m_Children: []
   m_Father: {fileID: 273389715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!84 &1062645541
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 1024
+  m_Height: 1024
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!43 &1069265855
 Mesh:
   m_ObjectHideFlags: 32
@@ -26943,43 +26980,6 @@ Mesh:
     offset: 0
     size: 0
     path: 
---- !u!84 &1940569739
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 1024
-  m_Height: 1024
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1982000162
 GameObject:
   m_ObjectHideFlags: 0

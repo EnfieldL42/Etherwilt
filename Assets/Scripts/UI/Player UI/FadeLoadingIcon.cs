@@ -5,7 +5,8 @@ public class FadeLoadingIcon : MonoBehaviour
 {
     [SerializeField] Image fadeImage;
     private Coroutine fadeCoroutine;
-
+    public float rotationSpeed;
+    private Vector3 angle = Vector3.zero;
     private void OnEnable()
     {
         FadeUIImage();
@@ -51,5 +52,11 @@ public class FadeLoadingIcon : MonoBehaviour
 
             fadeCoroutine = StartCoroutine(FadeCoroutine(true));
         }
+    }
+    private void Update()
+    {
+        angle.z += -5 * Time.deltaTime * rotationSpeed;
+        Quaternion rotation = Quaternion.Euler(angle);
+        transform.rotation = rotation;
     }
 }
