@@ -58,8 +58,11 @@ MonoBehaviour:
   oneHandedRTAction: {fileID: 11400000, guid: 58d4dfc3612d8f640968e8d1c4249546, type: 2}
   oneHandedLBAction: {fileID: 11400000, guid: be3953b830d58084b85c77f6c1bc7745, type: 2}
   whooshes:
-  - {fileID: 8300000, guid: a65d792d6907f744490c9b15bb70edfe, type: 3}
-  - {fileID: 8300000, guid: 4d4ef7516a431934681038a3dc391e55, type: 3}
-  - {fileID: 8300000, guid: 482611fe6bc559142a00be6e726b4862, type: 3}
+  - {fileID: 8300000, guid: e2df39cd7d4cbda4a9ccadb75bcc490a, type: 3}
+  - {fileID: 8300000, guid: e65c5d8b3f08db945b1622ae38ae9afa, type: 3}
+  - {fileID: 8300000, guid: 8f03576291cf2a6439b617fda91f6781, type: 3}
+  - {fileID: 8300000, guid: 96fd4ddd1c3158d42b556a99bf6ca3f8, type: 3}
+  - {fileID: 8300000, guid: b9ea8cb9374d5a748b19cb6a8357c5a7, type: 3}
+  - {fileID: 8300000, guid: 34ff15918f96b7d4090c519ba8c81d3a, type: 3}
   blocking:
-  - {fileID: 8300000, guid: a37109c51cd477548ad1c882be3971d5, type: 3}
+  - {fileID: 8300000, guid: a9c26ba73f78de64c9877e5ef4eddd3c, type: 3}

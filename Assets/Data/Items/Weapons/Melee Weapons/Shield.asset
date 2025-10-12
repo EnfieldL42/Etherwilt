@@ -55,6 +55,6 @@ MonoBehaviour:
   oneHandedRTAction: {fileID: 11400000, guid: d900ad1df4ded274090d985ce6a6b490, type: 2}
   oneHandedLBAction: {fileID: 11400000, guid: be3953b830d58084b85c77f6c1bc7745, type: 2}
   whooshes:
-  - {fileID: 8300000, guid: a65d792d6907f744490c9b15bb70edfe, type: 3}
+  - {fileID: 8300000, guid: 3e9a9f3621fe1cf4ea2b65ff219477e8, type: 3}
   blocking:
-  - {fileID: 8300000, guid: a37109c51cd477548ad1c882be3971d5, type: 3}
+  - {fileID: 8300000, guid: 90ee58d7a316f7949a1c5c41cfa5b506, type: 3}

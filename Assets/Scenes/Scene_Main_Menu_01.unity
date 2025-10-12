@@ -18586,6 +18586,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: rollSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 4fa956fbc13b90d4bb2483554738d1ab, type: 3}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: uiReturn
       value: 
       objectReference: {fileID: 8300000, guid: 71a3f5b1ee4020c4fadd082c33f02959, type: 3}
@@ -18602,9 +18606,13 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1144597672}
     - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: backStepSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: d538575b5140f3c47880fbeb0ae7bd83, type: 3}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: uiStartGame
       value: 
-      objectReference: {fileID: 8300000, guid: 019b99af86c7bb34dad1d72342ff5b13, type: 3}
+      objectReference: {fileID: 8300000, guid: d0d7f50e295081d4d9206da2079b8663, type: 3}
     - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: pickUpItemSFX
       value: 
@@ -18613,6 +18621,10 @@ PrefabInstance:
       propertyPath: stanceBreakSFX
       value: 
       objectReference: {fileID: 8300000, guid: 39f78d9eed63cb346b47f2fa87dd94e6, type: 3}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: uiPressToStart
+      value: 
+      objectReference: {fileID: 8300000, guid: 019b99af86c7bb34dad1d72342ff5b13, type: 3}
     - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: healingFlaskSFX
       value: 
@@ -18628,7 +18640,7 @@ PrefabInstance:
     - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: 'physicalDamageSFX.Array.data[0]'
       value: 
-      objectReference: {fileID: 8300000, guid: 3df9bbbc130ccb344af5f3fc793a630f, type: 3}
+      objectReference: {fileID: 8300000, guid: 1e6001a6b82da5344ba6f334a81e4f81, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

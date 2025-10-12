@@ -32,6 +32,7 @@ public class WorldSoundFXManager : MonoBehaviour
     [SerializeField] AudioClip uiReturn;
     [SerializeField] AudioClip uiStartGame;
     [SerializeField] AudioClip uiConfirm;
+    [SerializeField] AudioClip uiPressToStart;
 
     private void Awake()
     {
@@ -144,22 +145,29 @@ public class WorldSoundFXManager : MonoBehaviour
 
     public void PlayUIConfirmSound(float volume = 1)
     {
-        if (uiSwitch == null)
+        if (uiConfirm == null)
             return;
         audioSource.PlayOneShot(uiConfirm, volume);
     }
 
     public void PlayUIReturnSound(float volume = 1)
     {
-        if (uiSwitch == null)
+        if (uiReturn == null)
             return;
         audioSource.PlayOneShot(uiReturn, volume);
     }
 
     public void PlayUIStartGameSound(float volume = 1)
     {
-        if (uiSwitch == null)
+        if (uiStartGame == null)
             return;
         audioSource.PlayOneShot(uiStartGame, volume);
+    }
+
+    public void PlayUIPressToStartGameSound(float volume = 1)
+    {
+        if (uiPressToStart == null)
+            return;
+        audioSource.PlayOneShot(uiPressToStart, volume);
     }
 }
