@@ -1,11 +1,12 @@
-using UnityEngine;
-using Unity.Netcode;
-using UnityEngine.UI;
 using JetBrains.Annotations;
+using System.Collections;
 using System.Xml.Serialization;
 using TMPro;
-using System.Collections;
+using Unity.Netcode;
 using Unity.VisualScripting;
+using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.UI;
 
 public class TitleScreenManager : MonoBehaviour
 {
@@ -57,6 +58,11 @@ public class TitleScreenManager : MonoBehaviour
     [Header("Classes")]
     public CharacterClass[] startingClasses;
 
+
+    [Header("Audio Mixer")]
+    [SerializeField] AudioMixer audioMixer;
+    [SerializeField] Slider mixerSlider;
+
     private void Awake()
     {
         if (instance == null)
@@ -67,6 +73,19 @@ public class TitleScreenManager : MonoBehaviour
         {
             Destroy(instance);
         }
+    }
+
+    private void Start()
+    {
+        if (PlayerPrefs.HasKey("mixerVolume"))
+        {
+            LoadVolume();
+        }
+        else
+        {
+            SetMasterVolume();
+        }
+
     }
 
     public void StartNetworkAsHost()
@@ -388,6 +407,19 @@ public class TitleScreenManager : MonoBehaviour
     {
         noClassPopUp.SetActive(false);
         OpenChooseCharacterClassSubMenu();
+    }
+
+    public void SetMasterVolume()
+    {
+        float volume = Mathf.Clamp(mixerSlider.value, 0.0001f, 1f);
+        audioMixer.SetFloat("Master", Mathf.Log10(volume) * 20);
+        PlayerPrefs.SetFloat("mixerVolume", volume);
+    }
+
+    private void LoadVolume()
+    {
+        mixerSlider.value = PlayerPrefs.GetFloat("mixerVolume");
+        SetMasterVolume();
     }
 
 }
