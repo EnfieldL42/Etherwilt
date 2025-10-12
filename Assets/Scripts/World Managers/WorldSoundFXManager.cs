@@ -1,8 +1,9 @@
-using System.Collections;
-using UnityEngine;
-using Unity.Netcode;
 using NUnit.Framework;
+using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
+using UnityEngine;
+using UnityEngine.Audio;
 
 public class WorldSoundFXManager : MonoBehaviour
 {
@@ -23,6 +24,14 @@ public class WorldSoundFXManager : MonoBehaviour
     public AudioClip stanceBreakSFX;
     public AudioClip criticalStikeSFX;
     public AudioClip healingFlaskSFX;
+
+
+    [Header("UI SFX")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip uiSwitch;
+    [SerializeField] AudioClip uiReturn;
+    [SerializeField] AudioClip uiStartGame;
+    [SerializeField] AudioClip uiConfirm;
 
     private void Awake()
     {
@@ -125,4 +134,32 @@ public class WorldSoundFXManager : MonoBehaviour
         }
     }
 
+
+    public void PlayUISwitchSound(float volume = 1)
+    {
+        if (uiSwitch == null)
+            return;
+        audioSource.PlayOneShot(uiSwitch, volume);
+    }
+
+    public void PlayUIConfirmSound(float volume = 1)
+    {
+        if (uiSwitch == null)
+            return;
+        audioSource.PlayOneShot(uiConfirm, volume);
+    }
+
+    public void PlayUIReturnSound(float volume = 1)
+    {
+        if (uiSwitch == null)
+            return;
+        audioSource.PlayOneShot(uiReturn, volume);
+    }
+
+    public void PlayUIStartGameSound(float volume = 1)
+    {
+        if (uiSwitch == null)
+            return;
+        audioSource.PlayOneShot(uiStartGame, volume);
+    }
 }

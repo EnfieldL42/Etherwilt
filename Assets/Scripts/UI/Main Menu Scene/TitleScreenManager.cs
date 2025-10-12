@@ -358,6 +358,8 @@ public class TitleScreenManager : MonoBehaviour
         {
             player.playerInventoryManager.quickSlotItemsInQuickSlots[2] = Instantiate(quickSlotItems[2]);
         }
+
+        player.playerInventoryManager.currentQuickSlotItem = player.playerInventoryManager.quickSlotItemsInQuickSlots[0];
         player.playerEquipmentManager.LoadQuickSlotEquipment(player.playerInventoryManager.quickSlotItemsInQuickSlots[player.playerInventoryManager.quickSlotItemIndex]); //refreshes the hud
 
         //update stats display on character creation menu

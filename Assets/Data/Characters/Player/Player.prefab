@@ -5247,13 +5247,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   GlobalObjectIdHash: 3489721860
-  InScenePlacedSourceGlobalObjectIdHash: 0
+  InScenePlacedSourceGlobalObjectIdHash: 3489721860
   DeferredDespawnTick: 0
   Ownership: 1
   AlwaysReplicateAsRoot: 0
   SynchronizeTransform: 1
   ActiveSceneSynchronization: 0
-  SceneMigrationSynchronization: 1
+  SceneMigrationSynchronization: 0
   SpawnWithObservers: 1
   DontDestroyWithOwner: 0
   AutoObjectParentSync: 1
@@ -5643,14 +5643,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ae721466189cfe4e9120d39fe2281bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 6128711772730839219}
   damageGrunt:
-  - {fileID: 8300000, guid: 88b91714a2e2cbb428f61e18ca4d39d8, type: 3}
-  - {fileID: 8300000, guid: cad57fcf83264a4489ae5c41b55e7a8b, type: 3}
-  - {fileID: 8300000, guid: 14a883f5f8241cc4ca1f35fe54fef1d2, type: 3}
+  - {fileID: 8300000, guid: 7b85f48408e15f748a6a7de0f94963cf, type: 3}
+  - {fileID: 8300000, guid: 5d5f587ae155eb94f867257211a96f5e, type: 3}
+  - {fileID: 8300000, guid: 5ed176f89f549d24a83fa420c256201e, type: 3}
+  - {fileID: 8300000, guid: 0e1457ebf7dc95b4db34ba2fa89929fc, type: 3}
   attackGrunt:
-  - {fileID: 8300000, guid: 48270719143516a4fb1d29f86e32dd51, type: 3}
-  footsteps: []
+  - {fileID: 8300000, guid: 1ad0f3586d548eb4abdac3a05d5f600c, type: 3}
+  - {fileID: 8300000, guid: 232a3632bed402a49908055b870ade71, type: 3}
+  - {fileID: 8300000, guid: 13d730c0982d2a644bc05e84aa257f7e, type: 3}
+  - {fileID: 8300000, guid: 44760041f39e25a4fb7f6a8a10cc9071, type: 3}
+  footsteps:
+  - {fileID: 8300000, guid: 0adcbe7b99f526742bed9046e4cfc083, type: 3}
+  - {fileID: 8300000, guid: 7d9873769c8b9cf40808ea2465052942, type: 3}
+  - {fileID: 8300000, guid: ec21ffd3be2733e43bae580cf56823ff, type: 3}
+  - {fileID: 8300000, guid: 044c5815b857297458db3a45091eb005, type: 3}
 --- !u!114 &8109928375757525845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6083,7 +6091,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcabae59933428f43927de24c89ae7f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToGround: 0.05
+  distanceToGround: 0.11
+  footstepCooldown: 0.2
 --- !u!82 &8228093883213071527
 AudioSource:
   m_ObjectHideFlags: 0
@@ -6419,7 +6428,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcabae59933428f43927de24c89ae7f5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  distanceToGround: 0.05
+  distanceToGround: 0.11
+  footstepCooldown: 0.2
 --- !u!82 &5014821752369099137
 AudioSource:
   m_ObjectHideFlags: 0

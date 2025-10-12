@@ -30,6 +30,7 @@ public class StartGameMenu : MonoBehaviour
         listener.Dispose();
         StartCoroutine(Fade());
         titleScreenManager.StartNetworkAsHost();
+        WorldSoundFXManager.instance.PlayUIStartGameSound();
     }
 
     IEnumerator Fade()  
