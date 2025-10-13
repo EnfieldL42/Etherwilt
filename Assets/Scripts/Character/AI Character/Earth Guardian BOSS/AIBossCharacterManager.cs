@@ -303,7 +303,7 @@ public class AIBossCharacterManager : AICharacterManager
 
             PlayerUIManager.instance.playerUIHudManager.currentBossHealthBar = bossHPBar;
         }
-        else
+        else if(!bossFightIsActive.Value && !isSecondBody)
         {
             WorldSoundFXManager.instance.StopBossMusic();
         }

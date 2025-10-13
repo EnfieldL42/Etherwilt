@@ -34,6 +34,10 @@ public class WorldSoundFXManager : MonoBehaviour
     [SerializeField] AudioClip uiStartGame;
     [SerializeField] AudioClip uiConfirm;
     [SerializeField] AudioClip uiPressToStart;
+    [SerializeField] AudioClip uiSlider;
+
+    [Header("Boss Fight Defeated")]
+    [SerializeField] AudioClip bossDefeatedSFX;
 
     private void Awake()
     {
@@ -172,7 +176,18 @@ public class WorldSoundFXManager : MonoBehaviour
         audioSource.PlayOneShot(uiPressToStart, volume);
     }
 
+    public void PlayBossDefeatedSound(float volume = 1)
+    {
+        if (bossDefeatedSFX == null)
+            return;
+        audioSource.PlayOneShot(bossDefeatedSFX, volume);
+    }
 
-
+    public void PlayUISliderSound(float volume = 1)
+    {
+        if (uiSlider == null)
+            return;
+        audioSource.PlayOneShot(uiSlider, volume);
+    }
 
 }

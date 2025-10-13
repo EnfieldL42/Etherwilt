@@ -824,6 +824,7 @@ public class PlayerInputManager : MonoBehaviour
             if (PlayerUIManager.instance.menuWindowIsOpen)
             {
                 PlayerUIManager.instance.CloseAllMenuWindows();
+                WorldSoundFXManager.instance.PlayUIReturnSound(1);
             }
         }
     }

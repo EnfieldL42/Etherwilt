@@ -2405,7 +2405,7 @@ AudioSource:
   m_GameObject: {fileID: 5313747940594742879}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: c00d999743f467943818c47c44152d6a, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -2685,6 +2685,7 @@ MonoBehaviour:
   aICharacterCombatManager: {fileID: 0}
   aICharacterNetworkManager: {fileID: 0}
   aICharacterLocomotionManager: {fileID: 0}
+  aICharacterSoundFXManager: {fileID: 0}
   navmeshAgent: {fileID: 3597519778679866846}
   currentState: {fileID: 0}
   idle: {fileID: 11400000, guid: 6a08c8080365f4743b8ebc4991cad1eb, type: 2}
@@ -2694,8 +2695,8 @@ MonoBehaviour:
   investigateSoundState: {fileID: 11400000, guid: b154290c33992a840bc64ea34029b6a7, type: 2}
   maxHealth: 400
   bossID: 0
-  bossIntroClip: {fileID: 0}
-  bossBattleLoopClip: {fileID: 0}
+  bossIntroClip: {fileID: 8300000, guid: 7ef051c2ec70d3d43b67d37d37e06f6c, type: 3}
+  bossBattleLoopClip: {fileID: 8300000, guid: 2807bb892934fdf44ae7cfd8781f4a7c, type: 3}
   bossFightIsActive:
     m_InternalValue: 0
   hasBeenAwakened:
@@ -2719,8 +2720,9 @@ MonoBehaviour:
   doNothingState: {fileID: 11400000, guid: 5467ca9abc3bf4447acf234c7abef26d, type: 2}
   burrowedCombatStanceState: {fileID: 11400000, guid: dfac79f3b49117345835f28ceecbe87e, type: 2}
   burrowAttack: {fileID: 11400000, guid: 0f9646c5e0dabca4cb201e3dea68acfb, type: 2}
-  isBurrowed: 0
+  canUnburrowAttack: 0
   forceBurrowAttack: 0
+  burrowMaxTime: 5
   navmeshAgentStoppingDistance: 5
 --- !u!114 &2945296929994410322
 MonoBehaviour:
@@ -2806,6 +2808,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab60adb2bc58134d974a798b0aaf0b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSource: {fileID: 0}
   damageGrunt:
   - {fileID: 8300000, guid: 88b91714a2e2cbb428f61e18ca4d39d8, type: 3}
   - {fileID: 8300000, guid: cad57fcf83264a4489ae5c41b55e7a8b, type: 3}

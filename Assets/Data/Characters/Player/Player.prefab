@@ -5655,10 +5655,10 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 13d730c0982d2a644bc05e84aa257f7e, type: 3}
   - {fileID: 8300000, guid: 44760041f39e25a4fb7f6a8a10cc9071, type: 3}
   footsteps:
-  - {fileID: 8300000, guid: 0adcbe7b99f526742bed9046e4cfc083, type: 3}
-  - {fileID: 8300000, guid: 7d9873769c8b9cf40808ea2465052942, type: 3}
-  - {fileID: 8300000, guid: ec21ffd3be2733e43bae580cf56823ff, type: 3}
-  - {fileID: 8300000, guid: 044c5815b857297458db3a45091eb005, type: 3}
+  - {fileID: 8300000, guid: a1ca3872fc45c7b43acb3457b6f97158, type: 3}
+  - {fileID: 8300000, guid: faed122f8d4c18840977f79ef15d26c4, type: 3}
+  - {fileID: 8300000, guid: 3089d998908d0cc4d95830a2472d6dae, type: 3}
+  - {fileID: 8300000, guid: ce84267b9a526b649ab3e13673f33a42, type: 3}
 --- !u!114 &8109928375757525845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5763,7 +5763,7 @@ AudioSource:
   m_GameObject: {fileID: 5147371753347035051}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: c00d999743f467943818c47c44152d6a, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -5773,7 +5773,7 @@ AudioSource:
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
-  Priority: 128
+  Priority: 142
   DopplerLevel: 1
   MinDistance: 1
   MaxDistance: 500

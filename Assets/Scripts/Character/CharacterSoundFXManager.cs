@@ -49,21 +49,21 @@ public class CharacterSoundFXManager : MonoBehaviour
     {
         if(damageGrunt.Length > 0)
         {
-            PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(damageGrunt));
+            PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(damageGrunt), 1);
         }
     }
     public virtual void PlayAttackGruntSoundFX()
     {
         if (damageGrunt.Length > 0)
         {
-            PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(attackGrunt));
+            PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(attackGrunt), 1);
         }
     }
     public virtual void PlayFootStepSoundFX()
     {
         if (footsteps.Length > 0)
         {
-            PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(footsteps));
+            PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(footsteps), 1, false);
         }
 
         //OR

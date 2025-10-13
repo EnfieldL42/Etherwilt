@@ -96,6 +96,7 @@ public class PlayerUIPopUpManager : MonoBehaviour
         bossDefeatedPopUpText.text = bossDefeatedMessage;
         bossDefeatedPopUpGameObject.SetActive(true);
         //youDiedPopUpBackgroundText.characterSpacing = 0;
+        WorldSoundFXManager.instance.PlayBossDefeatedSound();
         StartCoroutine(StretchPopUpTextOverTime(bossDefeatedPopUpText, 8, 10));
         StartCoroutine(FadeInPopUpOverTime(bossDefeatedCanvasGroup, 5));
         StartCoroutine(WaitThenFadeOutPopUpOverTime(bossDefeatedCanvasGroup, 2, 5));

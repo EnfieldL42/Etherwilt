@@ -1,6 +1,7 @@
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Audio;
 
 public class BonefireInteractable : Interactable
 {
@@ -18,6 +19,10 @@ public class BonefireInteractable : Interactable
 
     [Header("Teleport Transform")]
     [SerializeField] Transform teleportTransform;
+
+    [Header("Audio")]
+    [SerializeField] AudioSource audioSource;
+    [SerializeField] AudioClip activationSFX;
 
     protected override void Start()
     {
@@ -89,9 +94,11 @@ public class BonefireInteractable : Interactable
         player.playerAnimatorManager.PlayTargetActionAnimation("Activate_Bonfire_01", true);
         player.playerNetworkManager.HideWeaponServerRpc();
 
+
         //hide weapon models
 
         PlayerUIManager.instance.playerUIPopUpManager.SendBonfireRestoredDefeatedPopUp(interactionText);
+        PlaySoundFX(activationSFX, 1, false);
 
         StartCoroutine(WaitForAnimationAndPopUpThenRestoreCollider());
     }
@@ -164,6 +171,17 @@ public class BonefireInteractable : Interactable
         PlayerUIManager.instance.playerUILoadingScreenManager.DeactivateLoadingScreen();
         WorldSaveGameManager.instance.SaveGame();
 
+    }
+
+
+    public void PlaySoundFX(AudioClip soundFX, float volume = 1, bool randomizePitch = true, float pitchRandom = 0.1f)
+    {
+        audioSource.PlayOneShot(soundFX, volume);
+        audioSource.pitch = 1;
+        if (randomizePitch)
+        {
+            audioSource.pitch += Random.Range(-pitchRandom, pitchRandom);
+        }
     }
 }
 

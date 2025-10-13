@@ -1094,18 +1094,18 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 0.5
-  m_Pitch: 1
+  m_Volume: 1
+  m_Pitch: 0.9102756
   Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
   Priority: 128
   DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
+  MinDistance: 2.970297
+  MaxDistance: 16
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1113,23 +1113,23 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
-      value: 1
+      time: 0.7289776
+      value: 0.99609756
       inSlope: 0
       outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
-      time: 1
+      time: 0.94973755
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -3.0055523
+      outSlope: -3.0055523
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0.31158367
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -1482,20 +1482,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa7bb6c1f70312d4db59712396f3a90f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 3706901206231409645, guid: 3f0554796b1def64b8fb0ece39f802ae, type: 3}
+  audioSource: {fileID: 3706901206231409645}
   damageGrunt:
   - {fileID: 8300000, guid: f3c9e6e8eab5e2141aa0245d72e949a2, type: 3}
   - {fileID: 8300000, guid: 89f49075172db094db3d531d1e894a91, type: 3}
   attackGrunt:
-  - {fileID: 8300000, guid: c086132e478a4c84eaa5bf03ee1dda47, type: 3}
-  - {fileID: 8300000, guid: 032f3936173096045bcdc254ada6fb01, type: 3}
-  - {fileID: 8300000, guid: d9226cfc8d5763b499a6313f1a30dc02, type: 3}
+  - {fileID: 8300000, guid: c35b8bf2f70d415479ca0e8c42b28f7b, type: 3}
+  - {fileID: 8300000, guid: 1ad60cfb292e3a74d8d7f2c23ae26609, type: 3}
+  - {fileID: 8300000, guid: 8039ae28e5aca7a45a2fc5d1f1af7002, type: 3}
   footsteps:
-  - {fileID: 8300000, guid: aae8aac7236be8f4d8f7fc2e6e2b41ea, type: 3}
-  - {fileID: 8300000, guid: 977fe588d778a8a43946e78e6d6e9799, type: 3}
-  - {fileID: 8300000, guid: 34c7f87aea1621e4cac3aaa1c8b8eb3b, type: 3}
-  - {fileID: 8300000, guid: d3068b8b192453640befaaf7779da40c, type: 3}
-  - {fileID: 8300000, guid: 42e3b9cf3492ca945acd028f54a9aa7f, type: 3}
+  - {fileID: 8300000, guid: 70ede8675628d4b4582c57b27381d909, type: 3}
+  - {fileID: 8300000, guid: d215b8e9a20d03140a5159dee4d36f7b, type: 3}
+  - {fileID: 8300000, guid: b07a099cf411bf14ba8c3992f7efff53, type: 3}
+  - {fileID: 8300000, guid: 62ff3dd3ee8786245a865510e7b3893f, type: 3}
+  - {fileID: 8300000, guid: f99ec2ced91045148a153817f1d1b813, type: 3}
 --- !u!114 &7785668568497423788
 MonoBehaviour:
   m_ObjectHideFlags: 0

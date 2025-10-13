@@ -2698,7 +2698,7 @@ AudioSource:
   m_GameObject: {fileID: 9021035897858210265}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 24300002, guid: c00d999743f467943818c47c44152d6a, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
@@ -3049,7 +3049,6 @@ MonoBehaviour:
   characterDialogueID: 1
   interactableDialogueCollider: {fileID: 0}
   currentDialogue: {fileID: 0}
-  farewellDialogue: {fileID: 0}
   interactableDialogueObject: {fileID: 0}
   dialogueIsPlaying: 0
 --- !u!114 &8528888641445341759
