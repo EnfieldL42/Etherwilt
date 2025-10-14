@@ -78,6 +78,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   meleeWeaponDamageCollider: {fileID: 4761391514266740625}
+  player: {fileID: 0}
+  weaponTrailObject: {fileID: 7133732309752843215}
 --- !u!1 &2263317660027958229
 GameObject:
   m_ObjectHideFlags: 0

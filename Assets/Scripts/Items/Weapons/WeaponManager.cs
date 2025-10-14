@@ -1,11 +1,17 @@
+using System.Collections;
 using UnityEngine;
 
 public class WeaponManager : MonoBehaviour
 {
     public MeleeWeaponDamageCollider meleeWeaponDamageCollider;
+    public PlayerNetworkManager player;
+    public ParticleSystem weaponTrailObject;
+    private ParticleSystem.EmissionModule weaponTrail;
     private void Awake()
     {
+        player = FindAnyObjectByType<PlayerNetworkManager>();
         meleeWeaponDamageCollider = GetComponentInChildren<MeleeWeaponDamageCollider>();
+        weaponTrail = weaponTrailObject.emission;
     }
 
     public void SetWeaponDamage(CharacterManager characterWieldingWeapon, WeaponItem weapon)
@@ -33,4 +39,21 @@ public class WeaponManager : MonoBehaviour
         meleeWeaponDamageCollider.rolling_Attack_01_Modifier = weapon.rollingAttackModifer01;
         meleeWeaponDamageCollider.backstep_Attack_01_Modifier = weapon.backstepAttackModifer01;
     }
+
+    private void Update()
+    {
+        if(weaponTrailObject != null) 
+        {
+            if (player.isAttacking.Value)
+            {
+                weaponTrail.rateOverTime = 40;
+            }
+
+            else
+            {
+                weaponTrail.rateOverTime = 0;
+            }
+        }
+    }
+
 }
