@@ -1,7 +1,9 @@
+using DG.Tweening;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Audio;
+
 
 public class BonefireInteractable : Interactable
 {
@@ -11,7 +13,12 @@ public class BonefireInteractable : Interactable
 
     [Header("VFX")]
     [SerializeField] GameObject activatedParticles;
-
+    [SerializeField] GameObject burstParticles;
+    [SerializeField] GameObject inactiveParticles;
+    [SerializeField] Light pointLight;
+    public Color lightColor;
+    [SerializeField] GameObject[] meshes;
+ 
     [Header("Interaction Text")]
     [SerializeField] string unactivatedInteractionText = "Restore the Bonfire";
     [SerializeField] string activatedInteractionText = "Rest";
@@ -23,6 +30,7 @@ public class BonefireInteractable : Interactable
     [Header("Audio")]
     [SerializeField] AudioSource audioSource;
     [SerializeField] AudioClip activationSFX;
+
 
     protected override void Start()
     {
@@ -43,6 +51,11 @@ public class BonefireInteractable : Interactable
 
         if (isActivated.Value)
         {
+            foreach (var i in meshes)
+            {
+                i.GetComponent<SkinnedMeshRenderer>().material.SetFloat("_EmissionIntensity", 1f);
+            }
+            pointLight.color = lightColor;
             interactionText = activatedInteractionText;
         }
         else
@@ -90,10 +103,8 @@ public class BonefireInteractable : Interactable
         }
         //re add it wit h the value true(is activated)
         WorldSaveGameManager.instance.currentCharacterData.bonfires.Add(bonefireID, true);
-
         player.playerAnimatorManager.PlayTargetActionAnimation("Activate_Bonfire_01", true);
         player.playerNetworkManager.HideWeaponServerRpc();
-
 
         //hide weapon models
 
@@ -152,11 +163,19 @@ public class BonefireInteractable : Interactable
     {
         if (isActivated.Value)
         {
+            
             if(activatedParticles != null)
             {
                 activatedParticles.SetActive(true);
+                Instantiate(burstParticles, transform.position, Quaternion.identity);
+                inactiveParticles.SetActive(false);
+                pointLight.DOColor(lightColor, 1f);
             }
-
+            foreach (var i in meshes)
+            {
+                i.GetComponent<SkinnedMeshRenderer>().material.DOFloat(1f, "_EmissionIntensity", 1f);
+            }
+            
             interactionText = unactivatedInteractionText;
         }
     }

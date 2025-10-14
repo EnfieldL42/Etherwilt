@@ -1123,7 +1123,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 129
   m_ExtraColliders: []
-  m_Radius: 0.02
+  m_Radius: 0.01
   m_RadiusCurve:
     serializedVersion: 2
     m_Curve:
@@ -9576,7 +9576,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 193
   m_ExtraColliders: []
-  m_Radius: 0.02
+  m_Radius: 0.01
   m_RadiusCurve:
     serializedVersion: 2
     m_Curve:
@@ -10434,7 +10434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ReferenceCollider: {fileID: 2060353773510079729}
-  m_Margin: 0
+  m_Margin: -0.01
   m_InsideMode: 0
 --- !u!1 &8907624478290842312
 GameObject:

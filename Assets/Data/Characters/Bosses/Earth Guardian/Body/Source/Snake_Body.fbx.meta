@@ -386,7 +386,7 @@ ModelImporter:
       takeName: Armature|06 - SLAM
       internalID: 926154679768348053
       firstFrame: 0
-      lastFrame: 209
+      lastFrame: 279
       wrapMode: 0
       orientationOffsetY: 0
       level: 0
@@ -407,7 +407,7 @@ ModelImporter:
       curves: []
       events:
       - time: 0
-        functionName: SetSlamDamage
+        functionName: ResetAttackHashSet
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -420,36 +420,50 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0
+      - time: 0.00662691
+        functionName: SetSlamDamage
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.17229955
         functionName: EnableCanRotate
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0
-        functionName: ResetAttackHashSet
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.58773464
+      - time: 0.48568025
         functionName: DisableCanRotate
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.73088235
-        functionName: TurnOffCollidersOnTriggers
+      - time: 0.5519559
+        functionName: OpenSlamSwipeDamageCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.73088235
-        functionName: OpenSlamSwipeDamageCollider
+      - time: 0.61840427
+        functionName: CloseSlamSwipeDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.74784493
+        functionName: EnableCanDoCombo
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.7653423
+        functionName: TurnOffCollidersOnTriggers
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -460,20 +474,6 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 1
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.8132353
-        functionName: CloseSlamSwipeDamageCollider
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.8326694
-        functionName: EnableCanDoCombo
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
         intParameter: 0
         messageOptions: 0
       transformMask: []

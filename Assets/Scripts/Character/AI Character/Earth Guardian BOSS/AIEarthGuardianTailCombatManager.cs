@@ -43,7 +43,8 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
 
     [Header("VFX")]
     public GameObject earthGuardianVFX;
-
+    public BasicVfxSpawner stabImpactVFX;
+    public BasicVfxSpawner[] slamImpactVFX;
 
     protected override void Awake()
     {
@@ -336,5 +337,17 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
         }
     }
 
+    public void SlamImpactVFX()
+    {
+        foreach (BasicVfxSpawner i in slamImpactVFX)
+        {
+            i.ActivateVFX();
+        }
+    }
+
+    public void StabImpactVFX()
+    {
+        stabImpactVFX.ActivateVFX();
+    }
 }
 
