@@ -1,3 +1,4 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.TextCore.Text;
@@ -49,6 +50,10 @@ public class PlayerUILevelUpManager : PlayerUIMenu
     [Header("Buttons")]
     [SerializeField] Button confirmLevelsButton;
 
+    [Header("Flags")]
+    private bool isInitializingSliders = false; //for sound glitch
+
+
     private void Awake()
     {
         SetAllLevelsCost();
@@ -58,13 +63,18 @@ public class PlayerUILevelUpManager : PlayerUIMenu
     {
         base.OpenMenu();
 
-        WorldSoundFXManager.instance.PlayOpenMenuSound();
         SetCurrentStats();
+        PlayerUIManager.instance.bonfireWindowIsOpen = true;
+    }
+
+    override public void CloseMenu()
+    {
+        base.CloseMenu();
+        PlayerUIManager.instance.bonfireWindowIsOpen = false;
     }
 
     private void SetCurrentStats()
     {
-
         healthSlider.value = healthSlider.minValue;
         enduranceSlider.value = enduranceSlider.minValue;
         strengthSlider.value = strengthSlider.minValue;
@@ -177,6 +187,21 @@ public class PlayerUILevelUpManager : PlayerUIMenu
 
         ChangeTextColorDependingOnCost();
 
+        if (!isInitializingSliders)
+        {
+            StartCoroutine(waitForSliderUpdate());
+            return;
+        }
+        else
+        {
+            WorldSoundFXManager.instance.PlayUISliderSound();
+        }
+
+    }
+    IEnumerator waitForSliderUpdate()
+    {
+        yield return null;
+        isInitializingSliders = true;
     }
 
     public void ConfirmLevels()

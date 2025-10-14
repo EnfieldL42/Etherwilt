@@ -11,7 +11,17 @@ public class PlayerUITeleportLocationManager : PlayerUIMenu
         base.OpenMenu();
 
         CheckForUnlockedTeleports();
+        PlayerUIManager.instance.bonfireWindowIsOpen = true;
     }
+
+    override public void CloseMenu()
+    {
+        base.CloseMenu();
+        PlayerUIManager.instance.bonfireWindowIsOpen = false;
+    }
+
+
+
 
     //public void OpenTeleportLocationManagerMenu()
     //{

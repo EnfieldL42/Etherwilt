@@ -151,10 +151,12 @@ public class BonefireInteractable : Interactable
         if (!isActivated.Value)
         {
             RestoreBonfire(player);
+            WorldSaveGameManager.instance.SaveGame();
         }
         else
         {
             RestAtBonfire(player);
+            WorldSaveGameManager.instance.SaveGame();
         }
 
     }
