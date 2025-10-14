@@ -85,12 +85,12 @@ public class BonefireInteractable : Interactable
         isActivated.OnValueChanged -= OnIsActivatedChanged;
     }
 
-    public override void OnTriggerExit(Collider other)
-    {
-        base.OnTriggerExit(other);
+    //public override void OnTriggerExit(Collider other)
+    //{
+    //    base.OnTriggerExit(other);
 
-        PlayerUIManager.instance.CloseBonfireWindows();
-    }
+    //    PlayerUIManager.instance.CloseBonfireWindows();
+    //}
 
     private void RestoreBonfire(PlayerManager player)
     {
@@ -118,6 +118,9 @@ public class BonefireInteractable : Interactable
     {
         PlayerUIManager.instance.playerUIBonfireManager.OpenMenu();
 
+        player.playerNetworkManager.isMoving.Value = false;
+        player.canMove = false;
+        player.canRotate = false;
         interactableCollider.enabled = true;//temporary so we can keep interacting with the bonfire for the meantime
         player.playerNetworkManager.currentHealth.Value = player.playerNetworkManager.maxHealth.Value; //temp code
         player.playerNetworkManager.currentStamina.Value = player.playerNetworkManager.maxStamina.Value; //temp code\
@@ -204,5 +207,6 @@ public class BonefireInteractable : Interactable
             audioSource.pitch += Random.Range(-pitchRandom, pitchRandom);
         }
     }
+
 }
 

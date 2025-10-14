@@ -81,6 +81,11 @@ public class PlayerUIManager : MonoBehaviour
 
     public void CloseBonfireWindows()
     {
+        PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
+        player.canMove = true;
+        player.canRotate = true;
+
+        bonfireWindowIsOpen = false;
         playerUIBonfireManager.CloseMenuAfterFixedUpdate();
         playerUITeleportLocationManager.CloseMenuAfterFixedUpdate();
         playerUILevelUpManager.CloseMenuAfterFixedUpdate();

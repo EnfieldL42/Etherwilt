@@ -254,6 +254,11 @@ public class PlayerInputManager : MonoBehaviour
 
     private void HandlePlayerMovementInput()
     {
+        if (PlayerUIManager.instance.bonfireWindowIsOpen)
+        {
+            return;
+        }
+
         verticalInput = movementInput.y;
         horizontalInput = movementInput.x;
 
@@ -261,8 +266,11 @@ public class PlayerInputManager : MonoBehaviour
         //mathf.abs(no negatives) was used so that inputs will always add to one another instead of potentially minusing as input can be negative
         moveAmount = Mathf.Clamp01(Mathf.Abs(verticalInput) + Mathf.Abs(horizontalInput));
 
+
+
+
         //moveAmount 0 = idle/ 0.5 = walking/ 1 = running (optional but souls game use it)
-        if(moveAmount <= 0.5 && moveAmount > 0)
+        if (moveAmount <= 0.5 && moveAmount > 0)
         {
             moveAmount = 0.5f;
         }

@@ -1,4 +1,5 @@
 using System.Collections;
+using Unity.Netcode;
 using UnityEngine;
 
 public class PlayerUIMenu : MonoBehaviour
@@ -17,6 +18,10 @@ public class PlayerUIMenu : MonoBehaviour
     {
         PlayerUIManager.instance.menuWindowIsOpen = false;
         menu.SetActive(false);
+        PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
+        player.canMove = true;
+        player.canRotate = true;
+
     }
 
     public virtual void CloseMenuAfterFixedUpdate()
