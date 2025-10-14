@@ -9,6 +9,7 @@ public class PlayerUIMenu : MonoBehaviour
     public virtual void OpenMenu()
     {
         PlayerUIManager.instance.menuWindowIsOpen = true;
+        WorldSoundFXManager.instance.PlayOpenMenuSound();
         menu.SetActive(true);
     }
 

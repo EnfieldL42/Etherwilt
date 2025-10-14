@@ -232,6 +232,11 @@ public class PlayerUIHudManager : MonoBehaviour
         PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
         QuickSlotItem quickSlotItem = player.playerInventoryManager.currentQuickSlotItem;
 
+        if(quickSlotItem == null)
+        {
+            return;
+        }
+
         if (quickSlotItem.isConsumable)
         {
             quickSlotItemCount.text = quickSlotItem.GetCurrentAmount(player).ToString();

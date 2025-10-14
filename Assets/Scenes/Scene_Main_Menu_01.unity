@@ -20525,6 +20525,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: 213f8c0076e902744a15b9ee57160a19, type: 3}
     - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: uiOpenMenu
+      value: 
+      objectReference: {fileID: 8300000, guid: 7748833504602b5459111a6cdc35c548, type: 3}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: audioSource
       value: 
       objectReference: {fileID: 1269839757}

@@ -58,6 +58,7 @@ public class PlayerUILevelUpManager : PlayerUIMenu
     {
         base.OpenMenu();
 
+        WorldSoundFXManager.instance.PlayOpenMenuSound();
         SetCurrentStats();
     }
 
