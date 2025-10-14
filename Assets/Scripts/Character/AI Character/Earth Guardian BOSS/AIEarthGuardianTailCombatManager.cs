@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -45,6 +46,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     public GameObject earthGuardianVFX;
     public BasicVfxSpawner stabImpactVFX;
     public BasicVfxSpawner[] slamImpactVFX;
+    public GameObject mesh;
 
     protected override void Awake()
     {
@@ -348,6 +350,13 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
     public void StabImpactVFX()
     {
         stabImpactVFX.ActivateVFX();
+    }
+
+    public void TailGlowVFX()
+    {
+        Sequence tailGlow = DOTween.Sequence();
+        tailGlow.Append(mesh.GetComponent<SkinnedMeshRenderer>().material.DOFloat(1f, "_EmissionIntensity", 0.5f));
+        tailGlow.Append(mesh.GetComponent<SkinnedMeshRenderer>().material.DOFloat(0f, "_EmissionIntensity", 2f));
     }
 }
 
