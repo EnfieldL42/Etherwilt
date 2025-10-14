@@ -111,7 +111,7 @@ public class BonefireInteractable : Interactable
         PlayerUIManager.instance.playerUIPopUpManager.SendBonfireRestoredDefeatedPopUp(interactionText);
         PlaySoundFX(activationSFX, 1, false);
 
-        StartCoroutine(WaitForAnimationAndPopUpThenRestoreCollider());
+        StartCoroutine(WaitForAnimationAndPopUpThenRestoreCollider(player));
     }
 
     private void RestAtBonfire(PlayerManager player)
@@ -130,10 +130,12 @@ public class BonefireInteractable : Interactable
         WorldAIManager.instance.ResetAllCharacters();
     }
 
-    private IEnumerator WaitForAnimationAndPopUpThenRestoreCollider()
+    private IEnumerator WaitForAnimationAndPopUpThenRestoreCollider(PlayerManager player)
     {
-        yield return new WaitForSeconds(2);
+        player.playerNetworkManager.isInvulnerable.Value = true;
+        yield return new WaitForSeconds(5.5f);
         interactableCollider.enabled = true;
+        player.playerNetworkManager.isInvulnerable.Value = false;
     }
 
     public override void Interact(PlayerManager player)
