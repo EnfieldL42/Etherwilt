@@ -1153,7 +1153,7 @@ MonoBehaviour:
   m_Iterations: 1
   m_SleepThreshold: 0.005
   m_GravityAligner: {fileID: 0}
-  m_Gravity: {x: 0, y: -1, z: 0}
+  m_Gravity: {x: 0, y: -0.75, z: 0}
   m_ForceModule: {fileID: 0}
   m_ForceScale: 1
   m_SimulateSpace: {fileID: 0}
@@ -5904,6 +5904,7 @@ MonoBehaviour:
   - {fileID: 2987225058493765259}
   - {fileID: 2612806917506531310}
   - {fileID: 3020851567013334303}
+  - {fileID: 3020851567013334303}
   wind: {fileID: 0}
 --- !u!1 &5154264861364501440
 GameObject:
@@ -9283,7 +9284,6 @@ GameObject:
   - component: {fileID: 1989040166976788993}
   - component: {fileID: 5315899882949600323}
   - component: {fileID: 2612806917506531310}
-  - component: {fileID: 741797967051346146}
   m_Layer: 6
   m_Name: Hair
   m_TagString: Untagged
@@ -9558,6 +9558,13 @@ MonoBehaviour:
   - {fileID: 3949645214416126407}
   - {fileID: 7415552327495588338}
   - {fileID: 8667914009893200851}
+  - {fileID: 6796937929056684221}
+  - {fileID: 2469392315864780616}
+  - {fileID: 5279401141431906523}
+  - {fileID: 3817579947391520017}
+  - {fileID: 1555872160798203633}
+  - {fileID: 5812147530325156085}
+  - {fileID: 5415005273645004139}
   m_EndBones: []
   m_Material: {fileID: 11400000, guid: e3abdaae1da22bf4c87bec3dc3164bb7, type: 2}
   m_StartDepth: 0
@@ -9599,74 +9606,9 @@ MonoBehaviour:
   m_Iterations: 1
   m_SleepThreshold: 0.005
   m_GravityAligner: {fileID: 0}
-  m_Gravity: {x: 0, y: -1, z: 0}
+  m_Gravity: {x: 0, y: -0.75, z: 0}
   m_ForceModule: {fileID: 0}
   m_ForceScale: 1
-  m_SimulateSpace: {fileID: 0}
---- !u!114 &741797967051346146
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8204860223054704523}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8aa2b9bccfefda549bd1cf67fd922ad8, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RootBones:
-  - {fileID: 5279401141431906523}
-  - {fileID: 6796937929056684221}
-  - {fileID: 5812147530325156085}
-  - {fileID: 1555872160798203633}
-  - {fileID: 5415005273645004139}
-  - {fileID: 2469392315864780616}
-  - {fileID: 3817579947391520017}
-  m_EndBones: []
-  m_Material: {fileID: 11400000, guid: e3abdaae1da22bf4c87bec3dc3164bb7, type: 2}
-  m_StartDepth: 0
-  m_SiblingConstraints: 0
-  m_ClosedSiblings: 0
-  m_SiblingRotationConstraints: 0
-  m_LengthUnification: 0
-  m_CollisionLayers:
-    serializedVersion: 2
-    m_Bits: 129
-  m_ExtraColliders: []
-  m_Radius: 0.001
-  m_RadiusCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 1
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  m_DeltaTimeMode: 2
-  m_ConstantDeltaTime: 0.03
-  m_Iterations: 1
-  m_SleepThreshold: 0.005
-  m_GravityAligner: {fileID: 0}
-  m_Gravity: {x: 0, y: -1, z: 0}
-  m_ForceModule: {fileID: 0}
-  m_ForceScale: 0.5
   m_SimulateSpace: {fileID: 0}
 --- !u!1 &8253449942813285322
 GameObject:
