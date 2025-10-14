@@ -139,13 +139,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4653076705104558617}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.0056003924, z: -0, w: 0.9999843}
-  m_LocalPosition: {x: 0.0044165, y: -0.0011688, z: -0.0000007}
-  m_LocalScale: {x: 0.00048193333, y: 0.0066666664, z: 0.006666667}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 0.00356, y: -0.00097, z: -0}
+  m_LocalScale: {x: 0.11, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 7888919940707610734}
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 90}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!198 &4661803174939300212
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -5052,7 +5052,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   meleeWeaponDamageCollider: {fileID: 2476998485912189092}
   player: {fileID: 0}
-  weaponTrailObject: {fileID: 0}
+  weaponTrailObject: {fileID: 4661803174939300212}
 --- !u!1001 &7706129136693155717
 PrefabInstance:
   m_ObjectHideFlags: 0

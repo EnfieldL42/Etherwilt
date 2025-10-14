@@ -30,6 +30,9 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     [SerializeField] Rig rigWeight;
     [SerializeField] MultiPositionConstraint[] positionConstraints;
 
+    [Header("VFX")]
+    public BasicVfxSpawner slamImpactVFX;
+
     protected override void Awake()
     {
         base.Awake();
@@ -238,4 +241,8 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
         }
     }
 
+    public void SlamImpactVFX()
+    {
+        slamImpactVFX.ActivateVFX();    
+    }
 }
