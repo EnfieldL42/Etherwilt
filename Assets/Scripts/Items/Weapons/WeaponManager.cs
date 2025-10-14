@@ -44,11 +44,20 @@ public class WeaponManager : MonoBehaviour
     {
         if(weaponTrailObject != null) 
         {
-            if (player.isAttacking.Value)
+            //if (player.isAttacking.Value)
+            //{
+            //    weaponTrail.rateOverTime = 40;
+            //}
+
+            //else
+            //{
+            //    weaponTrail.rateOverTime = 0;
+            //}
+
+            if (meleeWeaponDamageCollider.damageCollider.enabled)
             {
                 weaponTrail.rateOverTime = 40;
             }
-
             else
             {
                 weaponTrail.rateOverTime = 0;

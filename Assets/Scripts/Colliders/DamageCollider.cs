@@ -6,7 +6,7 @@ public class DamageCollider : MonoBehaviour
     [SerializeField] protected CharacterManager character;
 
     [Header("Collider")]
-    [SerializeField] protected Collider damageCollider;
+    [SerializeField] public Collider damageCollider;
 
     [Header("Damage")]
     public int physicalDamage = 0;
