@@ -115,7 +115,7 @@ Material:
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
-    - _CelShadeCutoff: 0
+    - _CelShadeCutoff: 0.05
     - _CelShadeSmoothness: 0
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0

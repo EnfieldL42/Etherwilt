@@ -151,8 +151,8 @@ Material:
     - _HighlightCutoff: 1
     - _HighlightIntensity: 0
     - _InvertedRImIntensity: 0.1
-    - _InvertedRimCutoff: 0.1
-    - _InvertedRimSmoothness: 0.462
+    - _InvertedRimCutoff: 0.75
+    - _InvertedRimSmoothness: 0
     - _LightCutoff: 0
     - _LightIntensity: 1
     - _LightSmoothness: 0

@@ -4719,7 +4719,7 @@
     "m_Title": "MainLight and Shadows",
     "m_Position": {
         "x": -2243.333251953125,
-        "y": 1389.333251953125
+        "y": 1389.3331298828125
     }
 }
 
@@ -6768,8 +6768,8 @@
     "m_ObjectId": "8099c782d5fa4bcea46855e40ed78b8d",
     "m_Title": "Distance Blending",
     "m_Position": {
-        "x": -2183.3330078125,
-        "y": -654.6665649414063
+        "x": -2183.33349609375,
+        "y": -654.666748046875
     }
 }
 
@@ -7390,8 +7390,8 @@
     "m_ObjectId": "8bdaa015c0e547d58f91649c221089c0",
     "m_Title": "Grass Sway",
     "m_Position": {
-        "x": -3761.3330078125,
-        "y": -2376.6669921875
+        "x": -3761.33349609375,
+        "y": -2376.666748046875
     }
 }
 
@@ -8787,8 +8787,8 @@
     "m_ObjectId": "a6658717c9214d73b82bf0d45a2d9454",
     "m_Title": "Height Blending",
     "m_Position": {
-        "x": -1931.9998779296875,
-        "y": 2045.3333740234375
+        "x": -1932.000244140625,
+        "y": 2045.333251953125
     }
 }
 
@@ -8880,9 +8880,6 @@
         },
         {
             "m_Id": "65fd2e38101e4a94b33c596ba0aa1280"
-        },
-        {
-            "m_Id": "fd7da2b8b4644be7a4d08efe35bd54ed"
         },
         {
             "m_Id": "9caeac81f03e441893fdd747dbb12539"
@@ -9879,8 +9876,8 @@
     "m_ObjectId": "c42e62e113df4096bbc6c5eee4643943",
     "m_Title": "Additional Lights",
     "m_Position": {
-        "x": -3162.66650390625,
-        "y": 1910.0
+        "x": -3162.666748046875,
+        "y": 1909.9998779296875
     }
 }
 
@@ -11817,8 +11814,8 @@
     "m_ObjectId": "f57f166e7e8e432b908cb750bf6444a5",
     "m_Title": "Terrain Colour",
     "m_Position": {
-        "x": -2943.99951171875,
-        "y": 879.9999389648438
+        "x": -2944.0,
+        "y": 879.9998779296875
     }
 }
 
@@ -12070,20 +12067,5 @@
         "e32": 0.0,
         "e33": 1.0
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "fd7da2b8b4644be7a4d08efe35bd54ed",
-    "m_Id": 2,
-    "m_DisplayName": "Intensity",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Intensity",
-    "m_StageCapability": 3,
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
 }
 

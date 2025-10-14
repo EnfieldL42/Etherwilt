@@ -47,6 +47,10 @@ public class Interactable : NetworkBehaviour
             {
                 return;
             }
+            if(player.isDead.Value)
+            {
+                return;
+            }
 
             player.playerInteractionManager.AddInteractonToList(this);
         }

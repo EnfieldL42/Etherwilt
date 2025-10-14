@@ -139,14 +139,14 @@ Material:
     - _Metallic: 0
     - _Min: 0.48
     - _NoiseScale: 5
-    - _NormalSSSInfluence: 1
+    - _NormalSSSInfluence: 1.59
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
     - _RimLightCutoff: 0.25
-    - _RimLightIntensity: 1
+    - _RimLightIntensity: 5
     - _RimLightPower: 1
     - _RimLightSmoothness: 1
     - _SSSIntensity: 8.86

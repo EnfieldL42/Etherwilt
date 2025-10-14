@@ -1902,20 +1902,6 @@
                 "m_Node": {
                     "m_Id": "e5c2c629dd094df8b43fe4d350cad7d1"
                 },
-                "m_SlotId": 2
-            },
-            "m_InputSlot": {
-                "m_Node": {
-                    "m_Id": "f0cab46c75254830bcf694edc0fa9d50"
-                },
-                "m_SlotId": 0
-            }
-        },
-        {
-            "m_OutputSlot": {
-                "m_Node": {
-                    "m_Id": "e5c2c629dd094df8b43fe4d350cad7d1"
-                },
                 "m_SlotId": 3
             },
             "m_InputSlot": {
@@ -7452,21 +7438,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "6194b6f11ffd480b8bc3dcf0e2233f6a",
-    "m_Id": 2,
-    "m_DisplayName": "Intensity",
-    "m_SlotType": 1,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Intensity",
-    "m_StageCapability": 3,
-    "m_Value": 0.0,
-    "m_DefaultValue": 0.0,
-    "m_Labels": []
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.MainLightDirectionNode",
     "m_ObjectId": "61982676abeb4f5f980b1ad97f950fbf",
     "m_Group": {
@@ -10629,7 +10600,7 @@
     "m_Title": "Rim Light",
     "m_Position": {
         "x": -2145.999755859375,
-        "y": 1116.6663818359375
+        "y": 1116.666259765625
     }
 }
 
@@ -11473,7 +11444,7 @@
     "m_Title": "Subsurface Scattering",
     "m_Position": {
         "x": -2565.333251953125,
-        "y": -1231.33349609375
+        "y": -1231.3336181640625
     }
 }
 
@@ -11618,7 +11589,7 @@
     "m_Title": "Angle Fading",
     "m_Position": {
         "x": -1913.333251953125,
-        "y": 1809.3331298828125
+        "y": 1809.33349609375
     }
 }
 
@@ -14221,9 +14192,6 @@
             "m_Id": "fa6d935da04a407b9794b5e3c86ed70b"
         },
         {
-            "m_Id": "6194b6f11ffd480b8bc3dcf0e2233f6a"
-        },
-        {
             "m_Id": "9a34e16888a448d99867b27bfd2cc32f"
         },
         {
@@ -14746,8 +14714,8 @@
     "m_ObjectId": "ef54059c0b484134b8f1cac2eaa7d3ec",
     "m_Title": "Additional Lights",
     "m_Position": {
-        "x": -2430.666748046875,
-        "y": 541.3331909179688
+        "x": -2430.66650390625,
+        "y": 541.33349609375
     }
 }
 

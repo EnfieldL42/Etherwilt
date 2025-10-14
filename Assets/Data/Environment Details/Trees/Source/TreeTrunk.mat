@@ -116,9 +116,9 @@ Material:
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DirectionalRimCutoff: 0
-    - _DirectionalRimIntensity: 1
+    - _DirectionalRimIntensity: 0.25
     - _DirectionalRimPower: 1
-    - _DirectionalRimSmoothness: 0.5
+    - _DirectionalRimSmoothness: 1
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EmissionIntensity: 0
@@ -129,9 +129,9 @@ Material:
     - _GlossyReflections: 0
     - _HighlightCutoff: 1
     - _HighlightIntensity: 0
-    - _InvertedRImIntensity: 0.1
-    - _InvertedRimCutoff: 0.5
-    - _InvertedRimSmoothness: 0.1
+    - _InvertedRImIntensity: 0
+    - _InvertedRimCutoff: 0
+    - _InvertedRimSmoothness: 1
     - _LightCutoff: 0
     - _LightIntensity: 1
     - _LightSmoothness: 0

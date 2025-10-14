@@ -1113,7 +1113,7 @@ MonoBehaviour:
   - {fileID: 5349883358548219465}
   - {fileID: 2682262759577239347}
   m_EndBones: []
-  m_Material: {fileID: 11400000, guid: efcb9885402e6874eadefeada407df7f, type: 2}
+  m_Material: {fileID: 11400000, guid: e3abdaae1da22bf4c87bec3dc3164bb7, type: 2}
   m_StartDepth: 0
   m_SiblingConstraints: 0
   m_ClosedSiblings: 0
@@ -1148,12 +1148,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_DeltaTimeMode: 0
+  m_DeltaTimeMode: 2
   m_ConstantDeltaTime: 0.03
   m_Iterations: 1
   m_SleepThreshold: 0.005
   m_GravityAligner: {fileID: 0}
-  m_Gravity: {x: 0, y: 0, z: 0}
+  m_Gravity: {x: 0, y: -1, z: 0}
   m_ForceModule: {fileID: 0}
   m_ForceScale: 1
   m_SimulateSpace: {fileID: 0}
@@ -1750,7 +1750,7 @@ MonoBehaviour:
   m_Iterations: 4
   m_SleepThreshold: 0
   m_GravityAligner: {fileID: 0}
-  m_Gravity: {x: 0, y: 0, z: 0}
+  m_Gravity: {x: 0, y: 1, z: 0}
   m_ForceModule: {fileID: 0}
   m_ForceScale: 1
   m_SimulateSpace: {fileID: 0}
@@ -5184,6 +5184,7 @@ GameObject:
   - component: {fileID: 1423425515506129606}
   - component: {fileID: 6128711772730839219}
   - component: {fileID: 5410250303499820082}
+  - component: {fileID: 818475279787255897}
   m_Layer: 6
   m_Name: Player
   m_TagString: Untagged
@@ -5887,6 +5888,23 @@ MonoBehaviour:
   stretchRange: 0
   giveWorldHeightOffset: 0
   worldHeightOffset: 0
+--- !u!114 &818475279787255897
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5147371753347035051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d979e0244d445548ba2a90924a81049, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  physicsObjects:
+  - {fileID: 2987225058493765259}
+  - {fileID: 2612806917506531310}
+  - {fileID: 3020851567013334303}
+  wind: {fileID: 0}
 --- !u!1 &5154264861364501440
 GameObject:
   m_ObjectHideFlags: 0
@@ -9541,7 +9559,7 @@ MonoBehaviour:
   - {fileID: 7415552327495588338}
   - {fileID: 8667914009893200851}
   m_EndBones: []
-  m_Material: {fileID: 11400000, guid: efcb9885402e6874eadefeada407df7f, type: 2}
+  m_Material: {fileID: 11400000, guid: e3abdaae1da22bf4c87bec3dc3164bb7, type: 2}
   m_StartDepth: 0
   m_SiblingConstraints: 0
   m_ClosedSiblings: 0
@@ -9576,12 +9594,12 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_DeltaTimeMode: 0
+  m_DeltaTimeMode: 2
   m_ConstantDeltaTime: 0.03
   m_Iterations: 1
   m_SleepThreshold: 0.005
   m_GravityAligner: {fileID: 0}
-  m_Gravity: {x: 0, y: 0, z: 0}
+  m_Gravity: {x: 0, y: -1, z: 0}
   m_ForceModule: {fileID: 0}
   m_ForceScale: 1
   m_SimulateSpace: {fileID: 0}
@@ -9606,8 +9624,8 @@ MonoBehaviour:
   - {fileID: 2469392315864780616}
   - {fileID: 3817579947391520017}
   m_EndBones: []
-  m_Material: {fileID: 11400000, guid: ce02265f3c7c47d42a8bd85329838232, type: 2}
-  m_StartDepth: 1
+  m_Material: {fileID: 11400000, guid: e3abdaae1da22bf4c87bec3dc3164bb7, type: 2}
+  m_StartDepth: 0
   m_SiblingConstraints: 0
   m_ClosedSiblings: 0
   m_SiblingRotationConstraints: 0
@@ -9641,14 +9659,14 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  m_DeltaTimeMode: 0
+  m_DeltaTimeMode: 2
   m_ConstantDeltaTime: 0.03
   m_Iterations: 1
   m_SleepThreshold: 0.005
   m_GravityAligner: {fileID: 0}
-  m_Gravity: {x: 0, y: 0, z: 0}
+  m_Gravity: {x: 0, y: -1, z: 0}
   m_ForceModule: {fileID: 0}
-  m_ForceScale: 1
+  m_ForceScale: 0.5
   m_SimulateSpace: {fileID: 0}
 --- !u!1 &8253449942813285322
 GameObject:
