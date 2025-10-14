@@ -31,6 +31,7 @@ public class StartGameMenu : MonoBehaviour
         StartCoroutine(Fade());
         titleScreenManager.StartNetworkAsHost();
         WorldSoundFXManager.instance.PlayUIPressToStartGameSound();
+        WorldSoundFXManager.instance.SetMainMenuMusicVolume();
     }
 
     IEnumerator Fade()  

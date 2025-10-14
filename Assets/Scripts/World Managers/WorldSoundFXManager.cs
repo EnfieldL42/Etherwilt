@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class WorldSoundFXManager : MonoBehaviour
@@ -40,6 +41,9 @@ public class WorldSoundFXManager : MonoBehaviour
     [Header("Boss Fight Defeated")]
     [SerializeField] AudioClip bossDefeatedSFX;
 
+    [Header("Main Menu")]
+    [SerializeField] AudioSource mainMenuSource;
+
     private void Awake()
     {
         if(instance == null)
@@ -52,6 +56,13 @@ public class WorldSoundFXManager : MonoBehaviour
         }
 
         DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        // Always unsubscribe to prevent memory leaks
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     public void PlayBossTrack(AudioClip introTrack, AudioClip loopTrack)
@@ -198,4 +209,25 @@ public class WorldSoundFXManager : MonoBehaviour
         audioSource.PlayOneShot(uiOpenMenu, volume);
     }
 
+    public void SetMainMenuMusicVolume()
+    {
+        StartCoroutine(FadeMainMenuMusic());
+    }
+
+    IEnumerator FadeMainMenuMusic()
+    {
+        while (mainMenuSource.volume > 0.1f)
+        {
+            mainMenuSource.volume -= Time.deltaTime;
+            yield return null;
+        }
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex == 0)
+        {
+            mainMenuSource.volume = 1;
+        }
+    }
 }

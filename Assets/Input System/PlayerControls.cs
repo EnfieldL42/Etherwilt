@@ -939,7 +939,7 @@ public partial class @PlayerControls: IInputActionCollection2, IDisposable
                     ""path"": ""<Gamepad>/start"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": "";Keyboard Controls"",
+                    ""groups"": "";Gamepad Controls"",
                     ""action"": ""Open Character Menu"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
