@@ -1397,6 +1397,7 @@ MonoBehaviour:
   - {fileID: 2060846390084297884}
   - {fileID: 4267584068167776551}
   - {fileID: 763777259116246030}
+  mesh: {fileID: 5152925907666465592}
 --- !u!114 &5658748462922925029
 MonoBehaviour:
   m_ObjectHideFlags: 0
