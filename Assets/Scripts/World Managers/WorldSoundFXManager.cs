@@ -227,6 +227,7 @@ public class WorldSoundFXManager : MonoBehaviour
     {
         if (scene.buildIndex == 0)
         {
+            mainMenuSource = GetComponent<AudioSource>();
             mainMenuSource.volume = 1;
         }
     }

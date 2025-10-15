@@ -6,6 +6,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class TitleScreenManager : MonoBehaviour
@@ -73,6 +74,14 @@ public class TitleScreenManager : MonoBehaviour
         {
             Destroy(instance);
         }
+
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDestroy()
+    {
+        // Always unsubscribe to prevent memory leaks
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
     private void Start()
@@ -421,5 +430,15 @@ public class TitleScreenManager : MonoBehaviour
         mixerSlider.value = PlayerPrefs.GetFloat("mixerVolume");
         SetMasterVolume();
     }
+
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.buildIndex == 0)
+        {
+            LoadVolume();
+        }
+    }
+
 
 }
