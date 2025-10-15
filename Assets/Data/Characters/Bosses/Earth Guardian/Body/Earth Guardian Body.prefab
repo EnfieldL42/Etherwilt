@@ -2749,7 +2749,7 @@ MonoBehaviour:
   canBlock: 0
   criticalAttackDistanceCheck: 0.7
   pendingCriticalDamage: 0
-  baseDamage: 1
+  baseDamage: 25
   basePoiseDamage: 50
   actionRecoveryTimer: 0
   canPerformCombo: 0
