@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf2edee5c58d82540a51f03df9d42094, type: 3}
   m_Name: PC_RPAsset
   m_EditorClassIdentifier: 
-  k_AssetVersion: 13
-  k_AssetPreviousVersion: 13
+  k_AssetVersion: 12
+  k_AssetPreviousVersion: 12
   m_RendererType: 1
   m_RendererData: {fileID: 0}
   m_RendererDataList:
@@ -59,8 +59,8 @@ MonoBehaviour:
   m_ShadowCascadeCount: 4
   m_Cascade2Split: 0.25
   m_Cascade3Split: {x: 0.1, y: 0.3}
-  m_Cascade4Split: {x: 0.099999994, y: 0.19999996, z: 0.4999999}
-  m_CascadeBorder: 0.19999999
+  m_Cascade4Split: {x: 0.09999999, y: 0.19999997, z: 0.5}
+  m_CascadeBorder: 0.2
   m_ShadowDepthBias: 5
   m_ShadowNormalBias: 0.4
   m_AnyShadowsSupported: 1
@@ -102,10 +102,10 @@ MonoBehaviour:
       m_Keys: []
       m_Values: 
   m_PrefilteringModeMainLightShadows: 3
-  m_PrefilteringModeAdditionalLight: 4
+  m_PrefilteringModeAdditionalLight: 0
   m_PrefilteringModeAdditionalLightShadows: 2
   m_PrefilterXRKeywords: 1
-  m_PrefilteringModeForwardPlus: 1
+  m_PrefilteringModeForwardPlus: 2
   m_PrefilteringModeDeferredRendering: 0
   m_PrefilteringModeScreenSpaceOcclusion: 0
   m_PrefilterDebugKeywords: 1
