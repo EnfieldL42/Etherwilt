@@ -152,7 +152,7 @@ public class TitleScreenManager : MonoBehaviour
     public void CloseLoadGameMenu()
     {
 
-        titleScreenLoadMeu.GetComponentInChildren<CanvasGroupFade>().FadeOut();//open load
+        titleScreenLoadMeu.GetComponentInChildren<CanvasGroupFade>().FadeOut();
 
         //titleScreenMainMenu.SetActive(true);//cloase main
 
@@ -180,8 +180,12 @@ public class TitleScreenManager : MonoBehaviour
     }
 
     public void CloseCharacterCreationMenu()
-    {   
-         //titleScreenCharacterCreationMenu.SetActive(false);
+    {
+        titleScreenCharacterCreationMenu.GetComponentInChildren<CanvasGroupFade>().FadeOut(); //cloase main
+
+        StartCoroutine(ChangeCanvasGroup(titleScreenMainMenu, mainMenuNewGameButton));
+
+        //titleScreenCharacterCreationMenu.SetActive(false);
         //OpenTitleScreenMainMenu();
     }
 

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using System.Collections.Generic;
+using System;
 
 public class WorldSaveGameManager : MonoBehaviour
 {
@@ -337,6 +338,37 @@ public class WorldSaveGameManager : MonoBehaviour
         string worldScene = SceneUtility.GetScenePathByBuildIndex(buildIndex);
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         NetworkManager.Singleton.SceneManager.LoadScene(worldScene, LoadSceneMode.Single);
+    }
+
+    public void LoadMainMenuScene(int buildIndex)
+    {
+        StartCoroutine(ReloadSceneRoutine(buildIndex));
+    }
+
+    private IEnumerator ReloadSceneRoutine(int buildIndex)
+    {
+        // 1. Shutdown networking (this destroys all spawned NetworkObjects)
+        if (NetworkManager.Singleton != null && NetworkManager.Singleton.IsListening)
+        {
+            NetworkManager.Singleton.Shutdown();
+        }
+
+        // 2. Wait a frame to ensure cleanup
+        yield return null;
+
+        //// 3. Destroy any DontDestroyOnLoad objects (optional extra cleanup)
+        //foreach (var rootObj in FindObjectsByType<GameObject>(FindObjectsSortMode.None))
+        //{
+        //    if (rootObj.scene.name == null || rootObj.scene.name == "")
+        //    {
+        //        Destroy(rootObj);
+        //    }
+        //}
+
+        // 4. Load the new scene fresh
+        PlayerUIManager.instance.playerUILoadingScreenManager.ActivateLoadingScreen();
+        SceneManager.LoadScene(buildIndex, LoadSceneMode.Single);
+
     }
 
     private void OnSceneLoaded(ulong clientId, string sceneName, LoadSceneMode mode)

@@ -5497,7 +5497,6 @@ GameObject:
   - component: {fileID: 5354424119316702}
   - component: {fileID: 4128998785300446197}
   - component: {fileID: 5476247168660516168}
-  - component: {fileID: 2831910459907857954}
   m_Layer: 0
   m_Name: Location (0)
   m_TagString: Untagged
@@ -5619,18 +5618,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &2831910459907857954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2146636368753577664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e08d0492d3684fa41b46e31f81e2472b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2177428606058318489
 GameObject:
   m_ObjectHideFlags: 0
@@ -9014,6 +9001,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 1942760314139862947}
+  audioMixer: {fileID: 0}
+  mixerSlider: {fileID: 0}
 --- !u!1 &3580729456074015528
 GameObject:
   m_ObjectHideFlags: 0
@@ -10268,6 +10257,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   menu: {fileID: 765610724552535275}
+  teleportButton: {fileID: 0}
+  levelUpButton: {fileID: 0}
 --- !u!1 &4435744555243888201
 GameObject:
   m_ObjectHideFlags: 0
@@ -17117,6 +17108,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeImage: {fileID: 3600453440814703847}
+  rotationSpeed: 0
 --- !u!1 &6641377371539157875
 GameObject:
   m_ObjectHideFlags: 0
