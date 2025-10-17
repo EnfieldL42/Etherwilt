@@ -35,7 +35,11 @@ public class PlayerUIMenu : MonoBehaviour
         menu.GetComponent<CanvasGroup>().DOFade(0f, 0.25f);
         yield return new WaitForSeconds(0.5f);
         //  PlayerUIManager.instance.menuWindowIsOpen = false;
-        menu.SetActive(false);
+        if(!PlayerUIManager.instance.menuWindowIsOpen)
+        {
+            menu.SetActive(false);
+        }
+        yield return null;
     }
     public virtual void CloseMenuAfterFixedUpdate()
     {
