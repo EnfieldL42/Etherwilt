@@ -17,6 +17,11 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Face
+    second: {fileID: 2100000, guid: 05ba109d00ac2ad468c413f5f3fa3098, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Hair
     second: {fileID: 2100000, guid: 96199e9023af4d94aaab8e708f017123, type: 2}
   materials:
