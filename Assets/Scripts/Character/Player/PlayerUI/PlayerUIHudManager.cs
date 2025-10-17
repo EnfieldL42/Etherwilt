@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using TMPro;
 using Unity.Netcode;
@@ -32,18 +33,20 @@ public class PlayerUIHudManager : MonoBehaviour
 
     public void ToggleHUD(bool status)
     {
-        if(status)
+        if(status && PlayerUIManager.instance.menuWindowIsOpen == false)
         {
             foreach (var canvas in canvasGroup)
             {
-                canvas.alpha = 1;
+                //canvas.alpha = 1;
+                canvas.DOFade(1f, 1f);
             }
         }
         else
         {
             foreach (var canvas in canvasGroup)
             {
-                canvas.alpha = 0;
+                //canvas.alpha = 0;
+                canvas.DOFade(0f, 1f);
             }
         }
     }
@@ -52,11 +55,13 @@ public class PlayerUIHudManager : MonoBehaviour
     {
         if (status)
         {
-            canvasGroup[0].alpha = 1; 
+            //canvasGroup[0].alpha = 1;
+            canvasGroup[0].DOFade(1f, 1f);
         }
         else
         {
-            canvasGroup[0].alpha = 0;
+            //canvasGroup[0].alpha = 0;
+            canvasGroup[0].DOFade(0f, 1f);
         }
     }
 

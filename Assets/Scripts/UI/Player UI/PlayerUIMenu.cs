@@ -1,3 +1,4 @@
+using DG.Tweening;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
@@ -12,18 +13,30 @@ public class PlayerUIMenu : MonoBehaviour
         PlayerUIManager.instance.menuWindowIsOpen = true;
         WorldSoundFXManager.instance.PlayOpenMenuSound();
         menu.SetActive(true);
+        menu.GetComponent<CanvasGroup>().DOFade(1f, 0.25f);
+        menu.GetComponent<CanvasGroup>().interactable = true;
     }
 
     public virtual void CloseMenu()
     {
         PlayerUIManager.instance.menuWindowIsOpen = false;
-        menu.SetActive(false);
+        menu.GetComponent<CanvasGroup>().interactable = false;
+        //menu.SetActive(false);
+        StartCoroutine(FadeMenu());
         PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
         player.canMove = true;
         player.canRotate = true;
 
     }
 
+    IEnumerator FadeMenu()
+    {
+        menu.GetComponent<CanvasGroup>().interactable = false;
+        menu.GetComponent<CanvasGroup>().DOFade(0f, 0.25f);
+        yield return new WaitForSeconds(0.5f);
+        //  PlayerUIManager.instance.menuWindowIsOpen = false;
+        menu.SetActive(false);
+    }
     public virtual void CloseMenuAfterFixedUpdate()
     {
         if (!menu.activeInHierarchy)
@@ -36,8 +49,7 @@ public class PlayerUIMenu : MonoBehaviour
     protected virtual IEnumerator WaitThenCloseMenu()
     {
         yield return new WaitForFixedUpdate();
-
         PlayerUIManager.instance.menuWindowIsOpen = false;
-        menu.SetActive(false);
+        StartCoroutine(FadeMenu());
     }
 }
