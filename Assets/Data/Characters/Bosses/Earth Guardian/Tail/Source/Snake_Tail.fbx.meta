@@ -270,6 +270,20 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.45862883
+        functionName: PlayGroundImpactSoundFX
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.4680851
+        functionName: PlayAOESoundFX
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -534,6 +548,13 @@ ModelImporter:
         messageOptions: 0
       - time: 0.39285713
         functionName: PlayWhooshSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.4562648
+        functionName: PlayGroundImpactSoundFX
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 1

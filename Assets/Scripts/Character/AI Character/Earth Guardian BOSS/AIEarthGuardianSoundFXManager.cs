@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Animations.Rigging;
 
 public class AIEarthGuardianSoundFXManager : CharacterSoundFXManager
 {
@@ -16,6 +17,12 @@ public class AIEarthGuardianSoundFXManager : CharacterSoundFXManager
 
     [Header("Moving SFX")]
     public AudioClip movingSFX;
+
+    [Header("Burring SFX")]
+    public AudioClip burrowSFX;
+
+    [Header("Unburring SFX")]
+    public AudioClip unburrowSFX;
 
     override protected void Awake()
     {
@@ -43,6 +50,7 @@ public class AIEarthGuardianSoundFXManager : CharacterSoundFXManager
     {
         if (attackingImpacts.Length > 0)
         {
+            Debug.Log("attack slam sound");
             PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(attackingImpacts));
         }
     }
@@ -54,6 +62,24 @@ public class AIEarthGuardianSoundFXManager : CharacterSoundFXManager
             PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(attackingAOE));
         }
     }
+
+    public virtual void PlayBurrowSFX()
+    {
+        if (burrowSFX != null)
+        {
+            PlaySoundFX(burrowSFX);
+        }
+    }
+
+    public virtual void PlayUnburrowSFX()
+    {
+        if (unburrowSFX != null)
+        {
+            PlaySoundFX(unburrowSFX);
+        }
+    }
+
+
 
     public virtual void PlayMovingSoundFX()
     {

@@ -12058,6 +12058,33 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 958530569}
+          m_TargetAssemblyTypeName: UI_Character_Save_Slot, Assembly-CSharp
+          m_MethodName: SelectCurrentSlot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &958530569 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3494993377328926977, guid: 7df5b7acef0b651488d1ff91a73e7088, type: 3}
+  m_PrefabInstance: {fileID: 404880423}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958530560}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612b6fd06b790184f9be1de57f81936f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &967083133 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5702911093102780014, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
@@ -14654,6 +14681,33 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1303552853}
+          m_TargetAssemblyTypeName: UI_Character_Save_Slot, Assembly-CSharp
+          m_MethodName: SelectCurrentSlot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1303552853 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3494993377328926977, guid: 7df5b7acef0b651488d1ff91a73e7088, type: 3}
+  m_PrefabInstance: {fileID: 1303552840}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 864329295}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612b6fd06b790184f9be1de57f81936f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1321164295
 GameObject:
   m_ObjectHideFlags: 0
@@ -17835,6 +17889,33 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1644047545}
+          m_TargetAssemblyTypeName: UI_Character_Save_Slot, Assembly-CSharp
+          m_MethodName: SelectCurrentSlot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1644047545 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3494993377328926977, guid: 7df5b7acef0b651488d1ff91a73e7088, type: 3}
+  m_PrefabInstance: {fileID: 1549734665}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1644047536}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612b6fd06b790184f9be1de57f81936f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1646870276
 GameObject:
   m_ObjectHideFlags: 0
@@ -18255,6 +18336,33 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1777962504}
+          m_TargetAssemblyTypeName: UI_Character_Save_Slot, Assembly-CSharp
+          m_MethodName: SelectCurrentSlot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1777962504 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3494993377328926977, guid: 7df5b7acef0b651488d1ff91a73e7088, type: 3}
+  m_PrefabInstance: {fileID: 369193040}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1777962495}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612b6fd06b790184f9be1de57f81936f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &1793389726 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4239012190369336368, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
@@ -26080,6 +26188,33 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 1258708859393732104}
+          m_TargetAssemblyTypeName: UI_Character_Save_Slot, Assembly-CSharp
+          m_MethodName: SelectCurrentSlot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &1258708859393732104 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3494993377328926977, guid: 7df5b7acef0b651488d1ff91a73e7088, type: 3}
+  m_PrefabInstance: {fileID: 2418677196363040306}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1089461213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 612b6fd06b790184f9be1de57f81936f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1592134001016259914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -26829,6 +26964,7 @@ GameObject:
   - component: {fileID: 6896723965729503767}
   - component: {fileID: 6896723965729503768}
   - component: {fileID: 6896723965729503769}
+  - component: {fileID: 6896723965729503770}
   m_Layer: 5
   m_Name: Return
   m_TagString: Untagged
@@ -30666,6 +30802,10 @@ PrefabInstance:
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 4983338690021541316, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 4efcc93a1aef4dc4b87cfd82b45c9b1e, type: 2}
+    - target: {fileID: 4983338690021541316, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_fontColor.b
       value: 1
       objectReference: {fileID: 0}
@@ -30675,6 +30815,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4983338690021541316, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4983338690021541316, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4984618184597374969, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
@@ -30962,6 +31106,10 @@ PrefabInstance:
       value: -8.992615
       objectReference: {fileID: 0}
     - target: {fileID: 5383171969337482156, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 4efcc93a1aef4dc4b87cfd82b45c9b1e, type: 2}
+    - target: {fileID: 5383171969337482156, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_fontColor.b
       value: 1
       objectReference: {fileID: 0}
@@ -30976,6 +31124,10 @@ PrefabInstance:
     - target: {fileID: 5383171969337482156, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 5383171969337482156, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5390768300740730216, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchorMax.y
@@ -31502,6 +31654,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5953050686622637715, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_fontAsset
+      value: 
+      objectReference: {fileID: 11400000, guid: 4efcc93a1aef4dc4b87cfd82b45c9b1e, type: 2}
+    - target: {fileID: 5953050686622637715, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_fontColor.b
       value: 1
       objectReference: {fileID: 0}
@@ -31516,6 +31672,10 @@ PrefabInstance:
     - target: {fileID: 5953050686622637715, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_fontColor32.rgba
       value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 5953050686622637715, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5964573170034993466, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchorMax.y
@@ -34159,6 +34319,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea8cd2ab463b432449795d6b3de2442d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &6896723965729503770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3369062452587806733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 9
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 8595181129625747681}
+          m_TargetAssemblyTypeName: TitleScreenManager, Assembly-CSharp
+          m_MethodName: SelectNoSlot
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &7181503286821838951
 GameObject:
   m_ObjectHideFlags: 0

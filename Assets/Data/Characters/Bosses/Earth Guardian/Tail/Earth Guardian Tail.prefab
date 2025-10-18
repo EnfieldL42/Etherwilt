@@ -906,7 +906,7 @@ Animator:
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: d29efa50f51c10048a29b1f6ef606913, type: 3}
   m_Controller: {fileID: 9100000, guid: e16bca0023233f34a8abd7e0c7b5cdd3, type: 2}
-  m_CullingMode: 1
+  m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
@@ -1427,9 +1427,13 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 9373cc4c25b4e8e4e8ee38cbeeb63df1, type: 3}
   - {fileID: 8300000, guid: bc6bbce405ec91e4fbbe8eb0dcd7f1cf, type: 3}
   - {fileID: 8300000, guid: 1200a993d06e19941bbf6e3d56a592e5, type: 3}
-  attackingImpacts: []
-  attackingAOE: []
+  attackingImpacts:
+  - {fileID: 8300000, guid: 84256ae6074bdff4780a567c892f849a, type: 3}
+  attackingAOE:
+  - {fileID: 8300000, guid: 9b6e1a54476a4b84185d66acbed7a5d0, type: 3}
   movingSFX: {fileID: 0}
+  burrowSFX: {fileID: 0}
+  unburrowSFX: {fileID: 0}
 --- !u!114 &5404331575280930828
 MonoBehaviour:
   m_ObjectHideFlags: 0

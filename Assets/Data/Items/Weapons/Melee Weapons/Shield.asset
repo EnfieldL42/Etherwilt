@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shield
   m_EditorClassIdentifier: 
   itemName: Shield
-  itemIcon: {fileID: 21300000, guid: 771e151b9987c864db9bda8359ced269, type: 3}
+  itemIcon: {fileID: 21300000, guid: a98dbcdab73b8214cb9ffb417ce33e79, type: 3}
   itemDescription: 
   itemID: 2
   weaponAnimator: {fileID: 22100000, guid: 1606628c3f9977e4d84683a9e23edaac, type: 2}
