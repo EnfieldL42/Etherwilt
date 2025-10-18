@@ -72,8 +72,6 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     // Set Damage Values
     public void SetBiteDamage()
     {
-        aiCharacter.characterSoundFXManager.PlayAttackGruntSoundFX();// CAN CHANGE THIS TO BE MORE SPECIFIC
-
         bitedamageCollider.physicalDamage = (int)(baseDamage * attackBiteDamageModifier);
         bitedamageCollider.poiseDamage = (int)(basePoiseDamage * attackBiteDamageModifier);
     }
@@ -93,7 +91,6 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     }
     public void SetSwipeDamage()
     {
-        aiCharacter.characterSoundFXManager.PlayAttackGruntSoundFX();// CAN CHANGE THIS TO BE MORE SPECIFIC
         foreach (var collider in slamdamageCollider)
         {
             if (collider != null)
@@ -110,7 +107,8 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     public void OpenBiteDamageCollider()
     {
         bitedamageCollider.EnableDamageCollider();
-        earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
+        aiCharacter.characterSoundFXManager.PlayAttackGruntSoundFX();// CAN CHANGE THIS TO BE MORE SPECIFIC
+        //earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
     }
     public void CloseBiteDamageCollider()
     {
@@ -126,8 +124,8 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
                 collider.EnableDamageCollider();
             }
         }
-
-        earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
+        aiCharacter.characterSoundFXManager.PlayAttackGruntSoundFX();// CAN CHANGE THIS TO BE MORE SPECIFIC
+        //earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
 
     }
     public void CloseSlamSwipeDamageCollider()
@@ -160,6 +158,11 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
                 collider.isTrigger = true;
             }
         }
+    }
+    public void PlayWhooshSound()
+    {
+        Debug.Log("PLAY WHOOSH SOUND");
+        earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
     }
 
     //Rigging Functions

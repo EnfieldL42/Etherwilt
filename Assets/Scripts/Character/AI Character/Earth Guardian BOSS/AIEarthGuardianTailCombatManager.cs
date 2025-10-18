@@ -159,7 +159,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
             }
         }
 
-        earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
+        //earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
 
     }
     public void CloseStabDamageColliders()
@@ -182,7 +182,7 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
             }
         }
 
-        earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
+        //earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
     }
     public void CloseSlamDamageColliders()
     {
@@ -213,6 +213,11 @@ public class AIEarthGuardianTailCombatManager : AICharacterCombatManager
                 collider.isTrigger = true;
             }
         }
+    }
+
+    public void PlayWhooshSound()
+    {
+        earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
     }
 
 

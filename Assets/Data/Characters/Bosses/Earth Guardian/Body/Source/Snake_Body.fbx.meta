@@ -122,6 +122,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.29835835
+        functionName: OpenBiteDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.31692308
         functionName: DisableCanRotate
         data: 
@@ -129,11 +136,11 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.3632353
-        functionName: OpenBiteDamageCollider
+      - time: 0.34226188
+        functionName: PlayWhooshSound
         data: 
         objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
+        floatParameter: 1
         intParameter: 0
         messageOptions: 0
       - time: 0.43392208
@@ -207,6 +214,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.29903722
+        functionName: PlayWhooshSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
+        intParameter: 0
+        messageOptions: 0
       - time: 0.31692308
         functionName: DisableCanRotate
         data: 
@@ -276,6 +290,13 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.42697346
+        functionName: PlayWhooshSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
         intParameter: 0
         messageOptions: 0
       - time: 0.43970585
@@ -349,15 +370,22 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.43500316
+        functionName: PlayWhooshSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
+        intParameter: 0
+        messageOptions: 0
       - time: 0.43970585
-        functionName: OpenSlamSwipeDamageCollider
+        functionName: TurnOnCollidersOnTriggers
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.43970585
-        functionName: TurnOnCollidersOnTriggers
+        functionName: OpenSlamSwipeDamageCollider
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -434,6 +462,13 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
+      - time: 0.4701782
+        functionName: PlayWhooshSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       - time: 0.48568025
         functionName: DisableCanRotate
         data: 
@@ -443,6 +478,13 @@ ModelImporter:
         messageOptions: 0
       - time: 0.5519559
         functionName: OpenSlamSwipeDamageCollider
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.6111111
+        functionName: SlamImpactVFX
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -474,13 +516,6 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 1
-        intParameter: 0
-        messageOptions: 0
-      - time: 0.6111111
-        functionName: SlamImpactVFX
-        data: 
-        objectReferenceParameter: {instanceID: 0}
-        floatParameter: 0
         intParameter: 0
         messageOptions: 0
       transformMask: []
@@ -879,6 +914,13 @@ ModelImporter:
         floatParameter: 1
         intParameter: 0
         messageOptions: 0
+      - time: 0.3065476
+        functionName: PlayWhooshSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -948,6 +990,13 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.30722675
+        functionName: PlayWhooshSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
         intParameter: 0
         messageOptions: 0
       - time: 0.4427133
@@ -1022,14 +1071,14 @@ ModelImporter:
         intParameter: 0
         messageOptions: 0
       - time: 0
-        functionName: EnableCanRotate
+        functionName: ResetAttackHashSet
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0
-        functionName: ResetAttackHashSet
+        functionName: EnableCanRotate
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -1047,6 +1096,13 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.311721
+        functionName: PlayWhooshSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
         intParameter: 0
         messageOptions: 0
       - time: 0.4427133
@@ -1139,6 +1195,13 @@ ModelImporter:
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.3058485
+        functionName: PlayWhooshSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 1
         intParameter: 0
         messageOptions: 0
       - time: 0.4427133

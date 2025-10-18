@@ -2408,7 +2408,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 24300002, guid: c00d999743f467943818c47c44152d6a, type: 2}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
@@ -2418,9 +2418,9 @@ AudioSource:
   Priority: 128
   DopplerLevel: 1
   MinDistance: 7
-  MaxDistance: 500
+  MaxDistance: 100
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 2
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -2428,23 +2428,23 @@ AudioSource:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: 0
+      time: 0.8193237
       value: 1
-      inSlope: 0
-      outSlope: 0
+      inSlope: -1.4291427
+      outSlope: -1.4291427
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
       value: 0
-      inSlope: 0
-      outSlope: 0
+      inSlope: -0.7002786
+      outSlope: -0.7002786
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -2809,17 +2809,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7ab60adb2bc58134d974a798b0aaf0b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 5345971134122954546}
   damageGrunt:
   - {fileID: 8300000, guid: 88b91714a2e2cbb428f61e18ca4d39d8, type: 3}
   - {fileID: 8300000, guid: cad57fcf83264a4489ae5c41b55e7a8b, type: 3}
   - {fileID: 8300000, guid: 14a883f5f8241cc4ca1f35fe54fef1d2, type: 3}
   attackGrunt:
-  - {fileID: 8300000, guid: 48270719143516a4fb1d29f86e32dd51, type: 3}
+  - {fileID: 8300000, guid: 2f0b634bf248d0c419a041c6a808efaa, type: 3}
+  - {fileID: 8300000, guid: bc461441327f7af468ab706dac4bc1a3, type: 3}
+  - {fileID: 8300000, guid: 0ac1d7526e4ee6f4e90f24b5252c4343, type: 3}
+  - {fileID: 8300000, guid: 8a7b6cca4348fea4fa0860cd605ac91d, type: 3}
+  - {fileID: 8300000, guid: d23eb64a3b831074dadccd7e7db3d229, type: 3}
+  - {fileID: 8300000, guid: 253dea47abf1fb54d9e9756abcbd23ec, type: 3}
   footsteps: []
   movingAudioSource: {fileID: 1266662145247526373}
   attackingWhooshes:
-  - {fileID: 8300000, guid: 48270719143516a4fb1d29f86e32dd51, type: 3}
+  - {fileID: 8300000, guid: 329c32d9fe78643489407608f4bd62b4, type: 3}
+  - {fileID: 8300000, guid: b093dc31445c25244b6613466b5f9205, type: 3}
+  - {fileID: 8300000, guid: 137a708a9ac1d24418c4e4260bf67f17, type: 3}
+  - {fileID: 8300000, guid: 3e63cb581bb85344f95c5e772a854851, type: 3}
+  - {fileID: 8300000, guid: 9373cc4c25b4e8e4e8ee38cbeeb63df1, type: 3}
+  - {fileID: 8300000, guid: bc6bbce405ec91e4fbbe8eb0dcd7f1cf, type: 3}
+  - {fileID: 8300000, guid: 1200a993d06e19941bbf6e3d56a592e5, type: 3}
   attackingImpacts: []
   attackingAOE: []
   movingSFX: {fileID: 0}
