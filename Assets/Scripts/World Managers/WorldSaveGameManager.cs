@@ -5,6 +5,7 @@ using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using System.Collections.Generic;
 using System;
+using Unity.VisualScripting;
 
 public class WorldSaveGameManager : MonoBehaviour
 {
@@ -242,6 +243,7 @@ public class WorldSaveGameManager : MonoBehaviour
         player.playerNetworkManager.health.Value = 10;
         player.playerNetworkManager.endurance.Value = 10;
 
+        PlayerUIManager.instance.LockMouse();
         SaveGame();
         LoadWorldScene(worldSceneIndex);
     }
@@ -338,6 +340,11 @@ public class WorldSaveGameManager : MonoBehaviour
         string worldScene = SceneUtility.GetScenePathByBuildIndex(buildIndex);
         NetworkManager.Singleton.SceneManager.OnLoadComplete += OnSceneLoaded;
         NetworkManager.Singleton.SceneManager.LoadScene(worldScene, LoadSceneMode.Single);
+
+        if (buildIndex == 0 && !PlayerUIManager.instance.isUsingGamepad)
+        {
+            PlayerUIManager.instance.UnlockMouse();
+        }
     }
 
     public void LoadMainMenuScene(int buildIndex)

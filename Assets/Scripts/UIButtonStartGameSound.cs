@@ -3,7 +3,7 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-public class UIButtonStartGameSound : MonoBehaviour, ISelectHandler
+public class UIButtonStartGameSound : MonoBehaviour, ISelectHandler, IPointerEnterHandler
 {
     private Button button;
 
@@ -21,5 +21,15 @@ public class UIButtonStartGameSound : MonoBehaviour, ISelectHandler
     public void OnSelect(BaseEventData eventData)
     {
         WorldSoundFXManager.instance.PlayUISwitchSound(1);
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        // Make the EventSystem actually select this GameObject so Submit works.
+        EventSystem.current.SetSelectedGameObject(gameObject);
+
+        // Optional: also call Select() on the Selectable to ensure visuals are consistent
+        var s = GetComponent<Selectable>();
+        if (s != null) s.Select();
     }
 }

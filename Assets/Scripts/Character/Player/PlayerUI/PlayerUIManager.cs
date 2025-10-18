@@ -1,5 +1,10 @@
+using System;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.Users;
+using UnityEngine.SceneManagement;
 
 public class PlayerUIManager : MonoBehaviour
 {
@@ -24,11 +29,20 @@ public class PlayerUIManager : MonoBehaviour
     public bool popUpWindowIsOpen = false;
     public bool bonfireWindowIsOpen = false;
 
+
+    [Header("Device Inputs")]
+    public static ControlScheme CurrentControlScheme { get; private set; }
+    public InputActionAsset inputActions;
+    public static event Action<ControlScheme> OnInputSchemeChanged;
+    public bool isUsingGamepad;
+
+
     private void Awake()
     {
         if (instance == null)
         {
             instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -45,10 +59,6 @@ public class PlayerUIManager : MonoBehaviour
         playerUILevelUpManager = GetComponentInChildren<PlayerUILevelUpManager>();
     }
 
-    private void Start()
-    {
-        DontDestroyOnLoad(gameObject);
-    }
     private void Update()
     {
         if(startGameAsClient)
@@ -59,6 +69,31 @@ public class PlayerUIManager : MonoBehaviour
             NetworkManager.Singleton.StartClient();
         }
     }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Re-enable listening in case Unity resets it between scenes
+        if (InputUser.listenForUnpairedDeviceActivity <= 0)
+            InputUser.listenForUnpairedDeviceActivity++;
+
+        // Reattach the callback if it was lost
+        InputUser.onUnpairedDeviceUsed -= OnDeviceChanged;
+        InputUser.onUnpairedDeviceUsed += OnDeviceChanged;
+
+
+        SimulateInitialDeviceDetection();
+    }
+
 
     public void LockMouse()
     {
@@ -91,6 +126,71 @@ public class PlayerUIManager : MonoBehaviour
         playerUILevelUpManager.CloseMenuAfterFixedUpdate();
     }
 
+
+
+    private void OnDeviceChanged(InputControl control, InputEventPtr eventPtr)
+    {
+        var device = control.device;
+
+        if (device is Gamepad && CurrentControlScheme != ControlScheme.Gamepad)
+        {
+            CurrentControlScheme = ControlScheme.Gamepad;
+            OnInputSchemeChanged?.Invoke(ControlScheme.Gamepad);
+            PlayerCamera.instance?.SwitchToGamePadSensitivity();
+            LockMouse();
+            isUsingGamepad = true;
+        }
+        else if ((device is Pointer || device is Keyboard) && CurrentControlScheme != ControlScheme.KeyboardMouse)
+        {
+            CurrentControlScheme = ControlScheme.KeyboardMouse;
+            OnInputSchemeChanged?.Invoke(ControlScheme.KeyboardMouse);
+            PlayerCamera.instance?.SwitchToMouseSensitivity();
+            isUsingGamepad = false;
+
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+                UnlockMouse();
+            else
+                LockMouse();
+        }
+
+    }
+
+    private void SimulateInitialDeviceDetection()
+    {
+        // Prioritize gamepad if present
+        var gamepad = Gamepad.current;
+        var keyboard = Keyboard.current;
+        var mouse = Mouse.current;
+
+        if (gamepad == null)
+        {
+            PlayerCamera.instance.SwitchToMouseSensitivity();
+
+        }
+
+        if (gamepad != null)
+        {
+            OnDeviceChanged(gamepad, new InputEventPtr());
+            return;
+        }
+
+        // Else use keyboard or mouse
+        if (keyboard != null)
+        {
+            OnDeviceChanged(Keyboard.current, new InputEventPtr());
+        }
+        else if (mouse != null)
+        {
+            OnDeviceChanged(Mouse.current, new InputEventPtr());
+        }
+
+
+    }
+
+    public enum ControlScheme
+    {
+        KeyboardMouse = 0, Gamepad = 1 // just need to be same indexes as defined in inputActionAsset
+    }
 
 
 }

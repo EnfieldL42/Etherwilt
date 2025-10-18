@@ -64,11 +64,6 @@ public class PlayerInputManager : MonoBehaviour
     private float mouseSwitchCooldown = 0.25f;
     private float mouseSwitchTimer;
 
-    [Header("Device Inputs")]
-    public static ControlScheme CurrentControlScheme { get; private set; }
-    public InputActionAsset inputActions;
-    public static event Action<ControlScheme> OnInputSchemeChanged;
-
     [Header("UI Inputs")]
     [SerializeField] bool closeMenuInput = false;
     [SerializeField] bool openCharacterMenu = false;
@@ -156,9 +151,6 @@ public class PlayerInputManager : MonoBehaviour
     {
         SceneManager.activeSceneChanged -= OnSceneChange; //stop checking if scene is being changed
 
-        InputUser.onUnpairedDeviceUsed -= OnDeviceChanged;
-        if (InputUser.listenForUnpairedDeviceActivity > 0)
-            InputUser.listenForUnpairedDeviceActivity--;
     }
 
     private void Start()
@@ -174,10 +166,6 @@ public class PlayerInputManager : MonoBehaviour
             playerControls.Disable();
         }
 
-        InputUser.listenForUnpairedDeviceActivity++;
-        InputUser.onUnpairedDeviceUsed += OnDeviceChanged;
-
-        SimulateInitialDeviceDetection();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -217,6 +205,7 @@ public class PlayerInputManager : MonoBehaviour
 
             if (playerControls != null)
             {
+
                 playerControls.Disable();
             }
         }
@@ -835,68 +824,6 @@ public class PlayerInputManager : MonoBehaviour
                 WorldSoundFXManager.instance.PlayUIReturnSound(1);
             }
         }
-    }
-
-    private void OnDeviceChanged(InputControl control, InputEventPtr eventPtr)
-    {
-        var device = control.device;
-
-        if (device is Gamepad && CurrentControlScheme != ControlScheme.Gamepad)
-        {
-            CurrentControlScheme = ControlScheme.Gamepad;
-            OnInputSchemeChanged?.Invoke(ControlScheme.Gamepad);
-            PlayerCamera.instance.SwitchToGamePadSensitivity();
-            PlayerUIManager.instance.LockMouse();
-        }
-        else if ((device is Pointer || device is Keyboard) && CurrentControlScheme != ControlScheme.KeyboardMouse)
-        {
-            CurrentControlScheme = ControlScheme.KeyboardMouse;
-            OnInputSchemeChanged?.Invoke(ControlScheme.KeyboardMouse);
-            PlayerCamera.instance.SwitchToMouseSensitivity();
-            PlayerUIManager.instance.LockMouse();
-
-        }
-    }
-
-    private void SimulateInitialDeviceDetection()
-    {
-        // Prioritize gamepad if present
-        var gamepad = Gamepad.current;
-        var keyboard = Keyboard.current;
-        var mouse = Mouse.current;
-
-        Debug.Log("gamepad is " + gamepad);
-        Debug.Log("keyboard is " + keyboard);
-        Debug.Log("mouse is " + mouse);
-
-        if (gamepad == null)
-        {
-            PlayerCamera.instance.SwitchToMouseSensitivity();
-
-        }
-
-        if (gamepad != null)
-        {
-            OnDeviceChanged(gamepad, new InputEventPtr());
-            return;
-        }
-
-        // Else use keyboard or mouse
-        if (keyboard != null)
-        {
-            OnDeviceChanged(Keyboard.current, new InputEventPtr());
-        }
-        else if (mouse != null)
-        {
-            OnDeviceChanged(Mouse.current, new InputEventPtr());
-        }
-
-
-    }
-
-    public enum ControlScheme
-    {
-        KeyboardMouse = 0, Gamepad = 1 // just need to be same indexes as defined in inputActionAsset
     }
 
 }
