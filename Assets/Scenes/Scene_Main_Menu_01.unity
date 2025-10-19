@@ -33810,6 +33810,14 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2601734912588062943, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 2807bb892934fdf44ae7cfd8781f4a7c, type: 3}
+    - target: {fileID: 2601734912588062943, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 2807bb892934fdf44ae7cfd8781f4a7c, type: 3}
+    - target: {fileID: 2601734912588062943, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: rolloffMode
       value: 2
       objectReference: {fileID: 0}
@@ -33905,6 +33913,14 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7204869212163402410, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 7ef051c2ec70d3d43b67d37d37e06f6c, type: 3}
+    - target: {fileID: 7204869212163402410, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: m_audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 7ef051c2ec70d3d43b67d37d37e06f6c, type: 3}
     - target: {fileID: 7204869212163402410, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: rolloffMode
       value: 2
