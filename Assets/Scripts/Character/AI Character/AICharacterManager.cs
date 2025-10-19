@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
 using Unity.Netcode;
+using DG.Tweening;
+using UnityEngine.VFX;
 
 public class AICharacterManager : CharacterManager
 {
@@ -32,6 +34,10 @@ public class AICharacterManager : CharacterManager
     [Header("Stats")]
     [SerializeField] int maxHealth = 100;
 
+    [Header("DeathVFX")]
+    public SkinnedMeshRenderer[] meshes;
+    public VisualEffect dissolve;
+
 
     protected override void Awake()
     {
@@ -43,7 +49,6 @@ public class AICharacterManager : CharacterManager
         aICharacterSoundFXManager = GetComponent<AICharacterSoundFXManager>();
 
         navmeshAgent = GetComponentInChildren<NavMeshAgent>();
-
     }
 
     public override void OnNetworkSpawn()
@@ -221,6 +226,12 @@ public class AICharacterManager : CharacterManager
 
             }
 
+            dissolve.Play();
+            foreach (var i in meshes)
+            {
+                Sequence deathDissolve = DOTween.Sequence();
+                deathDissolve.Append(i.material.DOFloat(1f, "_Dissolve", 4f));
+            }
             //play death sfx
 
             yield return new WaitForSeconds(5);
@@ -230,6 +241,10 @@ public class AICharacterManager : CharacterManager
             if (isDead.Value == true)
             {
                 aICharacterNetworkManager.isActive.Value = false;
+            }
+            foreach (var i in meshes)
+            {
+                i.material.SetFloat("_Dissolve", 0f);
             }
         }
     }

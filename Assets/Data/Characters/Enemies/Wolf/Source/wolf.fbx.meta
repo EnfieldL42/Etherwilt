@@ -699,7 +699,7 @@ ModelImporter:
       maskType: 3
       maskSource: {fileID: 31900000, guid: 63a94eb0ccfdff14b810aba643759113, type: 2}
       additiveReferencePoseFrame: 0
-    isReadable: 0
+    isReadable: 1
   meshes:
     lODScreenPercentages: []
     globalScale: 1.25

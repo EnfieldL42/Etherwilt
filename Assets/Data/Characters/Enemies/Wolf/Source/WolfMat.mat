@@ -13,6 +13,7 @@ Material:
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _FORWARD_PLUS
+  - _NORMAL_MAP_TYPE_TANGENT_SPACE_NORMAL_MAP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -69,6 +70,14 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _NormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _ObjectSpaceNormalMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -82,6 +91,10 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _SpecGlossMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TangentSpaceNormalMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
@@ -119,10 +132,15 @@ Material:
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
+    - _DetailOffset: 0
+    - _DetailStrength: 1
     - _DirectionalRimCutoff: 0.5
     - _DirectionalRimIntensity: 1
     - _DirectionalRimPower: 1
     - _DirectionalRimSmoothness: 0.5
+    - _Dissolve: 0
+    - _DissolveOffset: -0.01
+    - _DissolveScale: 30
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EmissionIntensity: 2
@@ -136,10 +154,13 @@ Material:
     - _InvertedRImIntensity: 0.1
     - _InvertedRimCutoff: 0.5
     - _InvertedRimSmoothness: 0.1
+    - _IsFace: 0
+    - _LightAngleClamp: 0
     - _LightCutoff: 0
     - _LightIntensity: 1
     - _LightSmoothness: 0
     - _Metallic: 0
+    - _NORMAL_MAP_TYPE: 0
     - _NormalSSSInfluence: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -160,6 +181,9 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _Threshold: 1
+    - _UsingNormalMap: 0
+    - _UsingObjectSpaceNormalMap: 0
+    - _UsingTangentSpaceNormalMap: 0
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -167,6 +191,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Colour: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _EmissionTint: {r: 1, g: 1, b: 1, a: 0}
     - _SSSColour: {r: 0.44025147, g: 0.24212195, b: 0.21458796, a: 1}
     - _ShadowTint: {r: 0.3004603, g: 0.19384116, b: 0.509434, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

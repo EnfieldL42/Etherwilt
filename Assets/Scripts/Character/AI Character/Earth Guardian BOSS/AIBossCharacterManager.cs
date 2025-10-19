@@ -2,6 +2,8 @@ using UnityEngine;
 using Unity.Netcode;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.VFX;
+using DG.Tweening;
 
 public class AIBossCharacterManager : AICharacterManager
 {
@@ -239,7 +241,14 @@ public class AIBossCharacterManager : AICharacterManager
 
             WorldSaveGameManager.instance.SaveGame();
 
-            yield return new WaitForSeconds(5);
+            dissolve.Play();
+            foreach (var i in meshes)
+            {
+                Sequence deathDissolve = DOTween.Sequence();
+                deathDissolve.Append(i.material.DOFloat(1f, "_Dissolve", 8f));
+            }
+
+            yield return new WaitForSeconds(8);
 
             // award runes, etc.
 
