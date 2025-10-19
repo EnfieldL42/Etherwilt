@@ -127,7 +127,7 @@ Material:
     - _DirectionalRimSmoothness: 0.5
     - _Dissolve: 0
     - _DissolveOffset: -0.01
-    - _DissolveScale: 30
+    - _DissolveScale: 60
     - _DstBlend: 0
     - _DstBlendAlpha: 0
     - _EmissionIntensity: 0
