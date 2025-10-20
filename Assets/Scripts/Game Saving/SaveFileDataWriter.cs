@@ -36,8 +36,6 @@ public class SaveFileDataWriter
         {
             //creates a directory for the file unless it already has one
             Directory.CreateDirectory(Path.GetDirectoryName(savePath));
-            Debug.Log("CREATING SAVE FILE, AT SAVE PATH: " + savePath);
-
 
             //serialize the data into a json
             string dataToStore = JsonUtility.ToJson(characterData, true);
@@ -84,7 +82,7 @@ public class SaveFileDataWriter
             }
             catch (Exception ex)
             {
-                Debug.Log("FILE IS BLANK" + ex);
+                Debug.LogError("FILE IS BLANK" + ex);
             }
         }
 

@@ -161,7 +161,6 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     }
     public void PlayWhooshSound()
     {
-        Debug.Log("PLAY WHOOSH SOUND");
         earthGuardianManager.characterSoundFXManager.PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(earthGuardianManager.earthGuardianSoundFXManager.attackingWhooshes));
     }
 

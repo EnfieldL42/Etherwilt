@@ -1,10 +1,12 @@
 using System;
+using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
 using UnityEngine.InputSystem.Users;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerUIManager : MonoBehaviour
 {
@@ -35,6 +37,21 @@ public class PlayerUIManager : MonoBehaviour
     public InputActionAsset inputActions;
     public static event Action<ControlScheme> OnInputSchemeChanged;
     public bool isUsingGamepad;
+
+    [Header("UI keybinds")]
+    [SerializeField] Image[] playerUIScreenSubmitImage;
+    [SerializeField] Image[] playerUIEscapeImage;
+    [SerializeField] Image[] playerUIUnequipImage;
+
+    [SerializeField] Sprite enterKeyboardSprite;
+    [SerializeField] Sprite escapeKeyboardSprite;
+    [SerializeField] Sprite unequipKeyboardSprite;
+    [SerializeField] Sprite enterXboxSprite;
+    [SerializeField] Sprite escapeXboxSprite;
+    [SerializeField] Sprite unequipXboxSprite;
+    //[SerializeField] Sprite enterPSSprite;
+    //[SerializeField] Sprite escapePSSprite;
+    //[SerializeField] Sprite unequipPSSprite;
 
 
     private void Awake()
@@ -90,8 +107,7 @@ public class PlayerUIManager : MonoBehaviour
         InputUser.onUnpairedDeviceUsed -= OnDeviceChanged;
         InputUser.onUnpairedDeviceUsed += OnDeviceChanged;
 
-
-        SimulateInitialDeviceDetection();
+        StartCoroutine(DelayedDeviceDetection());
     }
 
 
@@ -139,6 +155,12 @@ public class PlayerUIManager : MonoBehaviour
             PlayerCamera.instance?.SwitchToGamePadSensitivity();
             LockMouse();
             isUsingGamepad = true;
+            ChangeUIToXbox();
+
+            if (SceneManager.GetActiveScene().buildIndex == 0)
+            {
+                TitleScreenManager.instance.ChangeMainMenuUIToXbox();
+            }
         }
         else if ((device is Pointer || device is Keyboard) && CurrentControlScheme != ControlScheme.KeyboardMouse)
         {
@@ -146,13 +168,24 @@ public class PlayerUIManager : MonoBehaviour
             OnInputSchemeChanged?.Invoke(ControlScheme.KeyboardMouse);
             PlayerCamera.instance?.SwitchToMouseSensitivity();
             isUsingGamepad = false;
+            ChangeUIToKeyboard();
 
             if (SceneManager.GetActiveScene().buildIndex == 0)
+            {
                 UnlockMouse();
+                TitleScreenManager.instance.ChangeMainMenuUIToKeyboard();
+            }
             else
                 LockMouse();
+
         }
 
+    }
+
+    private IEnumerator DelayedDeviceDetection()
+    {
+        yield return null;
+        SimulateInitialDeviceDetection();
     }
 
     private void SimulateInitialDeviceDetection()
@@ -171,7 +204,6 @@ public class PlayerUIManager : MonoBehaviour
         if (gamepad != null)
         {
             OnDeviceChanged(gamepad, new InputEventPtr());
-            return;
         }
 
         // Else use keyboard or mouse
@@ -183,8 +215,6 @@ public class PlayerUIManager : MonoBehaviour
         {
             OnDeviceChanged(Mouse.current, new InputEventPtr());
         }
-
-
     }
 
     public enum ControlScheme
@@ -192,5 +222,44 @@ public class PlayerUIManager : MonoBehaviour
         KeyboardMouse = 0, Gamepad = 1 // just need to be same indexes as defined in inputActionAsset
     }
 
+
+    public void ChangeUIToKeyboard()
+    {
+        //enterKeyboardImage;
+        //deleteKeyboardImage;
+
+        foreach (Image img in playerUIScreenSubmitImage)
+        {
+            img.sprite = enterKeyboardSprite;
+        }
+
+        foreach (Image img in playerUIEscapeImage)
+        {
+            img.sprite = escapeKeyboardSprite;
+        }
+
+        foreach (Image img in playerUIUnequipImage)
+        {
+            img.sprite = unequipKeyboardSprite;
+        }
+    }
+
+    public void ChangeUIToXbox()
+    {
+        foreach (Image img in playerUIScreenSubmitImage)
+        {
+            img.sprite = enterXboxSprite;
+        }
+
+        foreach (Image img in playerUIEscapeImage)
+        {
+            img.sprite = escapeXboxSprite;
+        }
+
+        foreach (Image img in playerUIUnequipImage)
+        {
+            img.sprite = unequipXboxSprite;
+        }
+    }
 
 }

@@ -240,6 +240,9 @@ public class WorldSoundFXManager : MonoBehaviour
         {
             mainMenuSource = GetComponent<AudioSource>();
             mainMenuSource.volume = 1;
+
+            bossIntroPlayer.Stop();
+            bossLoopPlayer.Stop();
         }
     }
 }

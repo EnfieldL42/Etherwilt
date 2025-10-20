@@ -62,7 +62,6 @@ public class AIEarthGuardianSoundFXManager : CharacterSoundFXManager
     {
         if (attackingImpacts.Length > 0)
         {
-            Debug.Log("attack slam sound");
             PlaySoundFX(WorldSoundFXManager.instance.ChooseRandomSFXFromArray(attackingImpacts));
         }
     }

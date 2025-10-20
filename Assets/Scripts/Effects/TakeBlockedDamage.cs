@@ -47,8 +47,6 @@ public class TakeBlockedDamage : InstantCharacterEffect
 
         base.ProcessEffect(character);
 
-        Debug.Log("Hit was blocked");
-
         CalculateDamage(character);
         CalculateStamanaDamage(character);
         PlayDirectonalBasedBlockingAnimation(character);
@@ -83,8 +81,6 @@ public class TakeBlockedDamage : InstantCharacterEffect
 
         //add all dmg types together and apply dmg
 
-        Debug.Log("Original Physical Damage: " + physicalDamage);
-
         physicalDamage -= (physicalDamage * (character.characterStatsManager.blockingPhyicalAbsorption / 100));
         magicDamage -= (magicDamage * (character.characterStatsManager.blockingMagicAbsorption / 100));
 
@@ -94,8 +90,6 @@ public class TakeBlockedDamage : InstantCharacterEffect
         {
             finalDamageDealt = 1;
         }
-
-        Debug.Log("Final Physical Damage: " + finalDamageDealt);
 
         character.characterNetworkManager.currentHealth.Value -= finalDamageDealt;
 
@@ -118,8 +112,6 @@ public class TakeBlockedDamage : InstantCharacterEffect
 
     private void CheckForGuardBreak(CharacterManager character)
     {
-        Debug.Log("guard break");
-
         //play sfx
         if (!character.IsOwner)
         {

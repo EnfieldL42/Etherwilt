@@ -91,7 +91,6 @@ public class CharacterSoundFXManager : MonoBehaviour
     {
         if (deathSFX != null)
         {
-            Debug.Log("play death sfx");
             audioSource.PlayOneShot(deathSFX);
 
         }

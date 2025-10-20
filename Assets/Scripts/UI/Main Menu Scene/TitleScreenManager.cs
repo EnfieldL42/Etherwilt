@@ -64,6 +64,18 @@ public class TitleScreenManager : MonoBehaviour
     [SerializeField] AudioMixer audioMixer;
     [SerializeField] Slider mixerSlider;
 
+    [Header("UI keybinds")]
+    [SerializeField] Image[] loadingScreenSubmitImage;
+    [SerializeField] Image[] loadingScreenEscapeImage;
+
+    [SerializeField] Sprite enterKeyboardSprite;
+    [SerializeField] Sprite deleteKeyboardSprite;
+    [SerializeField] Sprite enterXboxSprite;
+    [SerializeField] Sprite deleteXboxSprite;
+    //[SerializeField] Sprite enterPSSprite;
+    //[SerializeField] Sprite deletePSSprite;
+
+
     private void Awake()
     {
         if (instance == null)
@@ -444,5 +456,46 @@ public class TitleScreenManager : MonoBehaviour
         }
     }
 
+    public void ChangeMainMenuUIToKeyboard()
+    {
+        //enterKeyboardImage;
+        //deleteKeyboardImage;
+
+        foreach (Image img in loadingScreenSubmitImage)
+        {
+            img.sprite = enterKeyboardSprite;
+        }
+
+        foreach (Image img in loadingScreenEscapeImage)
+        {
+            img.sprite = deleteKeyboardSprite;
+        }
+    }
+
+    public void ChangeMainMenuUIToXbox()
+    {
+        foreach (Image img in loadingScreenSubmitImage)
+        {
+            img.sprite = enterXboxSprite;
+        }
+
+        foreach (Image img in loadingScreenEscapeImage)
+        {
+            img.sprite = deleteXboxSprite;
+        }
+    }
+
+    //public void ChangeUIToPlayStation()
+    //{
+    //    foreach (Image img in loadingScreenSubmitImage)
+    //    {
+    //        img.sprite = enterPSSprite;
+    //    }
+
+    //    foreach (Image img in loadingScreenEscapeImage)
+    //    {
+    //        img.sprite = deletePSSprite;
+    //    }
+    //}
 
 }

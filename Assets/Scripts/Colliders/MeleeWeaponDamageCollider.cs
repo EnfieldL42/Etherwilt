@@ -154,8 +154,6 @@ public class MeleeWeaponDamageCollider : DamageCollider
         damage.magicDamage = Mathf.RoundToInt(damage.magicDamage * attackModifier * magicScale);
         damage.poiseDamage = Mathf.RoundToInt(damage.poiseDamage * attackModifier * breakerScale);
 
-        Debug.Log("poise " + damage.poiseDamage);
-        Debug.Log("physical  " + damage.physicalDamage);
         //if attack is fullt charged heavy, multiply charge modifier after normal modifiers have been calculated
     }
 

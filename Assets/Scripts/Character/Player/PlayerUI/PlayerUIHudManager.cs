@@ -153,7 +153,6 @@ public class PlayerUIHudManager : MonoBehaviour
 
         if (weapon == null)
         {
-            Debug.Log("Item is null");
             rightWeaponQuickSlotIcon.enabled = false;
             rightWeaponQuickSlotIcon = null;
             return;
@@ -161,7 +160,6 @@ public class PlayerUIHudManager : MonoBehaviour
 
         if(weapon.itemIcon == null)
         {
-            Debug.Log("Item has no icon");
             rightWeaponQuickSlotIcon.enabled = false;
             rightWeaponQuickSlotIcon.sprite = null;
             return;
@@ -184,7 +182,6 @@ public class PlayerUIHudManager : MonoBehaviour
 
         if (weapon.itemIcon == null)
         {
-            Debug.Log("Item has no icon");
             leftWeaponQuickSlotIcon.enabled = false;
             leftWeaponQuickSlotIcon.sprite = null;
             return;
@@ -200,7 +197,6 @@ public class PlayerUIHudManager : MonoBehaviour
     {
         if (quickSlotItem == null)
         {
-            Debug.Log("got here");
             quickSlotItemQuickSlotIcon.enabled = false;
             quickSlotItemQuickSlotIcon.sprite = null;
             quickSlotItemCount.enabled = false;
@@ -209,7 +205,6 @@ public class PlayerUIHudManager : MonoBehaviour
 
         if (quickSlotItem.itemIcon == null)
         {
-            Debug.Log("Item has no icon");
             quickSlotItemQuickSlotIcon.enabled = false;
             quickSlotItemQuickSlotIcon.sprite = null;
             quickSlotItemCount.enabled = false;

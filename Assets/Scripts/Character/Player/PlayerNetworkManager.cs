@@ -174,10 +174,6 @@ public class PlayerNetworkManager : CharacterNetworkManager
         {
             weaponAction.AttemptToPerformAction(player, WorldItemDatabase.instance.GetWeaponByID(weaponID));
         }
-        else
-        {
-            Debug.Log("ACTION IS NULL, CANNOT BE PERFORMED");
-        }
     }
 
     [ServerRpc]

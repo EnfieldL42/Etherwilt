@@ -97,7 +97,6 @@ public class AttackState : AIState
         //if we dont need to hit enemy before, perform combo attack
         if (aiCharacter.aICharacterCombatManager.canPerformCombo && !aiCharacter.combatState.onlyPerformComboIfInitialAttackHits)
         {
-            Debug.Log("Performing Combo");
             canPerformCombo = true;
         }
 

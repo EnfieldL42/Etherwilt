@@ -38,7 +38,6 @@ public class CharacterDialogue : ScriptableObject
     {
         if (dialogueString.Count != dialogueAudio.Count)
         {
-            Debug.Log("AUDIO CLIP COUNT DOES NOT MATCH DIALOGUE STRING COUNT ON " + aICharacter.characterName);
             return;
         }
 

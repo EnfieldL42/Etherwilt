@@ -106,8 +106,6 @@ public class TakeDamageEffect : InstantCharacterEffect
             poiseIsBroken = true;
         }
 
-        Debug.Log("remaining poise " + remainingPoise);
-
         character.characterStatsManager.poiseResetTimer = character.characterStatsManager.defaultPoiseResetTime;
     }
 

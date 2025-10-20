@@ -20,7 +20,6 @@ public class AssignWind : MonoBehaviour
         {
             yield return new WaitForSeconds(0.5f);
             wind = FindAnyObjectByType<EZSoftBoneForceField>();
-            Debug.Log("Looking for Wind");
 
             if (wind != null)
             {
@@ -38,7 +37,6 @@ public class AssignWind : MonoBehaviour
         {
             i.forceModule = wind;
         }
-        Debug.Log("Wind Assigned");
         this.enabled = false;
     }
     
