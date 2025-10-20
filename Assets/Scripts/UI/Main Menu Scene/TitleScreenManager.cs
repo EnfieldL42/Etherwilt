@@ -498,4 +498,9 @@ public class TitleScreenManager : MonoBehaviour
     //    }
     //}
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
 }
+
