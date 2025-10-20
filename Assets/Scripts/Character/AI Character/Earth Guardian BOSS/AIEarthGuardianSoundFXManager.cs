@@ -24,6 +24,9 @@ public class AIEarthGuardianSoundFXManager : CharacterSoundFXManager
     [Header("Unburring SFX")]
     public AudioClip unburrowSFX;
 
+    public AudioSource audio2DSource;
+
+
     override protected void Awake()
     {
         base.Awake();
@@ -45,6 +48,15 @@ public class AIEarthGuardianSoundFXManager : CharacterSoundFXManager
         }
     }
 
+    public void Play2DSoundFX(AudioClip soundFX, float volume = 1, bool randomizePitch = true, float pitchRandom = 0.1f)
+    {
+        audio2DSource.PlayOneShot(soundFX, volume);
+        audio2DSource.pitch = 1;
+        if (randomizePitch)
+        {
+            audio2DSource.pitch += Random.Range(-pitchRandom, pitchRandom);
+        }
+    }
 
     public virtual void PlayGroundImpactSoundFX()
     {
@@ -67,7 +79,7 @@ public class AIEarthGuardianSoundFXManager : CharacterSoundFXManager
     {
         if (burrowSFX != null)
         {
-            PlaySoundFX(burrowSFX);
+            Play2DSoundFX(burrowSFX);
         }
     }
 
@@ -75,7 +87,7 @@ public class AIEarthGuardianSoundFXManager : CharacterSoundFXManager
     {
         if (unburrowSFX != null)
         {
-            PlaySoundFX(unburrowSFX);
+            Play2DSoundFX(unburrowSFX);
         }
     }
 

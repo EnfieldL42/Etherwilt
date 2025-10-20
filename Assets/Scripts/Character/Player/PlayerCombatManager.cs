@@ -1,6 +1,7 @@
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using VHierarchy.Libs;
 
 
 public class PlayerCombatManager : CharacterCombatManager
@@ -13,6 +14,9 @@ public class PlayerCombatManager : CharacterCombatManager
     public bool canComboWithMainHandWeapon = false;
     //public bool canComboWithOffHandWeapon = false;
     public bool isUsingItem = false;
+
+    [Header("Ether Pool")]
+    [SerializeField] GameObject etherPool;
 
     protected override void Awake()
     {
@@ -52,6 +56,12 @@ public class PlayerCombatManager : CharacterCombatManager
             return;
         }
 
+        if (WorldSaveGameManager.instance.currentCharacterData.hasDeadSpot)
+        {
+            Destroy(etherPool);
+            etherPool = null;
+        }
+
         GameObject deadSpotFX = Instantiate(WorldCharacterEffectsManager.instance.deadSpotVFX);
         deadSpotFX.GetComponent<NetworkObject>().Spawn();
 
@@ -71,6 +81,7 @@ public class PlayerCombatManager : CharacterCombatManager
         WorldSaveGameManager.instance.currentCharacterData.deadSpotPositionY = position.y;
         WorldSaveGameManager.instance.currentCharacterData.deadSpotPositionZ = position.z;
 
+        etherPool = deadSpotFX;
     }
 
     public void PerformWeaponBasedAction(WeaponItemAction weaponAction, WeaponItem weaponPerformingAction)

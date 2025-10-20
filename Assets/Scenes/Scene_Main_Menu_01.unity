@@ -33982,6 +33982,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8300000, guid: a1738760fb8cee042ba0b9bb03f2d963, type: 3}
     - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
+      propertyPath: pickupSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: 1c42545cd61f97a4ab697cf06625a0f3, type: 3}
+    - target: {fileID: 7909346663983049285, guid: b4ec018e9fa146d44b4fe753ec91a880, type: 3}
       propertyPath: uiConfirm
       value: 
       objectReference: {fileID: 8300000, guid: 213f8c0076e902744a15b9ee57160a19, type: 3}

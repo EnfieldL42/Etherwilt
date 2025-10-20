@@ -239,6 +239,8 @@ public class AIBossCharacterManager : AICharacterManager
                 }
             }
 
+            characterSoundFXManager.PlayDeathSoundFX();
+
             WorldSaveGameManager.instance.SaveGame();
 
             dissolve.Play();

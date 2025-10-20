@@ -15,6 +15,9 @@ public class CharacterSoundFXManager : MonoBehaviour
     //public AudioClip[] footstepsDirt;
     //public AudioClip[] footstepsStone;
 
+    [Header("Death")]
+    public AudioClip deathSFX;
+
     protected virtual void Awake()
     {
         audioSource = GetComponent<AudioSource>();
@@ -37,6 +40,7 @@ public class CharacterSoundFXManager : MonoBehaviour
             audioSource.pitch += Random.Range(-pitchRandom, pitchRandom);
         }
     }
+
     public void PlayRollSoundFX()
     {
         audioSource.PlayOneShot(WorldSoundFXManager.instance.rollSFX);
@@ -81,5 +85,15 @@ public class CharacterSoundFXManager : MonoBehaviour
     public virtual void PlayCriticalStrikeSoundFX()
     {
         audioSource.PlayOneShot(WorldSoundFXManager.instance.criticalStikeSFX);
+    }
+
+    public virtual void PlayDeathSoundFX()
+    {
+        if (deathSFX != null)
+        {
+            Debug.Log("play death sfx");
+            audioSource.PlayOneShot(deathSFX);
+
+        }
     }
 }

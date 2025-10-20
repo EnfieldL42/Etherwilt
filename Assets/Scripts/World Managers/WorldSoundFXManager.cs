@@ -44,6 +44,10 @@ public class WorldSoundFXManager : MonoBehaviour
     [Header("Main Menu")]
     [SerializeField] AudioSource mainMenuSource;
 
+    [Header("Ether Pickup SFX")]
+    [SerializeField] AudioClip pickupSFX;
+
+
     private void Awake()
     {
         if(instance == null)
@@ -207,6 +211,13 @@ public class WorldSoundFXManager : MonoBehaviour
         if (uiOpenMenu == null)
             return;
         audioSource.PlayOneShot(uiOpenMenu, volume);
+    }
+
+    public void PlayEtherPickSound(float volume = 1)
+    {
+        if (pickupSFX == null)
+            return;
+        audioSource.PlayOneShot(pickupSFX, volume);
     }
 
     public void SetMainMenuMusicVolume()

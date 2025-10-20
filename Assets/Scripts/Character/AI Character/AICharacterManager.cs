@@ -232,7 +232,8 @@ public class AICharacterManager : CharacterManager
                 Sequence deathDissolve = DOTween.Sequence();
                 deathDissolve.Append(i.material.DOFloat(1f, "_Dissolve", 4f));
             }
-            //play death sfx
+
+            characterSoundFXManager.PlayDeathSoundFX();
 
             yield return new WaitForSeconds(5);
 

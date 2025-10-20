@@ -142,7 +142,8 @@ public class CharacterManager : NetworkBehaviour
 
             }
 
-            //play death sfx
+            characterSoundFXManager.PlayDeathSoundFX();
+
 
             yield return new WaitForSeconds(5);
 

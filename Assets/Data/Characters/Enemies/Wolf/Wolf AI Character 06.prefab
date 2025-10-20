@@ -1516,6 +1516,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b07a099cf411bf14ba8c3992f7efff53, type: 3}
   - {fileID: 8300000, guid: 62ff3dd3ee8786245a865510e7b3893f, type: 3}
   - {fileID: 8300000, guid: f99ec2ced91045148a153817f1d1b813, type: 3}
+  deathSFX: {fileID: 8300000, guid: 173e7cd2d3ae1f244bba7b4e43afc7fb, type: 3}
 --- !u!114 &7785668568497423788
 MonoBehaviour:
   m_ObjectHideFlags: 0
