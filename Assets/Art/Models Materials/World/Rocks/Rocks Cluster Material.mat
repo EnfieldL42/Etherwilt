@@ -16,7 +16,7 @@ MonoBehaviour:
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 32
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
@@ -126,18 +126,18 @@ Material:
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
     - _CelShadeCutoff: 0
-    - _CelShadeSmoothness: 0
+    - _CelShadeSmoothness: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
-    - _DetailStrength: 1
+    - _DetailStrength: 0.7
     - _DirectionalRimCutoff: 0.5
-    - _DirectionalRimIntensity: 1
+    - _DirectionalRimIntensity: 0.2
     - _DirectionalRimPower: 1
-    - _DirectionalRimSmoothness: 0.5
+    - _DirectionalRimSmoothness: 1
     - _Dissolve: 0
     - _DissolveOffset: -0.01
     - _DissolveScale: 30
@@ -151,7 +151,7 @@ Material:
     - _GlossyReflections: 0
     - _HighlightCutoff: 1
     - _HighlightIntensity: 0
-    - _InvertedRImIntensity: 0.1
+    - _InvertedRImIntensity: 0
     - _InvertedRimCutoff: 0.1
     - _InvertedRimSmoothness: 0.5
     - _IsFace: 0
@@ -165,7 +165,7 @@ Material:
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _PointRimLightCutoff: 0.2
-    - _PointRimLightIntensity: 0
+    - _PointRimLightIntensity: 16.6
     - _PointRimLightPower: 1
     - _PointRimLightSmoothness: 0.2
     - _QueueControl: 0
@@ -173,7 +173,7 @@ Material:
     - _ReceiveShadows: 1
     - _SSSIntensity: 1
     - _SSSPower: 1
-    - _ShadowOpacity: 0.75
+    - _ShadowOpacity: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
@@ -181,7 +181,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _Threshold: 1
-    - _UsingNormalMap: 0
+    - _UsingNormalMap: 1
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -191,7 +191,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionTint: {r: 1, g: 1, b: 1, a: 0}
     - _SSSColour: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadowTint: {r: 0, g: 0, b: 0, a: 0}
+    - _ShadowTint: {r: 0.18126293, g: 0.07609471, b: 0.3584906, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
