@@ -162,6 +162,7 @@ struct LightingData
     half3 emissionColor;
     half3 lightAttenuation; //Custom
     half3 rawLightColor; //Custom
+    half3 rimLighting;
 };
 
 half3 CalculateLightingColor(LightingData lightingData, half3 albedo)
@@ -204,12 +205,15 @@ half3 CalculateLightingColor(LightingData lightingData, half3 albedo)
         lightingColor += lightingData.emissionColor;
     }
 
+    lightingColor += lightingData.rimLighting;
+
     return lightingColor;
 }
 
 half4 CalculateFinalColor(LightingData lightingData, half alpha)
 {
     half3 finalColor = CalculateLightingColor(lightingData, 1);
+    //half3 finalColor = lightingData.rimLighting;
     
     return half4(finalColor, alpha);
 }
@@ -244,6 +248,7 @@ LightingData CreateLightingData(InputData inputData, SurfaceData surfaceData)
     lightingData.additionalLightsColor = 0;
     lightingData.lightAttenuation = 0;
     lightingData.rawLightColor = 0;
+    lightingData.rimLighting = 0;
 
     return lightingData;
 }
@@ -321,6 +326,15 @@ half4 UniversalFragmentPBR(InputData inputData, SurfaceData surfaceData)
 
         lightingData.lightAttenuation += (mainLight.shadowAttenuation * mainLight.distanceAttenuation); //
         lightingData.rawLightColor = mainLight.color;//
+        half rFresnel = pow(1 - dot(inputData.normalWS, inputData.viewDirectionWS), 4);
+        rFresnel *= saturate(dot(inputData.normalWS, mainLight.direction));
+        half3 rim = smoothstep(0.6, 0.8, rFresnel);
+        //rim *= surfaceData.albedo;
+        rim *= mainLight.shadowAttenuation;
+        rim *= mainLight.color;
+        rim *= 1;
+        lightingData.rimLighting = rim;
+        
     }
 
     #if defined(_ADDITIONAL_LIGHTS)

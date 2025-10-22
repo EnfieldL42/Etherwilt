@@ -135,7 +135,7 @@ Material:
     - _DetailNormalMapScale: 1
     - _DetailStrength: 0.7
     - _DirectionalRimCutoff: 0.5
-    - _DirectionalRimIntensity: 0.2
+    - _DirectionalRimIntensity: 0.5
     - _DirectionalRimPower: 1
     - _DirectionalRimSmoothness: 1
     - _Dissolve: 0
@@ -171,7 +171,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SSSIntensity: 1
+    - _SSSIntensity: 0
     - _SSSPower: 1
     - _ShadowOpacity: 1
     - _Smoothness: 0.5
