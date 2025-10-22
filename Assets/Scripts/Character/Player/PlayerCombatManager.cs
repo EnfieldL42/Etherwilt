@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using Unity.Netcode;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,7 +10,7 @@ public class PlayerCombatManager : CharacterCombatManager
     PlayerManager player;
     PlayerUIHudManager playerUIHudManager;
     public WeaponItem currentWeaponBeingUsed;
-
+    private CharacterManager previousTarget;
     [Header("Flags")]
     public bool canComboWithMainHandWeapon = false;
     //public bool canComboWithOffHandWeapon = false;
@@ -23,6 +24,7 @@ public class PlayerCombatManager : CharacterCombatManager
         base.Awake();
 
         player = GetComponent<PlayerManager>();
+        playerUIHudManager = FindAnyObjectByType<PlayerUIHudManager>();
     }
 
     private void Start()
@@ -217,8 +219,25 @@ public class PlayerCombatManager : CharacterCombatManager
 
     public override void SetTarget(CharacterManager newTarget)
     {
-        base.SetTarget(newTarget);
+        /*if (currentTarget != null)
+        {
+            previousTarget = currentTarget;
+            previousTarget.GetComponentInChildren<ToggleLockOnUI>().DisableUI();
+        }*/
 
+        if (newTarget != null)
+        {
+            currentTarget = newTarget;
+            character.characterNetworkManager.currentTargetNetworkObjectID.Value = newTarget.GetComponent<NetworkObject>().NetworkObjectId;
+            hasChangedTarget.Value = true;
+            //currentTarget.GetComponentInChildren<ToggleLockOnUI>().EnableUI();
+        }
+        else
+        {
+            currentTarget = null;
+        }
+
+        playerUIHudManager.ToggleLockOnUI(currentTarget);
         if (player.IsOwner)
         {
             PlayerCamera.instance.SetLockCameraHeight();

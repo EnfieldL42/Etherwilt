@@ -29,11 +29,15 @@ public class PlayerUIHudManager : MonoBehaviour
     [Header("Boss Health Bar")]
     public Transform bossHealthBarParent;
     public GameObject bossHealthBarObject;
+
+    [Header("Lock On Target")]
+    public LockOnUITracking lockOnTarget;
+
     [HideInInspector] public UI_Boss_HP_Bar currentBossHealthBar;
 
     public void ToggleHUD(bool status)
     {
-        if(status && PlayerUIManager.instance.menuWindowIsOpen == false)
+        if (status && PlayerUIManager.instance.menuWindowIsOpen == false)
         {
             foreach (var canvas in canvasGroup)
             {
@@ -75,7 +79,7 @@ public class PlayerUIHudManager : MonoBehaviour
 
     public void SetEtherCount(int etherToAdd)
     {
-        pendingEtherToAdd += etherToAdd; 
+        pendingEtherToAdd += etherToAdd;
 
         //wait for potentially more ether then add them all
         if (waitThenAddEtherCoroutines != null)
@@ -158,7 +162,7 @@ public class PlayerUIHudManager : MonoBehaviour
             return;
         }
 
-        if(weapon.itemIcon == null)
+        if (weapon.itemIcon == null)
         {
             rightWeaponQuickSlotIcon.enabled = false;
             rightWeaponQuickSlotIcon.sprite = null;
@@ -232,7 +236,7 @@ public class PlayerUIHudManager : MonoBehaviour
         PlayerManager player = NetworkManager.Singleton.LocalClient.PlayerObject.GetComponent<PlayerManager>();
         QuickSlotItem quickSlotItem = player.playerInventoryManager.currentQuickSlotItem;
 
-        if(quickSlotItem == null)
+        if (quickSlotItem == null)
         {
             return;
         }
@@ -243,4 +247,16 @@ public class PlayerUIHudManager : MonoBehaviour
         }
     }
 
+    public void ToggleLockOnUI(CharacterManager target)
+    {
+        if (target == null)
+        {
+            lockOnTarget.gameObject.SetActive(false);
+        }
+        else
+        {
+            lockOnTarget.gameObject.SetActive(true);
+            lockOnTarget.SetTracking(target.GetComponentInChildren<LockOnTrasform>());
+        }
+    }
 }

@@ -271,10 +271,11 @@ public class PlayerCamera : MonoBehaviour
 
     public void ClearLockOnTargets()
     {
+        player.playerCombatManager.SetTarget(null);
         nearestLockOnTarget = null;
         leftLockOnTarget = null;
         rightLockOnTarget = null;
-        availableTargets.Clear();
+        availableTargets.Clear();  
     }
 
     public void SwitchToMouseSensitivity()
