@@ -210,5 +210,12 @@ public class BonefireInteractable : Interactable
         }
     }
 
+    public override void OnTriggerEnter(Collider other)
+    {
+        if (bonefireID == 0)
+            return;
+
+        base.OnTriggerEnter(other);
+    }
 }
 

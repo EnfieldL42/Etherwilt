@@ -84,6 +84,9 @@ public class CharacterSaveData
     [Header("Dialogue")]
     public int forgottenAlchemistStageID = 0;
 
+    [Header("Tutorial")]
+    public bool[] tutorialFinished;
+
     public CharacterSaveData()
     {
         bonfires = new SerializableDictionary<int, bool>();
@@ -93,5 +96,7 @@ public class CharacterSaveData
 
         weaponsInInventory = new List<SerializableWeapon>();
         quickSlotItemsInInventory = new List<SerializableQuickSlotItem>();
+
+        tutorialFinished = new bool[7];
     }
 }

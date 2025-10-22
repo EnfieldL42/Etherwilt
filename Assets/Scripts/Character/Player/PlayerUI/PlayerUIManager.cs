@@ -25,6 +25,7 @@ public class PlayerUIManager : MonoBehaviour
     [HideInInspector] public PlayerUITeleportLocationManager playerUITeleportLocationManager;
     [HideInInspector] public PlayerUILoadingScreenManager playerUILoadingScreenManager;
     [HideInInspector] public PlayerUILevelUpManager playerUILevelUpManager;
+    [HideInInspector] public PlayerUITutorialManager playerUITutorialManager;
 
     [Header("UI Flags")]
     public bool menuWindowIsOpen = false;
@@ -74,6 +75,7 @@ public class PlayerUIManager : MonoBehaviour
         playerUITeleportLocationManager = GetComponentInChildren<PlayerUITeleportLocationManager>();
         playerUILoadingScreenManager = GetComponentInChildren<PlayerUILoadingScreenManager>();
         playerUILevelUpManager = GetComponentInChildren<PlayerUILevelUpManager>();
+        playerUITutorialManager = GetComponentInChildren<PlayerUITutorialManager>();
     }
 
     private void Update()

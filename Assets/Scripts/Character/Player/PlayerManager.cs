@@ -309,6 +309,11 @@ public class PlayerManager : CharacterManager
 
         }
 
+        //TUTORIAL
+        for (int i = 0; i < currentCharacterData.tutorialFinished.Length; i++)
+        {
+            currentCharacterData.tutorialFinished[i] = WorldSaveGameManager.instance.currentCharacterData.tutorialFinished[i];
+        }
 
     }
 
@@ -397,6 +402,13 @@ public class PlayerManager : CharacterManager
         {
             QuickSlotItem quickSlotItem = currentCharacterData.quickSlotItemsInInventory[i].GetQuickSlotItem();
             playerInventoryManager.AddItemToInventory(quickSlotItem);
+        }
+
+
+        //TUTORIAL
+        for (int i = 0; i < currentCharacterData.tutorialFinished.Length; i++)
+        {
+            WorldSaveGameManager.instance.currentCharacterData.tutorialFinished[i] = currentCharacterData.tutorialFinished[i];
         }
 
     }
