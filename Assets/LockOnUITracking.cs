@@ -23,9 +23,12 @@ public class LockOnUITracking : MonoBehaviour
     }
     void Update()
     {
-        trackingPosition = lockOn.gameObject.transform.position;
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(trackingPosition);
-        transform.position = screenPos;
+        if (lockOn != null)
+        {
+            trackingPosition = lockOn.gameObject.transform.position;
+            Vector3 screenPos = Camera.main.WorldToScreenPoint(trackingPosition);
+            transform.position = screenPos;
+        }
     }
 
     private void OnDisable()
