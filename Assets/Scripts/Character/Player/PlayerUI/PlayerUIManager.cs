@@ -44,6 +44,18 @@ public class PlayerUIManager : MonoBehaviour
     [SerializeField] Image[] playerUIEscapeImage;
     [SerializeField] Image[] playerUIUnequipImage;
 
+    [SerializeField] Image[] tutorialPotionImage;
+    [SerializeField] Image[] tutorialLightAttackImage;
+    [SerializeField] Image[] tutorialHeavyAttackImage;
+    [SerializeField] Image[] tutorialBlockImage;
+    [SerializeField] Image[] tutorialDodgeImage;
+    [SerializeField] Image[] tutorialJumpImage;
+    [SerializeField] Image[] tutorialMenuImage;
+    [SerializeField] Image[] tutorialEquipImage;
+    [SerializeField] Image[] tutorialLockOnImage;
+    [SerializeField] Image[] tutorialLockOnSwapImage;
+
+
     [SerializeField] Sprite enterKeyboardSprite;
     [SerializeField] Sprite escapeKeyboardSprite;
     [SerializeField] Sprite unequipKeyboardSprite;
@@ -53,6 +65,28 @@ public class PlayerUIManager : MonoBehaviour
     //[SerializeField] Sprite enterPSSprite;
     //[SerializeField] Sprite escapePSSprite;
     //[SerializeField] Sprite unequipPSSprite;
+
+    [SerializeField] Sprite tutorialRSprite;
+    [SerializeField] Sprite tutorialLeftClickSprite;
+    [SerializeField] Sprite tutorialRightClickSprite;
+    [SerializeField] Sprite tutorialMiddleClickSprite;
+    [SerializeField] Sprite tutorialShiftSprite;
+    [SerializeField] Sprite tutorialSpaceSprite;
+    [SerializeField] Sprite tutorialTabSprite;
+    [SerializeField] Sprite tutorialArrowsSprite;
+    [SerializeField] Sprite tutorialQSprite;
+    [SerializeField] Sprite tutorialMouseSprite;
+
+    [SerializeField] Sprite tutorialXSprite;
+    [SerializeField] Sprite tutorialRBSprite;
+    [SerializeField] Sprite tutorialRTSprite;
+    [SerializeField] Sprite tutorialLBSprite;
+    [SerializeField] Sprite tutorialBSprite;
+    [SerializeField] Sprite tutorialASprite;
+    [SerializeField] Sprite tutorialStartSprite;
+    [SerializeField] Sprite tutorialDPadSprite;
+    [SerializeField] Sprite tutorialJoystickClickSprite;
+    [SerializeField] Sprite tutorialJoystickMoveSprite;
 
 
     private void Awake()
@@ -244,6 +278,58 @@ public class PlayerUIManager : MonoBehaviour
         {
             img.sprite = unequipKeyboardSprite;
         }
+
+        foreach (Image img in tutorialPotionImage)
+        {
+            img.sprite = tutorialMouseSprite;
+        }
+
+        foreach (Image img in tutorialLightAttackImage)
+        {
+            img.sprite = tutorialLeftClickSprite;
+        }
+
+        foreach (Image img in tutorialHeavyAttackImage)
+        {
+            img.sprite = tutorialRightClickSprite;
+        }
+
+        foreach (Image img in tutorialBlockImage)
+        {
+            img.sprite = tutorialMiddleClickSprite;
+        }
+
+        foreach (Image img in tutorialDodgeImage)
+        {
+            img.sprite = tutorialShiftSprite;
+        }
+
+        foreach (Image img in tutorialJumpImage)
+        {
+            img.sprite = tutorialSpaceSprite;
+        }
+
+        foreach (Image img in tutorialMenuImage)
+        {
+            img.sprite = tutorialTabSprite;
+        }
+
+        foreach (Image img in tutorialEquipImage)
+        {
+            img.sprite = tutorialArrowsSprite;
+        }
+
+        foreach (Image img in tutorialLockOnImage)
+        {
+            img.sprite = tutorialQSprite;
+        }
+
+        foreach (Image img in tutorialLockOnSwapImage)
+        {
+            img.sprite = tutorialMouseSprite;
+        }
+
+
     }
 
     public void ChangeUIToXbox()
@@ -262,6 +348,57 @@ public class PlayerUIManager : MonoBehaviour
         {
             img.sprite = unequipXboxSprite;
         }
+
+        foreach (Image img in tutorialPotionImage)
+        {
+            img.sprite = tutorialASprite;
+        }
+
+        foreach (Image img in tutorialLightAttackImage)
+        {
+            img.sprite = tutorialXSprite;
+        }
+
+        foreach (Image img in tutorialHeavyAttackImage)
+        {
+            img.sprite = tutorialRTSprite;
+        }
+
+        foreach (Image img in tutorialBlockImage)
+        {
+            img.sprite = tutorialRBSprite;
+        }
+
+        foreach (Image img in tutorialDodgeImage)
+        {
+            img.sprite = tutorialBSprite;
+        }
+
+        foreach (Image img in tutorialJumpImage)
+        {
+            img.sprite = tutorialASprite;
+        }
+
+        foreach (Image img in tutorialMenuImage)
+        {
+            img.sprite = tutorialStartSprite;
+        }
+
+        foreach (Image img in tutorialEquipImage)
+        {
+            img.sprite = tutorialDPadSprite;
+        }
+
+        foreach (Image img in tutorialLockOnImage)
+        {
+            img.sprite = tutorialJoystickClickSprite;
+        }
+
+        foreach (Image img in tutorialLockOnSwapImage)
+        {
+            img.sprite = tutorialJoystickMoveSprite;
+        }
+
     }
 
 }
