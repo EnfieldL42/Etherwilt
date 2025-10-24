@@ -37,6 +37,7 @@ public class WorldSoundFXManager : MonoBehaviour
     [SerializeField] AudioClip uiPressToStart;
     [SerializeField] AudioClip uiSlider;
     [SerializeField] AudioClip uiOpenMenu;
+    [SerializeField] AudioClip tutorialOpenPopUp;
 
     [Header("Boss Fight Defeated")]
     [SerializeField] AudioClip bossDefeatedSFX;
@@ -204,6 +205,13 @@ public class WorldSoundFXManager : MonoBehaviour
         if (uiSlider == null)
             return;
         audioSource.PlayOneShot(uiSlider, volume);
+    }
+
+    public void PlayTutorialPopUpSound(float volume = 1)
+    {
+        if (tutorialOpenPopUp == null)
+            return;
+        audioSource.PlayOneShot(tutorialOpenPopUp, volume);
     }
 
     public void PlayOpenMenuSound(float volume = 1)

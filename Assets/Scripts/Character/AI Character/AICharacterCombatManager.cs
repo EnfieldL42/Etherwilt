@@ -24,7 +24,7 @@ public class AICharacterCombatManager : CharacterCombatManager
     public Vector3 targetsDirection;
 
     [Header("Detection")]
-    [SerializeField] float detectionRadius = 15;
+    public float detectionRadius = 15;
     public float minimumFOV = -35;
     public float maximumFOV = 35;
 

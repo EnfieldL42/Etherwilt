@@ -2,11 +2,14 @@ using Unity.AI;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.TextCore.Text;
+using static UnityEngine.GraphicsBuffer;
 [CreateAssetMenu(menuName = "A.I/States/Pursue Target")]
 public class PursueTargetState : AIState
 {
-    [Header("Can Pivot")]
+    [Header("Flags")]
     public bool canPivot = false;
+    [SerializeField] bool canStopChasing = true;
+
 
     public override AIState Tick(AICharacterManager aiCharacter)
     {
@@ -25,8 +28,19 @@ public class PursueTargetState : AIState
             return SwitchState(aiCharacter, aiCharacter.idle);
         }
 
+        // --- 3. Check distance from target
+        float distance = Vector3.Distance(aiCharacter.transform.position, aiCharacter.aICharacterCombatManager.currentTarget.transform.position);
+        aiCharacter.aICharacterCombatManager.distanceFromTarget = distance;
+
+
+        if (distance > aiCharacter.aICharacterCombatManager.detectionRadius && canStopChasing)
+        {
+            aiCharacter.aICharacterCombatManager.SetTarget(null);
+            return SwitchState(aiCharacter, aiCharacter.idle);
+        }
+
         //make sure our navmesh agent is active, if its not enable it
-        if(!aiCharacter.navmeshAgent.enabled)
+        if (!aiCharacter.navmeshAgent.enabled)
         {
             aiCharacter.navmeshAgent.enabled = true;
         }

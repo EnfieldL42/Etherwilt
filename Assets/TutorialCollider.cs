@@ -23,6 +23,7 @@ public class TutorialCollider : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
+            WorldSoundFXManager.instance.PlayTutorialPopUpSound();
             PlayerUIManager.instance.playerUITutorialManager.tutorialPopUp[tutorialID].SetActive(true);
             col.enabled = false;
             PlayerInputManager.instance.playerControls.Disable();

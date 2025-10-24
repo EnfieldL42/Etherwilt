@@ -8,8 +8,10 @@ public class PlayerUITutorialManager : MonoBehaviour
     {
         WorldSaveGameManager.instance.currentCharacterData.tutorialFinished[tutorialID] = true;
         WorldSaveGameManager.instance.SaveGame();
-        PlayerInputManager.instance.playerControls.Enable();
-
         Time.timeScale = 1f;
+
+        PlayerInputManager.instance.playerControls.Enable();
+        PlayerInputManager.instance.cameraInput = Vector2.zero;
+
     }
 }

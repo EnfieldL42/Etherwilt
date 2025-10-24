@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e10a08aa0ab185843a858a226585e1c9, type: 3}
   m_Name: Earth Guardian Tail Pursue State
   m_EditorClassIdentifier: 
+  canPivot: 0
+  canStopChasing: 0

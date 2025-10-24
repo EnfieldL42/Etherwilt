@@ -17,7 +17,7 @@ public class PlayerInputManager : MonoBehaviour
     public PlayerControls playerControls;
 
     [Header("Camera Input")]
-    [SerializeField] Vector2 cameraInput;
+    public Vector2 cameraInput;
     public float cameraVerticalInput;
     public float cameraHorizontalInput;
 
