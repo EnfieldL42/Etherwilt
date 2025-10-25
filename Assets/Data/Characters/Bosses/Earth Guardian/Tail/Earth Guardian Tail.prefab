@@ -1276,7 +1276,7 @@ MonoBehaviour:
   combatState: {fileID: 11400000, guid: 0129d2d7686622b4395a6bb8e35eb2a7, type: 2}
   attack: {fileID: 11400000, guid: 7204fc5b93dba3d4f9d46bd803f194d9, type: 2}
   investigateSoundState: {fileID: 11400000, guid: d535b505ce5574c4397c8a7dce7abef1, type: 2}
-  maxHealth: 400
+  maxHealth: 1000
   meshes:
   - {fileID: 7058722112270660969}
   dissolve: {fileID: 4420834724016610331}
@@ -1335,10 +1335,10 @@ MonoBehaviour:
   canBlock: 1
   criticalAttackDistanceCheck: 0.7
   pendingCriticalDamage: 0
-  baseDamage: 25
-  basePoiseDamage: 50
+  baseDamage: 40
+  basePoiseDamage: 100
   actionRecoveryTimer: 0
-  canPerformCombo: 0
+  canPerformCombo: 1
   hasHitTargetDuringCombo: 0
   distanceFromTarget: 0
   viewableAngle: 0
@@ -1347,10 +1347,10 @@ MonoBehaviour:
   minimumFOV: -35
   maximumFOV: 35
   attackRotationSpeed: 25
-  maxStance: 150
-  currentStance: 150
+  maxStance: 15000
+  currentStance: 15000
   stanceRegeneratedPerSecond: 15
-  ignoreStanceBreak: 0
+  ignoreStanceBreak: 1
   stanceRegenerationTimer: 0
   defaultTimeUntilStanceRegenerationBegins: 15
   earthGuardianManager: {fileID: 0}
@@ -1384,8 +1384,8 @@ MonoBehaviour:
   attackSlamDamageModifier: 1.6
   attackStabDamageModifier: 1
   attackStabHeavyDamageModifier: 2
-  attackSwingDamageModifier: 0.5
-  attackSwipeDamageModifier: 0.5
+  attackSwingDamageModifier: 1.1
+  attackSwipeDamageModifier: 1.1
   AOEDamage: 60
   rig:
   - {fileID: 6972680018397322834}
@@ -1422,6 +1422,7 @@ MonoBehaviour:
   attackGrunt:
   - {fileID: 8300000, guid: 48270719143516a4fb1d29f86e32dd51, type: 3}
   footsteps: []
+  deathSFX: {fileID: 0}
   movingAudioSource: {fileID: 7882955529536409580}
   attackingWhooshes:
   - {fileID: 8300000, guid: 329c32d9fe78643489407608f4bd62b4, type: 3}
@@ -1438,6 +1439,7 @@ MonoBehaviour:
   movingSFX: {fileID: 0}
   burrowSFX: {fileID: 0}
   unburrowSFX: {fileID: 0}
+  audio2DSource: {fileID: 0}
 --- !u!114 &5404331575280930828
 MonoBehaviour:
   m_ObjectHideFlags: 0

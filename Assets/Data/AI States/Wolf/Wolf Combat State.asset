@@ -15,6 +15,7 @@ MonoBehaviour:
   aiCharacterAttacks:
   - {fileID: 11400000, guid: 275f5438f2857f64bb8d81d155700c6f, type: 2}
   - {fileID: 11400000, guid: 6736a0ddd15c85d48817e19e9355820b, type: 2}
+  - {fileID: 11400000, guid: 2a3cf32fe7427fb4a8d70aadbd9ebb99, type: 2}
   potentialAttacks: []
   canPerformCombo: 0
   percentageToPerformCombo: 25

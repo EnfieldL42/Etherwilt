@@ -2695,7 +2695,7 @@ MonoBehaviour:
   combatState: {fileID: 11400000, guid: 31f663ec774af1c4796bc4f582c2691d, type: 2}
   attack: {fileID: 11400000, guid: 92c84719f3080e24992b2cfaf1f271ae, type: 2}
   investigateSoundState: {fileID: 11400000, guid: b154290c33992a840bc64ea34029b6a7, type: 2}
-  maxHealth: 400
+  maxHealth: 1000
   meshes:
   - {fileID: 3632278889597167220}
   - {fileID: 5101545880165177859}
@@ -2757,10 +2757,10 @@ MonoBehaviour:
   canBlock: 0
   criticalAttackDistanceCheck: 0.7
   pendingCriticalDamage: 0
-  baseDamage: 25
-  basePoiseDamage: 50
+  baseDamage: 60
+  basePoiseDamage: 100
   actionRecoveryTimer: 0
-  canPerformCombo: 0
+  canPerformCombo: 1
   hasHitTargetDuringCombo: 0
   distanceFromTarget: 0
   viewableAngle: 0
@@ -2769,10 +2769,10 @@ MonoBehaviour:
   minimumFOV: -35
   maximumFOV: 35
   attackRotationSpeed: 25
-  maxStance: 150
-  currentStance: 150
+  maxStance: 150000
+  currentStance: 150000
   stanceRegeneratedPerSecond: 15
-  ignoreStanceBreak: 0
+  ignoreStanceBreak: 1
   stanceRegenerationTimer: 0
   defaultTimeUntilStanceRegenerationBegins: 15
   earthGuardianManager: {fileID: 0}

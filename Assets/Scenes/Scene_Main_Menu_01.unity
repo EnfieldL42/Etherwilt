@@ -9170,7 +9170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 2
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 2069217338}
     m_SelectOnDown: {fileID: 0}
@@ -13008,7 +13008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 2
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1860234908}
     m_SelectOnDown: {fileID: 1838973617}
@@ -31935,7 +31935,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 2
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 822200209}
     m_SelectOnDown: {fileID: 2069217338}
@@ -35957,7 +35957,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 2
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1838973617}
     m_SelectOnDown: {fileID: 524814904}
@@ -36116,7 +36116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Navigation:
-    m_Mode: 4
+    m_Mode: 2
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 0}
     m_SelectOnDown: {fileID: 1860234908}
@@ -42513,6 +42513,14 @@ PrefabInstance:
       value: World Item Database
       objectReference: {fileID: 0}
     - target: {fileID: 3654242208117362343, guid: 4a00c095fe2746b4ca501840bd03890b, type: 3}
+      propertyPath: weapons.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3654242208117362343, guid: 4a00c095fe2746b4ca501840bd03890b, type: 3}
+      propertyPath: 'weapons.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: a9711ce523b7d494a934c2c888f46df9, type: 2}
+    - target: {fileID: 3654242208117362343, guid: 4a00c095fe2746b4ca501840bd03890b, type: 3}
       propertyPath: quickSlotItems.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -43919,7 +43927,7 @@ PrefabInstance:
       objectReference: {fileID: 1431864870}
     - target: {fileID: 1361318412887417785, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_Navigation.m_Mode
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1361318412887417785, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_Colors.m_NormalColor.a
@@ -46891,7 +46899,7 @@ PrefabInstance:
       objectReference: {fileID: 1749253454}
     - target: {fileID: 5476247168660516168, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_Navigation.m_Mode
-      value: 4
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5476247168660516168, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_Colors.m_NormalColor.a

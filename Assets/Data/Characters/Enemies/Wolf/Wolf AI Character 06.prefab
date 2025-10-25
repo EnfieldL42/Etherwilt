@@ -1389,7 +1389,7 @@ MonoBehaviour:
   stanceRegeneratedPerSecond: 15
   ignoreStanceBreak: 0
   stanceRegenerationTimer: 0
-  defaultTimeUntilStanceRegenerationBegins: 15
+  defaultTimeUntilStanceRegenerationBegins: 10
   damageCollider: {fileID: 7355109213709079738}
   attack01DamageModifier: 1
 --- !u!114 &1087936324370463809
@@ -1478,7 +1478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72108ae89361afc42a5856dc54c9a134, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  etherDroppedOnDeath: 100
+  etherDroppedOnDeath: 1000
   staminaRegenerationAmount: 5
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2

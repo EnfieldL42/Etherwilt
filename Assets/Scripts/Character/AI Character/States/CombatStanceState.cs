@@ -41,7 +41,7 @@ public class CombatStanceState : AIState
             aiCharacter.navmeshAgent.enabled = true;
         }
 
-        if (aiCharacter.aICharacterCombatManager.currentTarget.isDead.Value)
+        if (aiCharacter.aICharacterCombatManager.currentTarget.isDead.Value && aiCharacter.aICharacterCombatManager.currentTarget != null)
         {
             aiCharacter.aICharacterCombatManager.SetTarget(null);
         }

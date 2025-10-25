@@ -224,6 +224,7 @@ public class PlayerUILevelUpManager : PlayerUIMenu
 
         SetCurrentStats();
         ChangeTextColorDependingOnCost();
+        PlayerUIManager.instance.playerUIHudManager.SetEtherCount(-totalLevelUpCost);
         WorldSaveGameManager.instance.SaveGame();
     }
 

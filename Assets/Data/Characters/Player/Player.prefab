@@ -5797,12 +5797,12 @@ MonoBehaviour:
   horizontalMovement: 0
   moveAmount: 0
   walkingSpeed: 2
-  runningSpeed: 7
-  sprintSpeed: 10.5
+  runningSpeed: 6.5
+  sprintSpeed: 9
   rotationSpeed: 15
   sprintingStaminaCost: 20
   jumpStaminaCost: 25
-  jumpHeight: 1.5
+  jumpHeight: 1
   jumpForwardSpeed: 5
   freeFallSpeed: 2
   dodgeStaminaCost: 20
@@ -5868,7 +5868,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0bd8def1fb776404da765cc04908c8b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  etherDroppedOnDeath: 50
+  etherDroppedOnDeath: 0
   staminaRegenerationAmount: 5
   staminaRegenarationTimer: 0
   staminaRegenerationDelay: 2
@@ -5877,8 +5877,8 @@ MonoBehaviour:
   blockingStability: 0
   totalPoiseDamanage: 0
   offensivePoiseBonus: 0
-  basePoiseDefense: 30
-  defaultPoiseResetTime: 8
+  basePoiseDefense: 50
+  defaultPoiseResetTime: 2
   poiseResetTimer: 0
   ether: 0
 --- !u!114 &8996604698115517459
