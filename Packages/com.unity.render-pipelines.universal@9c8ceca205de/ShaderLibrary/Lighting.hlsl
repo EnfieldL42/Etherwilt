@@ -162,7 +162,8 @@ struct LightingData
     half3 emissionColor;
     half3 lightAttenuation; //Custom
     half3 rawLightColor; //Custom
-    half3 rimLighting;
+    half3 rimLighting; //Custom
+
 };
 
 half3 CalculateLightingColor(LightingData lightingData, half3 albedo)
@@ -213,7 +214,7 @@ half3 CalculateLightingColor(LightingData lightingData, half3 albedo)
 half4 CalculateFinalColor(LightingData lightingData, half alpha)
 {
     half3 finalColor = CalculateLightingColor(lightingData, 1);
-    //half3 finalColor = lightingData.rimLighting;
+    //half3 finalColor = lightingData.distanceFromCam;
     
     return half4(finalColor, alpha);
 }
@@ -332,9 +333,8 @@ half4 UniversalFragmentPBR(InputData inputData, SurfaceData surfaceData)
         //rim *= surfaceData.albedo;
         rim *= mainLight.shadowAttenuation;
         rim *= mainLight.color;
-        rim *= 1;
+        rim *= surfaceData.smoothness;
         lightingData.rimLighting = rim;
-        
     }
 
     #if defined(_ADDITIONAL_LIGHTS)

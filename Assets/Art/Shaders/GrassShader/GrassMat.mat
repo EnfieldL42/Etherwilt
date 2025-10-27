@@ -130,7 +130,7 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HeightBlend: 1
+    - _HeightBlend: 1.5
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -146,7 +146,7 @@ Material:
     - _SrcBlendAlpha: 1
     - _Surface: 0
     - _TerrainOffset: 0.51
-    - _TerrainSize: 400
+    - _TerrainSize: 500
     - _WindIntensity: 0.3
     - _WindSpeed: 0.5
     - _WorkflowMode: 1
@@ -159,11 +159,11 @@ Material:
     - _Color: {r: 0.55660367, g: 1, b: 0.81576085, a: 1}
     - _Colour: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FarColour: {r: 0.49726173, g: 0.45935673, b: 0.61635214, a: 0}
-    - _NearColour: {r: 0.7392903, g: 0.8805031, b: 0.75334054, a: 0}
-    - _NearFarRange: {r: 40, g: 15, b: 0, a: 0}
+    - _FarColour: {r: 0.13014065, g: 0.59119487, b: 0.076223195, a: 0}
+    - _NearColour: {r: 0.53125596, g: 0.7411765, b: 0.24313726, a: 0}
+    - _NearFarRange: {r: 15, g: 10, b: 0, a: 0}
     - _ShadowTint: {r: 0.18117112, g: 0.15035003, b: 0.26415092, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
-    - _TerrainOffset: {r: 7.692, g: 5.612, b: 0, a: 0}
+    - _TerrainOffset: {r: 8.21, g: 8.438, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

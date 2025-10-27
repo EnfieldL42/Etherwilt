@@ -70,7 +70,7 @@ public class RenderTerrainMap : MonoBehaviour
     public void DrawDiffuseMap()
     {
         camToDrawWith.enabled = true;
-        additionalCameraData.SetRenderer(0);
+        additionalCameraData.SetRenderer(1);
         camToDrawWith.targetTexture = diffuseTex;
         camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
         Shader.SetGlobalFloat("_OrthographicCamSizeTerrain", camToDrawWith.orthographicSize);
@@ -84,7 +84,7 @@ public class RenderTerrainMap : MonoBehaviour
     public void DrawNormalMap()
     {
         camToDrawWith.enabled = true;
-        additionalCameraData.SetRenderer(1);
+        additionalCameraData.SetRenderer(2);
         camToDrawWith.targetTexture = normalTex;
         camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
         camToDrawWith.Render(); 
@@ -96,7 +96,7 @@ public class RenderTerrainMap : MonoBehaviour
     public void DrawHeightMap()
     {
         camToDrawWith.enabled = true;
-        additionalCameraData.SetRenderer(2);
+        additionalCameraData.SetRenderer(3);
         camToDrawWith.targetTexture = depthTex;
         camToDrawWith.depthTextureMode = DepthTextureMode.Depth;
         camToDrawWith.Render();

@@ -124,7 +124,7 @@ Material:
     - _Alpha: 1
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Ambient: 0.15
+    - _Ambient: 0.2
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -140,8 +140,8 @@ Material:
     - _DetailStrength: 1
     - _DirectionalRimCutoff: 0.5
     - _DirectionalRimIntensity: 1
-    - _DirectionalRimPower: 1
-    - _DirectionalRimSmoothness: 0.5
+    - _DirectionalRimPower: 2
+    - _DirectionalRimSmoothness: 0.2
     - _Dissolve: 0
     - _DissolveOffset: -0.01
     - _DissolveScale: 60
@@ -197,7 +197,7 @@ Material:
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionTint: {r: 1, g: 1, b: 1, a: 0}
     - _SSSColour: {r: 1, g: 1, b: 1, a: 1}
-    - _ShadowTint: {r: 0.19386627, g: 0, b: 0.57861626, a: 0}
+    - _ShadowTint: {r: 0.18042454, g: 0, b: 0.5345911, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

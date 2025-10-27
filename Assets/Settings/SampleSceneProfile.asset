@@ -18,10 +18,10 @@ MonoBehaviour:
     m_Value: 0
   threshold:
     m_OverrideState: 1
-    m_Value: 1
+    m_Value: 0.8
   intensity:
     m_OverrideState: 1
-    m_Value: 0.25
+    m_Value: 1.5
   scatter:
     m_OverrideState: 1
     m_Value: 0.5
@@ -47,6 +47,31 @@ MonoBehaviour:
   dirtIntensity:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &-6047044517089120290
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fa0085f50d5e54f8144f766051a691, type: 3}
+  m_Name: FilmGrain
+  m_EditorClassIdentifier: 
+  active: 1
+  type:
+    m_OverrideState: 1
+    m_Value: 9
+  intensity:
+    m_OverrideState: 1
+    m_Value: 0.2
+  response:
+    m_OverrideState: 1
+    m_Value: 0.5
+  texture:
+    m_OverrideState: 0
+    m_Value: {fileID: 0}
 --- !u!114 &-5806273114719809823
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -62,10 +87,10 @@ MonoBehaviour:
   active: 1
   postExposure:
     m_OverrideState: 1
-    m_Value: 1.2
+    m_Value: 0.2
   contrast:
     m_OverrideState: 1
-    m_Value: 0
+    m_Value: 1
   colorFilter:
     m_OverrideState: 0
     m_Value: {r: 0.45692417, g: 0.64042246, b: 0.6415094, a: 1}
@@ -73,7 +98,7 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 3
   saturation:
-    m_OverrideState: 1
+    m_OverrideState: 0
     m_Value: -15
 --- !u!114 &-3357603926938260329
 MonoBehaviour:
@@ -103,6 +128,28 @@ MonoBehaviour:
   rounded:
     m_OverrideState: 0
     m_Value: 0
+--- !u!114 &-1492647485258956296
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
+  m_Name: LiftGammaGain
+  m_EditorClassIdentifier: 
+  active: 1
+  lift:
+    m_OverrideState: 1
+    m_Value: {x: 0.9070555, y: 0.8583437, z: 1, w: -0.016420433}
+  gamma:
+    m_OverrideState: 1
+    m_Value: {x: 0.9588002, y: 1, z: 0.89773846, w: 3.2479554e-11}
+  gain:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 0.94859564, z: 0.98574674, w: 0.053952772}
 --- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +168,8 @@ MonoBehaviour:
   - {fileID: 7391319092446245454}
   - {fileID: -3357603926938260329}
   - {fileID: -5806273114719809823}
+  - {fileID: -6047044517089120290}
+  - {fileID: -1492647485258956296}
 --- !u!114 &849379129802519247
 MonoBehaviour:
   m_ObjectHideFlags: 3

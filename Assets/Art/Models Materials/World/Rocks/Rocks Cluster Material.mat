@@ -135,9 +135,9 @@ Material:
     - _DetailNormalMapScale: 1
     - _DetailStrength: 0.7
     - _DirectionalRimCutoff: 0.5
-    - _DirectionalRimIntensity: 0.5
+    - _DirectionalRimIntensity: 0.75
     - _DirectionalRimPower: 1
-    - _DirectionalRimSmoothness: 1
+    - _DirectionalRimSmoothness: 0.5
     - _Dissolve: 0
     - _DissolveOffset: -0.01
     - _DissolveScale: 30
