@@ -6,6 +6,7 @@ using Unity.Netcode;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -141,6 +142,7 @@ public class TitleScreenManager : MonoBehaviour
         else
         {
             WorldSaveGameManager.instance.AttemptToCreateNewGame();
+            PlayerCamera.instance.GetComponentInChildren<UniversalAdditionalCameraData>().SetRenderer(0);
         }
     }
 

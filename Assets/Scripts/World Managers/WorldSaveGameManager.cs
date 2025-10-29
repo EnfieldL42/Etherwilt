@@ -6,6 +6,7 @@ using Unity.Netcode;
 using System.Collections.Generic;
 using System;
 using Unity.VisualScripting;
+using UnityEngine.Rendering.Universal;
 
 public class WorldSaveGameManager : MonoBehaviour
 {
@@ -262,7 +263,6 @@ public class WorldSaveGameManager : MonoBehaviour
 
         PlayerUIManager.instance.LockMouse();
 
-
         LoadWorldScene(worldSceneIndex);
     }
 
@@ -344,6 +344,14 @@ public class WorldSaveGameManager : MonoBehaviour
         if (buildIndex == 0 && !PlayerUIManager.instance.isUsingGamepad)
         {
             PlayerUIManager.instance.UnlockMouse();
+        }
+        if (buildIndex == 0)
+        {
+            PlayerCamera.instance.GetComponentInChildren<UniversalAdditionalCameraData>().SetRenderer(4); // This renderer renders nothing so the GPU isn't going stupid on the menu
+        }
+        if (buildIndex == 1) 
+        {
+            PlayerCamera.instance.GetComponentInChildren<UniversalAdditionalCameraData>().SetRenderer(0); //This is the normal renderer
         }
     }
 

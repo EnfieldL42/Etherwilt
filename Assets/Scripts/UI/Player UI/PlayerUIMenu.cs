@@ -2,6 +2,7 @@ using DG.Tweening;
 using System.Collections;
 using Unity.Netcode;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class PlayerUIMenu : MonoBehaviour
 {
@@ -54,6 +55,7 @@ public class PlayerUIMenu : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         PlayerUIManager.instance.menuWindowIsOpen = false;
+        PlayerCamera.instance.GetComponentInChildren<UniversalAdditionalCameraData>().SetRenderer(0);
         StartCoroutine(FadeMenu());
     }
 }
