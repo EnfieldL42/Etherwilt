@@ -210,7 +210,7 @@ public class PlayerManager : CharacterManager
         //check for players that are alive, if 0 then respawn
 
         WorldGameSessionManager.instance.WaitThenReviveHost();
-
+        PlayerCamera.instance.ClearLockOnTargets();
         return base.ProcessDeathEvent(manuallySelectDeathAnimation);
 
 
