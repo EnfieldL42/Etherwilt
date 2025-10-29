@@ -48,6 +48,7 @@ public class PlayerUIMenu : MonoBehaviour
         {
             return;
         }
+        PlayerCamera.instance.GetComponentInChildren<UniversalAdditionalCameraData>().SetRenderer(0);
         StartCoroutine(WaitThenCloseMenu());
     }
 
@@ -55,7 +56,6 @@ public class PlayerUIMenu : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         PlayerUIManager.instance.menuWindowIsOpen = false;
-        PlayerCamera.instance.GetComponentInChildren<UniversalAdditionalCameraData>().SetRenderer(0);
         StartCoroutine(FadeMenu());
     }
 }
