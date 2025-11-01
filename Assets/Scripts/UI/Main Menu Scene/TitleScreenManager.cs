@@ -129,12 +129,12 @@ public class TitleScreenManager : MonoBehaviour
 
     public void StartNewGame()
     {
-        /*if(string.IsNullOrEmpty(characterNameInputField.text))
+        if (string.IsNullOrEmpty(characterNameInputField.text))
         {
             DisplayNoNamePopUp();
         }
 
-        else*/ if(string.IsNullOrEmpty(characterClassText.text))
+        else if (string.IsNullOrEmpty(characterClassText.text))
         {
             DisplayNoClassPopUp();
         }
