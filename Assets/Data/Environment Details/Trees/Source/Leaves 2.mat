@@ -117,6 +117,8 @@ Material:
     - _AdditionalLightsSmoothness: 1
     - _AlphaClip: 1
     - _AlphaToMask: 1
+    - _AngleFadeCutoff: 0.9
+    - _AngleFadeSmoothness: 0.75
     - _Blend: 0
     - _BlendModePreserveSpecular: 1
     - _BumpScale: 1
@@ -130,16 +132,18 @@ Material:
     - _DstBlendAlpha: 0
     - _EnvironmentReflections: 1
     - _FORWARD_PLUS: 1
+    - _Float: 0.9
+    - _Float_1: 0.75
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _HeightBlend: 0
     - _HeightWeight: 6.5
-    - _Max: 0.52
+    - _Max: 0.53
     - _Metallic: 0
-    - _Min: 0.48
+    - _Min: 0.47
     - _NoiseScale: 5
-    - _NormalSSSInfluence: 1.59
+    - _NormalSSSInfluence: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
@@ -149,8 +153,8 @@ Material:
     - _RimLightIntensity: 5
     - _RimLightPower: 1
     - _RimLightSmoothness: 1
-    - _SSSIntensity: 8.86
-    - _SSSPower: 4
+    - _SSSIntensity: 0.1
+    - _SSSPower: 3
     - _Scale: 1
     - _SineOffset: 1
     - _Smoothness: 0
@@ -178,7 +182,7 @@ Material:
     - _LeafColour: {r: 0.5900676, g: 0.8490566, b: 0.6293635, a: 0}
     - _NearColour: {r: 0.65854, g: 1, b: 0.54402506, a: 0}
     - _NearFarRange: {r: 10, g: 25, b: 0, a: 0}
-    - _SSSColour: {r: 0.95564353, g: 1, b: 0.20440245, a: 1}
+    - _SSSColour: {r: 0.98279685, g: 1, b: 0.70754707, a: 1}
     - _ShadowTint: {r: 0.18039216, g: 0.14901961, b: 0.2627451, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _TerrainOffset: {r: 0, g: 0, b: 0, a: 0}
