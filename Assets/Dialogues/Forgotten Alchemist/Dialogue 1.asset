@@ -14,17 +14,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   requiredStageID: 0
   greetingDialogueString:
-  - Hello there!
+  - "So\u2026 you\u2019ve arrived."
   greetingDialogueAudio:
-  - {fileID: 8300000, guid: a75aef6060f7dd5488c33e808a748576, type: 3}
+  - {fileID: 8300000, guid: 058554bb9a98f5f4a907d66a3884253a, type: 3}
   dialogueString:
-  - A young traveller around these parts?
+  - Who am I? Some call me the alchemist, but worry not about trivial matters.
+  - You took longer than expected. No matter, the cycle insists on repeating itself.
+  - You've seen them, haven't you? Those corrupted beings.
   dialogueAudio:
-  - {fileID: 8300000, guid: 834aae9823c59664685dd66df36d1456, type: 3}
+  - {fileID: 8300000, guid: 058554bb9a98f5f4a907d66a3884253a, type: 3}
+  - {fileID: 8300000, guid: 058554bb9a98f5f4a907d66a3884253a, type: 3}
+  - {fileID: 8300000, guid: 058554bb9a98f5f4a907d66a3884253a, type: 3}
   dialogueIndex: 0
   farewellDialogueString:
-  - '"Okay, Farewell"'
+  - They only breath because the ether refuses to let them die. Incomple vessels...
+    if you will. Feeding off a broken world.
   farewellDialogueAudio:
-  - {fileID: 8300000, guid: 7a5c917a31972af4a91619713e8b04fc, type: 3}
+  - {fileID: 8300000, guid: 058554bb9a98f5f4a907d66a3884253a, type: 3}
   setStageIndex: 1
-  stageID: 3
+  stageID: 1

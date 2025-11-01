@@ -6095,7 +6095,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 5
+  m_text: Hill To Greatness
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
   m_sharedMaterial: {fileID: -8580657151567612145, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
@@ -10169,7 +10169,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 3
+  m_text: The Burnt Chamber
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
   m_sharedMaterial: {fileID: -8580657151567612145, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
@@ -13585,7 +13585,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 4
+  m_text: Hidden Grove
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
   m_sharedMaterial: {fileID: -8580657151567612145, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
@@ -26830,7 +26830,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 6
+  m_text: The Village
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
   m_sharedMaterial: {fileID: -8580657151567612145, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
@@ -43843,7 +43843,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1305424456580680440, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_text
-      value: 2
+      value: Ether Plains
       objectReference: {fileID: 0}
     - target: {fileID: 1305424456580680440, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_fontColor.b
@@ -50537,7 +50537,7 @@ MonoBehaviour:
   characterClassDisplay: {fileID: 1225728237}
   characterStatsDisplay: {fileID: 1232768151}
   startingClasses:
-  - className: Knight
+  - className: Warden
     vitality: 10
     endurance: 10
     strength: 10
@@ -50558,7 +50558,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: fac5f02eb4349a94b865a0c92c6a79c6, type: 2}
     - {fileID: 0}
     - {fileID: 0}
-  - className: Tank
+  - className: Bulwark
     vitality: 15
     endurance: 5
     strength: 15
@@ -50579,7 +50579,7 @@ MonoBehaviour:
     - {fileID: 11400000, guid: fac5f02eb4349a94b865a0c92c6a79c6, type: 2}
     - {fileID: 0}
     - {fileID: 0}
-  - className: Rogue
+  - className: Shade
     vitality: 5
     endurance: 15
     strength: 5
@@ -50716,7 +50716,7 @@ PrefabInstance:
       objectReference: {fileID: 5602889298933114635, guid: b3627b78068a1dc46ba7f3ac81773a43, type: 3}
     - target: {fileID: 938945557250578251, guid: 69c3bb1d6896e8542998df50ba41fffc, type: 3}
       propertyPath: forgottenAlchemistDialogues.Array.size
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 938945557250578251, guid: 69c3bb1d6896e8542998df50ba41fffc, type: 3}
       propertyPath: 'forgottenAlchemistDialogues.Array.data[0]'
@@ -50726,6 +50726,18 @@ PrefabInstance:
       propertyPath: 'forgottenAlchemistDialogues.Array.data[1]'
       value: 
       objectReference: {fileID: 11400000, guid: ec4e7021b2c87db468bad1301006129e, type: 2}
+    - target: {fileID: 938945557250578251, guid: 69c3bb1d6896e8542998df50ba41fffc, type: 3}
+      propertyPath: 'forgottenAlchemistDialogues.Array.data[2]'
+      value: 
+      objectReference: {fileID: 11400000, guid: dc653fca94e271b4d90bc7b4b3dbd50b, type: 2}
+    - target: {fileID: 938945557250578251, guid: 69c3bb1d6896e8542998df50ba41fffc, type: 3}
+      propertyPath: 'forgottenAlchemistDialogues.Array.data[3]'
+      value: 
+      objectReference: {fileID: 11400000, guid: afbae9c5346b8a242ad91b71a7ca8434, type: 2}
+    - target: {fileID: 938945557250578251, guid: 69c3bb1d6896e8542998df50ba41fffc, type: 3}
+      propertyPath: 'forgottenAlchemistDialogues.Array.data[4]'
+      value: 
+      objectReference: {fileID: 11400000, guid: acdac499a109ef3428047860697e53fb, type: 2}
     - target: {fileID: 938945557250578251, guid: 69c3bb1d6896e8542998df50ba41fffc, type: 3}
       propertyPath: forgottenAlchemistFarewellDialogues.Array.size
       value: 1

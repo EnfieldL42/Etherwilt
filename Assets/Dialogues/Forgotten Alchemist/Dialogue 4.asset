@@ -10,24 +10,28 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 96cbbdbb605275f4888af6b06dc6667e, type: 3}
-  m_Name: Dialogue 2
+  m_Name: Dialogue 4
   m_EditorClassIdentifier: 
-  requiredStageID: 1
+  requiredStageID: 3
   greetingDialogueString:
-  - Oh you haven't hear of the gardians?
+  - I'll tell you something.
   greetingDialogueAudio:
   - {fileID: 8300000, guid: 058554bb9a98f5f4a907d66a3884253a, type: 3}
   dialogueString:
-  - Those beings draw pure ether into themselves, hoarding it to maintain their immortality.
-  - Their existance is to main balance... Hah, they long served that purpose, they
-    are now a shell of their former selves.
+  - There is meaning to your life. You are choosen to end the cycle and free this
+    world.
+  - With my help, I can weave that ether in your blood into strength and immunity
+    to the guardian's ability to manipulate ether.
+  - Follow your unescapable destiny and defeat all the guardian, only then will you
+    be able to end the Great Reset.
   dialogueAudio:
+  - {fileID: 8300000, guid: 058554bb9a98f5f4a907d66a3884253a, type: 3}
   - {fileID: 8300000, guid: 058554bb9a98f5f4a907d66a3884253a, type: 3}
   - {fileID: 8300000, guid: 058554bb9a98f5f4a907d66a3884253a, type: 3}
   dialogueIndex: 0
   farewellDialogueString:
-  - Do not mistake their stillness for virtue.
+  - Do we have an accord?
   farewellDialogueAudio:
   - {fileID: 8300000, guid: 058554bb9a98f5f4a907d66a3884253a, type: 3}
   setStageIndex: 1
-  stageID: 2
+  stageID: 4

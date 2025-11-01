@@ -2935,6 +2935,8 @@ MonoBehaviour:
   attack: {fileID: 11400000, guid: 60bed3ac727b7f74c9d36e0dcf963d9d, type: 2}
   investigateSoundState: {fileID: 11400000, guid: c3257539ddf774d4abc9ee3e04df28bd, type: 2}
   maxHealth: 200
+  meshes: []
+  dissolve: {fileID: 0}
 --- !u!114 &4390435369090475802
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3046,6 +3048,7 @@ MonoBehaviour:
   damageGrunt: []
   attackGrunt: []
   footsteps: []
+  deathSFX: {fileID: 0}
   characterDialogueID: 1
   interactableDialogueCollider: {fileID: 0}
   currentDialogue: {fileID: 0}
