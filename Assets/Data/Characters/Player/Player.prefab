@@ -2018,7 +2018,7 @@ MonoBehaviour:
   m_Iterations: 4
   m_SleepThreshold: 0
   m_GravityAligner: {fileID: 0}
-  m_Gravity: {x: 0, y: 1, z: 0}
+  m_Gravity: {x: 0, y: -1, z: 0}
   m_ForceModule: {fileID: 0}
   m_ForceScale: 1
   m_SimulateSpace: {fileID: 0}
