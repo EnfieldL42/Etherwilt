@@ -17,6 +17,7 @@ MonoBehaviour:
     - 99c9720ab356a0642a771bea13969a05
     - d0e89fcc539b8144a82bf2e448dbea41
     - c09403d5d111525459f9c0bb0c753351
+    - 6ab0bf5233ce26145a433ec57fd6520f
     values:
     - goDatas_byGlobalId:
         keys:
@@ -104,6 +105,24 @@ MonoBehaviour:
         - globalObjectIdString: GlobalObjectId_V1-2-c09403d5d111525459f9c0bb0c753351-1361010038-0
         - globalObjectIdString: GlobalObjectId_V1-2-c09403d5d111525459f9c0bb0c753351-1052429570-0
         - globalObjectIdString: GlobalObjectId_V1-2-c09403d5d111525459f9c0bb0c753351-951594530-0
+        values:
+        - colorIndex: 8
+          iconNameOrGuid: MeshCollider Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 8
+          iconNameOrGuid: MeshCollider Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+        - colorIndex: 8
+          iconNameOrGuid: MeshCollider Icon
+          isIconRecursive: 0
+          isColorRecursive: 0
+    - goDatas_byGlobalId:
+        keys:
+        - globalObjectIdString: GlobalObjectId_V1-2-6ab0bf5233ce26145a433ec57fd6520f-1361010038-0
+        - globalObjectIdString: GlobalObjectId_V1-2-6ab0bf5233ce26145a433ec57fd6520f-1052429570-0
+        - globalObjectIdString: GlobalObjectId_V1-2-6ab0bf5233ce26145a433ec57fd6520f-951594530-0
         values:
         - colorIndex: 8
           iconNameOrGuid: MeshCollider Icon

@@ -127,7 +127,7 @@ public class TitleScreenManager : MonoBehaviour
         }
     }
 
-    public void StartNewGame()
+    public void StartIntroCutscene()
     {
         if (string.IsNullOrEmpty(characterNameInputField.text))
         {
@@ -141,11 +141,23 @@ public class TitleScreenManager : MonoBehaviour
 
         else
         {
-            WorldSaveGameManager.instance.AttemptToCreateNewGame();
-            PlayerCamera.instance.GetComponentInChildren<UniversalAdditionalCameraData>().SetRenderer(0);
+            LoadIntroCutscene();
         }
     }
 
+    public void LoadIntroCutscene()
+    {
+    PlayerUIManager.instance.playerUILoadingScreenManager.ActivateLoadingScreen();
+    Time.timeScale = 0f; // Freeze the game
+    NetworkManager.Singleton.SceneManager.LoadScene("IntroCutscene", LoadSceneMode.Single);
+    PlayerUIManager.instance.playerUILoadingScreenManager.DeactivateLoadingScreen();
+    Time.timeScale = 1f;
+    PlayerCamera.instance.GetComponentInChildren<UniversalAdditionalCameraData>().SetRenderer(0);
+    }
+    public void StartNewGame()
+    {
+        WorldSaveGameManager.instance.AttemptToCreateNewGame();
+    }
     IEnumerator ChangeCanvasGroup(GameObject menu, Button button)
     {
         yield return new WaitForSecondsRealtime(0.25f);

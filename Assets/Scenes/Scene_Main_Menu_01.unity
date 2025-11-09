@@ -26782,7 +26782,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8595181129625747681}
         m_TargetAssemblyTypeName: TitleScreenManager, Assembly-CSharp
-        m_MethodName: StartNewGame
+        m_MethodName: StartIntroCutscene
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
