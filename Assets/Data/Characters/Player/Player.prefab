@@ -1943,7 +1943,8 @@ SkinnedMeshRenderer:
   - {fileID: 5529753682406964746}
   - {fileID: 3762329115486385351}
   - {fileID: 7077822572041904237}
-  m_BlendShapeWeights: []
+  m_BlendShapeWeights:
+  - 0
   m_RootBone: {fileID: 8693955414327244600}
   m_AABB:
     m_Center: {x: 0.0000034174882, y: -0.0014487824, z: -0.00019578758}
@@ -5453,6 +5454,7 @@ GameObject:
   - component: {fileID: 6128711772730839219}
   - component: {fileID: 5410250303499820082}
   - component: {fileID: 818475279787255897}
+  - component: {fileID: 1004692899174362046}
   m_Layer: 6
   m_Name: Player
   m_TagString: Player
@@ -6177,6 +6179,25 @@ MonoBehaviour:
   - {fileID: 3020851567013334303}
   - {fileID: 3020851567013334303}
   wind: {fileID: 0}
+--- !u!114 &1004692899174362046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5147371753347035051}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462cf8e8381c13740bcc64d94d1a4584, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  meshes:
+  - {fileID: 417285334596883571}
+  - {fileID: 4926918309042384266}
+  blinkInterval: 5
+  blinkEyeCloseDuration: 0.6
+  blinkOpeningDuration: 0.3
+  blinkClosingDuration: 0.1
 --- !u!1 &5154264861364501440
 GameObject:
   m_ObjectHideFlags: 0
