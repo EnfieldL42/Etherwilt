@@ -47,11 +47,14 @@ public class PlayerUILoadingScreenManager : MonoBehaviour
 
     private IEnumerator FadeLoadingScreenCoroutine(float duration, float delay)
     {
-        while(WorldAIManager.instance.isPerformingLoadingOperation)
+        if(WorldAIManager.instance != null)
         {
-            yield return null;
+            while (WorldAIManager.instance.isPerformingLoadingOperation)
+            {
+                yield return null;
+            }
         }
-
+ 
         loadingScreen.SetActive(true);
 
         if (duration > 0)

@@ -2671,7 +2671,7 @@ MonoBehaviour:
   aICharacterNetworkManager: {fileID: 0}
   aICharacterLocomotionManager: {fileID: 0}
   aICharacterSoundFXManager: {fileID: 0}
-  navmeshAgent: {fileID: 0}
+  navmeshAgent: {fileID: 3846892003184887474}
   currentState: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
   idle: {fileID: 11400000, guid: 79316c5988c469a4bac4c35749ced10c, type: 2}
   pursueState: {fileID: 11400000, guid: aa37797012693564290d3d70049da9ab, type: 2}
