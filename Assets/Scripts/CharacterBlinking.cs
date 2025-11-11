@@ -24,7 +24,7 @@ public class CharacterBlinking : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(blinkInterval);
+            yield return new WaitForSeconds(Random.Range(blinkInterval - 1f, blinkInterval + 1f));
             var value = 0f;
             var closeSpeed = 1f / blinkClosingDuration;
             while (value < 1)
@@ -40,7 +40,7 @@ public class CharacterBlinking : MonoBehaviour
             {
                 mesh.SetBlendShapeWeight(0, 100);
             }
-
+            
             yield return new WaitForSeconds(blinkEyeCloseDuration);
 
             value = 1f;
