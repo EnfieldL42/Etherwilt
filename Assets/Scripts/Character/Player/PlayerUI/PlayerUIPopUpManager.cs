@@ -79,8 +79,8 @@ public class PlayerUIPopUpManager : MonoBehaviour
         youDiedPopUpGameObject.SetActive(true);
         //youDiedPopUpBackgroundText.characterSpacing = 0;
         StartCoroutine(StretchPopUpTextOverTime(youDiedPopUpText, 8, 10));
-        StartCoroutine(FadeInPopUpOverTime(youDiedPopUpCanvasGroup, 5));
-        StartCoroutine(WaitThenFadeOutPopUpOverTime(youDiedPopUpCanvasGroup, 2, 5));
+        StartCoroutine(FadeInPopUpOverTime(youDiedPopUpCanvasGroup, 3));
+        StartCoroutine(WaitThenFadeOutPopUpOverTime(youDiedPopUpCanvasGroup, 0.5f, 5));
 
         //stretch our the pop up
         //fade in the pop up
@@ -98,7 +98,7 @@ public class PlayerUIPopUpManager : MonoBehaviour
         //youDiedPopUpBackgroundText.characterSpacing = 0;
         WorldSoundFXManager.instance.PlayBossDefeatedSound();
         StartCoroutine(StretchPopUpTextOverTime(bossDefeatedPopUpText, 8, 10));
-        StartCoroutine(FadeInPopUpOverTime(bossDefeatedCanvasGroup, 5));
+        StartCoroutine(FadeInPopUpOverTime(bossDefeatedCanvasGroup, 2));
         StartCoroutine(WaitThenFadeOutPopUpOverTime(bossDefeatedCanvasGroup, 2, 5));
 
         //stretch our the pop up
@@ -114,7 +114,7 @@ public class PlayerUIPopUpManager : MonoBehaviour
         bonfireRestoredPopUpGameObject.SetActive(true);
         //youDiedPopUpBackgroundText.characterSpacing = 0;
         StartCoroutine(StretchPopUpTextOverTime(bonfireRestoredPopUpText, 8, 10));
-        StartCoroutine(FadeInPopUpOverTime(bonfireRestoredCanvasGroup, 5));
+        StartCoroutine(FadeInPopUpOverTime(bonfireRestoredCanvasGroup, 1));
         StartCoroutine(WaitThenFadeOutPopUpOverTime(bonfireRestoredCanvasGroup, 2, 5));
 
         //stretch our the pop up
@@ -201,8 +201,8 @@ public class PlayerUIPopUpManager : MonoBehaviour
 
             while (timer < duration)
             {
-                timer = timer + Time.deltaTime;
-                text.characterSpacing = Mathf.Lerp(text.characterSpacing, stretchAmount, duration * (Time.deltaTime / 20));
+                timer += Time.deltaTime;
+                text.characterSpacing = Mathf.Lerp(0, stretchAmount, timer/duration);
                 yield return null;
             }
         }
@@ -220,7 +220,7 @@ public class PlayerUIPopUpManager : MonoBehaviour
             while (timer < duration)
             {
                 timer += Time.deltaTime;
-                canvas.alpha = Mathf.Lerp(canvas.alpha,1, duration * Time.deltaTime);
+                canvas.alpha = Mathf.Lerp(0 ,1, timer/duration);
                 yield return null;
             }
 
@@ -249,7 +249,7 @@ public class PlayerUIPopUpManager : MonoBehaviour
             while (timer < duration)
             {
                 timer += Time.deltaTime;
-                canvas.alpha = Mathf.Lerp(canvas.alpha, 0, duration * Time.deltaTime);
+                canvas.alpha = Mathf.Lerp(1, 0, timer/duration);
                 yield return null;
 
             }

@@ -6,7 +6,7 @@ public class CharacterBlinking : MonoBehaviour
 {
     [SerializeField] SkinnedMeshRenderer[] meshes;
     [Header("Blink Properties")]
-    private float blinkInterval = 5.0f;
+    private float blinkInterval = 4.0f;
     private float blinkEyeCloseDuration = 0.05f;
     private float blinkOpeningDuration = 0.1f;
     private float blinkClosingDuration = 0.1f;
