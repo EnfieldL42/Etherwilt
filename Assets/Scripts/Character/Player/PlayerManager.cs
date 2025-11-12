@@ -4,6 +4,8 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Unity.Netcode;
 using System.Collections.Generic;
+using UnityEngine.VFX;
+using DG.Tweening;
 
 public class PlayerManager : CharacterManager
 {
@@ -22,6 +24,10 @@ public class PlayerManager : CharacterManager
     [HideInInspector] public PlayerEffectsManager playerEffectsManager;
 
     [HideInInspector] private bool sceneLoaded = false;
+
+    [Header("DeathVFX")]
+    public SkinnedMeshRenderer[] meshes;
+    public VisualEffect dissolve;
     protected override void Awake()
     {
         base.Awake(); //ok so its like an awake that happens after the main awake in the parent class(charactermanager) /(not too sure why this is useful just yet)
@@ -211,8 +217,37 @@ public class PlayerManager : CharacterManager
 
         WorldGameSessionManager.instance.WaitThenReviveHost();
         PlayerCamera.instance.ClearLockOnTargets();
-        return base.ProcessDeathEvent(manuallySelectDeathAnimation);
+        if (IsOwner)
+        {
+            characterNetworkManager.currentHealth.Value = 0;
+            isDead.Value = true;
+            characterNetworkManager.isLockedOn.Value = false; //unlock the character from any locked on target
+            //reset any flags
 
+            //if not grounded play falling death anim
+
+            if (!manuallySelectDeathAnimation)
+            {
+                characterAnimatorManager.PlayTargetActionAnimationInstantly("Dead_01", true);
+
+            }
+            dissolve.Play();
+            foreach (var i in meshes)
+            {
+                Sequence deathDissolve = DOTween.Sequence();
+                deathDissolve.Append(i.material.DOFloat(1f, "_Dissolve", 4f));
+            }
+
+            characterSoundFXManager.PlayDeathSoundFX();
+
+
+            yield return new WaitForSeconds(5);
+
+            foreach (var i in meshes)
+            {
+                i.material.SetFloat("_Dissolve", 0f);
+            }
+        }
 
     }
 
