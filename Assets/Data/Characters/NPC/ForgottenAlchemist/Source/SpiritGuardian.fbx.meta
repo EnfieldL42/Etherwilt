@@ -7,6 +7,21 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
+      name: Bandage
+    second: {fileID: 2100000, guid: fec7a507881aa85488be8c2bac09b99b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Body
+    second: {fileID: 2100000, guid: 83baccf466886c34c83d6d3931c0e15c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Eyes
+    second: {fileID: 2100000, guid: 9c3e5ff092ea8d542bb44fea1c4eda16, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
       name: Face
     second: {fileID: 2100000, guid: 05ba109d00ac2ad468c413f5f3fa3098, type: 2}
   - first:
@@ -14,6 +29,11 @@ ModelImporter:
       assembly: UnityEngine.CoreModule
       name: Hair
     second: {fileID: 2100000, guid: 60e0d0617fc24a745bd2c29bb2b0c705, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Poncho
+    second: {fileID: 2100000, guid: 1014e6716e14caf449fe87191193ac3d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

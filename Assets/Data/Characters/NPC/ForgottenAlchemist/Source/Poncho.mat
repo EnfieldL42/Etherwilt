@@ -1,18 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-4820997473530613571
-MonoBehaviour:
-  m_ObjectHideFlags: 11
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 10
 --- !u!21 &2100000
 Material:
   serializedVersion: 8
@@ -20,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: HairMat
+  m_Name: Poncho
   m_Shader: {fileID: -6465566751694194690, guid: 8738bb055962b0944940893412fbf054, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -35,12 +22,12 @@ Material:
   stringTagMap: {}
   disabledShaderPasses:
   - MOTIONVECTORS
-  m_LockedProperties: _EmissionIntensity
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
     - _AlphaTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 65e2761813b1ff4458484e7fd416ce5d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BaseMap:
@@ -76,7 +63,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTexture:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 3b0a4ed528d38a94a80a564667f24446, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -153,8 +140,8 @@ Material:
     - _DetailStrength: 1
     - _DirectionalRimCutoff: 0.5
     - _DirectionalRimIntensity: 1
-    - _DirectionalRimPower: 1
-    - _DirectionalRimSmoothness: 0
+    - _DirectionalRimPower: 2
+    - _DirectionalRimSmoothness: 0.2
     - _Dissolve: 0
     - _DissolveOffset: -0.01
     - _DissolveScale: 60
@@ -169,8 +156,8 @@ Material:
     - _HighlightCutoff: 1
     - _HighlightIntensity: 0
     - _InvertedRImIntensity: 0.1
-    - _InvertedRimCutoff: 0.75
-    - _InvertedRimSmoothness: 0
+    - _InvertedRimCutoff: 0.5
+    - _InvertedRimSmoothness: 0.1
     - _IsFace: 0
     - _LightAngleClamp: 0
     - _LightCutoff: 0
@@ -179,7 +166,7 @@ Material:
     - _LightnessOffset: 0
     - _Metallic: 0
     - _NORMAL_MAP_TYPE: 0
-    - _NormalSSSInfluence: 0.2
+    - _NormalSSSInfluence: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _PointRimLightCutoff: 0.2
@@ -189,8 +176,8 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _SSSIntensity: 0.52
-    - _SSSPower: 2.97
+    - _SSSIntensity: 0
+    - _SSSPower: 1
     - _Saturation: 1
     - _ShadowOpacity: 1
     - _Smoothness: 0.5
@@ -208,11 +195,24 @@ Material:
     m_Colors:
     - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Colour: {r: 0.23899364, g: 0.23899364, b: 0.23899364, a: 0}
+    - _Colour: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _EmissionTint: {r: 1, g: 1, b: 1, a: 0}
-    - _SSSColour: {r: 0.64779866, g: 0.38035882, b: 0.10796638, a: 1}
-    - _ShadowTint: {r: 0.19215687, g: 0, b: 0.5803922, a: 0}
+    - _SSSColour: {r: 1, g: 1, b: 1, a: 1}
+    - _ShadowTint: {r: 0.18042454, g: 0, b: 0.5345911, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
+--- !u!114 &6446127971863405479
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 10
