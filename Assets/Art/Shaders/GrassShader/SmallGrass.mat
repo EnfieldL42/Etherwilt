@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1499320356942012177
+--- !u!114 &-8146421036119251167
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,15 +20,14 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rocks Small
-  m_Shader: {fileID: -6465566751694194690, guid: 8738bb055962b0944940893412fbf054, type: 3}
-  m_Parent: {fileID: 2100000, guid: 63d6dbaa86b1800479d3275894eeb74c, type: 2}
-  m_ModifiedSerializedProperties: 0
+  m_Name: SmallGrass
+  m_Shader: {fileID: -6465566751694194690, guid: b67b8bfeec8c5a64da0f6969770001f3, type: 3}
+  m_Parent: {fileID: 2100000, guid: 233c529a4a794e74b95aef784d23318b, type: 2}
+  m_ModifiedSerializedProperties: 2
   m_ValidKeywords:
   - _FORWARD_PLUS
-  - _NORMAL_MAP_TYPE_TANGENT_SPACE_NORMAL_MAP
   m_InvalidKeywords: []
-  m_LightmapFlags: 4
+  m_LightmapFlags: 2
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
@@ -39,16 +38,14 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: 61fe042d551a2664385c605f7f50b2d8, type: 3}
-        m_Scale: {x: 1, y: 1}
-        m_Offset: {x: 0, y: 0}
-    - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 7ea856e1812a93a44a9e5e0dbbddd5c2, type: 3}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: e44fb23c621d6794ba7117ac6ed7271a, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
-    m_Floats: []
+    m_Floats:
+    - _HeightBlend: 1
+    - _WindIntensity: 0.5
     m_Colors: []
   m_BuildTextureStacks: []
   m_AllowLocking: 1

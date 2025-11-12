@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.Rendering.Universal;
 
 [ExecuteInEditMode]
@@ -8,6 +9,9 @@ public class RenderTerrainMap : MonoBehaviour
 {
     public Camera camToDrawWith;
     public UniversalAdditionalCameraData additionalCameraData;
+    public Light directionalLight;
+    private Color originalLightColour;
+    private float originalLightIntensity;
     // layer to render
     [SerializeField]
     LayerMask layer;
@@ -53,6 +57,8 @@ public class RenderTerrainMap : MonoBehaviour
 
     void OnEnable()
     {
+        originalLightColour = directionalLight.color;
+        originalLightIntensity = directionalLight.intensity;
         diffuseTex = new RenderTexture(resolution, resolution, 24);
         normalTex = new RenderTexture(resolution, resolution, 24);
         depthTex = new RenderTexture(resolution, resolution, 24);
@@ -69,6 +75,8 @@ public class RenderTerrainMap : MonoBehaviour
     }
     public void DrawDiffuseMap()
     {
+        directionalLight.color = Color.white;
+        directionalLight.intensity = 1f;
         camToDrawWith.enabled = true;
         additionalCameraData.SetRenderer(1);
         camToDrawWith.targetTexture = diffuseTex;
@@ -83,6 +91,8 @@ public class RenderTerrainMap : MonoBehaviour
 
     public void DrawNormalMap()
     {
+        directionalLight.color = originalLightColour;
+        directionalLight.intensity = originalLightIntensity;
         camToDrawWith.enabled = true;
         additionalCameraData.SetRenderer(2);
         camToDrawWith.targetTexture = normalTex;

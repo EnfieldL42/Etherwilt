@@ -130,14 +130,14 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HeightBlend: 1.5
+    - _HeightBlend: 1.25
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
-    - _Scale: 1
+    - _Scale: 5
     - _SineOffset: 0
     - _Smoothness: 0
     - _SmoothnessTextureChannel: 0
@@ -155,12 +155,12 @@ Material:
     m_Colors:
     - _BaseColor: {r: 0.55660367, g: 1, b: 0.81576085, a: 1}
     - _BottomColour: {r: 0.332463, g: 0.51572317, b: 0.4808333, a: 0}
-    - _Bottom_Colour: {r: 0.27075663, g: 0.46540874, b: 0.39098296, a: 0}
+    - _Bottom_Colour: {r: 1, g: 1, b: 1, a: 0}
     - _Color: {r: 0.55660367, g: 1, b: 0.81576085, a: 1}
     - _Colour: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
-    - _FarColour: {r: 0.13014065, g: 0.59119487, b: 0.076223195, a: 0}
-    - _NearColour: {r: 0.53125596, g: 0.7411765, b: 0.24313726, a: 0}
+    - _FarColour: {r: 0.63291144, g: 1, b: 0, a: 0}
+    - _NearColour: {r: 0.86293405, g: 1, b: 0.51257855, a: 0}
     - _NearFarRange: {r: 15, g: 10, b: 0, a: 0}
     - _ShadowTint: {r: 0.18117112, g: 0.15035003, b: 0.26415092, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}

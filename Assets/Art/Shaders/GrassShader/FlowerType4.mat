@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!114 &-1499320356942012177
+--- !u!114 &-1783909756863171438
 MonoBehaviour:
   m_ObjectHideFlags: 11
   m_CorrespondingSourceObject: {fileID: 0}
@@ -20,13 +20,12 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Rocks Small
-  m_Shader: {fileID: -6465566751694194690, guid: 8738bb055962b0944940893412fbf054, type: 3}
-  m_Parent: {fileID: 2100000, guid: 63d6dbaa86b1800479d3275894eeb74c, type: 2}
+  m_Name: FlowerType4
+  m_Shader: {fileID: -6465566751694194690, guid: 11a14dfb6c0ee5b4c9cf517fc63ef571, type: 3}
+  m_Parent: {fileID: 2100000, guid: e04e58b3596502445baf7b75b1702fb0, type: 2}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
   - _FORWARD_PLUS
-  - _NORMAL_MAP_TYPE_TANGENT_SPACE_NORMAL_MAP
   m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -39,16 +38,21 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
-    - _MainTexture:
-        m_Texture: {fileID: 2800000, guid: 61fe042d551a2664385c605f7f50b2d8, type: 3}
+    - _FlowerMainTex:
+        m_Texture: {fileID: 2800000, guid: 06ee694c6976b4e4699b74b1cd7fab99, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    - _NormalMap:
-        m_Texture: {fileID: 2800000, guid: 7ea856e1812a93a44a9e5e0dbbddd5c2, type: 3}
+    - _MainTex:
+        m_Texture: {fileID: 2800000, guid: 06ee694c6976b4e4699b74b1cd7fab99, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _SampleTexture2D_746e559a62c04279be0b63644f5e1b44_Texture_1_Texture2D:
+        m_Texture: {fileID: 2800000, guid: 7f2e55ee249737448829cb1ffe7023d8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats: []
-    m_Colors: []
+    m_Colors:
+    - _FlowerColour: {r: 1, g: 0.98017985, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
