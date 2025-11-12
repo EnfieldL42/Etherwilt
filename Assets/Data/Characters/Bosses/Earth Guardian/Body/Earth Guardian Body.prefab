@@ -520,6 +520,51 @@ CapsuleCollider:
   m_Height: 0
   m_Direction: 1
   m_Center: {x: 0, y: 0.004, z: 0}
+--- !u!1 &1120270447366251090
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3296433362401432897}
+  - component: {fileID: 7515595139050298908}
+  m_Layer: 7
+  m_Name: BurrowVFXSpawner
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3296433362401432897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120270447366251090}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4608447775845485474}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7515595139050298908
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1120270447366251090}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cd35841cf0c36c14d85c49b721db14b1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  VFX: {fileID: 5562268250586800622, guid: 12433c27184b06745ac0b58755212c80, type: 3}
 --- !u!1 &1327062907825158443
 GameObject:
   m_ObjectHideFlags: 0
@@ -2805,6 +2850,7 @@ MonoBehaviour:
   positionConstraints:
   - {fileID: 2322384039821314662}
   slamImpactVFX: {fileID: 7520938497602927796}
+  burrowVFX: {fileID: 7515595139050298908}
 --- !u!114 &5948215656731243574
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4645,6 +4691,7 @@ Transform:
   - {fileID: 4960381083781884524}
   - {fileID: 6923354897116057109}
   - {fileID: 88003668503774656}
+  - {fileID: 3296433362401432897}
   m_Father: {fileID: 5187228158785812976}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &8937571651991269412

@@ -82,7 +82,7 @@ public class AIEarthGuardianCharacterManager : AIBossCharacterManager
         isBurrowed = true;
         animator.SetBool("isBurrowed", isBurrowed);
         characterAnimatorManager.PlayTargetActionAnimationInstantly(phaseShiftAnimation, true);
-        StartCoroutine(WaitThenChangeState(10f));
+        StartCoroutine(WaitThenChangeState(6f));
     }
 
     private IEnumerator WaitThenChangeState(float time)

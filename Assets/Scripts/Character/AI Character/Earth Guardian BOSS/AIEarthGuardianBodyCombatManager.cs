@@ -32,6 +32,7 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
 
     [Header("VFX")]
     public BasicVfxSpawner slamImpactVFX;
+    public BasicVfxSpawner burrowVFX;
 
     protected override void Awake()
     {
@@ -246,5 +247,10 @@ public class AIEarthGuardianBodyCombatManager : AICharacterCombatManager
     public void SlamImpactVFX()
     {
         slamImpactVFX.ActivateVFX();    
+    }
+
+    public void BurrowVFX()
+    {
+        burrowVFX.ActivateVFX();
     }
 }
