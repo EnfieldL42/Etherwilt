@@ -5881,7 +5881,7 @@ MonoBehaviour:
   etherDroppedOnDeath: 0
   staminaRegenerationAmount: 5
   staminaRegenarationTimer: 0
-  staminaRegenerationDelay: 2
+  staminaRegenerationDelay: 1
   blockingPhyicalAbsorption: 0
   blockingMagicAbsorption: 0
   blockingStability: 0

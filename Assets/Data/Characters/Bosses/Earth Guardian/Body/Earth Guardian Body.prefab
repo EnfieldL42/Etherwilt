@@ -2740,7 +2740,7 @@ MonoBehaviour:
   combatState: {fileID: 11400000, guid: 31f663ec774af1c4796bc4f582c2691d, type: 2}
   attack: {fileID: 11400000, guid: 92c84719f3080e24992b2cfaf1f271ae, type: 2}
   investigateSoundState: {fileID: 11400000, guid: b154290c33992a840bc64ea34029b6a7, type: 2}
-  maxHealth: 1000
+  maxHealth: 1250
   meshes:
   - {fileID: 3632278889597167220}
   - {fileID: 5101545880165177859}

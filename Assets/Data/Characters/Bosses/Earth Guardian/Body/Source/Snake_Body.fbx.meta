@@ -568,15 +568,15 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.6267579
-        functionName: RemoveLockOnFromPlayer
+      - time: 0.5554474
+        functionName: BurrowVFX
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.548089
-        functionName: BurrowVFX
+      - time: 0.6267579
+        functionName: RemoveLockOnFromPlayer
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

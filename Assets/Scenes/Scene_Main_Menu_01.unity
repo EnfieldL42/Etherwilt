@@ -6095,7 +6095,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Hill To Greatness
+  m_text: Great Hill
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
   m_sharedMaterial: {fileID: -8580657151567612145, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
@@ -10169,7 +10169,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Burnt Chamber
+  m_text: Forgotten Home
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
   m_sharedMaterial: {fileID: -8580657151567612145, guid: f29d7f0b81e9ee340814381993fb4980, type: 2}
@@ -42848,6 +42848,26 @@ PrefabInstance:
       propertyPath: m_Color.r
       value: 0.05882353
       objectReference: {fileID: 0}
+    - target: {fileID: 191065209701432926, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: teleportLocations.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 191065209701432926, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: 'teleportLocations.Array.data[2]'
+      value: 
+      objectReference: {fileID: 822200206}
+    - target: {fileID: 191065209701432926, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: 'teleportLocations.Array.data[3]'
+      value: 
+      objectReference: {fileID: 1838973614}
+    - target: {fileID: 191065209701432926, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: 'teleportLocations.Array.data[4]'
+      value: 
+      objectReference: {fileID: 2069217335}
+    - target: {fileID: 191065209701432926, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
+      propertyPath: 'teleportLocations.Array.data[5]'
+      value: 
+      objectReference: {fileID: 524814901}
     - target: {fileID: 198173758644210050, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -43894,7 +43914,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1305424456580680440, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_text
-      value: Ether Plains
+      value: Plains
       objectReference: {fileID: 0}
     - target: {fileID: 1305424456580680440, guid: a945b61b97d1b1347bd941555f707a91, type: 3}
       propertyPath: m_fontColor.b
